@@ -6,8 +6,6 @@
 #include "config.h"
 #endif
 #include "php.h"
-#include "zend_API.h"
-#include "zend_compile.h"
 
 extern zend_module_entry functional_module_entry;
 #define phpext_functional_ptr &functional_module_entry
@@ -15,6 +13,8 @@ extern zend_module_entry functional_module_entry;
 PHP_MINIT_FUNCTION(functional);
 PHP_MSHUTDOWN_FUNCTION(functional);
 PHP_MINFO_FUNCTION(functional);
+
+ZEND_FUNCTION(each);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
