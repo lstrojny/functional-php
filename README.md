@@ -1,9 +1,9 @@
-Functional PHP
-==============
-Functional primitives for PHP
------------------------------
+Functional PHP: Functional primitives for PHP
+=============================================
 
 
+Functional\all() & Functional\invoke()
+--------------------------------------
 ```php
 <?php
 use Functional;
@@ -15,7 +15,7 @@ if (all($users, function($user) {return $user->isActive();})) {
 ```
 
 
-Functional\all()
+Functional\any()
 ----------------
 ```php
 <?php
