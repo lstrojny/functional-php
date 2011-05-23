@@ -4,6 +4,7 @@ Functional PHP
 
 
 ```php
+<?php
 use Functional;
 
 if (all($users, function($user) {return $user->isActive();})) {
@@ -14,10 +15,10 @@ if (all($users, function($user) {return $user->isActive();})) {
 
 
 ```php
+<?php
 use Functional;
 
 if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
     // Any of the users is friend of me
 }
-``
-
+```
