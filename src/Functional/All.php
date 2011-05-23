@@ -23,8 +23,8 @@
 namespace Functional;
 
 /**
- * Returns true if all of the values in the collection pass the callback truthy test. Callback arguments will be
- * value, key, collection
+ * Returns true if all of the values in the collection pass the callback truthy test. Opposite of Functional\none().
+ * Callback arguments will be element, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback

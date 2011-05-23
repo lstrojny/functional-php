@@ -23,8 +23,8 @@
 namespace Functional;
 
 /**
- * Produces a new array of values by mapping each value in collection through a transformation function (callback).
- * Callback arguments will be value, key, collection
+ * Produces a new array of elements by mapping each element in collection through a transformation function (callback).
+ * Callback arguments will be element, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback

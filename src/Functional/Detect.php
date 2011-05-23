@@ -23,9 +23,9 @@
 namespace Functional;
 
 /**
- * Looks through each value in the collection, returning the first one that passes a truthy test (callback). The
+ * Looks through each element in the collection, returning the first one that passes a truthy test (callback). The
  * function returns as soon as it finds an acceptable element, and doesn't traverse the entire collection. Callback
- * arguments will be value, key, collection
+ * arguments will be element, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback

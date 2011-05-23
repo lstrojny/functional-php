@@ -2,6 +2,7 @@ Functional PHP: Functional primitives for PHP
 =============================================
 
 
+
 Functional\all() & Functional\invoke()
 --------------------------------------
 ```php
@@ -26,6 +27,18 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
 }
 ```
 
+Functional\none()
+-----------------
+```php
+<?php
+use Functional;
+
+if (none($users, function($user) {return $user->isActive();})) {
+    // Do something with a whole list of inactive users
+}
+```
+
+
 Functional\reject() & Functional\select()
 -----------------------------------------
 ```php
@@ -38,3 +51,5 @@ $fn = function($user) {
 $activeUsers = select($users, $fn);
 $inactiveUsers = reject($users, $fn);
 ```
+
+

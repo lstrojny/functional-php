@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Returns true if any of the values in the collection pass the callback truthy test. Short-circuits and stops
+ * Returns true if any of the elements in the collection pass the callback truthy test. Short-circuits and stops
  * traversing the collection if a truthy element is found. Callback arguments will be value, key, collection
  *
  * @param Traversable|array $collection

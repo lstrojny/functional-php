@@ -23,27 +23,19 @@
 namespace Functional;
 
 /**
- * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
- * Functional\select(). Callback arguments will be element, key, collection
+ * Iterates over a collection of elements, yielding each in turn to a callback function. Each invocation of $callback
+ * is called with three arguments: (element, key, collection)
  *
  * @param Traversable|array $collection
  * @param callable $callback
- * @return array
+ * @return null
  */
-function reject($collection, $callback)
+function each($collection, $callback)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection);
     Exceptions\InvalidArgumentException::assertCallback($callback);
 
-    $aggregation = array();
-
     foreach ($collection as $key => $element) {
-
-        if (!call_user_func($callback, $element, $key, $collection)) {
-            $aggregation[$key] = $element;
-        }
-
+        call_user_func($callback, $element, $key, $collection);
     }
-
-    return $aggregation;
 }

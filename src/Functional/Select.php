@@ -23,8 +23,8 @@
 namespace Functional;
 
 /**
- * Looks through each value in the list, returning an array of all the values that pass a truthy test (callback).
- * Opposite is Functional\reject(). Callback arguments will be value, key, collection
+ * Looks through each element in the list, returning an array of all the elements that pass a truthy test (callback).
+ * Opposite is Functional\reject(). Callback arguments will be element, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
