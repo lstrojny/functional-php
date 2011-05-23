@@ -13,7 +13,8 @@ class DetectTest extends \PHPUnit_Framework_TestCase
 
     function test()
     {
-        $fn = function($v, $k) {
+        $fn = function($v, $k, $collection) {
+            Exceptions\InvalidArgumentException::assertCollection($collection);
             return $v == 'second' && $k == 1;
         };
 

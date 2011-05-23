@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Returns the values in list without the elements that the truthy test (callback) passes. The opposite of
- * Functional\select().
+ * Functional\select(). Callback arguments will be value, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -39,7 +39,7 @@ function reject($collection, $callback)
 
     foreach ($collection as $key => $element) {
 
-        if (!call_user_func($callback, $element, $key)) {
+        if (!call_user_func($callback, $element, $key, $collection)) {
             $aggregation[$key] = $element;
         }
 

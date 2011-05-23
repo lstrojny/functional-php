@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Looks through each value in the list, returning an array of all the values that pass a truthy test (callback).
- * Opposite is Functional\reject().
+ * Opposite is Functional\reject(). Callback arguments will be value, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -39,7 +39,7 @@ function select($collection, $callback)
 
     foreach ($collection as $key => $element) {
 
-        if (call_user_func($callback, $element, $key)) {
+        if (call_user_func($callback, $element, $key, $collection)) {
             $aggregation[$key] = $element;
         }
 

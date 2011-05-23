@@ -27,16 +27,27 @@ class InvalidArgumentException extends \InvalidArgumentException
     public static function assertCallback($callback)
     {
         if (!is_callable($callback)) {
-            if (is_array($callback)) {
-                $callback = array_values($callback);
+            switch (gettype($callback)) {
 
-                $type = '::';
-                if (is_object($callback[0])) {
-                    $callback[0] = get_class($callback[0]);
-                    $type = '->';
-                }
+                case 'array':
+                    $callback = array_values($callback);
 
-                $callback = join($callback, $type);
+                    $type = '::';
+                    if (is_object($callback[0])) {
+                        $callback[0] = get_class($callback[0]);
+                        $type = '->';
+                    }
+
+                    $callback = join($callback, $type);
+                    break;
+
+                case 'object':
+                    $callback = get_class($callback);
+                    break;
+
+                default:
+                    $callback = $callback;
+                    break;
             }
             throw new static('Invalid callback ' . $callback . '()');
         }

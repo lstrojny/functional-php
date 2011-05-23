@@ -23,24 +23,23 @@
 namespace Functional;
 
 /**
- * Looks through each value in the collection, returning the first one that passes a truthy test (callback). The
- * function returns as soon as it finds an acceptable element, and doesn't traverse the entire collection. Callback
- * arguments will be value, key, collection
+ * Produces a new array of values by mapping each value in collection through a transformation function (callback).
+ * Callback arguments will be value, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
- * @return mixed
+ * @return array
  */
-function detect($collection, $callback)
+function map($collection, $callback)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection);
     Exceptions\InvalidArgumentException::assertCallback($callback);
 
+    $aggregation = array();
+
     foreach ($collection as $key => $element) {
-
-        if (call_user_func($callback, $element, $key, $collection)) {
-            return $element;
-        }
-
+        $aggregation[$key] = call_user_func($callback, $element, $key, $collection);
     }
+
+    return $aggregation;
 }

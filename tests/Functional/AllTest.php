@@ -33,8 +33,10 @@ class AllTest extends \PHPUnit_Framework_TestCase
         all('invalidList', 'undefinedFunction');
     }
 
-    function callback($value, $key)
+    function callback($value, $key, $collection)
     {
+        Exceptions\InvalidArgumentException::assertCollection($collection);
+
         return $value == 'value' && is_numeric($key);
     }
 }

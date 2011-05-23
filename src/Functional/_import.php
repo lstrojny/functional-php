@@ -31,6 +31,8 @@ require_once $basePath . 'Any.php';
 require_once $basePath . 'Detect.php';
 /** @var Functional\invoke() */
 require_once $basePath . 'Invoke.php';
+/** @var Functional\map() */
+require_once $basePath . 'Map.php';
 /** @var Functional\pluck() */
 require_once $basePath . 'Pluck.php';
 /** @var Functional\reject() */

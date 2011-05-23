@@ -33,8 +33,9 @@ class AnyTest extends \PHPUnit_Framework_TestCase
         any('invalidList', 'undefinedFunction');
     }
 
-    function callback($value, $key)
+    function callback($value, $key, $collection)
     {
+        Exceptions\InvalidArgumentException::assertCollection($collection);
         return $value == 'value' && $key === 0;
     }
 }

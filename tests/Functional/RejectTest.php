@@ -14,7 +14,10 @@ class RejectTest extends \PHPUnit_Framework_TestCase
 
     function test()
     {
-        $fn = function($v, $k) {return $v == 'wrong' && strlen($k) > 0;};
+        $fn = function($v, $k, $collection) {
+            Exceptions\InvalidArgumentException::assertCollection($collection);
+            return $v == 'wrong' && strlen($k) > 0;
+        };
         $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->array, $fn));
         $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->iterator, $fn));
         $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->keyedArray, $fn));

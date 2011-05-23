@@ -23,7 +23,8 @@
 namespace Functional;
 
 /**
- * Returns true if all of the values in the list pass the callback truthy test
+ * Returns true if all of the values in the collection pass the callback truthy test. Callback arguments will be
+ * value, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -36,7 +37,7 @@ function all($collection, $callback)
 
     foreach ($collection as $key => $element) {
 
-        if (!call_user_func($callback, $element, $key)) {
+        if (!call_user_func($callback, $element, $key, $collection)) {
             return false;
         }
 

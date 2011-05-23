@@ -23,8 +23,8 @@
 namespace Functional;
 
 /**
- * Returns true if any of the values in the list pass the callback truthy test. Short-circuits and stops traversing the
- * list if a truthy element is found
+ * Returns true if any of the values in the collection pass the callback truthy test. Short-circuits and stops
+ * traversing the collection if a truthy element is found. Callback arguments will be value, key, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -37,7 +37,7 @@ function any($collection, $callback)
 
     foreach ($collection as $key => $element) {
 
-        if (call_user_func($callback, $element, $key)) {
+        if (call_user_func($callback, $element, $key, $collection)) {
             return true;
         }
 

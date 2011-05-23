@@ -14,7 +14,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     function test()
     {
-        $fn = function($v, $k) {return $v == 'value' && strlen($k) > 0;};
+        $fn = function($v, $k, $collection) {
+            Exceptions\InvalidArgumentException::assertCollection($collection);
+            return $v == 'value' && strlen($k) > 0;
+        };
         $this->assertSame(array('value', 2 => 'value'), select($this->array, $fn));
         $this->assertSame(array('value', 2 => 'value'), select($this->iterator, $fn));
         $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->keyedArray, $fn));
