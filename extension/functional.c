@@ -61,6 +61,23 @@ ZEND_GET_MODULE(functional)
 	}
 
 
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value)
+{
+	switch (hash_key_type) {
+		case HASH_KEY_IS_LONG:
+			Z_TYPE_PP(key) = IS_LONG;
+			Z_LVAL_PP(key) = num_key;
+			zend_hash_index_update(Z_ARRVAL_PP(return_value), num_key, *value, sizeof(zval *), NULL);
+			break;
+
+		case HASH_KEY_IS_STRING:
+			ZVAL_STRINGL(*key, string_key, string_key_len - 1, 1);
+			zend_hash_update(Z_ARRVAL_PP(return_value), string_key, string_key_len, *value, sizeof(zval *), NULL);
+			break;
+	}
+}
+
+
 ZEND_FUNCTION(each)
 {
 	zval *collection;
@@ -69,6 +86,8 @@ ZEND_FUNCTION(each)
 	zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 	zval **args[3];
 	zval *retval_ptr;
+	int is_array = 0;
+	int hash_key_type;
 
 	zval *key;
 	ulong num_key;
@@ -80,6 +99,10 @@ ZEND_FUNCTION(each)
 	}
 
 	FUNCTIONAL_COLLECTION_PARAM(collection)
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+		is_array = 1;
+	}
 
 	/**
 	 * Variations:
@@ -106,37 +129,76 @@ ZEND_FUNCTION(each)
 	fci.no_separation = 0;
 	fci.retval_ptr_ptr = &retval_ptr;
 
-	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
-
 	array_init(return_value);
 
-	while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
+	if (is_array) {
+		zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
 
-		MAKE_STD_ZVAL(key);
-		zval_add_ref(args[0]);
 
-		switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &num_key, 0, &pos)) {
-			case HASH_KEY_IS_LONG:
-				Z_TYPE_P(key) = IS_LONG;
-				Z_LVAL_P(key) = num_key;
-				zend_hash_index_update(Z_ARRVAL_P(return_value), num_key, args[0], sizeof(zval *), NULL);
-				break;
+		while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
 
-			case HASH_KEY_IS_STRING:
-				ZVAL_STRINGL(key, string_key, string_key_len - 1, 1);
-				zend_hash_update(Z_ARRVAL_P(return_value), string_key, string_key_len, args[0], sizeof(zval *), NULL);
-				break;
+			MAKE_STD_ZVAL(key);
+			zval_add_ref(args[0]);
+
+			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &num_key, 0, &pos);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, num_key, &return_value);
+
+			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+				zval_ptr_dtor(&retval_ptr);
+			} else {
+				zval_dtor(return_value);
+				RETURN_NULL();
+			}
+
+			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+		}
+	} else {
+		zend_object_iterator   *iter;
+		zend_class_entry       *ce = Z_OBJCE_P(collection);
+
+		iter = ce->get_iterator(ce, collection, 0 TSRMLS_CC);
+
+		if (EG(exception)) {
+			goto done;
 		}
 
-
-		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS) {
-			zval_ptr_dtor(&retval_ptr);
-		} else {
-			zval_dtor(return_value);
-			printf("FAILURE\n");
-			RETURN_NULL();
+		if (iter->funcs->rewind) {
+			iter->funcs->rewind(iter TSRMLS_CC);
+			if (EG(exception)) {
+				goto done;
+			}
 		}
 
-		zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) {
+			if (EG(exception)) {
+				goto done;
+			}
+
+			MAKE_STD_ZVAL(key);
+
+			zend_user_it_get_current_data(iter, &args[0]);
+
+			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &num_key);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, num_key, &return_value);
+
+			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+				zval_ptr_dtor(&retval_ptr);
+			} else {
+				zval_dtor(return_value);
+				RETURN_NULL();
+			}
+
+			iter->funcs->move_forward(iter TSRMLS_CC);
+			if (EG(exception)) {
+				goto done;
+			}
+		}
+
+	done:
+		if (iter) {
+			iter->funcs->dtor(iter TSRMLS_CC);
+		}
 	}
 }
+
+

@@ -14,6 +14,8 @@ PHP_MINIT_FUNCTION(functional);
 PHP_MSHUTDOWN_FUNCTION(functional);
 PHP_MINFO_FUNCTION(functional);
 
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value);
+
 ZEND_FUNCTION(each);
 
 #ifdef ZTS
