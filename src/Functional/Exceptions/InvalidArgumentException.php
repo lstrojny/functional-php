@@ -24,21 +24,23 @@ namespace Functional\Exceptions;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {
-    public static function assertCallback($callback)
+    public static function assertCallback($callback, $callee, $parameterPosition)
     {
         if (!is_callable($callback)) {
+            $type = gettype($callback);
             switch (gettype($callback)) {
 
                 case 'array':
+                    $type = 'method';
                     $callback = array_values($callback);
 
-                    $type = '::';
+                    $sep = '::';
                     if (is_object($callback[0])) {
                         $callback[0] = get_class($callback[0]);
-                        $type = '->';
+                        $sep = '->';
                     }
 
-                    $callback = join($callback, $type);
+                    $callback = join($callback, $sep);
                     break;
 
                 case 'object':
@@ -46,18 +48,33 @@ class InvalidArgumentException extends \InvalidArgumentException
                     break;
 
                 default:
+                    $type = 'function';
                     $callback = $callback;
                     break;
             }
-            throw new static('Invalid callback ' . $callback . '()');
+            throw new static(
+                sprintf(
+                    "%s() expects parameter %d to be a valid callback, %s '%s' not found or invalid %s name",
+                    $callee,
+                    $parameterPosition,
+                    $type,
+                    $callback,
+                    $type
+                )
+            );
         }
     }
 
-    public static function assertCollection($collection)
+    public static function assertCollection($collection, $callee, $parameterPosition)
     {
         if (!is_array($collection) and !$collection instanceof \Traversable) {
-            $type = is_object($collection) ? get_class($collection) : gettype($collection);
-            throw new static('Invalid collection. Expected Traversable or array, got ' . $type);
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be array or instance of Traversable',
+                    $callee,
+                    $parameterPosition
+                )
+            );
         }
     }
 

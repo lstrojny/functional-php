@@ -7,60 +7,60 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid callback stdClass::method()'
+            "func() expects parameter 1 to be a valid callback, method 'stdClass::method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array('stdClass', 'method'));
+        InvalidArgumentException::assertCallback(array('stdClass', 'method'), 'func', 1);
     }
 
     function testCallbackExceptionWithUndefinedFunction()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid callback undefinedFunction'
+            "func() expects parameter 1 to be a valid callback, function 'undefinedFunction' not found or invalid function name"
         );
 
-        InvalidArgumentException::assertCallback('undefinedFunction');
+        InvalidArgumentException::assertCallback('undefinedFunction', 'func', 1);
     }
 
     function testCallbackExceptionWithUndefinedMethod()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid callback stdClass->method()'
+            "func() expects parameter 2 to be a valid callback, method 'stdClass->method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array(new \stdClass(), 'method'));
+        InvalidArgumentException::assertCallback(array(new \stdClass(), 'method'), 'func', 2);
     }
 
     function testCallbackExceptionWithIncorrectArrayIndex()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid callback stdClass->method()'
+            "func() expects parameter 1 to be a valid callback, method 'stdClass->method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array(1 => new \stdClass(), 2 => 'method'));
+        InvalidArgumentException::assertCallback(array(1 => new \stdClass(), 2 => 'method'), 'func', 1);
     }
 
     function testExceptionIfStringIsPassedAsList()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid collection. Expected Traversable or array, got string'
+            "func() expects parameter 4 to be array or instance of Traversable"
         );
 
-        InvalidArgumentException::assertCollection('string');
+        InvalidArgumentException::assertCollection('string', 'func', 4);
     }
 
     function testExceptionIfObjectIsPassedAsList()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid collection. Expected Traversable or array, got stdClass'
+            "func() expects parameter 2 to be array or instance of Traversable"
         );
 
-        InvalidArgumentException::assertCollection(new \stdClass());
+        InvalidArgumentException::assertCollection(new \stdClass(), 'func', 2);
     }
 
     function testExceptionIfInvalidMethodName()

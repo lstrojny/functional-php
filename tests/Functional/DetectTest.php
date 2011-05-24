@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class DetectTest extends \PHPUnit_Framework_TestCase
+class DetectTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -14,7 +14,7 @@ class DetectTest extends \PHPUnit_Framework_TestCase
     function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection);
+            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v == 'second' && $k == 1;
         };
 
@@ -24,13 +24,13 @@ class DetectTest extends \PHPUnit_Framework_TestCase
 
     function testPassNonCallable()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid callback');
+        $this->_expectArgumentError("Functional\detect() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         detect($this->array, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        $this->_expectArgumentError('Functional\detect() expects parameter 1 to be array or instance of Traversable');
         detect('invalidCollection', 'undefinedFunction');
     }
 }

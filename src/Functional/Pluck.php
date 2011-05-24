@@ -31,7 +31,7 @@ namespace Functional;
  */
 function pluck($collection, $propertyName)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection);
+    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertPropertyName($propertyName);
 
     $aggregation = array();

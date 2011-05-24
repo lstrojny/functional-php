@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class SelectTest extends \PHPUnit_Framework_TestCase
+class SelectTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -15,7 +15,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection);
+            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };
         $this->assertSame(array('value', 2 => 'value'), select($this->array, $fn));
@@ -25,13 +25,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     function testPassNonCallable()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid callback');
+        $this->_expectArgumentError("Functional\select() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         select($this->array, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        $this->_expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
         select('invalidCollection', 'undefinedFunction');
     }
 }

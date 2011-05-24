@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class NoneTest extends \PHPUnit_Framework_TestCase
+class NoneTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -23,19 +23,19 @@ class NoneTest extends \PHPUnit_Framework_TestCase
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        $this->_expectArgumentError('Functional\none() expects parameter 1 to be array or instance of Traversable');
         none('invalidCollection', 'method');
     }
 
     function testPassNonCallable()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid callback');
-        none($this->goodArray, new \stdClass());
+        $this->_expectArgumentError("Functional\\none() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        none($this->goodArray, 'undefinedFunction');
     }
 
     function callback($value, $key, $collection)
     {
-        Exceptions\InvalidArgumentException::assertCollection($collection);
+        Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value != 'value' && strlen($key) > 0;
     }
 }

@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class MapTest extends \PHPUnit_Framework_TestCase
+class MapTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -16,7 +16,7 @@ class MapTest extends \PHPUnit_Framework_TestCase
     function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection);
+            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };
         $this->assertSame(array('0value', '1value'), map($this->array, $fn));
@@ -27,13 +27,13 @@ class MapTest extends \PHPUnit_Framework_TestCase
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
-        map('invalidCollection', 'method');
+        $this->_expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
+        map('invalidCollection', 'strlen');
     }
 
     function testPassNonCallable()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid callback');
-        map($this->array, new \stdClass());
+        $this->_expectArgumentError("Functional\map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        map($this->array, 'undefinedFunction');
     }
 }

@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class PluckTest extends \PHPUnit_Framework_TestCase
+class PluckTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -43,7 +43,7 @@ class PluckTest extends \PHPUnit_Framework_TestCase
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        $this->_expectArgumentError('Functional\pluck() expects parameter 1 to be array or instance of Traversable');
         pluck('invalidCollection', 'property');
     }
 

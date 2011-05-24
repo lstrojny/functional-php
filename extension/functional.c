@@ -51,12 +51,12 @@ zend_module_entry functional_module_entry = {
 ZEND_GET_MODULE(functional)
 #endif
 
-#define FUNCTIONAL_COLLECTION_PARAM(collection) \
+#define FUNCTIONAL_COLLECTION_PARAM(collection, function) \
 	if ( \
 		Z_TYPE_P(collection) != IS_ARRAY && \
 		!(Z_TYPE_P(collection) == IS_OBJECT && instanceof_function(Z_OBJCE_P(collection), zend_ce_traversable)) \
 	) { \
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is not an array or an instance of Traversable"); \
+		zend_error(E_WARNING, "Functional\\%s() expects parameter 1 to be array or instance of Traversable", function); \
 		RETURN_NULL(); \
 	}
 
@@ -98,7 +98,7 @@ ZEND_FUNCTION(each)
 		RETURN_NULL();
 	}
 
-	FUNCTIONAL_COLLECTION_PARAM(collection)
+	FUNCTIONAL_COLLECTION_PARAM(collection, "each")
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 		is_array = 1;

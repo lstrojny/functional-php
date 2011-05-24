@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class InvokeTest extends \PHPUnit_Framework_TestCase
+class InvokeTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -24,7 +24,7 @@ class InvokeTest extends \PHPUnit_Framework_TestCase
 
     function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        $this->_expectArgumentError('Functional\invoke() expects parameter 1 to be array or instance of Traversable');
         invoke('invalidCollection', 'method');
     }
 

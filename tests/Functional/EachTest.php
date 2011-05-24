@@ -52,13 +52,13 @@ class EachTest extends AbstractTestCase
 
     function testPassNonCallable()
     {
-        $this->_expectArgumentError('to be a valid callback', 'Invalid callback');
+        $this->_expectArgumentError("Functional\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         each($this->array, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('argument is not an array or an instance of Traversable', 'Invalid collection');
+        $this->_expectArgumentError('Functional\each() expects parameter 1 to be array or instance of Traversable');
         each('invalidCollection', 'strlen');
     }
 }
