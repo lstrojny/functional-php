@@ -1,3 +1,6 @@
 <?php
-include __DIR__ . '/bootstrap-native.php';
+if (extension_loaded('functional')) {
+    die("Extension 'functional' loaded. Cannot run userspace implementation\n");
+}
+
 include __DIR__ . '/../../src/Functional/_import.php';

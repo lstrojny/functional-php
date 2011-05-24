@@ -61,13 +61,13 @@ ZEND_GET_MODULE(functional)
 	}
 
 
-void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value)
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key, zval **return_value)
 {
 	switch (hash_key_type) {
 		case HASH_KEY_IS_LONG:
 			Z_TYPE_PP(key) = IS_LONG;
-			Z_LVAL_PP(key) = num_key;
-			zend_hash_index_update(Z_ARRVAL_PP(return_value), num_key, *value, sizeof(zval *), NULL);
+			Z_LVAL_PP(key) = int_key;
+			zend_hash_index_update(Z_ARRVAL_PP(return_value), int_key, *value, sizeof(zval *), NULL);
 			break;
 
 		case HASH_KEY_IS_STRING:
@@ -90,7 +90,7 @@ ZEND_FUNCTION(each)
 	int hash_key_type;
 
 	zval *key;
-	ulong num_key;
+	ulong int_key;
 	char *string_key;
 	uint string_key_len;
 
@@ -140,8 +140,8 @@ ZEND_FUNCTION(each)
 			MAKE_STD_ZVAL(key);
 			zval_add_ref(args[0]);
 
-			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &num_key, 0, &pos);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, num_key, &return_value);
+			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value);
 
 			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
 				zval_ptr_dtor(&retval_ptr);
@@ -178,8 +178,8 @@ ZEND_FUNCTION(each)
 
 			zend_user_it_get_current_data(iter, &args[0]);
 
-			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &num_key);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, num_key, &return_value);
+			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value);
 
 			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
 				zval_ptr_dtor(&retval_ptr);
