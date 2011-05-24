@@ -57,7 +57,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     {
         if (!is_array($collection) and !$collection instanceof \Traversable) {
             $type = is_object($collection) ? get_class($collection) : gettype($collection);
-            throw new static('Invalid list. Expected Traversable or array, got ' . $type);
+            throw new static('Invalid collection. Expected Traversable or array, got ' . $type);
         }
     }
 

@@ -25,10 +25,10 @@ class MapTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->keyedIterator, $fn));
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        map('invalidList', 'method');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        map('invalidCollection', 'method');
     }
 
     function testPassNonCallable()

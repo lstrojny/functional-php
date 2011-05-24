@@ -3,7 +3,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class EachTest extends \PHPUnit_Framework_TestCase
+class EachTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -52,13 +52,13 @@ class EachTest extends \PHPUnit_Framework_TestCase
 
     function testPassNonCallable()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid callback');
+        $this->_expectArgumentError('to be a valid callback', 'Invalid callback');
         each($this->array, 'undefinedFunction');
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        each('invalidList', 'undefinedFunction');
+        $this->_expectArgumentError('argument is not an array or an instance of Traversable', 'Invalid collection');
+        each('invalidCollection', 'strlen');
     }
 }

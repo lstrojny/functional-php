@@ -1,7 +1,7 @@
 <phpunit
     backupGlobals="false"
     backupStaticAttributes="false"
-    bootstrap="src/Functional/_import.php"
+    bootstrap="tests/Functional/bootstrap-native.php"
     strict="true"
     verbose="true">
 </phpunit>

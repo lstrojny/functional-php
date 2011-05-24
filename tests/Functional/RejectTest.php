@@ -29,9 +29,9 @@ class RejectTest extends \PHPUnit_Framework_TestCase
         reject($this->array, 'undefinedFunction');
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        reject('invalidList', 'undefinedFunction');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        reject('invalidCollection', 'undefinedFunction');
     }
 }

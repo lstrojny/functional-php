@@ -27,10 +27,10 @@ class AnyTest extends \PHPUnit_Framework_TestCase
         any($this->goodArray, 'undefinedFunction');
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        any('invalidList', 'undefinedFunction');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        any('invalidCollection', 'undefinedFunction');
     }
 
     function callback($value, $key, $collection)

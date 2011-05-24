@@ -29,9 +29,9 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         select($this->array, 'undefinedFunction');
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        select('invalidList', 'undefinedFunction');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        select('invalidCollection', 'undefinedFunction');
     }
 }

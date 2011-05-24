@@ -22,10 +22,10 @@ class InvokeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array('k1' => 'methodValue', 'k2' => 'methodValue'), invoke($this->keyArray, 'method'));
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        invoke('invalidList', 'method');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        invoke('invalidCollection', 'method');
     }
 
     function testPassNoPropertyName()

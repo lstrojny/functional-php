@@ -28,9 +28,9 @@ class DetectTest extends \PHPUnit_Framework_TestCase
         detect($this->array, 'undefinedFunction');
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        detect('invalidList', 'undefinedFunction');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        detect('invalidCollection', 'undefinedFunction');
     }
 }

@@ -21,10 +21,10 @@ class NoneTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(none($this->badIterator, array($this, 'callback')));
     }
 
-    function testPassNoList()
+    function testPassNoCollection()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid list');
-        none('invalidList', 'method');
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid collection');
+        none('invalidCollection', 'method');
     }
 
     function testPassNonCallable()

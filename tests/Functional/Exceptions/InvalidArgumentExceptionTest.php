@@ -47,7 +47,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid list. Expected Traversable or array, got string'
+            'Invalid collection. Expected Traversable or array, got string'
         );
 
         InvalidArgumentException::assertCollection('string');
@@ -57,7 +57,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid list. Expected Traversable or array, got stdClass'
+            'Invalid collection. Expected Traversable or array, got stdClass'
         );
 
         InvalidArgumentException::assertCollection(new \stdClass());
