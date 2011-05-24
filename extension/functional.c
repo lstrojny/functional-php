@@ -51,53 +51,59 @@ ZEND_GET_MODULE(functional)
 
 ZEND_FUNCTION(each)
 {
-    HashTable *hash;
-    HashPosition pos;
-    zend_fcall_info fci;
-    zend_fcall_info_cache fci_cache;
-    zval **args[3];
-    zval *retval_ptr;
+	zval *hash;
+	HashPosition pos;
+	zend_fcall_info fci = empty_fcall_info;
+	zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
+	zval **args[3];
+	zval *retval_ptr;
 
-    zval *key;
-    ulong num_key;
-    char *string_key;
-    uint string_key_len;
+	zval *key;
+	ulong num_key;
+	char *string_key;
+	uint string_key_len;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "Hf", &hash, &fci, &fci_cache, &fci.params, &fci.param_count) == FAILURE) {
-        return;
-    }
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "af", &hash, &fci, &fci_cache) == FAILURE) {
+		return;
+	}
 
-    args[1] = &key;
-    args[2] = hash;
+	args[1] = &key;
+	args[2] = &hash;
 
-    fci.params = args;
-    fci.param_count = 3;
-    fci.no_separation = 0;
-    fci.retval_ptr_ptr = &retval_ptr;
+	fci.params = args;
+	fci.param_count = 3;
+	fci.no_separation = 0;
+	fci.retval_ptr_ptr = &retval_ptr;
 
-    zend_hash_internal_pointer_reset_ex(hash, &pos);
+	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(hash), &pos);
 
-    while (!EG(exception) && zend_hash_get_current_data_ex(hash, (void **)&args[0], &pos) == SUCCESS) {
+	array_init(return_value);
 
-        MAKE_STD_ZVAL(key);
+	while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(hash), (void **)&args[0], &pos) == SUCCESS) {
 
-        switch (zend_hash_get_current_key_ex(hash, &string_key, &string_key_len, &num_key, 0, &pos)) {
-            case HASH_KEY_IS_LONG:
-                Z_TYPE_P(key) = IS_LONG;
-                Z_LVAL_P(key) = num_key;
-                break;
+		MAKE_STD_ZVAL(key);
+		zval_add_ref(args[0]);
 
-            case HASH_KEY_IS_STRING:
-                ZVAL_STRINGL(key, string_key, string_key_len - 1, 1);
-                break;
-        }
+		switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(hash), &string_key, &string_key_len, &num_key, 0, &pos)) {
+			case HASH_KEY_IS_LONG:
+				Z_TYPE_P(key) = IS_LONG;
+				Z_LVAL_P(key) = num_key;
+				zend_hash_index_update(Z_ARRVAL_P(return_value), num_key, args[0], sizeof(zval *), NULL);
+				break;
 
-        if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS) {
-            zval_ptr_dtor(&retval_ptr);
-        } else {
-            break;
-        }
+			case HASH_KEY_IS_STRING:
+				ZVAL_STRINGL(key, string_key, string_key_len - 1, 1);
+				zend_hash_update(Z_ARRVAL_P(return_value), string_key, string_key_len, args[0], sizeof(zval *), NULL);
+				break;
+		}
 
-        zend_hash_move_forward_ex(hash, &pos);
-    }
+
+		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS) {
+			zval_ptr_dtor(&retval_ptr);
+		} else {
+			break;
+		}
+
+		zend_hash_move_forward_ex(Z_ARRVAL_P(hash), &pos);
+	}
 }
