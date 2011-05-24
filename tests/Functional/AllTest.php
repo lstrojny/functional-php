@@ -30,7 +30,7 @@ class AllTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->_expectArgumentError('Functional\all() expects parameter 1 to be array or instance of Traversable');
-        all('invalidCollection', 'undefinedFunction');
+        all('invalidCollection', 'strlen');
     }
 
     function callback($value, $key, $collection)

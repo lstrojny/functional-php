@@ -16,9 +16,15 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_any, 2)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO(arginfo_functional_all, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
 	ZEND_NS_FE("Functional", any, arginfo_functional_any)
+	ZEND_NS_FE("Functional", all, arginfo_functional_all)
 	{NULL, NULL, NULL}
 };
 
@@ -270,6 +276,84 @@ ZEND_FUNCTION(any)
 		}
 	}
 }
+
+ZEND_FUNCTION(all)
+{
+	FUNCTIONAL_DECLARATION
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "all")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK
+
+	array_init(return_value);
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+
+		while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
+
+			MAKE_STD_ZVAL(key);
+
+			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+
+			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+				if (!zend_is_true(retval_ptr)) {
+					RETURN_FALSE;
+				}
+			} else {
+				zval_dtor(return_value);
+				RETURN_FALSE;
+			}
+
+			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+		}
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+
+		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) {
+			if (EG(exception)) {
+				goto done;
+			}
+
+			MAKE_STD_ZVAL(key);
+
+			zend_user_it_get_current_data(iter, &args[0]);
+
+			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+
+			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+				if (!zend_is_true(retval_ptr)) {
+					RETVAL_FALSE;
+					goto done;
+				}
+			} else {
+				zval_dtor(return_value);
+				goto done;
+			}
+
+			iter->funcs->move_forward(iter TSRMLS_CC);
+			if (EG(exception)) {
+				goto done;
+			}
+		}
+
+	done:
+		if (iter) {
+			iter->funcs->dtor(iter TSRMLS_CC);
+		}
+	}
+}
+
 
 
 	/**

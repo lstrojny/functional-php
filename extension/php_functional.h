@@ -18,6 +18,7 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 
 ZEND_FUNCTION(each);
 ZEND_FUNCTION(any);
+ZEND_FUNCTION(all);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
