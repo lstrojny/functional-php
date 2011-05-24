@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "php.h"
 #include "standard/info.h"
+#include "spl/spl_iterators.h"
+#include "zend_interfaces.h"
 
 ZEND_BEGIN_ARG_INFO(arginfo_functional_each, 2)
 	ZEND_ARG_INFO(0, collection)
@@ -49,9 +51,19 @@ zend_module_entry functional_module_entry = {
 ZEND_GET_MODULE(functional)
 #endif
 
+#define FUNCTIONAL_COLLECTION_PARAM(collection) \
+	if ( \
+		Z_TYPE_P(collection) != IS_ARRAY && \
+		!(Z_TYPE_P(collection) == IS_OBJECT && instanceof_function(Z_OBJCE_P(collection), zend_ce_traversable)) \
+	) { \
+		php_error_docref(NULL TSRMLS_CC, E_WARNING, "First argument is not an array or an instance of Traversable"); \
+		RETURN_NULL(); \
+	}
+
+
 ZEND_FUNCTION(each)
 {
-	zval *hash;
+	zval *collection;
 	HashPosition pos;
 	zend_fcall_info fci = empty_fcall_info;
 	zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
@@ -63,28 +75,47 @@ ZEND_FUNCTION(each)
 	char *string_key;
 	uint string_key_len;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "af", &hash, &fci, &fci_cache) == FAILURE) {
-		return;
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
 	}
 
+	FUNCTIONAL_COLLECTION_PARAM(collection)
+
+	/**
+	 * Variations:
+	 *
+	 * Traversable/array
+	 *  - DONE: Argument handling
+	 *  - DONE: Error messages
+	 *
+	 * Does something with return value?
+	 *	- Decision to break
+	 *	- Collect variables in array
+	 *	- Return element
+	 *
+	 * Return value
+	 *	- Return array untouched
+	 *	- Return new array
+	 */
+
 	args[1] = &key;
-	args[2] = &hash;
+	args[2] = &collection;
 
 	fci.params = args;
 	fci.param_count = 3;
 	fci.no_separation = 0;
 	fci.retval_ptr_ptr = &retval_ptr;
 
-	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(hash), &pos);
+	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
 
 	array_init(return_value);
 
-	while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(hash), (void **)&args[0], &pos) == SUCCESS) {
+	while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
 
 		MAKE_STD_ZVAL(key);
 		zval_add_ref(args[0]);
 
-		switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(hash), &string_key, &string_key_len, &num_key, 0, &pos)) {
+		switch (zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &num_key, 0, &pos)) {
 			case HASH_KEY_IS_LONG:
 				Z_TYPE_P(key) = IS_LONG;
 				Z_LVAL_P(key) = num_key;
@@ -101,9 +132,11 @@ ZEND_FUNCTION(each)
 		if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS) {
 			zval_ptr_dtor(&retval_ptr);
 		} else {
-			break;
+			zval_dtor(return_value);
+			printf("FAILURE\n");
+			RETURN_NULL();
 		}
 
-		zend_hash_move_forward_ex(Z_ARRVAL_P(hash), &pos);
+		zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
 	}
 }
