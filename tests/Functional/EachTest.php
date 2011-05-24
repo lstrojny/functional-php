@@ -7,6 +7,7 @@ class EachTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->cb = $this->getMockBuilder('cb')
                          ->setMethods(array('call'))
                          ->getMock();
@@ -52,13 +53,13 @@ class EachTest extends AbstractTestCase
 
     function testPassNonCallable()
     {
-        $this->_expectArgumentError("Functional\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         each($this->array, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\each() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\each() expects parameter 1 to be array or instance of Traversable');
         each('invalidCollection', 'strlen');
     }
 }

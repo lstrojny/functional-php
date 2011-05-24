@@ -7,6 +7,7 @@ class MapTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->array = array('value', 'value');
         $this->iterator = new ArrayIterator($this->array);
         $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2');
@@ -27,13 +28,13 @@ class MapTest extends AbstractTestCase
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
         map('invalidCollection', 'strlen');
     }
 
     function testPassNonCallable()
     {
-        $this->_expectArgumentError("Functional\map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         map($this->array, 'undefinedFunction');
     }
 }

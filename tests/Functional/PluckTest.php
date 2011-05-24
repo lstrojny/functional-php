@@ -7,6 +7,7 @@ class PluckTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->propertyExistsEverywhereArray = array((object)array('property' => 1), (object)array('property' => 2));
         $this->propertyExistsEverywhereIterator = new ArrayIterator($this->propertyExistsEverywhereArray);
         $this->propertyExistsSomewhere = array((object)array('property' => 1), (object)array('otherProperty' => 2));
@@ -43,7 +44,7 @@ class PluckTest extends AbstractTestCase
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\pluck() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\pluck() expects parameter 1 to be array or instance of Traversable');
         pluck('invalidCollection', 'property');
     }
 

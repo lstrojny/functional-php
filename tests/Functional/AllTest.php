@@ -7,6 +7,7 @@ class AllTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->goodArray = array('value', 'value', 'value');
         $this->goodIterator = new ArrayIterator($this->goodArray);
         $this->badArray = array('value', 'nope', 'value');
@@ -23,13 +24,13 @@ class AllTest extends AbstractTestCase
 
     function testPassNonCallable()
     {
-        $this->_expectArgumentError("Functional\all() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\all() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         all($this->goodArray, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\all() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\all() expects parameter 1 to be array or instance of Traversable');
         all('invalidCollection', 'strlen');
     }
 

@@ -7,6 +7,7 @@ class SelectTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->array = array('value', 'wrong', 'value');
         $this->iterator = new ArrayIterator($this->array);
         $this->keyedArray = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
@@ -25,13 +26,13 @@ class SelectTest extends AbstractTestCase
 
     function testPassNonCallable()
     {
-        $this->_expectArgumentError("Functional\select() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\select() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         select($this->array, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
         select('invalidCollection', 'undefinedFunction');
     }
 }

@@ -7,6 +7,7 @@ class InvokeTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp();
         $this->array = array($this, $this, $this);
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => $this, 'k2' => $this);
@@ -24,7 +25,7 @@ class InvokeTest extends AbstractTestCase
 
     function testPassNoCollection()
     {
-        $this->_expectArgumentError('Functional\invoke() expects parameter 1 to be array or instance of Traversable');
+        $this->expectArgumentError('Functional\invoke() expects parameter 1 to be array or instance of Traversable');
         invoke('invalidCollection', 'method');
     }
 
