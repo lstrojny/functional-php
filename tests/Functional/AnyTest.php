@@ -30,7 +30,7 @@ class AnyTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->_expectArgumentError('Functional\any() expects parameter 1 to be array or instance of Traversable');
-        any('invalidCollection', 'undefinedFunction');
+        any('invalidCollection', 'strlen');
     }
 
     function callback($value, $key, $collection)

@@ -14,9 +14,10 @@ PHP_MINIT_FUNCTION(functional);
 PHP_MSHUTDOWN_FUNCTION(functional);
 PHP_MINFO_FUNCTION(functional);
 
-void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value);
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value, int collect);
 
 ZEND_FUNCTION(each);
+ZEND_FUNCTION(any);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
