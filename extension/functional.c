@@ -109,6 +109,55 @@ ZEND_GET_MODULE(functional)
 	fci.retval_ptr_ptr = &retval_ptr;
 
 
+#define FUNCTIONAL_ITERATOR_ITERATE_BEGIN \
+		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) { \
+			if (EG(exception)) { \
+				goto done; \
+			} \
+			zend_user_it_get_current_data(iter, &args[0]);
+
+#define FUNCTIONAL_ARRAY_ITERATE_BEGIN while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
+
+#define FUNCTIONAL_ARRAY_ITERATE_END \
+			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos); \
+		}
+
+#define FUNCTIONAL_ITERATOR_ITERATE_END \
+			iter->funcs->move_forward(iter TSRMLS_CC); \
+			if (EG(exception)) { \
+				goto done; \
+			} \
+		}
+
+#define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key))
+
+#define FUNCTIONAL_ARRAY_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos))
+
+#define FUNCTIONAL_PREPARE_KEY(get_key) \
+			MAKE_STD_ZVAL(key); \
+			hash_key_type = get_key; \
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+
+#define FUNCTIONAL_ITERATOR_DONE \
+	done: \
+		if (iter) { \
+			iter->funcs->dtor(iter TSRMLS_CC); \
+		}
+
+#define FUNCTIONAL_ARRAY_CALL_BACK				FUNCTIONAL_CALL_BACK(RETURN_FALSE)
+#define FUNCTIONAL_ARRAY_CALL_BACK_EX_END		FUNCTIONAL_CALL_BACK_EX_END(goto done)
+
+#define FUNCTIONAL_ITERATOR_CALL_BACK			FUNCTIONAL_CALL_BACK(goto done)
+#define FUNCTIONAL_ITERATOR_CALL_BACK_EX_END	FUNCTIONAL_CALL_BACK_EX_END(goto done)
+
+#define FUNCTIONAL_CALL_BACK(on_failure)		FUNCTIONAL_CALL_BACK_EX_BEGIN FUNCTIONAL_CALL_BACK_EX_END(on_failure)
+#define FUNCTIONAL_CALL_BACK_EX_BEGIN			if (FUNCTIONAL_CALL_BACK_CALL) {
+#define FUNCTIONAL_CALL_BACK_EX_END(on_failure) } else { \
+				zval_dtor(return_value); \
+				on_failure; \
+			}
+#define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
+
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key, zval **return_value, int collect)
 {
 	switch (hash_key_type) {
@@ -147,56 +196,19 @@ ZEND_FUNCTION(each)
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_ARRAY_CALL_BACK
+		FUNCTIONAL_ARRAY_ITERATE_END
 
-		while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
-
-			MAKE_STD_ZVAL(key);
-
-			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 1);
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
-				zval_ptr_dtor(&retval_ptr);
-			} else {
-				zval_dtor(return_value);
-				RETURN_NULL();
-			}
-
-			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
-		}
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
-
-		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) {
-			if (EG(exception)) {
-				goto done;
-			}
-
-			MAKE_STD_ZVAL(key);
-
-			zend_user_it_get_current_data(iter, &args[0]);
-
-			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 1);
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
-				zval_ptr_dtor(&retval_ptr);
-			} else {
-				zval_dtor(return_value);
-				goto done;
-			}
-
-			iter->funcs->move_forward(iter TSRMLS_CC);
-			if (EG(exception)) {
-				goto done;
-			}
-		}
-
-	done:
-		if (iter) {
-			iter->funcs->dtor(iter TSRMLS_CC);
-		}
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_ITERATOR_CALL_BACK
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
 	}
 }
 
@@ -212,68 +224,34 @@ ZEND_FUNCTION(any)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	array_init(return_value);
-
 	RETVAL_FALSE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
-
-		while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
-
-			MAKE_STD_ZVAL(key);
-
-			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
-					RETURN_TRUE;
+					RETVAL_TRUE;
+					break;
 				}
-			} else {
-				zval_dtor(return_value);
-				RETURN_FALSE;
-			}
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 
-			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
-		}
+		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
-
-		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) {
-			if (EG(exception)) {
-				goto done;
-			}
-
-			MAKE_STD_ZVAL(key);
-
-			zend_user_it_get_current_data(iter, &args[0]);
-
-			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
 					RETVAL_TRUE;
 					goto done;
 				}
-			} else {
-				zval_dtor(return_value);
-				goto done;
-			}
-
-			iter->funcs->move_forward(iter TSRMLS_CC);
-			if (EG(exception)) {
-				goto done;
-			}
-		}
-
-	done:
-		if (iter) {
-			iter->funcs->dtor(iter TSRMLS_CC);
-		}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
 	}
 }
 
@@ -289,20 +267,13 @@ ZEND_FUNCTION(all)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	array_init(return_value);
-
 	RETVAL_TRUE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
-
-		while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS) {
-
-			MAKE_STD_ZVAL(key);
-
-			hash_key_type = zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
 
 			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
 				if (!zend_is_true(retval_ptr)) {
@@ -313,23 +284,12 @@ ZEND_FUNCTION(all)
 				RETURN_FALSE;
 			}
 
-			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
-		}
+		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
-
-		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) {
-			if (EG(exception)) {
-				goto done;
-			}
-
-			MAKE_STD_ZVAL(key);
-
-			zend_user_it_get_current_data(iter, &args[0]);
-
-			hash_key_type = zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key);
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
 
 			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
 				if (!zend_is_true(retval_ptr)) {
@@ -341,16 +301,8 @@ ZEND_FUNCTION(all)
 				goto done;
 			}
 
-			iter->funcs->move_forward(iter TSRMLS_CC);
-			if (EG(exception)) {
-				goto done;
-			}
-		}
-
-	done:
-		if (iter) {
-			iter->funcs->dtor(iter TSRMLS_CC);
-		}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
 	}
 }
 
