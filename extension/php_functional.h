@@ -20,6 +20,7 @@ ZEND_FUNCTION(all);
 ZEND_FUNCTION(any);
 ZEND_FUNCTION(detect);
 ZEND_FUNCTION(each);
+ZEND_FUNCTION(none);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)

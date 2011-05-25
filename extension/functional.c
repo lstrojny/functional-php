@@ -22,12 +22,17 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_detect, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_none, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", all, arginfo_functional_all)
 	ZEND_NS_FE("Functional", any, arginfo_functional_any)
 	ZEND_NS_FE("Functional", detect, arginfo_functional_detect)
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
+	ZEND_NS_FE("Functional", none, arginfo_functional_none)
 	{NULL, NULL, NULL}
 };
 
@@ -312,8 +317,6 @@ ZEND_FUNCTION(detect)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	RETVAL_TRUE;
-
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
@@ -334,6 +337,48 @@ ZEND_FUNCTION(detect)
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
 					RETVAL_ZVAL(*args[0], 1, 0);
+					goto done;
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+ZEND_FUNCTION(none)
+{
+	FUNCTIONAL_DECLARATION
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "none")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETURN_FALSE;
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETVAL_FALSE;
 					goto done;
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END

@@ -10,6 +10,8 @@ class DetectTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('first', 'second', 'third');
         $this->iterator = new ArrayIterator($this->array);
+        $this->badArray = array('foo', 'bar', 'baz');
+        $this->badIterator = new ArrayIterator($this->badArray);
     }
 
     function test()
@@ -21,6 +23,8 @@ class DetectTest extends AbstractTestCase
 
         $this->assertSame('second', detect($this->array, $fn));
         $this->assertSame('second', detect($this->iterator, $fn));
+        $this->assertNull(detect($this->badArray, $fn));
+        $this->assertNull(detect($this->badIterator, $fn));
     }
 
     function testPassNonCallable()
