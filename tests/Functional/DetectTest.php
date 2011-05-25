@@ -32,6 +32,6 @@ class DetectTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\detect() expects parameter 1 to be array or instance of Traversable');
-        detect('invalidCollection', 'undefinedFunction');
+        detect('invalidCollection', 'strlen');
     }
 }
