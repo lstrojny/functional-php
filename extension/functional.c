@@ -237,8 +237,8 @@ ZEND_FUNCTION(any)
 					break;
 				}
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
-
 		FUNCTIONAL_ARRAY_ITERATE_END
+
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
@@ -274,39 +274,28 @@ ZEND_FUNCTION(all)
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
 					RETURN_FALSE;
 				}
-			} else {
-				zval_dtor(return_value);
-				RETURN_FALSE;
-			}
-
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
+
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
-
-			if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)) {
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
 					RETVAL_FALSE;
 					goto done;
 				}
-			} else {
-				zval_dtor(return_value);
-				goto done;
-			}
-
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
 }
-
-
 
 	/**
 	 * Variations:
@@ -316,12 +305,12 @@ ZEND_FUNCTION(all)
 	 *  - DONE: Error messages
 	 *
 	 * Does something with return value?
-	 *	- Decision to break
+	 *	- DONE: Decision to break
 	 *	- Collect variables in array
 	 *	- Return element
 	 *
 	 * Return value
-	 *	- Return array untouched
+	 *	- DONE: Return array untouched
 	 *	- Return new array
 	 */
 
