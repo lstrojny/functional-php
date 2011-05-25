@@ -22,6 +22,10 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_detect, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_map, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_none, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
@@ -32,6 +36,7 @@ const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", any, arginfo_functional_any)
 	ZEND_NS_FE("Functional", detect, arginfo_functional_detect)
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
+	ZEND_NS_FE("Functional", map, arginfo_functional_map)
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
 	{NULL, NULL, NULL}
 };
@@ -144,7 +149,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_PREPARE_KEY(get_key) \
 			MAKE_STD_ZVAL(key); \
 			hash_key_type = get_key; \
-			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key, &return_value, 0);
+			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key);
 
 #define FUNCTIONAL_ITERATOR_DONE \
 	done: \
@@ -166,22 +171,31 @@ ZEND_GET_MODULE(functional)
 			}
 #define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
 
-void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key, zval **return_value, int collect)
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
 	switch (hash_key_type) {
 		case HASH_KEY_IS_LONG:
 			Z_TYPE_PP(key) = IS_LONG;
 			Z_LVAL_PP(key) = int_key;
-			if (collect) {
-				zend_hash_index_update(Z_ARRVAL_PP(return_value), int_key, *value, sizeof(zval *), NULL);
-			}
 			break;
 
 		case HASH_KEY_IS_STRING:
 			ZVAL_STRINGL(*key, string_key, string_key_len - 1, 1);
-			if (collect) {
-				zend_hash_update(Z_ARRVAL_PP(return_value), string_key, string_key_len, *value, sizeof(zval *), NULL);
-			}
+			break;
+	}
+}
+
+void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key)
+{
+	zval_add_ref(return_value);
+	zval_add_ref(value);
+	switch (hash_key_type) {
+		case HASH_KEY_IS_LONG:
+			zend_hash_index_update(Z_ARRVAL_PP(return_value), int_key, (void *)value, sizeof(zval *), NULL);
+			break;
+
+		case HASH_KEY_IS_STRING:
+			zend_hash_update(Z_ARRVAL_PP(return_value), string_key, string_key_len, (void *)value, sizeof(zval *), NULL);
 			break;
 	}
 }
@@ -198,8 +212,6 @@ ZEND_FUNCTION(each)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "each")
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
-
-	array_init(return_value);
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -339,6 +351,44 @@ ZEND_FUNCTION(detect)
 					RETVAL_ZVAL(*args[0], 1, 0);
 					goto done;
 				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+
+ZEND_FUNCTION(map)
+{
+	FUNCTIONAL_DECLARATION
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "map")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK
+
+	array_init(return_value);
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE

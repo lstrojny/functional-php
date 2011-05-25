@@ -22,25 +22,25 @@ class EachTest extends AbstractTestCase
     function testArray()
     {
         $this->prepareCallback($this->array);
-        each($this->array, array($this->cb, 'call'));
+        $this->assertNull(each($this->array, array($this->cb, 'call')));
     }
 
     function testIterator()
     {
         $this->prepareCallback($this->iterator);
-        each($this->iterator, array($this->cb, 'call'));
+        $this->assertNull(each($this->iterator, array($this->cb, 'call')));
     }
 
     function testHash()
     {
         $this->prepareCallback($this->hash);
-        each($this->hash, array($this->cb, 'call'));
+        $this->assertNull(each($this->hash, array($this->cb, 'call')));
     }
 
     function testHashIterator()
     {
         $this->prepareCallback($this->hashIterator);
-        each($this->hashIterator, array($this->cb, 'call'));
+        $this->assertNull(each($this->hashIterator, array($this->cb, 'call')));
     }
 
     function prepareCallback($collection)

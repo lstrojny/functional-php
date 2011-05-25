@@ -14,12 +14,14 @@ PHP_MINIT_FUNCTION(functional);
 PHP_MSHUTDOWN_FUNCTION(functional);
 PHP_MINFO_FUNCTION(functional);
 
-void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key, zval **return_value, int collect);
+void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key);
+void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key);
 
 ZEND_FUNCTION(all);
 ZEND_FUNCTION(any);
 ZEND_FUNCTION(detect);
 ZEND_FUNCTION(each);
+ZEND_FUNCTION(map);
 ZEND_FUNCTION(none);
 
 #ifdef ZTS
