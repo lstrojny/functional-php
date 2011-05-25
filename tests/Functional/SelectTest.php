@@ -33,6 +33,6 @@ class SelectTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
-        select('invalidCollection', 'undefinedFunction');
+        select('invalidCollection', 'strlen');
     }
 }

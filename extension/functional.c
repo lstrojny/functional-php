@@ -30,6 +30,14 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_none, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_reject, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_select, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", all, arginfo_functional_all)
@@ -38,6 +46,8 @@ const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
 	ZEND_NS_FE("Functional", map, arginfo_functional_map)
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
+	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
+	ZEND_NS_FE("Functional", select, arginfo_functional_select)
 	{NULL, NULL, NULL}
 };
 
@@ -436,6 +446,89 @@ ZEND_FUNCTION(none)
 		FUNCTIONAL_ITERATOR_DONE
 	}
 }
+
+ZEND_FUNCTION(reject)
+{
+	FUNCTIONAL_DECLARATION
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "reject")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK
+
+	array_init(return_value);
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (!zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (!zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+ZEND_FUNCTION(select)
+{
+	FUNCTIONAL_DECLARATION
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "select")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK
+
+	array_init(return_value);
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
 
 	/**
 	 * Variations:
