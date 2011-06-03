@@ -549,7 +549,7 @@ ZEND_FUNCTION(invoke)
 {
 	FUNCTIONAL_DECLARATION
 
-	int arguments_len = 0, element, r;
+	int arguments_len = 0, element;
 	zval *method, *null_value, ***method_args;
 	HashTable *arguments = NULL;
 	char *callable, *error;
@@ -584,10 +584,11 @@ ZEND_FUNCTION(invoke)
 			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) {
 				ZVAL_NULL(null_value);
 				php_functional_append_array_value(hash_key_type, &return_value, &null_value, string_key, string_key_len, int_key);
-			} else if ((r = call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC)) == SUCCESS) {
+			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS &&
+				!EG(exception)) {
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			}
-			printf("%s::%s() returned %d\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method), r);
+			//printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method));
 		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 
