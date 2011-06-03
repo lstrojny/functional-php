@@ -38,12 +38,18 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_select, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_invoke, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, methodName)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
 
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", all, arginfo_functional_all)
 	ZEND_NS_FE("Functional", any, arginfo_functional_any)
 	ZEND_NS_FE("Functional", detect, arginfo_functional_detect)
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
+	//ZEND_NS_FE("Functional", invoke, arginfo_functional_invoke)
 	ZEND_NS_FE("Functional", map, arginfo_functional_map)
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
 	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
@@ -380,7 +386,9 @@ ZEND_FUNCTION(map)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	array_init(return_value);
+	if (return_value_used) {
+		array_init(return_value);
+	}
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -388,7 +396,9 @@ ZEND_FUNCTION(map)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+				if (return_value_used) {
+					php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -398,7 +408,9 @@ ZEND_FUNCTION(map)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+				if (return_value_used) {
+					php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -459,7 +471,9 @@ ZEND_FUNCTION(reject)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	array_init(return_value);
+	if (return_value_used) {
+		array_init(return_value);
+	}
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -467,7 +481,7 @@ ZEND_FUNCTION(reject)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (!zend_is_true(retval_ptr)) {
+				if (return_value_used && !zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
@@ -479,7 +493,7 @@ ZEND_FUNCTION(reject)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (!zend_is_true(retval_ptr)) {
+				if (return_value_used && !zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
@@ -500,7 +514,9 @@ ZEND_FUNCTION(select)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK
 
-	array_init(return_value);
+	if (return_value_used) {
+		array_init(return_value);
+	}
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -508,12 +524,75 @@ ZEND_FUNCTION(select)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (zend_is_true(retval_ptr)) {
+				if (return_value_used && zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (return_value_used && zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+ZEND_FUNCTION(invoke)
+{
+	FUNCTIONAL_DECLARATION
+
+	int arguments_len = 0, element, r;
+	zval *method, *null_value, ***method_args, *arguments_arr;
+	HashTable *arguments;
+	char *callable, *error;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz/|A", &collection, &method, &arguments_arr) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "invoke")
+
+	array_init(return_value);
+
+	convert_to_string(method);
+
+	MAKE_STD_ZVAL(null_value);
+
+	arguments = HASH_OF(arguments_arr);
+	arguments_len = zend_hash_num_elements(arguments);
+	printf("%d\n", arguments_len);
+	method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
+	for (zend_hash_internal_pointer_reset(arguments);
+		zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS;
+		zend_hash_move_forward(arguments)
+	) {
+		element++;
+	}
+
+	printf("args\n");
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			printf("iter in\n");
+			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) {
+				ZVAL_NULL(null_value);
+				php_functional_append_array_value(hash_key_type, &return_value, &null_value, string_key, string_key_len, int_key);
+			} else if ((r = call_user_function_ex(EG(function_table), (zval **)args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC)) == SUCCESS) {
+				printf("before val append\n");
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			}
+			printf("RESULT %d\n", r);
+		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
@@ -528,7 +607,6 @@ ZEND_FUNCTION(select)
 		FUNCTIONAL_ITERATOR_DONE
 	}
 }
-
 
 	/**
 	 * Variations:
