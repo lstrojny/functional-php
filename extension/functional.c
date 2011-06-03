@@ -549,7 +549,7 @@ ZEND_FUNCTION(invoke)
 {
 	FUNCTIONAL_DECLARATION
 
-	int arguments_len = 0, element;
+	int arguments_len, element = 0;
 	zval *method, *null_value, ***method_args;
 	HashTable *arguments = NULL;
 	char *callable, *error;
@@ -569,10 +569,9 @@ ZEND_FUNCTION(invoke)
 	if (arguments) {
 		arguments_len = zend_hash_num_elements(arguments);
 		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
-		for (zend_hash_internal_pointer_reset(arguments);
-			zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS;
-			zend_hash_move_forward(arguments)
-		) {
+		zend_hash_internal_pointer_reset(arguments);
+		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
+			zend_hash_move_forward(arguments);
 			element++;
 		}
 	}
@@ -583,11 +582,16 @@ ZEND_FUNCTION(invoke)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) {
 				ZVAL_NULL(null_value);
-				php_functional_append_array_value(hash_key_type, &return_value, &null_value, string_key, string_key_len, int_key);
-			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS &&
-				!EG(exception)) {
-				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+				retval_ptr = null_value;
+			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS) {
+				if (EG(exception)) {
+					continue;
+				}
+			} else {
+				ZVAL_NULL(null_value);
+				retval_ptr = null_value;
 			}
+			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			//printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method));
 		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
