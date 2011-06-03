@@ -49,7 +49,7 @@ const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", any, arginfo_functional_any)
 	ZEND_NS_FE("Functional", detect, arginfo_functional_detect)
 	ZEND_NS_FE("Functional", each, arginfo_functional_each)
-	//ZEND_NS_FE("Functional", invoke, arginfo_functional_invoke)
+	ZEND_NS_FE("Functional", invoke, arginfo_functional_invoke)
 	ZEND_NS_FE("Functional", map, arginfo_functional_map)
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
 	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
@@ -550,11 +550,11 @@ ZEND_FUNCTION(invoke)
 	FUNCTIONAL_DECLARATION
 
 	int arguments_len = 0, element, r;
-	zval *method, *null_value, ***method_args, *arguments_arr;
-	HashTable *arguments;
+	zval *method, *null_value, ***method_args;
+	HashTable *arguments = NULL;
 	char *callable, *error;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz/|A", &collection, &method, &arguments_arr) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/|H", &collection, &method, &arguments) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -566,32 +566,28 @@ ZEND_FUNCTION(invoke)
 
 	MAKE_STD_ZVAL(null_value);
 
-	arguments = HASH_OF(arguments_arr);
-	arguments_len = zend_hash_num_elements(arguments);
-	printf("%d\n", arguments_len);
-	method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
-	for (zend_hash_internal_pointer_reset(arguments);
-		zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS;
-		zend_hash_move_forward(arguments)
-	) {
-		element++;
+	if (arguments) {
+		arguments_len = zend_hash_num_elements(arguments);
+		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
+		for (zend_hash_internal_pointer_reset(arguments);
+			zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS;
+			zend_hash_move_forward(arguments)
+		) {
+			element++;
+		}
 	}
-
-	printf("args\n");
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			printf("iter in\n");
 			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) {
 				ZVAL_NULL(null_value);
 				php_functional_append_array_value(hash_key_type, &return_value, &null_value, string_key, string_key_len, int_key);
-			} else if ((r = call_user_function_ex(EG(function_table), (zval **)args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC)) == SUCCESS) {
-				printf("before val append\n");
+			} else if ((r = call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC)) == SUCCESS) {
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			}
-			printf("RESULT %d\n", r);
+			printf("%s::%s() returned %d\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method), r);
 		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 
