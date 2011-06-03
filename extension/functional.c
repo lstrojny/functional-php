@@ -186,6 +186,20 @@ ZEND_GET_MODULE(functional)
 				on_failure; \
 			}
 #define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
+#define FUNCTIONAL_INVOKE_INNER(on_failure) \
+			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+				ZVAL_NULL(null_value); \
+				retval_ptr = null_value; \
+			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS) { \
+				if (EG(exception)) { \
+					on_failure; \
+				} \
+			} else { \
+				ZVAL_NULL(null_value); \
+				retval_ptr = null_value; \
+			} \
+			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
@@ -549,12 +563,12 @@ ZEND_FUNCTION(invoke)
 {
 	FUNCTIONAL_DECLARATION
 
-	int arguments_len, element = 0;
+	int arguments_len, method_name_len, element = 0;
 	zval *method, *null_value, ***method_args;
 	HashTable *arguments = NULL;
-	char *callable, *error;
+	char *callable, *error, *method_name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z/z/|H", &collection, &method, &arguments) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -562,9 +576,9 @@ ZEND_FUNCTION(invoke)
 
 	array_init(return_value);
 
-	convert_to_string(method);
-
 	MAKE_STD_ZVAL(null_value);
+	MAKE_STD_ZVAL(method);
+	ZVAL_STRINGL(method, method_name, method_name_len, 1);
 
 	if (arguments) {
 		arguments_len = zend_hash_num_elements(arguments);
@@ -580,18 +594,7 @@ ZEND_FUNCTION(invoke)
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) {
-				ZVAL_NULL(null_value);
-				retval_ptr = null_value;
-			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS) {
-				if (EG(exception)) {
-					continue;
-				}
-			} else {
-				ZVAL_NULL(null_value);
-				retval_ptr = null_value;
-			}
-			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			FUNCTIONAL_INVOKE_INNER(break)
 			//printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method));
 		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
@@ -599,30 +602,8 @@ ZEND_FUNCTION(invoke)
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (zend_is_true(retval_ptr)) {
-					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
-				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_INVOKE_INNER(goto done)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
 }
-
-	/**
-	 * Variations:
-	 *
-	 * Traversable/array
-	 *  - DONE: Argument handling
-	 *  - DONE: Error messages
-	 *
-	 * Does something with return value?
-	 *	- DONE: Decision to break
-	 *	- Collect variables in array
-	 *	- Return element
-	 *
-	 * Return value
-	 *	- DONE: Return array untouched
-	 *	- Return new array
-	 */
-

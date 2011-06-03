@@ -17,7 +17,6 @@ class InvokeTest extends AbstractTestCase
     function test()
     {
         $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->array, 'method', array(1, 2)));
-        return;
         $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->iterator, 'method'));
         $this->assertSame(array(null, null, null), invoke($this->array, 'undefinedMethod'));
         $this->assertSame(array(null, null, null), invoke($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
