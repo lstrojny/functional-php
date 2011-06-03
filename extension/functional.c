@@ -174,7 +174,7 @@ ZEND_GET_MODULE(functional)
 		}
 
 #define FUNCTIONAL_ARRAY_CALL_BACK				FUNCTIONAL_CALL_BACK(RETURN_FALSE)
-#define FUNCTIONAL_ARRAY_CALL_BACK_EX_END		FUNCTIONAL_CALL_BACK_EX_END(goto done)
+#define FUNCTIONAL_ARRAY_CALL_BACK_EX_END		FUNCTIONAL_CALL_BACK_EX_END(break)
 
 #define FUNCTIONAL_ITERATOR_CALL_BACK			FUNCTIONAL_CALL_BACK(goto done)
 #define FUNCTIONAL_ITERATOR_CALL_BACK_EX_END	FUNCTIONAL_CALL_BACK_EX_END(goto done)
@@ -320,7 +320,6 @@ ZEND_FUNCTION(all)
 	RETVAL_TRUE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
-
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
@@ -328,11 +327,9 @@ ZEND_FUNCTION(all)
 				if (!zend_is_true(retval_ptr)) {
 					RETURN_FALSE;
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
-
 	} else {
-
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
@@ -368,7 +365,7 @@ ZEND_FUNCTION(detect)
 				if (zend_is_true(retval_ptr)) {
 					RETURN_ZVAL(*args[0], 1, 0);
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -413,7 +410,7 @@ ZEND_FUNCTION(map)
 				if (return_value_used) {
 					php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -454,7 +451,7 @@ ZEND_FUNCTION(none)
 				if (zend_is_true(retval_ptr)) {
 					RETURN_FALSE;
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -498,7 +495,7 @@ ZEND_FUNCTION(reject)
 				if (return_value_used && !zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -541,7 +538,7 @@ ZEND_FUNCTION(select)
 				if (return_value_used && zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {

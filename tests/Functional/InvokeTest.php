@@ -37,6 +37,12 @@ class InvokeTest extends AbstractTestCase
         invoke($this->array, new \stdClass());
     }
 
+    function testException()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        invoke($this->array, 'exception');
+    }
+
     function method()
     {
         return 'methodValue';

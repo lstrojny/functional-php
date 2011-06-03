@@ -34,6 +34,18 @@ class AllTest extends AbstractTestCase
         all('invalidCollection', 'strlen');
     }
 
+    function testExceptionIsThrownInArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        all($this->goodArray, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInCollection()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        all($this->goodIterator, array($this, 'exception'));
+    }
+
     function callback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);

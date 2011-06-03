@@ -19,4 +19,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
             $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $msg);
         }
     }
+
+    function exception()
+    {
+        throw new \Exception('Callback exception');
+    }
 }

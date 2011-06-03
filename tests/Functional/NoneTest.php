@@ -34,6 +34,18 @@ class NoneTest extends AbstractTestCase
         none($this->goodArray, 'undefinedFunction');
     }
 
+    function testExceptionIsThrownInArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        none($this->goodArray, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInIterator()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        none($this->goodIterator, array($this, 'exception'));
+    }
+
     function callback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);

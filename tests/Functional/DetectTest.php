@@ -33,6 +33,18 @@ class DetectTest extends AbstractTestCase
         detect($this->array, 'undefinedFunction');
     }
 
+    function testExceptionIsThrownInArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        detect($this->array, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInCollection()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        detect($this->iterator, array($this, 'exception'));
+    }
+
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\detect() expects parameter 1 to be array or instance of Traversable');

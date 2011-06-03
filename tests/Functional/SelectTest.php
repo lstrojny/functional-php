@@ -11,6 +11,7 @@ class SelectTest extends AbstractTestCase
         $this->array = array('value', 'wrong', 'value');
         $this->iterator = new ArrayIterator($this->array);
         $this->keyedArray = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
+        $this->keyedIterator = new ArrayIterator($this->keyedArray); 
     }
 
     function test()
@@ -22,6 +23,7 @@ class SelectTest extends AbstractTestCase
         $this->assertSame(array('value', 2 => 'value'), select($this->array, $fn));
         $this->assertSame(array('value', 2 => 'value'), select($this->iterator, $fn));
         $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->keyedArray, $fn));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->keyedIterator, $fn));
     }
 
     function testPassNonCallable()
@@ -34,5 +36,29 @@ class SelectTest extends AbstractTestCase
     {
         $this->expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
         select('invalidCollection', 'strlen');
+    }
+
+    function testExceptionIsThrownInArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        select($this->array, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInKeyedArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        select($this->keyedArray, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInIterator()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        select($this->iterator, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInKeyedIterator()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        select($this->keyedIterator, array($this, 'exception'));
     }
 }

@@ -43,6 +43,18 @@ class EachTest extends AbstractTestCase
         $this->assertNull(each($this->hashIterator, array($this->cb, 'call')));
     }
 
+    function testExceptionIsThrownInArray()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        each($this->array, array($this, 'exception'));
+    }
+
+    function testExceptionIsThrownInCollection()
+    {
+        $this->setExpectedException('Exception', 'Callback exception');
+        each($this->iterator, array($this, 'exception'));
+    }
+
     function prepareCallback($collection)
     {
         $i = 0;
