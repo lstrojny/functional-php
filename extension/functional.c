@@ -198,7 +198,9 @@ ZEND_GET_MODULE(functional)
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
 			} \
-			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			if (return_value_used) { \
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+			}
 
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
