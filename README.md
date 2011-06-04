@@ -102,7 +102,7 @@ Fetch a single property from a collection of objects.
 <?php
 use Functional;
 
-$names = pluck($users, 'names');
+$names = pluck($users, 'name');
 ```
 
 
