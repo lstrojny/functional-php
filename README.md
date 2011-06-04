@@ -6,7 +6,7 @@
   - Calls 5.3 closures as well as traditional callbacks
   - C implementation for performance but compatible userland implementation is packaged if you can’t install PHP
     extensions
-  - All functions reside in namespace `Functional` to not conflict with any other extension
+  - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
 ## Installation
 
@@ -41,7 +41,7 @@ your PHP file.
 use Functional;
 
 // If all users are active, set them all inactive
-if (all($users, function($user) {return $user->isActive();})) {
+if (all($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     invoke($users, 'setActive', array(true));
 }
 ```
@@ -55,7 +55,7 @@ if (all($users, function($user) {return $user->isActive();})) {
 <?php
 use Functional;
 
-if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
+if (any($users, function($user, $collectionKey, $collection) use($me) {return $user->isFriendOf($me);})) {
     // One of those users is a friend of me
 }
 ```
@@ -69,7 +69,7 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
 <?php
 use Functional;
 
-if (none($users, function($user) {return $user->isActive();})) {
+if (none($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     // Do something with a whole list of inactive users
 }
 ```
@@ -85,7 +85,7 @@ if (none($users, function($user) {return $user->isActive();})) {
 <?php
 use Functional;
 
-$fn = function($user) {
+$fn = function($user, $collectionKey, $collection) {
     return $user->isActive();
 };
 $activeUsers = select($users, $fn);
