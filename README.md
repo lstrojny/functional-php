@@ -22,7 +22,7 @@ sudo make install
 ### Use userland extension
 ```php
 <?php
-include 'path/to/Functional-PHP/src/_import.php';
+include 'path/to/Functional-PHP/src/Functional/_import.php';
 ```
 
 Everytime you want to use Functional PHP and not reference the fully qualified name, add `use Functional;` on top of
@@ -90,5 +90,5 @@ $names = pluck($users, 'names');
 
 ### Additional functions:
 
- - Functional\each(): Applies a callback to each element
- - Functional\map(): Applies a callback to each element in the array and collects the return value
+ - `Functional\each(array|Traversable collection, callable callback)`: Applies a callback to each element
+ - `Functional\map(array|Traversable collection, callable callback)`: Applies a callback to each element in the array and collects the return value
