@@ -1,14 +1,36 @@
-Functional PHP: Functional primitives for PHP
-=============================================
+# Functional PHP: Functional primitives for PHP
 
   - Works with arrays and everything implementing interface Traversable
   - Consistent interface: first parameter is always the collection, than the callback. Callbacks always get value, key,
     collection passed
   - Calls 5.3 closures as well as traditional callbacks
-  - C implementation for performance
+  - C implementation for performance but compatible userland implementation is packaged if you can’t install PHP
+    extensions
+  - All functions reside in namespace `Functional` to not conflict with any other extension
 
-Functional\all() & Functional\invoke()
---------------------------------------
+## Installation
+
+### Install native extension
+```bash
+cd Functional-PHP/extension/
+phphize
+./configure
+make
+sudo make install
+```
+
+### Use userland extension
+```php
+<?php
+include 'path/to/Functional-PHP/src/_import.php';
+```
+
+Everytime you want to use Functional PHP and not reference the fully qualified name, add `use Functional;` on top of
+your PHP file.
+
+
+## Functionality
+### Functional\all() & Functional\invoke()
 ```php
 <?php
 use Functional;
@@ -20,8 +42,7 @@ if (all($users, function($user) {return $user->isActive();})) {
 ```
 
 
-Functional\any()
-----------------
+### Functional\any()
 ```php
 <?php
 use Functional;
@@ -32,8 +53,7 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
 ```
 
 
-Functional\none()
------------------
+### Functional\none()
 ```php
 <?php
 use Functional;
@@ -44,8 +64,7 @@ if (none($users, function($user) {return $user->isActive();})) {
 ```
 
 
-Functional\reject() & Functional\select()
------------------------------------------
+### Functional\reject() & Functional\select()
 ```php
 <?php
 use Functional;
@@ -58,8 +77,7 @@ $inactiveUsers = reject($users, $fn);
 ```
 
 
-Functional\pluck()
-------------------
+### Functional\pluck()
 Fetch a single property from a collection of objects:
 
 ```php
@@ -70,8 +88,7 @@ $names = pluck($users, 'names');
 ```
 
 
-Additional functions:
----------------------
+### Additional functions:
 
  - Functional\each(): Applies a callback to each element
  - Functional\map(): Applies a callback to each element in the array and collects the return value
