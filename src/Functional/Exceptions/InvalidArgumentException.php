@@ -85,10 +85,10 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
-    public static function assertPropertyName($propertyName)
+    public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
         if (!is_string($propertyName)) {
-            throw new static('Invalid property name. Expected string, got ' . gettype($propertyName));
+            throw new static(sprintf("%s() expects parameter %d to be string, %s given", $callee, $parameterPosition, gettype($propertyName)));
         }
     }
 }

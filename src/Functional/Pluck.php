@@ -32,7 +32,7 @@ namespace Functional;
 function pluck($collection, $propertyName)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertPropertyName($propertyName);
+    Exceptions\InvalidArgumentException::assertPropertyName($propertyName, __FUNCTION__, 2);
 
     $aggregation = array();
 
@@ -42,9 +42,7 @@ function pluck($collection, $propertyName)
 
         if (is_object($element)) {
 
-            $properties = get_object_vars($element);
-
-            if (isset($properties[$propertyName])) {
+            if (isset($element->{$propertyName})) {
                 $value = $element->{$propertyName};
             }
         }

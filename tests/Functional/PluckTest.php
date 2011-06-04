@@ -3,6 +3,35 @@ namespace Functional;
 
 use ArrayIterator;
 
+class MagicGetThrowException
+{
+    public function __get($propertyName)
+    {
+        throw new \Exception($propertyName);
+    }
+}
+
+class MagicGet
+{
+    protected $properties;
+
+    public function __construct(array $properties)
+    {
+        $this->properties = $properties;
+    }
+
+    public function __isset($propertyName)
+    {
+        return isset($this->properties[$propertyName]);
+    }
+
+    public function __get($propertyName)
+    {
+        return $this->properties[$propertyName];
+    }
+}
+
+
 class PluckTest extends AbstractTestCase
 {
     function setUp()
@@ -11,6 +40,7 @@ class PluckTest extends AbstractTestCase
         $this->propertyExistsEverywhereArray = array((object)array('property' => 1), (object)array('property' => 2));
         $this->propertyExistsEverywhereIterator = new ArrayIterator($this->propertyExistsEverywhereArray);
         $this->propertyExistsSomewhere = array((object)array('property' => 1), (object)array('otherProperty' => 2));
+        $this->propertyMagicGet = array(new MagicGet(array('property' => 1)), new MagicGet(array('property' => 2)));
         $this->mixedCollection = array((object)array('property' => 1), array('key'  => 'value'));
         $this->keyedCollection = array('test' => (object)array('property' => 1), 'test2' => (object)array('property' => 2));
     }
@@ -19,6 +49,7 @@ class PluckTest extends AbstractTestCase
     {
         $this->assertSame(array(1, 2), pluck($this->propertyExistsEverywhereArray, 'property'));
         $this->assertSame(array(1, 2), pluck($this->propertyExistsEverywhereIterator, 'property'));
+        $this->assertSame(array(1, 2), pluck($this->propertyMagicGet, 'property'));
     }
 
     function testPluckPropertyThatExistsSomewhere()
@@ -50,7 +81,7 @@ class PluckTest extends AbstractTestCase
 
     function testPassNoPropertyName()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', 'Invalid property name');
+        $this->expectArgumentError('Functional\pluck() expects parameter 2 to be string, object given');
         pluck($this->propertyExistsSomewhere, new \stdClass());
     }
 }

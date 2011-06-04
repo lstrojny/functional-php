@@ -43,6 +43,10 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_invoke, 2)
 	ZEND_ARG_INFO(0, methodName)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_pluck, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, propertyName)
+ZEND_END_ARG_INFO()
 
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", all, arginfo_functional_all)
@@ -52,6 +56,7 @@ const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", invoke, arginfo_functional_invoke)
 	ZEND_NS_FE("Functional", map, arginfo_functional_map)
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
+	ZEND_NS_FE("Functional", pluck, arginfo_functional_pluck)
 	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
 	ZEND_NS_FE("Functional", select, arginfo_functional_select)
 	{NULL, NULL, NULL}
@@ -202,6 +207,16 @@ ZEND_GET_MODULE(functional)
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
 			}
 
+#define FUNCTIONAL_PLUCK_INNER \
+			if (Z_TYPE_P(*args[0]) == IS_OBJECT) { \
+				retval_ptr = zend_read_property(scope, &**args[0], property_name, property_name_len, 1 TSRMLS_CC); \
+			} else { \
+				ZVAL_NULL(null_value); \
+				retval_ptr = null_value; \
+			} \
+			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+
+
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
@@ -261,6 +276,7 @@ ZEND_FUNCTION(each)
 			FUNCTIONAL_ITERATOR_CALL_BACK
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -304,6 +320,7 @@ ZEND_FUNCTION(any)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -322,6 +339,7 @@ ZEND_FUNCTION(all)
 	RETVAL_TRUE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
@@ -331,7 +349,9 @@ ZEND_FUNCTION(all)
 				}
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
+
 	} else {
+
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
@@ -343,6 +363,7 @@ ZEND_FUNCTION(all)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -427,6 +448,7 @@ ZEND_FUNCTION(map)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -469,6 +491,7 @@ ZEND_FUNCTION(none)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -512,6 +535,7 @@ ZEND_FUNCTION(reject)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -555,6 +579,7 @@ ZEND_FUNCTION(select)
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
 
@@ -590,12 +615,14 @@ ZEND_FUNCTION(invoke)
 	}
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_INVOKE_INNER(break)
 			//printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method));
 		FUNCTIONAL_ARRAY_ITERATE_END
+
 	} else {
 
 		FUNCTIONAL_ITERATOR_PREPARE
@@ -604,5 +631,44 @@ ZEND_FUNCTION(invoke)
 			FUNCTIONAL_INVOKE_INNER(goto done)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+ZEND_FUNCTION(pluck)
+{
+	FUNCTIONAL_DECLARATION
+	char *property_name;
+	int property_name_len;
+	zend_class_entry *scope;
+	zval *null_value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs", &collection, &property_name, &property_name_len)) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "pluck")
+
+	array_init(return_value);
+	MAKE_STD_ZVAL(null_value);
+
+	scope = EG(scope);
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_PLUCK_INNER
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_PLUCK_INNER
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
 	}
 }
