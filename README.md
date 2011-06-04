@@ -53,7 +53,7 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
 ```
 
 
-### Functional\none()
+### `Functional\none(array|Traversable $collection, callable $callback)`
 ```php
 <?php
 use Functional;
