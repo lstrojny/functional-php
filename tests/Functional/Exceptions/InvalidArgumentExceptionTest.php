@@ -67,9 +67,9 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'Invalid method name. Expected string, got object'
+            'foo() expects parameter 2 to be string, object given'
         );
-        InvalidArgumentException::assertMethodName(new \stdClass());
+        InvalidArgumentException::assertMethodName(new \stdClass(), "foo", 2);
     }
 
     function testExceptionIfInvalidPropertyName()

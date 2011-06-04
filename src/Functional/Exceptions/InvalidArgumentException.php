@@ -78,17 +78,31 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
-    public static function assertMethodName($methodName)
+    public static function assertMethodName($methodName, $callee, $parameterPosition)
     {
         if (!is_string($methodName)) {
-            throw new static('Invalid method name. Expected string, got ' . gettype($methodName));
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be string, %s given',
+                    $callee,
+                    $parameterPosition,
+                    gettype($methodName)
+                )
+            );
         }
     }
 
     public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
         if (!is_string($propertyName)) {
-            throw new static(sprintf("%s() expects parameter %d to be string, %s given", $callee, $parameterPosition, gettype($propertyName)));
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be string, %s given',
+                    $callee,
+                    $parameterPosition,
+                    gettype($propertyName)
+                )
+            );
         }
     }
 }

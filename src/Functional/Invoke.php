@@ -34,7 +34,7 @@ namespace Functional;
 function invoke($collection, $methodName, array $arguments = array())
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertMethodName($methodName);
+    Exceptions\InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
     $aggregation = array();
 
