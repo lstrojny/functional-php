@@ -207,9 +207,12 @@ ZEND_GET_MODULE(functional)
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
 			}
 
-#define FUNCTIONAL_PLUCK_INNER \
+#define FUNCTIONAL_PLUCK_INNER(on_failure) \
 			if (Z_TYPE_P(*args[0]) == IS_OBJECT) { \
 				retval_ptr = zend_read_property(scope, &**args[0], property_name, property_name_len, 1 TSRMLS_CC); \
+				if (EG(exception)) { \
+					on_failure; \
+				} \
 			} else { \
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
@@ -658,7 +661,7 @@ ZEND_FUNCTION(pluck)
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			FUNCTIONAL_PLUCK_INNER
+			FUNCTIONAL_PLUCK_INNER(break)
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -666,7 +669,7 @@ ZEND_FUNCTION(pluck)
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_PLUCK_INNER
+			FUNCTIONAL_PLUCK_INNER(goto done)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 

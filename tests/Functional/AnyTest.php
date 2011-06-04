@@ -46,7 +46,7 @@ class AnyTest extends AbstractTestCase
         any($this->goodIterator, array($this, 'exception'));
     }
 
-    function callback(&$value, &$key, &$collection)
+    function callback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value == 'value' && $key === 0;

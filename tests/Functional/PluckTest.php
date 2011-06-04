@@ -31,6 +31,34 @@ class MagicGet
     }
 }
 
+class MagicGetException
+{
+    protected $throwExceptionInIsset = false;
+    protected $throwExceptionInGet = false;
+
+    public function __construct($throwExceptionInIsset, $throwExceptionInGet)
+    {
+        $this->throwExceptionInIsset = $throwExceptionInIsset;
+        $this->throwExceptionInGet = $throwExceptionInGet;
+    }
+
+    public function __isset($propertyName)
+    {
+        if ($this->throwExceptionInIsset) {
+            throw new \Exception('__isset exception: ' . $propertyName);
+        }
+        return true;
+    }
+
+    public function __get($propertyName)
+    {
+        if ($this->throwExceptionInGet) {
+            throw new \Exception('__get exception: ' . $propertyName);
+        }
+        return "value";
+    }
+}
+
 
 class PluckTest extends AbstractTestCase
 {
@@ -43,6 +71,10 @@ class PluckTest extends AbstractTestCase
         $this->propertyMagicGet = array(new MagicGet(array('property' => 1)), new MagicGet(array('property' => 2)));
         $this->mixedCollection = array((object)array('property' => 1), array('key'  => 'value'));
         $this->keyedCollection = array('test' => (object)array('property' => 1), 'test2' => (object)array('property' => 2));
+        $this->issetExceptionArray = array((object)array('property' => 1), new MagicGetException(true, false));
+        $this->issetExceptionIterator = new ArrayIterator($this->issetExceptionArray);
+        $this->getExceptionArray = array((object)array('property' => 1), new MagicGetException(false, true));
+        $this->getExceptionIterator = new ArrayIterator($this->getExceptionArray);
     }
 
     function testPluckPropertyThatExistsEverywhere()
@@ -83,5 +115,29 @@ class PluckTest extends AbstractTestCase
     {
         $this->expectArgumentError('Functional\pluck() expects parameter 2 to be string, object given');
         pluck($this->propertyExistsSomewhere, new \stdClass());
+    }
+
+    function testExceptionThrownInMagicIssetWhileIteratingArray()
+    {
+        $this->setExpectedException('Exception', '__isset exception: foobar');
+        pluck($this->issetExceptionArray, 'foobar');
+    }
+
+    function testExceptionThrownInMagicIssetWhileIteratingIterator()
+    {
+        $this->setExpectedException('Exception', '__isset exception: foobar');
+        pluck($this->issetExceptionIterator, 'foobar');
+    }
+
+    function testExceptionThrownInMagicGetWhileIteratingArray()
+    {
+        $this->setExpectedException('Exception', '__get exception: foobar');
+        pluck($this->getExceptionArray, 'foobar');
+    }
+
+    function testExceptionThrownInMagicGetWhileIteratingIterator()
+    {
+        $this->setExpectedException('Exception', '__get exception: foobar');
+        pluck($this->getExceptionIterator, 'foobar');
     }
 }

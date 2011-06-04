@@ -16,7 +16,7 @@ class MapTest extends AbstractTestCase
 
     function test()
     {
-        $fn = function(&$v, &$k, &$collection) {
+        $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };
