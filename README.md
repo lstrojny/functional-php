@@ -29,10 +29,11 @@ Everytime you want to use Functional PHP and not reference the fully qualified n
 your PHP file.
 
 
-## Functionality
+## Overview
 ### Functional\all() & Functional\invoke()
 
 ``Functional\all(array|Traversable $collection, callable $callback)``
+
 ``Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
 
 ```php
@@ -77,6 +78,7 @@ if (none($users, function($user) {return $user->isActive();})) {
 ### Functional\reject() & Functional\select()
 
 ``Functional\select(array|Traversable $collection, callable $callback)``
+
 ``Functional\reject(array|Traversable $collection, callable $callback)``
 
 ```php
