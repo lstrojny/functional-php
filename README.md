@@ -90,5 +90,7 @@ $names = pluck($users, 'names');
 
 ### Additional functions:
 
- - `Functional\each(array|Traversable collection, callable callback)`: Applies a callback to each element
- - `Functional\map(array|Traversable collection, callable callback)`: Applies a callback to each element in the array and collects the return value
+ - `Functional\each(array|Traversable $collection, callable $callback)`
+   Applies a callback to each element
+ - `Functional\map(array|Traversable $collection, callable $callback)`
+   Applies a callback to each element in the array and collects the return value
