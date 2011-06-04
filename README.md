@@ -31,6 +31,10 @@ your PHP file.
 
 ## Functionality
 ### Functional\all() & Functional\invoke()
+
+``Functional\all(array|Traversable $collection, callable $callback)``
+``Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
+
 ```php
 <?php
 use Functional;
@@ -43,6 +47,9 @@ if (all($users, function($user) {return $user->isActive();})) {
 
 
 ### Functional\any()
+
+``Functional\any(array|Traversable $collection, callable $callback)``
+
 ```php
 <?php
 use Functional;
@@ -53,7 +60,10 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
 ```
 
 
-### `Functional\none(array|Traversable $collection, callable $callback)`
+### Functional\none()
+
+``Functional\none(array|Traversable $collection, callable $callback)``
+
 ```php
 <?php
 use Functional;
@@ -65,6 +75,10 @@ if (none($users, function($user) {return $user->isActive();})) {
 
 
 ### Functional\reject() & Functional\select()
+
+``Functional\select(array|Traversable $collection, callable $callback)``
+``Functional\reject(array|Traversable $collection, callable $callback)``
+
 ```php
 <?php
 use Functional;
@@ -78,7 +92,9 @@ $inactiveUsers = reject($users, $fn);
 
 
 ### Functional\pluck()
-Fetch a single property from a collection of objects:
+Fetch a single property from a collection of objects.
+
+``Functional\pluck(array|Traversable $collection, string $propertyName)``
 
 ```php
 <?php
