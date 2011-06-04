@@ -1,7 +1,11 @@
 Functional PHP: Functional primitives for PHP
 =============================================
 
-
+  - Works with arrays and everything implementing interface Traversable
+  - Consistent interface: first parameter is always the collection, than the callback. Callbacks always get value, key,
+    collection passed
+  - Calls 5.3 closures as well as traditional callbacks
+  - C implementation for performance
 
 Functional\all() & Functional\invoke()
 --------------------------------------
@@ -26,6 +30,7 @@ if (any($users, function($user) use($me) {return $user->isFriendOf($me);})) {
     // One of those users is a friend of me
 }
 ```
+
 
 Functional\none()
 -----------------
@@ -53,3 +58,20 @@ $inactiveUsers = reject($users, $fn);
 ```
 
 
+Functional\pluck()
+------------------
+Fetch a single property from a collection of objects:
+
+```php
+<?php
+use Functional;
+
+$names = pluck($users, 'names');
+```
+
+
+Additional functions:
+---------------------
+
+ - Functional\each(): Applies a callback to each element
+ - Functional\map(): Applies a callback to each element in the array and collects the return value
