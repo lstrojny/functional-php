@@ -1,7 +1,0 @@
-<phpunit
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    bootstrap="tests/Functional/bootstrap-userspace.php"
-    strict="true"
-    verbose="true">
-</phpunit>

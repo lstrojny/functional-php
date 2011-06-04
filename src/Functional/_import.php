@@ -20,26 +20,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-$basePath = __DIR__ . DIRECTORY_SEPARATOR;
-/** @var Functional\Exceptions\InvalidArgumentsException */
-require_once $basePath . 'Exceptions/InvalidArgumentException.php';
-/** @var Functional\all() */
-require_once $basePath . 'All.php';
-/** @var Functional\any() */
-require_once $basePath . 'Any.php';
-/** @var Functional\detect() */
-require_once $basePath . 'Detect.php';
-/** @var Functional\each() */
-require_once $basePath . 'Each.php';
-/** @var Functional\invoke() */
-require_once $basePath . 'Invoke.php';
-/** @var Functional\map() */
-require_once $basePath . 'Map.php';
-/** @var Functional\none() */
-require_once $basePath . 'None.php';
-/** @var Functional\pluck() */
-require_once $basePath . 'Pluck.php';
-/** @var Functional\reject() */
-require_once $basePath . 'Reject.php';
-/** @var Functional\select() */
-require_once $basePath . 'Select.php';
+if (!extension_loaded('functional')) {
+    $basePath = __DIR__ . DIRECTORY_SEPARATOR;
+    /** @var Functional\Exceptions\InvalidArgumentsException */
+    require_once $basePath . 'Exceptions/InvalidArgumentException.php';
+    /** @var Functional\all() */
+    require_once $basePath . 'All.php';
+    /** @var Functional\any() */
+    require_once $basePath . 'Any.php';
+    /** @var Functional\detect() */
+    require_once $basePath . 'Detect.php';
+    /** @var Functional\each() */
+    require_once $basePath . 'Each.php';
+    /** @var Functional\invoke() */
+    require_once $basePath . 'Invoke.php';
+    /** @var Functional\map() */
+    require_once $basePath . 'Map.php';
+    /** @var Functional\none() */
+    require_once $basePath . 'None.php';
+    /** @var Functional\pluck() */
+    require_once $basePath . 'Pluck.php';
+    /** @var Functional\reject() */
+    require_once $basePath . 'Reject.php';
+    /** @var Functional\select() */
+    require_once $basePath . 'Select.php';
+}
