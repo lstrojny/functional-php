@@ -12,7 +12,7 @@
 
 ### Install native extension
 ```bash
-cd Functional-PHP/extension/
+cd functional-php/extension/
 phphize
 ./configure
 make
@@ -22,7 +22,7 @@ sudo make install
 ### Use userland extension
 ```php
 <?php
-include 'path/to/Functional-PHP/src/Functional/_import.php';
+include 'path/to/functional-php/src/Functional/_import.php';
 ```
 
 Everytime you want to use Functional PHP and not reference the fully qualified name, add `use Functional;` on top of
