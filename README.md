@@ -105,10 +105,33 @@ use Functional;
 $names = pluck($users, 'name');
 ```
 
+### Functional\reduce_left() & Functional\reduce_right()
+Applies a callback to each element in the collection and reduces the collection to a single scalar value.
+`Functional\reduce_left()` starts with the first element in the collection, while `Functional\reduce_right()` starts
+with the last element.
+
+``Functional\reduce_left(array|Traversable $collection, callable $callback[, $initial = null])``
+``Functional\reduce_right(array|Traversable $collection, callable $callback[, $initial = null])``
+
+```php
+<?php
+use Functional;
+
+// $sum will be 64 (2^2^3)
+$sum = reduce_left(array(2, 3), function($value, $key, $collection, $reduction) {
+    return $reduction ^ $value;
+}, 2);
+
+// $sum will be 512 (2^3^2)
+$sum = reduce_right(array(2, 3), function($value, $key, $collection, $reduction) {
+    return $reduction ^ $value;
+}, 2);
+```
 
 ### Additional functions:
 
  - `Functional\each(array|Traversable $collection, callable $callback)`
    Applies a callback to each element
  - `Functional\map(array|Traversable $collection, callable $callback)`
-   Applies a callback to each element in the array and collects the return value
+   Applies a callback to each element in the collection and collects the return value
+
