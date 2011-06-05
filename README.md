@@ -8,6 +8,10 @@
     extensions
   - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
+## TODO
+ - Native implementation of `Functional\invoke()` shows slightly different behavior
+ - Implement `Functional\reduce_right()` and `Functional\reduce_left()` natively
+
 ## Installation
 
 ### Install native extension
