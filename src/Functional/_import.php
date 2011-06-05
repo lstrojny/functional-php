@@ -40,6 +40,10 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'None.php';
     /** @var Functional\pluck() */
     require_once $basePath . 'Pluck.php';
+    /** @var Functional\reduceLeft() */
+    require_once $basePath . 'ReduceLeft.php';
+    /** @var Functional\reduceRight() */
+    require_once $basePath . 'ReduceRight.php';
     /** @var Functional\reject() */
     require_once $basePath . 'Reject.php';
     /** @var Functional\select() */
