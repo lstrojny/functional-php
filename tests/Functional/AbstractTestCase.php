@@ -24,11 +24,16 @@ namespace Functional;
 
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
-    function setUp()
+    function setUp(array $functions = null)
     {
-        $function = str_replace('Test', '', get_class($this));
-        if (!function_exists($function)) {
-            $this->markTestSkipped('Function "' . $function . '" does not exist');
+        if (!$functions) {
+            $functions = array(str_replace('Test', '', get_class($this)));
+        }
+
+        foreach ($functions as $function) {
+            if (!function_exists($function)) {
+                $this->markTestSkipped('Function "' . $function . '" does not exist');
+            }
         }
     }
 

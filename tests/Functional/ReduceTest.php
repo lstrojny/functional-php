@@ -28,6 +28,7 @@ class ReduceTest extends AbstractTestCase
 {
     function setUp()
     {
+        parent::setUp(array('reduce_right', 'reduce_left'));
         $this->array = array('one', 'two', 'three');
         $this->iterator = new ArrayIterator($this->array);
     }
