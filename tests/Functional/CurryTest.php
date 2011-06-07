@@ -45,6 +45,15 @@ class CurryTest extends AbstractTestCase
         $this->assertSame(1, $func());
     }
 
+    function testNestedCurryingWithVariableArguments()
+    {
+        $func1 = curry('sprintf', 'first: %d, second: %d', arg('...'));
+        $func2 = curry($func1, arg(1), 2);
+        $func3 = curry($func1, arg('...'), 2);
+        $this->assertSame('first: 1, second: 2', $func2(1));
+        $this->assertSame('first: 0, second: 2', $func3(0));
+    }
+
     function testCurryingVariableArguments()
     {
         $func = curry('sprintf', 'first: %d, second: %d, third: %d', arg('...'));
@@ -63,5 +72,13 @@ class CurryTest extends AbstractTestCase
         $func = curry('strpos', arg(1), arg(2));
         $this->setExpectedException('InvalidArgumentException', 'Curried strpos() requires parameter 2 to be passed. None given');
         $func('foo');
+    }
+
+    function testExceptionIsThrownInNestedCurriedFunctionWhenRequiredParameterIsNotPassed()
+    {
+        $func = curry('strpos', arg(1), arg(2));
+        $func = curry($func, arg(1), "o");
+        $this->setExpectedException('InvalidArgumentException', 'Curried strpos() requires parameter 1 to be passed. None given');
+        $func();
     }
 }

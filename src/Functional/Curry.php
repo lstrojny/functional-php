@@ -53,6 +53,14 @@ class CurriedFunction
         $this->arguments = $arguments;
     }
 
+    public function getCallback()
+    {
+        if ($this->callback instanceof self) {
+            return $this->callback->getCallback();
+        }
+        return $this->callback;
+    }
+
     public function __invoke()
     {
         $callArgs = func_get_args();
@@ -74,7 +82,7 @@ class CurriedFunction
                 throw new \InvalidArgumentException(
                     sprintf(
                         'Curried %s() requires parameter %d to be passed. None given',
-                        $this->callback,
+                        $this->getCallback(),
                         $arg->position
                     )
                 );
