@@ -10,7 +10,7 @@
 
 ## TODO
  - Native implementation of `Functional\invoke()` shows slightly different behavior
- - Implement `Functional\reduce_right()` and `Functional\reduce_left()` natively
+ - Implement `Functional\reduce_right()` natively
 
 ## Installation
 
