@@ -52,9 +52,11 @@ class Curried
         $boundArgs = $this->arguments;
         $that = $this;
 
-        $placeholderArgs = \Functional\invoke($boundArgs, 'isVariableLength');
-        $varArgKey = reset(array_keys(\Functional\select($placeholderArgs, function($v) {return $v === true;})));
-        $placeholderArgs = \Functional\select($placeholderArgs, function($v) {return $v === false;});
+        $isNull = function($v) {return $v === null;};
+        $placeholderArgs = \Functional\reject(\Functional\invoke($boundArgs, 'isVariableLength'), $isNull);
+        $isTrue = function($v) {return $v;};
+        $varArgKey = reset(array_keys(\Functional\select($placeholderArgs, $isTrue)));
+        $placeholderArgs = \Functional\reject($placeholderArgs, $isTrue);
         \Functional\map($placeholderArgs, function($v, $k) use(&$callArgs, &$boundArgs, $that) {
             $arg = $boundArgs[$k];
             if (!isset($callArgs[$arg->position - 1])) {
