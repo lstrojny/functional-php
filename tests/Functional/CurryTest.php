@@ -81,4 +81,10 @@ class CurryTest extends AbstractTestCase
         $this->setExpectedException('InvalidArgumentException', 'Curried strpos() requires parameter 1 to be passed. None given');
         $func();
     }
+
+    function testExceptionIsThrownIfMoreThanOneVariableArgumentIsGiven()
+    {
+        $this->setExpectedException('InvalidArgumentException', 'curry(): more than one variable argument placeholder is given');
+        curry('strpos', arg('...'), arg('...'));
+    }
 }

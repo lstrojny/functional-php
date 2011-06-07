@@ -49,6 +49,10 @@ class CurriedFunction
 
     public function __construct($arguments)
     {
+        if (array_sum(invoke($arguments, 'isVariableLength')) > 1) {
+            throw new \InvalidArgumentException('curry(): more than one variable argument placeholder is given');
+        }
+
         $this->callback = array_shift($arguments);
         $this->arguments = $arguments;
     }
@@ -94,7 +98,7 @@ class CurriedFunction
         if ($varArgKey !== null) {
             $left = array_slice($boundArgs, 0, $varArgKey);
             $right = array_slice($boundArgs, $varArgKey + 1);
-            $boundArgs = array_merge($left, array_values($callArgs), array_values($right));
+            $boundArgs = array_merge($left, $callArgs, $right);
         }
 
         return call_user_func_array($this->callback, $boundArgs);
