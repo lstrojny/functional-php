@@ -50,6 +50,10 @@ class CurryTest extends AbstractTestCase
         $func = curry('sprintf', 'first: %d, second: %d, third: %d', arg('...'));
         $this->assertSame('first: 1, second: 2, third: 3', $func(1, 2, 3));
 
+        $func = curry('sprintf', 'first: %d, second: %d, third: %d', arg('...'), 3);
+        $this->assertSame('first: 1, second: 2, third: 3', $func(1, 2));
+
+        $func = curry('sprintf', 'first: %d, second: %d, third: %d', arg('...'));
         $this->setExpectedException('Exception', 'sprintf(): Too few arguments');
         $this->assertSame('first: 1, second: 2, third: 3', $func(1, 2));
     }
