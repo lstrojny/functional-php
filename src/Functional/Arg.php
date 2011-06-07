@@ -22,7 +22,7 @@
  */
 namespace Functional;
 
-function curry($callback)
+function arg($position)
 {
-    return new Currying\Curried(func_get_args());
+    return new Currying\Placeholder($position);
 }

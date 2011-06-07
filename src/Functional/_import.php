@@ -28,6 +28,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'All.php';
     /** @var Functional\any() */
     require_once $basePath . 'Any.php';
+    /** @var Functional\arg() */
+    require_once $basePath . 'Arg.php';
     /** @var Functional\curry() */
     require_once $basePath . 'Curry.php';
     /** @var Functional\Currying\Curried */
