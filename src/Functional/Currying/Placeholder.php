@@ -20,14 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Currying;
 
-function arg($position)
+class Placeholder
 {
-    return new Currying\Placeholder($position);
-}
+    public $position;
 
-function curry($callback)
-{
-    return new Currying\Curried(func_get_args());
+    public function __construct($position)
+    {
+        $this->position = $position;
+    }
+
+    public function isVariableLength()
+    {
+        return $this->position === '...';
+    }
 }
