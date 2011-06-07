@@ -29,10 +29,6 @@ sudo make install
 include 'path/to/functional-php/src/Functional/_import.php';
 ```
 
-Everytime you want to use Functional PHP and not reference the fully qualified name, add `use Functional;` on top of
-your PHP file.
-
-
 ## Overview
 ### Functional\all() & Functional\invoke()
 
@@ -42,10 +38,8 @@ your PHP file.
 
 ```php
 <?php
-use Functional;
-
 // If all users are active, set them all inactive
-if (all($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
+if (Functional\all($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     invoke($users, 'setActive', array(true));
 }
 ```
@@ -57,9 +51,7 @@ if (all($users, function($user, $collectionKey, $collection) {return $user->isAc
 
 ```php
 <?php
-use Functional;
-
-if (any($users, function($user, $collectionKey, $collection) use($me) {return $user->isFriendOf($me);})) {
+if (Functional\any($users, function($user, $collectionKey, $collection) use($me) {return $user->isFriendOf($me);})) {
     // One of those users is a friend of me
 }
 ```
@@ -71,9 +63,7 @@ if (any($users, function($user, $collectionKey, $collection) use($me) {return $u
 
 ```php
 <?php
-use Functional;
-
-if (none($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
+if (Functional\none($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     // Do something with a whole list of inactive users
 }
 ```
@@ -87,13 +77,11 @@ if (none($users, function($user, $collectionKey, $collection) {return $user->isA
 
 ```php
 <?php
-use Functional;
-
 $fn = function($user, $collectionKey, $collection) {
     return $user->isActive();
 };
-$activeUsers = select($users, $fn);
-$inactiveUsers = reject($users, $fn);
+$activeUsers = Functional\select($users, $fn);
+$inactiveUsers = Functional\reject($users, $fn);
 ```
 
 
@@ -104,9 +92,7 @@ Fetch a single property from a collection of objects.
 
 ```php
 <?php
-use Functional;
-
-$names = pluck($users, 'name');
+$names = Functional\pluck($users, 'name');
 ```
 
 ### Functional\reduce_left() & Functional\reduce_right()
@@ -119,15 +105,13 @@ with the last element.
 
 ```php
 <?php
-use Functional;
-
 // $sum will be 64 (2^2^3)
-$sum = reduce_left(array(2, 3), function($value, $key, $collection, $reduction) {
+$sum = Functional\reduce_left(array(2, 3), function($value, $key, $collection, $reduction) {
     return $reduction ^ $value;
 }, 2);
 
 // $sum will be 512 (2^3^2)
-$sum = reduce_right(array(2, 3), function($value, $key, $collection, $reduction) {
+$sum = Functional\reduce_right(array(2, 3), function($value, $key, $collection, $reduction) {
     return $reduction ^ $value;
 }, 2);
 ```
