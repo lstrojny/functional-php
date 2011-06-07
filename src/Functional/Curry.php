@@ -59,7 +59,7 @@ class CurriedFunction
         $boundArgs = $this->arguments;
 
         $varArgKey = null;
-        foreach (array_reverse($boundArgs, true) as $key => $arg) {
+        foreach ($boundArgs as $key => $arg) {
 
             if (!$arg instanceof _ParameterPlaceholder) {
                 continue;
