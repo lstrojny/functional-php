@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * Permission is hereby granted, free of chparametere, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -22,28 +22,12 @@
  */
 namespace Functional;
 
-/**
- * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
- * Functional\select(). Callback arguments will be element, key, collection
- *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
- */
-function reject($collection, $callback)
+function arg($position)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    return new Currying\Placeholder($position);
+}
 
-    $aggregation = array();
-
-    foreach ($collection as $key => $element) {
-
-        if (!call_user_func($callback, $element, $key, $collection)) {
-            $aggregation[$key] = $element;
-        }
-
-    }
-
-    return $aggregation;
+function curry($callback)
+{
+    return new Currying\Curried(func_get_args());
 }

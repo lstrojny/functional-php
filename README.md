@@ -10,7 +10,7 @@
 
 ## TODO
  - Native implementation of `Functional\invoke()` shows slightly different behavior
- - Implement `Functional\reduce_right()` natively
+ - Implement `Functional\reduce_right()` and `Functional\curry()` natively
 
 ## Installation
 
@@ -34,6 +34,17 @@ your PHP file.
 
 
 ## Overview
+### Functional\curry()
+
+``Functional\curry(callback $callback, [mixed $arg1, [mixed $arg2], ...])``
+
+```php
+<?php
+use Functional as F;
+
+$items = F\each(array('a1', 'a2'), F\curry('str_replace', 'a', 'b', F\arg(1))); // b1, b2
+```
+
 ### Functional\all() & Functional\invoke()
 
 ``Functional\all(array|Traversable $collection, callable $callback)``

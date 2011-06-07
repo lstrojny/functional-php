@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * Permission is hereby granted, free of chparametere, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -20,30 +20,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Currying;
 
-/**
- * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
- * Functional\select(). Callback arguments will be element, key, collection
- *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
- */
-function reject($collection, $callback)
+class Placeholder
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    public $position;
 
-    $aggregation = array();
-
-    foreach ($collection as $key => $element) {
-
-        if (!call_user_func($callback, $element, $key, $collection)) {
-            $aggregation[$key] = $element;
-        }
-
+    public function __construct($position)
+    {
+        $this->position = $position;
     }
 
-    return $aggregation;
+    public function isVariableLength()
+    {
+        return $this->position === '...';
+    }
 }
