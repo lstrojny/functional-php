@@ -34,6 +34,18 @@ your PHP file.
 
 
 ## Overview
+### Functional\curry()
+
+``Functional\curry($callback, [mixed $arg1, [mixed $arg2], ...])``
+
+```php
+<?php
+use Functional;
+
+$items = array('a1', 'a2');
+$items = map($items, curry('str_replace', 'a', 'b', arg(1)));
+```
+
 ### Functional\all() & Functional\invoke()
 
 ``Functional\all(array|Traversable $collection, callable $callback)``
