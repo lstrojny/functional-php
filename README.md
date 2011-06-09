@@ -9,7 +9,8 @@
   - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
 ## TODO
- - Native implementation of `Functional\invoke()` shows slightly different behavior
+ - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
+   properties
  - Implement `Functional\curry()` and related objects natively
  - Test reference handling
 
