@@ -47,6 +47,7 @@ ZEND_FUNCTION(map);
 ZEND_FUNCTION(none);
 ZEND_FUNCTION(pluck);
 ZEND_FUNCTION(reduce_left);
+ZEND_FUNCTION(reduce_right);
 ZEND_FUNCTION(reject);
 ZEND_FUNCTION(select);
 

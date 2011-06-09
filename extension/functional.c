@@ -73,6 +73,11 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce_left, 2)
 	ZEND_ARG_INFO(0, callback)
 	ZEND_ARG_INFO(0, initialValue)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce_right, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_INFO(0, initialValue)
+ZEND_END_ARG_INFO()
 
 const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", all, arginfo_functional_all)
@@ -84,6 +89,7 @@ const zend_function_entry functional_functions[] = {
 	ZEND_NS_FE("Functional", none, arginfo_functional_none)
 	ZEND_NS_FE("Functional", pluck, arginfo_functional_pluck)
 	ZEND_NS_FE("Functional", reduce_left, arginfo_functional_reduce_left)
+	ZEND_NS_FE("Functional", reduce_right, arginfo_functional_reduce_right)
 	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
 	ZEND_NS_FE("Functional", select, arginfo_functional_select)
 	{NULL, NULL, NULL}
@@ -150,7 +156,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_DECLARE(arg_num)	zend_fcall_info fci = empty_fcall_info; \
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE \
 	FUNCTIONAL_DECLARE_EX(arg_num)
-#define FUNCTIONAL_DECLARE_EX(arg_num) zval *collection, **args[arg_num], *retval_ptr, *key; \
+#define FUNCTIONAL_DECLARE_EX(arg_num) zval *collection, **args[arg_num], *retval_ptr = NULL, *key; \
 	HashPosition pos; \
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
@@ -236,7 +242,7 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 			break;
 
 		case HASH_KEY_IS_STRING:
-			ZVAL_STRINGL(*key, string_key, string_key_len - 1, 1);
+			ZVAL_STRINGL(*key, string_key, string_key_len - 1, 0);
 			break;
 	}
 }
@@ -713,7 +719,7 @@ ZEND_FUNCTION(reduce_left)
 			MAKE_COPY_ZVAL(args[3], initial);
 			zval_add_ref(args[3]);
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-			initial = retval_ptr;
+				initial = retval_ptr;
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -724,7 +730,7 @@ ZEND_FUNCTION(reduce_left)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			MAKE_COPY_ZVAL(args[3], initial);
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-			initial = retval_ptr;
+				initial = retval_ptr;
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -732,4 +738,81 @@ ZEND_FUNCTION(reduce_left)
 	}
 
 	RETURN_ZVAL(initial, 0, 0);
+}
+
+ZEND_FUNCTION(reduce_right)
+{
+	FUNCTIONAL_DECLARE(4)
+	zval *initial = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf|z", &collection, &fci, &fci_cache, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "reduce_right")
+	FUNCTIONAL_PREPARE_ARGS
+	if (!initial) {
+		MAKE_STD_ZVAL(initial);
+		ZVAL_NULL(initial);
+	}
+
+	FUNCTIONAL_PREPARE_CALLBACK(4)
+	args[3] = &initial;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		zend_hash_internal_pointer_end_ex(Z_ARRVAL_P(collection), &pos);
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			MAKE_COPY_ZVAL(args[3], initial);
+			zval_add_ref(args[3]);
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				initial = retval_ptr;
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+			zend_hash_move_backwards_ex(Z_ARRVAL_P(collection), &pos);
+		}
+
+		if (retval_ptr) {
+			RETURN_ZVAL(retval_ptr, 0, 0);
+		} else {
+			RETURN_ZVAL(initial, 0, 0);
+		}
+
+	} else {
+		zend_llist reversed;
+		zend_llist_position reverse_pos;
+
+		zend_llist_init(&reversed, sizeof(zval), NULL, 0);
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			zval_add_ref(args[0]);
+			zend_llist_prepend_element(&reversed, &*args[0]);
+			zval_add_ref(args[1]);
+			zend_llist_prepend_element(&reversed, &*args[1]);
+		FUNCTIONAL_ITERATOR_ITERATE_END
+
+		for (args[1] = (zval **)zend_llist_get_first_ex(&reversed, &reverse_pos);
+			args[1];
+			args[1] = (zval **)zend_llist_get_next_ex(&reversed, &reverse_pos)) {
+			args[0] = (zval **)zend_llist_get_next_ex(&reversed, &reverse_pos);
+
+			MAKE_COPY_ZVAL(args[3], initial);
+			zval_add_ref(args[3]);
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				initial = retval_ptr;
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		}
+		zend_llist_clean(&reversed);
+		zend_llist_destroy(&reversed);
+
+		if (retval_ptr) {
+			RETURN_ZVAL(retval_ptr, 0, 0);
+		} else {
+			RETURN_ZVAL(initial, 0, 0);
+		}
+
+		FUNCTIONAL_ITERATOR_DONE
+	}
 }

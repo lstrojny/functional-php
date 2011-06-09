@@ -10,7 +10,8 @@
 
 ## TODO
  - Native implementation of `Functional\invoke()` shows slightly different behavior
- - Implement `Functional\reduce_right()` and `Functional\curry()` natively
+ - Implement `Functional\curry()` and related objects natively
+ - Test reference handling
 
 ## Installation
 
