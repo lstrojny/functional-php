@@ -19,9 +19,12 @@ foreach ($sourceFiles as $file) {
 
 $numberOfElements = 100000;
 $array = range(0, $numberOfElements - 1);
+$hash = array_keys($array);
+$hash = array_map('strval', $hash);
 $iterator = new ArrayIterator($array);
+$hashIterator = new ArrayIterator($hash);
 
-function benchmark($functionName, $array, $iterator)
+function benchmark($functionName, $array, $iterator, $hash, $hashIterator)
 {
     /** Reset values */
     $start = $end = $ret = null;
@@ -32,27 +35,50 @@ function benchmark($functionName, $array, $iterator)
     $recipes = array(
         array(
             'Userl.',
-            'array',
+            'num array',
             'FunctionalUserland\\' . $functionName,
             $array,
         ),
         array(
             'Native',
-            'array',
+            'num array',
             'Functional\\' . $functionName,
-            $iterator,
+            $array,
+        ),array(
+            'Userl.',
+            'hsh array',
+            'FunctionalUserland\\' . $functionName,
+            $hash,
+        ),
+        array(
+            'Native',
+            'hsh array',
+            'Functional\\' . $functionName,
+            $hash,
         ),
         array(
             'Userl.',
-            'iter.',
+            'num iter.',
             'FunctionalUserland\\' . $functionName,
             $iterator,
         ),
         array(
             'Native',
-            'iter.',
+            'num iter.',
             'Functional\\' . $functionName,
             $iterator,
+        ),
+        array(
+            'Userl.',
+            'hsh iter.',
+            'FunctionalUserland\\' . $functionName,
+            $hashIterator,
+        ),
+        array(
+            'Native',
+            'hsh iter.',
+            'Functional\\' . $functionName,
+            $hashIterator,
         ),
     );
 
@@ -85,11 +111,11 @@ function benchmark($functionName, $array, $iterator)
     echo str_repeat('-', 100) . "\n";
 }
 
-benchmark('any', $array, $iterator);
-benchmark('all', $array, $iterator);
-benchmark('detect', $array, $iterator);
-benchmark('map', $array, $iterator);
-benchmark('none', $array, $iterator);
-benchmark('each', $array, $iterator);
-benchmark('select', $array, $iterator);
-benchmark('reject', $array, $iterator);
+benchmark('any', $array, $iterator, $hash, $hashIterator);
+benchmark('all', $array, $iterator, $hash, $hashIterator);
+benchmark('detect', $array, $iterator, $hash, $hashIterator);
+benchmark('map', $array, $iterator, $hash, $hashIterator);
+benchmark('none', $array, $iterator, $hash, $hashIterator);
+benchmark('each', $array, $iterator, $hash, $hashIterator);
+benchmark('select', $array, $iterator, $hash, $hashIterator);
+benchmark('reject', $array, $iterator, $hash, $hashIterator);
