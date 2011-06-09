@@ -133,7 +133,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_COLLECTION_PARAM(collection, function) \
 	if ( \
 		Z_TYPE_P(collection) != IS_ARRAY && \
-		!(Z_TYPE_P(collection) == IS_OBJECT && instanceof_function(Z_OBJCE_P(collection), zend_ce_traversable)) \
+		!(Z_TYPE_P(collection) == IS_OBJECT && instanceof_function(Z_OBJCE_P(collection), zend_ce_traversable TSRMLS_CC)) \
 	) { \
 		zend_error(E_WARNING, "Functional\\%s() expects parameter 1 to be array or instance of Traversable", function); \
 		RETURN_NULL(); \
@@ -172,7 +172,7 @@ ZEND_GET_MODULE(functional)
 			if (EG(exception)) { \
 				goto done; \
 			} \
-			zend_user_it_get_current_data(iter, &args[0]);
+			zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS)
 #define FUNCTIONAL_ARRAY_ITERATE_END \
@@ -184,7 +184,7 @@ ZEND_GET_MODULE(functional)
 				goto done; \
 			} \
 		}
-#define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key))
+#define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
 #define FUNCTIONAL_ARRAY_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos))
 #define FUNCTIONAL_PREPARE_KEY(get_key) \
 			MAKE_STD_ZVAL(key); \
