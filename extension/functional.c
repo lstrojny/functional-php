@@ -263,7 +263,7 @@ void php_functional_append_array_value(int hash_key_type, zval **return_value, z
 }
 
 
-ZEND_FUNCTION(each)
+PHP_FUNCTION(each)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -295,7 +295,7 @@ ZEND_FUNCTION(each)
 	}
 }
 
-ZEND_FUNCTION(any)
+PHP_FUNCTION(any)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -339,7 +339,7 @@ ZEND_FUNCTION(any)
 	}
 }
 
-ZEND_FUNCTION(all)
+PHP_FUNCTION(all)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -382,7 +382,7 @@ ZEND_FUNCTION(all)
 	}
 }
 
-ZEND_FUNCTION(detect)
+PHP_FUNCTION(detect)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -423,7 +423,7 @@ ZEND_FUNCTION(detect)
 }
 
 
-ZEND_FUNCTION(map)
+PHP_FUNCTION(map)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -467,7 +467,7 @@ ZEND_FUNCTION(map)
 	}
 }
 
-ZEND_FUNCTION(none)
+PHP_FUNCTION(none)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -510,7 +510,7 @@ ZEND_FUNCTION(none)
 	}
 }
 
-ZEND_FUNCTION(reject)
+PHP_FUNCTION(reject)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -554,7 +554,7 @@ ZEND_FUNCTION(reject)
 	}
 }
 
-ZEND_FUNCTION(select)
+PHP_FUNCTION(select)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -598,7 +598,7 @@ ZEND_FUNCTION(select)
 	}
 }
 
-ZEND_FUNCTION(invoke)
+PHP_FUNCTION(invoke)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
@@ -655,7 +655,7 @@ ZEND_FUNCTION(invoke)
 	}
 }
 
-ZEND_FUNCTION(pluck)
+PHP_FUNCTION(pluck)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	char *property_name;
@@ -693,7 +693,7 @@ ZEND_FUNCTION(pluck)
 	}
 }
 
-ZEND_FUNCTION(reduce_left)
+PHP_FUNCTION(reduce_left)
 {
 	FUNCTIONAL_DECLARE(4)
 	zval *initial = NULL;
@@ -740,7 +740,7 @@ ZEND_FUNCTION(reduce_left)
 	RETURN_ZVAL(initial, 0, 0);
 }
 
-ZEND_FUNCTION(reduce_right)
+PHP_FUNCTION(reduce_right)
 {
 	FUNCTIONAL_DECLARE(4)
 	zval *initial = NULL;
