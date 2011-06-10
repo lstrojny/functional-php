@@ -746,6 +746,8 @@ PHP_FUNCTION(reduce_right)
 	zval *initial = NULL;
 	zend_llist reversed;
 	zend_llist_position reverse_pos;
+	zend_object_iterator *iter;
+	zend_class_entry *ce = Z_OBJCE_P(collection); 
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf|z", &collection, &fci, &fci_cache, &initial) == FAILURE) {
 		RETURN_NULL();
@@ -783,7 +785,16 @@ PHP_FUNCTION(reduce_right)
 	} else {
 		zend_llist_init(&reversed, sizeof(zval), NULL, 0);
 
-		FUNCTIONAL_ITERATOR_PREPARE
+		iter = ce->get_iterator(ce, collection, 0 TSRMLS_CC); 
+		if (EG(exception)) { 
+			goto done; 
+		} 
+		if (iter->funcs->rewind) { 
+			iter->funcs->rewind(iter TSRMLS_CC); 
+			if (EG(exception)) { 
+				goto done; 
+			} 
+		}
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			zval_add_ref(args[0]);
