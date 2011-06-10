@@ -744,6 +744,8 @@ PHP_FUNCTION(reduce_right)
 {
 	FUNCTIONAL_DECLARE(4)
 	zval *initial = NULL;
+	zend_llist reversed;
+	zend_llist_position reverse_pos;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf|z", &collection, &fci, &fci_cache, &initial) == FAILURE) {
 		RETURN_NULL();
@@ -779,9 +781,6 @@ PHP_FUNCTION(reduce_right)
 		}
 
 	} else {
-		zend_llist reversed;
-		zend_llist_position reverse_pos;
-
 		zend_llist_init(&reversed, sizeof(zval), NULL, 0);
 
 		FUNCTIONAL_ITERATOR_PREPARE
