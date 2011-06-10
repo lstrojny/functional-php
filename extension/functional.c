@@ -139,7 +139,7 @@ ZEND_GET_MODULE(functional)
 		RETURN_NULL(); \
 	}
 #define FUNCTIONAL_ITERATOR_PREPARE \
-		zend_class_entry *ce = Z_OBJCE_P(collection); \
+		ce = Z_OBJCE_P(collection); \
 		iter = ce->get_iterator(ce, collection, 0 TSRMLS_CC); \
 		if (EG(exception)) { \
 			goto done; \
@@ -158,6 +158,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_DECLARE_EX(arg_num) zval *collection, **args[arg_num], *retval_ptr = NULL, *key; \
 	HashPosition pos; \
 	zend_object_iterator *iter; \
+	zend_class_entry *ce; \
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
 	char *string_key;
