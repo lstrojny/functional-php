@@ -4,5 +4,5 @@
 ARG_ENABLE("functional", "enable functional PHP extension", "no");
 
 if (PHP_FUNCTIONAL == "yes") {
-	EXTENSION("functional", " functional.c", true)
+	EXTENSION("functional", "functional.c", true)
 }
