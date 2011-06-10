@@ -1,0 +1,8 @@
+// $Id$
+// vim:ft=javascript
+
+ARG_ENABLE("functional", "whether to enable fastlz support", "no");
+
+if (PHP_FUNCTIONAL == "yes") {
+	EXTENSION("functional", " functional.c", true)
+}
