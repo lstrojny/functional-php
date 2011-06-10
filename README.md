@@ -13,6 +13,7 @@
    properties
  - Implement `Functional\curry()` and related objects natively
  - Test reference handling
+ - Add package.xml to build with `pecl`
 
 ## Installation
 
