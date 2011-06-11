@@ -1,6 +1,6 @@
 <package version="2.0">
 	<name>functional</name>
-    <uri>https://github.com/lstrojny/functional-php</uri>
+    <channel>pecl.php.net</channel>
 	<summary>Functional primitives for PHP</summary>
 	<description> number of functional primitives like map(), select(), each() for the PHP language</description>
 	<lead>
@@ -9,9 +9,9 @@
 		<email>lstrojny@php.net</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-06-10</date>
+	<date>2011-06-11</date>
 	<version>
-		<release>0.1dev</release>
+		<release>0.0.1</release>
 		<api>0.1</api>
 	</version>
 	<stability>
