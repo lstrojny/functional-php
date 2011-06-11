@@ -2,7 +2,7 @@
 	<name>functional</name>
     <channel>pecl.php.net</channel>
 	<summary>Functional primitives for PHP</summary>
-	<description> number of functional primitives like map(), select(), each() for the PHP language</description>
+	<description>A number of functional primitives like map(), select(), each() for the PHP language</description>
 	<lead>
 		<name>Lars Strojny</name>
 		<user>lstrojny</user>
