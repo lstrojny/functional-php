@@ -11,7 +11,6 @@
 ## TODO
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties
- - Implement `Functional\curry()` and related objects natively
  - Test reference handling
  - Add package.xml to build with `pecl`
 
@@ -37,16 +36,6 @@ your PHP file.
 
 
 ## Overview
-### Functional\curry()
-
-``Functional\curry(callback $callback, [mixed $arg1, [mixed $arg2], ...])``
-
-```php
-<?php
-use Functional as F;
-
-$items = F\each(array('a1', 'a2'), F\curry('str_replace', 'a', 'b', F\arg(1))); // b1, b2
-```
 
 ### Functional\all() & Functional\invoke()
 
