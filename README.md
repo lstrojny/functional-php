@@ -8,13 +8,16 @@
     extensions
   - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
+
 ## TODO
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties
  - Test reference handling
  - Add package.xml to build with `pecl`
 
+
 ## Installation
+
 
 ### Install native extension
 ```bash
@@ -24,6 +27,7 @@ phphize
 make
 sudo make install
 ```
+
 
 ### Use userland extension
 ```php
@@ -36,6 +40,7 @@ your PHP file.
 
 
 ## Overview
+
 
 ### Functional\all() & Functional\invoke()
 
@@ -141,6 +146,7 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
    Applies a callback to each element
  - `Functional\map(array|Traversable $collection, callable $callback)`
    Applies a callback to each element in the collection and collects the return value
+
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
