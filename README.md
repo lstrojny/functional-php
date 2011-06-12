@@ -142,3 +142,6 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
  - `Functional\map(array|Traversable $collection, callable $callback)`
    Applies a callback to each element in the collection and collects the return value
 
+## Mailing lists
+ - General discussions: http://groups.google.com/group/functional-php
+ - Commits: http://groups.google.com/group/functional-php-commits
