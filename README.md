@@ -54,7 +54,7 @@ use Functional as F;
 
 // If all users are active, set them all inactive
 if (F\all($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
-    F\invoke($users, 'setActive', array(true));
+    F\invoke($users, 'setActive', array(false));
 }
 ```
 
