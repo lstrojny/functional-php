@@ -13,7 +13,9 @@
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties
  - Test reference handling
- - Add package.xml to build with `pecl`
+ - Add `Functional\drop()`, `Functional\dropBy()`, `Functional\groupBy()`, `Functional\partition()`
+ - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
+ - Finish currying implementation
 
 
 ## Installation
