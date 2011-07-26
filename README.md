@@ -13,7 +13,8 @@
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties
  - Test reference handling
- - Add `Functional\drop()`, `Functional\dropBy()`, `Functional\groupBy()`, `Functional\partition()`
+ - Add `Functional\drop(array|Traversable $collection, callable $callback|int index)`, `Functional\group(array|Traversable $collection, callable $callback)`
+ - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
 
@@ -117,6 +118,20 @@ Fetch a single property from a collection of objects.
 use Functional as F;
 
 $names = F\pluck($users, 'name');
+```
+
+### Functional\partition()
+Splits a collection into two by callback. Thruthy values come first
+
+``Functional\partition(array|Traversable $collection, callable $callback)``
+
+```php
+<?php
+use Functional as F;
+
+list($admins, $users) = F\partition($collection, function($user) {
+    return $user->isAdmin();
+});
 ```
 
 ### Functional\reduce_left() & Functional\reduce_right()

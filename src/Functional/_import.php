@@ -30,12 +30,6 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Any.php';
     /** @var Functional\arg() */
     require_once $basePath . 'Arg.php';
-    /** @var Functional\curry() */
-    require_once $basePath . 'Curry.php';
-    /** @var Functional\Currying\Curried */
-    require_once $basePath . 'Currying/Curried.php';
-    /** @var Functional\Currying\Placeholder */
-    require_once $basePath . 'Currying/Placeholder.php';
     /** @var Functional\detect() */
     require_once $basePath . 'Detect.php';
     /** @var Functional\each() */
@@ -46,6 +40,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Map.php';
     /** @var Functional\none() */
     require_once $basePath . 'None.php';
+    /** @var Functional\partition() */
+    require_once $basePath . 'Partition.php';
     /** @var Functional\pluck() */
     require_once $basePath . 'Pluck.php';
     /** @var Functional\reduceLeft() */
