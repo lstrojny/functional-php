@@ -95,9 +95,6 @@ static const zend_function_entry functional_functions[] = {
 	{NULL, NULL, NULL}
 };
 
-	{NULL, NULL, NULL}
-};
-
 
 PHP_MINIT_FUNCTION(functional)
 {
