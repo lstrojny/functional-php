@@ -10,9 +10,9 @@
 
 
 ## TODO
- - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
-   properties
  - Native implementation of `Functional\partition()`
+ - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
+   properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Test reference handling
  - Add `Functional\drop(array|Traversable $collection, callable $callback|int index)`, `Functional\group(array|Traversable $collection, callable $callback)`
  - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
