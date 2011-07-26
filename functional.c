@@ -79,21 +79,25 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce_right, 2)
 	ZEND_ARG_INFO(0, initialValue)
 ZEND_END_ARG_INFO()
 
-const zend_function_entry functional_functions[] = {
-	ZEND_NS_FE("Functional", all, arginfo_functional_all)
-	ZEND_NS_FE("Functional", any, arginfo_functional_any)
-	ZEND_NS_FE("Functional", detect, arginfo_functional_detect)
-	ZEND_NS_FE("Functional", each, arginfo_functional_each)
-	ZEND_NS_FE("Functional", invoke, arginfo_functional_invoke)
-	ZEND_NS_FE("Functional", map, arginfo_functional_map)
-	ZEND_NS_FE("Functional", none, arginfo_functional_none)
-	ZEND_NS_FE("Functional", pluck, arginfo_functional_pluck)
-	ZEND_NS_FE("Functional", reduce_left, arginfo_functional_reduce_left)
-	ZEND_NS_FE("Functional", reduce_right, arginfo_functional_reduce_right)
-	ZEND_NS_FE("Functional", reject, arginfo_functional_reject)
-	ZEND_NS_FE("Functional", select, arginfo_functional_select)
+static const zend_function_entry functional_functions[] = {
+	ZEND_NS_FENTRY("Functional", all,			ZEND_FN(functional_all),			arginfo_functional_all,				0)
+	ZEND_NS_FENTRY("Functional", any,			ZEND_FN(functional_any),			arginfo_functional_any,				0)
+	ZEND_NS_FENTRY("Functional", detect,		ZEND_FN(functional_detect),			arginfo_functional_detect,			0)
+	ZEND_NS_FENTRY("Functional", each,			ZEND_FN(functional_each),			arginfo_functional_each,			0)
+	ZEND_NS_FENTRY("Functional", invoke,		ZEND_FN(functional_invoke),			arginfo_functional_invoke,			0)
+	ZEND_NS_FENTRY("Functional", map,			ZEND_FN(functional_map),			arginfo_functional_map,				0)
+	ZEND_NS_FENTRY("Functional", none,			ZEND_FN(functional_none),			arginfo_functional_none,			0)
+	ZEND_NS_FENTRY("Functional", pluck,			ZEND_FN(functional_pluck),			arginfo_functional_pluck,			0)
+	ZEND_NS_FENTRY("Functional", reduce_left,	ZEND_FN(functional_reduce_left),	arginfo_functional_reduce_left,		0)
+	ZEND_NS_FENTRY("Functional", reduce_right,	ZEND_FN(functional_reduce_right),	arginfo_functional_reduce_right,	0)
+	ZEND_NS_FENTRY("Functional", reject,		ZEND_FN(functional_reject),			arginfo_functional_reject,			0)
+	ZEND_NS_FENTRY("Functional", select,		ZEND_FN(functional_select),			arginfo_functional_select,			0)
 	{NULL, NULL, NULL}
 };
+
+	{NULL, NULL, NULL}
+};
+
 
 PHP_MINIT_FUNCTION(functional)
 {
@@ -265,7 +269,7 @@ void php_functional_append_array_value(int hash_key_type, zval **return_value, z
 }
 
 
-PHP_FUNCTION(each)
+PHP_FUNCTION(functional_each)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -297,7 +301,7 @@ PHP_FUNCTION(each)
 	}
 }
 
-PHP_FUNCTION(any)
+PHP_FUNCTION(functional_any)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -341,7 +345,7 @@ PHP_FUNCTION(any)
 	}
 }
 
-PHP_FUNCTION(all)
+PHP_FUNCTION(functional_all)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -384,7 +388,7 @@ PHP_FUNCTION(all)
 	}
 }
 
-PHP_FUNCTION(detect)
+PHP_FUNCTION(functional_detect)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -425,7 +429,7 @@ PHP_FUNCTION(detect)
 }
 
 
-PHP_FUNCTION(map)
+PHP_FUNCTION(functional_map)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -469,7 +473,7 @@ PHP_FUNCTION(map)
 	}
 }
 
-PHP_FUNCTION(none)
+PHP_FUNCTION(functional_none)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -512,7 +516,7 @@ PHP_FUNCTION(none)
 	}
 }
 
-PHP_FUNCTION(reject)
+PHP_FUNCTION(functional_reject)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -556,7 +560,7 @@ PHP_FUNCTION(reject)
 	}
 }
 
-PHP_FUNCTION(select)
+PHP_FUNCTION(functional_select)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -600,7 +604,7 @@ PHP_FUNCTION(select)
 	}
 }
 
-PHP_FUNCTION(invoke)
+PHP_FUNCTION(functional_invoke)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
@@ -657,7 +661,7 @@ PHP_FUNCTION(invoke)
 	}
 }
 
-PHP_FUNCTION(pluck)
+PHP_FUNCTION(functional_pluck)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	char *property_name;
@@ -695,7 +699,7 @@ PHP_FUNCTION(pluck)
 	}
 }
 
-PHP_FUNCTION(reduce_left)
+PHP_FUNCTION(functional_reduce_left)
 {
 	FUNCTIONAL_DECLARE(4)
 	zval *initial = NULL;
@@ -742,7 +746,7 @@ PHP_FUNCTION(reduce_left)
 	RETURN_ZVAL(initial, 0, 0);
 }
 
-PHP_FUNCTION(reduce_right)
+PHP_FUNCTION(functional_reduce_right)
 {
 	FUNCTIONAL_DECLARE(4)
 	zval *initial = NULL;

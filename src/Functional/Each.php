@@ -35,7 +35,9 @@ function each($collection, $callback)
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
+
     foreach ($collection as $key => $element) {
+
         call_user_func($callback, $element, $key, $collection);
     }
 }

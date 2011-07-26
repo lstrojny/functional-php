@@ -27,3 +27,4 @@ libtool
 modules
 functional.la
 .libs/
+functional.lo

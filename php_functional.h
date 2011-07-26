@@ -38,18 +38,19 @@ PHP_MINFO_FUNCTION(functional);
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key);
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key);
 
-ZEND_FUNCTION(all);
-ZEND_FUNCTION(any);
-ZEND_FUNCTION(detect);
-ZEND_FUNCTION(each);
-ZEND_FUNCTION(invoke);
-ZEND_FUNCTION(map);
-ZEND_FUNCTION(none);
-ZEND_FUNCTION(pluck);
-ZEND_FUNCTION(reduce_left);
-ZEND_FUNCTION(reduce_right);
-ZEND_FUNCTION(reject);
-ZEND_FUNCTION(select);
+PHP_FUNCTION(functional_all);
+PHP_FUNCTION(functional_any);
+PHP_FUNCTION(functional_detect);
+PHP_FUNCTION(functional_each);
+PHP_FUNCTION(functional_invoke);
+PHP_FUNCTION(functional_map);
+PHP_FUNCTION(functional_none);
+PHP_FUNCTION(functional_pluck);
+PHP_FUNCTION(functional_reduce_left);
+PHP_FUNCTION(functional_reduce_right);
+PHP_FUNCTION(functional_reject);
+PHP_FUNCTION(functional_select);
+
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
