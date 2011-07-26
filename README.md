@@ -165,6 +165,9 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
  - `Functional\map(array|Traversable $collection, callable $callback)`
    Applies a callback to each element in the collection and collects the return value
 
+## Running the test suite
+To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
+To run the test suite with the userland implementation use `php -n $(which phpunit) tests/`
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
