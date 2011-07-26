@@ -101,4 +101,28 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         );
         InvalidArgumentException::assertPropertyName(new \stdClass(), "func", 2);
     }
+
+    function testNoExceptionThrownWithPositiveInteger()
+    {
+        $this->assertNull(InvalidArgumentException::assertPositiveInteger('2', 'foo', 1));
+        $this->assertNull(InvalidArgumentException::assertPositiveInteger(2, 'foo', 1));
+    }
+
+    function testExceptionIfNegativeIntegerInsteadOfPositiveInteger()
+    {
+        $this->setExpectedException(
+            'Functional\Exceptions\InvalidArgumentException',
+            'func() expects parameter 2 to be positive integer, integer given'
+        );
+        InvalidArgumentException::assertPositiveInteger(-1, 'func', 2);
+    }
+
+    function testExceptionIfStringInsteadOfPositiveInteger()
+    {
+        $this->setExpectedException(
+            'Functional\Exceptions\InvalidArgumentException',
+            'func() expects parameter 2 to be positive integer, string given'
+        );
+        InvalidArgumentException::assertPositiveInteger('str', 'func', 2);
+    }
 }

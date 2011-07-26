@@ -105,4 +105,18 @@ class InvalidArgumentException extends \InvalidArgumentException
             );
         }
     }
+
+    public static function assertPositiveInteger($value, $callee, $parameterPosition)
+    {
+        if ((string)(int)$value !== (string)$value || $value < 0) {
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be positive integer, %s given',
+                    $callee,
+                    $parameterPosition,
+                    gettype($value)
+                )
+            );
+        }
+    }
 }

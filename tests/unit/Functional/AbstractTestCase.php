@@ -26,7 +26,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
     function setUp(array $functions = null)
     {
-        if (!$functions) {
+        if ($functions === null) {
             $functions = array(str_replace('Test', '', get_class($this)));
         }
 
