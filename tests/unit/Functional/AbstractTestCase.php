@@ -24,11 +24,9 @@ namespace Functional;
 
 class AbstractTestCase extends \PHPUnit_Framework_TestCase
 {
-    function setUp(array $functions = null)
+    function setUp()
     {
-        if ($functions === null) {
-            $functions = array(str_replace('Test', '', get_class($this)));
-        }
+        $functions = func_num_args() ? func_get_arg(0) : array(str_replace('Test', '', get_class($this)));
 
         foreach ($functions as $function) {
             if (!function_exists($function)) {
@@ -46,7 +44,7 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
         }
     }
 
-    function exception()
+    function exception($value, $key, $collection)
     {
         throw new \Exception('Callback exception');
     }
