@@ -1,8 +1,8 @@
 # Functional PHP: Functional primitives for PHP
 
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
-collectio](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
-[Dojo’s](http://dojotoolkit.org/) [array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
+collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
+[Dojo’s array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
 [Underscore.js](http://documentcloud.github.com/underscore/)
 
   - Works with arrays and everything implementing interface Traversable
