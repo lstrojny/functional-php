@@ -1,8 +1,8 @@
 # Functional PHP: Functional primitives for PHP
 
   - Works with arrays and everything implementing interface Traversable
-  - Consistent interface: first parameter is always the collection, than the callback. Callbacks always get value, key,
-    collection passed
+  - Consistent interface: first parameter is always the collection, than the callback. Callbacks always receives value, key,
+    collection
   - Calls 5.3 closures as well as traditional callbacks
   - C implementation for performance but compatible userland implementation is packaged if you can’t install PHP
     extensions
