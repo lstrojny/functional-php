@@ -85,11 +85,6 @@ class ReduceTest extends AbstractTestCase
         return $ret;
     }
 
-    function exception($value, $key, $collection)
-    {
-        throw new \Exception('Callback exception: ' . $key);
-    }
-
     function testPassNoCollectionToReduceLeft()
     {
         $this->expectArgumentError('Functional\reduce_left() expects parameter 1 to be array or instance of Traversable');
