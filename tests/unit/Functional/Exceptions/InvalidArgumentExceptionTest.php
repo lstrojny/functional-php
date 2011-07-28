@@ -64,6 +64,16 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback(array(1 => new \stdClass(), 2 => 'method'), 'func', 1);
     }
 
+    function testCallbackExceptionWithObject()
+    {
+        $this->setExpectedException(
+            'Functional\Exceptions\InvalidArgumentException',
+            'func() expected parameter 1 to be a valid callback, no array, string, closure or functor given'
+        );
+
+        InvalidArgumentException::assertCallback(new \stdClass(), 'func', 1);
+    }
+
     function testExceptionIfStringIsPassedAsList()
     {
         $this->setExpectedException(

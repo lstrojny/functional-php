@@ -27,8 +27,19 @@ class InvalidArgumentException extends \InvalidArgumentException
     public static function assertCallback($callback, $callee, $parameterPosition)
     {
         if (!is_callable($callback)) {
+
+            if (!is_array($callback) and !is_string($callback)) {
+                throw new static(
+                    sprintf(
+                        '%s() expected parameter %d to be a valid callback, no array, string, closure or functor given',
+                        $callee,
+                        $parameterPosition
+                    )
+                );
+            }
+
             $type = gettype($callback);
-            switch (gettype($callback)) {
+            switch ($type) {
 
                 case 'array':
                     $type = 'method';
@@ -43,15 +54,12 @@ class InvalidArgumentException extends \InvalidArgumentException
                     $callback = join($callback, $sep);
                     break;
 
-                case 'object':
-                    $callback = get_class($callback);
-                    break;
-
                 default:
                     $type = 'function';
                     $callback = $callback;
                     break;
             }
+
             throw new static(
                 sprintf(
                     "%s() expects parameter %d to be a valid callback, %s '%s' not found or invalid %s name",
