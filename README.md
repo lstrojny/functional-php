@@ -211,3 +211,8 @@ To run the test suite with the userland implementation use `php -n $(which phpun
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
  - Commit list: http://groups.google.com/group/functional-php-commits
+
+## Thank you
+ - [Richard Quadling)[https://github.com/RQuadling) and [Pierre Joye](https://github.com/pierrejoye) for Windows build
+   help
+ - [David Soria Parra](https://github.com/dsp) for various ideas
