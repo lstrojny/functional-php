@@ -34,6 +34,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Detect.php';
     /** @var Functional\each() */
     require_once $basePath . 'Each.php';
+    /** @var Functional\group() */
+    require_once $basePath . 'Group.php';
     /** @var Functional\invoke() */
     require_once $basePath . 'Invoke.php';
     /** @var Functional\map() */

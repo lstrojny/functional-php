@@ -10,11 +10,11 @@
 
 
 ## TODO
- - Native implementation of `Functional\partition()`
+ - Native implementation of `Functional\partition()`, `Functional\group()`
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Test reference handling
- - Add `Functional\drop(array|Traversable $collection, callable $callback|int index)`, `Functional\group(array|Traversable $collection, callable $callback)`
+ - Add `Functional\drop(array|Traversable $collection, callable $callback|int index)`
  - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
@@ -50,7 +50,7 @@ your PHP file.
 
 ``Functional\all(array|Traversable $collection, callable $callback)``
 
-``Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
+``bool Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
 
 ```php
 <?php
@@ -65,7 +65,7 @@ if (F\all($users, function($user, $collectionKey, $collection) {return $user->is
 
 ### Functional\any()
 
-``Functional\any(array|Traversable $collection, callable $callback)``
+``bool Functional\any(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
@@ -79,7 +79,7 @@ if (F\any($users, function($user, $collectionKey, $collection) use($me) {return 
 
 ### Functional\none()
 
-``Functional\none(array|Traversable $collection, callable $callback)``
+``bool Functional\none(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
@@ -93,9 +93,9 @@ if (F\none($users, function($user, $collectionKey, $collection) {return $user->i
 
 ### Functional\reject() & Functional\select()
 
-``Functional\select(array|Traversable $collection, callable $callback)``
+``array Functional\select(array|Traversable $collection, callable $callback)``
 
-``Functional\reject(array|Traversable $collection, callable $callback)``
+``array Functional\reject(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
@@ -112,7 +112,7 @@ $inactiveUsers = F\reject($users, $fn);
 ### Functional\pluck()
 Fetch a single property from a collection of objects.
 
-``Functional\pluck(array|Traversable $collection, string $propertyName)``
+``array Functional\pluck(array|Traversable $collection, string $propertyName)``
 
 ```php
 <?php
@@ -124,7 +124,7 @@ $names = F\pluck($users, 'name');
 ### Functional\partition()
 Splits a collection into two by callback. Thruthy values come first
 
-``Functional\partition(array|Traversable $collection, callable $callback)``
+``array Functional\partition(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
@@ -135,13 +135,27 @@ list($admins, $users) = F\partition($collection, function($user) {
 });
 ```
 
+###Functional\group()
+Splits a collection into groups by the key returned by the callback
+
+``array Functional\group(array|Traversable $collection, callable $callback)``
+
+```php
+<?php
+use Functional as F;
+
+$groupedUser = F\group($collection, $function($user) {
+    return $user->getGroup()->getName();
+});
+```
+
 ### Functional\reduce_left() & Functional\reduce_right()
 Applies a callback to each element in the collection and reduces the collection to a single scalar value.
 `Functional\reduce_left()` starts with the first element in the collection, while `Functional\reduce_right()` starts
 with the last element.
 
-``Functional\reduce_left(array|Traversable $collection, callable $callback[, $initial = null])``
-``Functional\reduce_right(array|Traversable $collection, callable $callback[, $initial = null])``
+``mixed Functional\reduce_left(array|Traversable $collection, callable $callback[, $initial = null])``
+``mixed Functional\reduce_right(array|Traversable $collection, callable $callback[, $initial = null])``
 
 ```php
 <?php
@@ -160,9 +174,9 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
 
 ### Additional functions:
 
- - `Functional\each(array|Traversable $collection, callable $callback)`
+ - `void Functional\each(array|Traversable $collection, callable $callback)`
    Applies a callback to each element
- - `Functional\map(array|Traversable $collection, callable $callback)`
+ - `array Functional\map(array|Traversable $collection, callable $callback)`
    Applies a callback to each element in the collection and collects the return value
 
 ## Running the test suite

@@ -119,4 +119,23 @@ class InvalidArgumentException extends \InvalidArgumentException
             );
         }
     }
+
+    public static function assertValidArrayKey($key, $callee)
+    {
+        $keyTypes = array('NULL', 'string', 'integer', 'double', 'boolean');
+
+        $keyType = gettype($key);
+
+        if (!in_array($keyType, $keyTypes, true)) {
+            throw new static(
+                sprintf(
+                    '%s() callback returned invalid array key of type "%s". Expected %4$s or %3$s',
+                    $callee,
+                    $keyType,
+                    array_pop($keyTypes),
+                    join(', ', $keyTypes)
+                )
+            );
+        }
+    }
 }
