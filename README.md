@@ -10,11 +10,10 @@
 
 
 ## TODO
- - Native implementation of `Functional\partition()`, `Functional\group()`
+ - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_left()`, `Functional\drop_right()`
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Test reference handling
- - Add `Functional\drop(array|Traversable $collection, callable $callback|int index)`
  - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
@@ -108,6 +107,24 @@ $activeUsers = F\select($users, $fn);
 $inactiveUsers = F\reject($users, $fn);
 ```
 
+### Functional\drop_left() & Functional\drop_right()
+
+``array Functional\drop_left(array|Traversable $collection, callable $callback)``
+``array Functional\drop_right(array|Traversable $collection, callable $callback)``
+
+```php
+<?php
+use Functional as F;
+
+$fn = function($user, $key, $collection) {
+    return $key == 3;
+};
+
+// All users except the first three
+F\drop_first($users, $fn);
+// First three users
+F\drop_last($users, $fn);
+```
 
 ### Functional\pluck()
 Fetch a single property from a collection of objects.

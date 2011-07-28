@@ -30,6 +30,10 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Any.php';
     /** @var Functional\detect() */
     require_once $basePath . 'Detect.php';
+    /** @var Functional\drop_first */
+    require_once $basePath . 'DropFirst.php';
+    /** @var Functional\drop_last */
+    require_once $basePath . 'DropLast.php';
     /** @var Functional\each() */
     require_once $basePath . 'Each.php';
     /** @var Functional\group() */
@@ -44,9 +48,9 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Partition.php';
     /** @var Functional\pluck() */
     require_once $basePath . 'Pluck.php';
-    /** @var Functional\reduceLeft() */
+    /** @var Functional\reduce_left() */
     require_once $basePath . 'ReduceLeft.php';
-    /** @var Functional\reduceRight() */
+    /** @var Functional\reduce_right() */
     require_once $basePath . 'ReduceRight.php';
     /** @var Functional\reject() */
     require_once $basePath . 'Reject.php';
