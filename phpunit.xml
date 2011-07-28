@@ -24,6 +24,5 @@
     backupStaticAttributes="false"
     bootstrap="tests/unit/Functional/_bootstrap.php"
     strict="true"
-    verbose="true"
-    forceCoversAnnotation="true">
+    verbose="true">
 </phpunit>

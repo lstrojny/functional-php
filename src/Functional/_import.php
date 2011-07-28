@@ -28,8 +28,6 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'All.php';
     /** @var Functional\any() */
     require_once $basePath . 'Any.php';
-    /** @var Functional\arg() */
-    require_once $basePath . 'Arg.php';
     /** @var Functional\detect() */
     require_once $basePath . 'Detect.php';
     /** @var Functional\each() */
