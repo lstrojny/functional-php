@@ -25,4 +25,12 @@
     bootstrap="tests/unit/Functional/_bootstrap.php"
     strict="true"
     verbose="true">
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/Functional</directory>
+        </whitelist>
+        <blacklist>
+            <file>src/Functional/_import.php</file>
+        </blacklist>
+    </filter>
 </phpunit>
