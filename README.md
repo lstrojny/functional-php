@@ -1,5 +1,10 @@
 # Functional PHP: Functional primitives for PHP
 
+A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
+collectio](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
+[Dojo’s](http://dojotoolkit.org/) [array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
+[Underscore.js](http://documentcloud.github.com/underscore/)
+
   - Works with arrays and everything implementing interface Traversable
   - Consistent interface: first parameter is always the collection, than the callback. Callbacks always receives value, key,
     collection
@@ -13,10 +18,11 @@
  - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_left()`, `Functional\drop_right()`
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
- - Test reference handling
+ - Simple math shortcuts: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
  - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
+ - Test reference handling
 
 
 ## Installation
@@ -110,6 +116,7 @@ $inactiveUsers = F\reject($users, $fn);
 ### Functional\drop_left() & Functional\drop_right()
 
 ``array Functional\drop_left(array|Traversable $collection, callable $callback)``
+
 ``array Functional\drop_right(array|Traversable $collection, callable $callback)``
 
 ```php
@@ -172,6 +179,7 @@ Applies a callback to each element in the collection and reduces the collection 
 with the last element.
 
 ``mixed Functional\reduce_left(array|Traversable $collection, callable $callback[, $initial = null])``
+
 ``mixed Functional\reduce_right(array|Traversable $collection, callable $callback[, $initial = null])``
 
 ```php
