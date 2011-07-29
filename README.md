@@ -21,6 +21,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
+ - Rename `any()` and `all()` to `some()` and `every()`
 
 
 ## Installation
