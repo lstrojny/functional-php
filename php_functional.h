@@ -40,7 +40,10 @@ void php_functional_append_array_value(int hash_key_type, zval **return_value, z
 
 PHP_FUNCTION(functional_all);
 PHP_FUNCTION(functional_any);
-PHP_FUNCTION(functional_detect);
+PHP_FUNCTION(functional_drop_first);
+PHP_FUNCTION(functional_drop_last);
+PHP_FUNCTION(functional_first);
+PHP_FUNCTION(functional_last);
 PHP_FUNCTION(functional_each);
 PHP_FUNCTION(functional_invoke);
 PHP_FUNCTION(functional_map);

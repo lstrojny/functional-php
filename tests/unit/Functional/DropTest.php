@@ -39,10 +39,11 @@ class DropTest extends AbstractTestCase
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return is_int($k) ? ($k != 2) : ($v[3] != 3);
+            $return = is_int($k) ? ($k != 2) : ($v[3] != 3);
+            return $return;
         };
-        $this->assertSame(array(2 => 'value3', 3 => 'value4'), drop_first($this->array, $fn));
         $this->assertSame(array(0 => 'value1', 1 => 'value2'), drop_last($this->array, $fn));
+        $this->assertSame(array(2 => 'value3', 3 => 'value4'), drop_first($this->array, $fn));
         $this->assertSame(array(2 => 'value3', 3 => 'value4'), drop_first($this->iterator, $fn));
         $this->assertSame(array(0 => 'value1', 1 => 'value2'), drop_last($this->iterator, $fn));
         $this->assertSame(array('k3' => 'val3', 'k4' => 'val4'), drop_first($this->keyedArray, $fn));

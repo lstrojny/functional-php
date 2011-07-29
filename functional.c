@@ -35,11 +35,19 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_any, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_function_drop, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_each, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(arginfo_functional_detect, 2)
+ZEND_BEGIN_ARG_INFO(arginfo_functional_first, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_last, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
@@ -68,12 +76,7 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_pluck, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, propertyName)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce_left, 2)
-	ZEND_ARG_INFO(0, collection)
-	ZEND_ARG_INFO(0, callback)
-	ZEND_ARG_INFO(0, initialValue)
-ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce_right, 2)
+ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 	ZEND_ARG_INFO(0, initialValue)
@@ -82,14 +85,17 @@ ZEND_END_ARG_INFO()
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", all,			ZEND_FN(functional_all),			arginfo_functional_all,				0)
 	ZEND_NS_FENTRY("Functional", any,			ZEND_FN(functional_any),			arginfo_functional_any,				0)
-	ZEND_NS_FENTRY("Functional", detect,		ZEND_FN(functional_detect),			arginfo_functional_detect,			0)
+	ZEND_NS_FENTRY("Functional", drop_first,	ZEND_FN(functional_drop_first),		arginfo_function_drop,				0)
+	ZEND_NS_FENTRY("Functional", drop_last,		ZEND_FN(functional_drop_last),		arginfo_function_drop,				0)
+	ZEND_NS_FENTRY("Functional", first,			ZEND_FN(functional_first),			arginfo_functional_first,			0)
 	ZEND_NS_FENTRY("Functional", each,			ZEND_FN(functional_each),			arginfo_functional_each,			0)
 	ZEND_NS_FENTRY("Functional", invoke,		ZEND_FN(functional_invoke),			arginfo_functional_invoke,			0)
+	ZEND_NS_FENTRY("Functional", last,			ZEND_FN(functional_last),			arginfo_functional_last,			0)
 	ZEND_NS_FENTRY("Functional", map,			ZEND_FN(functional_map),			arginfo_functional_map,				0)
 	ZEND_NS_FENTRY("Functional", none,			ZEND_FN(functional_none),			arginfo_functional_none,			0)
 	ZEND_NS_FENTRY("Functional", pluck,			ZEND_FN(functional_pluck),			arginfo_functional_pluck,			0)
-	ZEND_NS_FENTRY("Functional", reduce_left,	ZEND_FN(functional_reduce_left),	arginfo_functional_reduce_left,		0)
-	ZEND_NS_FENTRY("Functional", reduce_right,	ZEND_FN(functional_reduce_right),	arginfo_functional_reduce_right,	0)
+	ZEND_NS_FENTRY("Functional", reduce_left,	ZEND_FN(functional_reduce_left),	arginfo_functional_reduce,			0)
+	ZEND_NS_FENTRY("Functional", reduce_right,	ZEND_FN(functional_reduce_right),	arginfo_functional_reduce,			0)
 	ZEND_NS_FENTRY("Functional", reject,		ZEND_FN(functional_reject),			arginfo_functional_reject,			0)
 	ZEND_NS_FENTRY("Functional", select,		ZEND_FN(functional_select),			arginfo_functional_select,			0)
 	{NULL, NULL, NULL}
@@ -205,7 +211,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_CALL_BACK(on_failure)		FUNCTIONAL_CALL_BACK_EX_BEGIN FUNCTIONAL_CALL_BACK_EX_END(on_failure)
 #define FUNCTIONAL_CALL_BACK_EX_BEGIN			if (FUNCTIONAL_CALL_BACK_CALL) {
 #define FUNCTIONAL_CALL_BACK_EX_END(on_failure) } else { \
-				zval_dtor(return_value); \
+				/* zval_dtor(return_value); */ \
 				on_failure; \
 			}
 #define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
@@ -382,46 +388,6 @@ PHP_FUNCTION(functional_all)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
-	}
-}
-
-PHP_FUNCTION(functional_detect)
-{
-	FUNCTIONAL_DECLARE(3)
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	FUNCTIONAL_COLLECTION_PARAM(collection, "detect")
-	FUNCTIONAL_PREPARE_ARGS
-	FUNCTIONAL_PREPARE_CALLBACK(3)
-
-	if (Z_TYPE_P(collection) == IS_ARRAY) {
-
-		FUNCTIONAL_ARRAY_PREPARE
-		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			FUNCTIONAL_ARRAY_PREPARE_KEY
-			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (zend_is_true(retval_ptr)) {
-					RETURN_ZVAL(*args[0], 1, 0);
-				}
-			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
-		FUNCTIONAL_ARRAY_ITERATE_END
-
-	} else {
-
-		FUNCTIONAL_ITERATOR_PREPARE
-		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (zend_is_true(retval_ptr)) {
-					RETVAL_ZVAL(*args[0], 1, 0);
-					goto done;
-				}
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
-		FUNCTIONAL_ITERATOR_ITERATE_END
-		FUNCTIONAL_ITERATOR_DONE
 	}
 }
 
@@ -818,3 +784,185 @@ PHP_FUNCTION(functional_reduce_right)
 		FUNCTIONAL_ITERATOR_DONE
 	}
 }
+
+PHP_FUNCTION(functional_first)
+{
+	FUNCTIONAL_DECLARE(3)
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "first")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETURN_ZVAL(*args[0], 1, 0);
+				}
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETVAL_ZVAL(*args[0], 1, 0);
+					goto done;
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+
+PHP_FUNCTION(functional_last)
+{
+	FUNCTIONAL_DECLARE(3);
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "last")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	RETVAL_NULL();
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETVAL_ZVAL(*args[0], 1, 0);
+				}
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					RETVAL_ZVAL(*args[0], 1, 0);
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+
+}
+
+PHP_FUNCTION(functional_drop_first)
+{
+	FUNCTIONAL_DECLARE(3);
+	bool drop = true;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	array_init(return_value);
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "drop_first")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			if (drop) {
+				FUNCTIONAL_CALL_BACK_EX_BEGIN
+					if (!zend_is_true(retval_ptr)) {
+						drop = false;
+					} else {
+						zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+						continue;
+					}
+				FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+			}
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			if (drop) {
+				FUNCTIONAL_CALL_BACK_EX_BEGIN
+					if (!zend_is_true(retval_ptr)) {
+						drop = false;
+					} else {
+						iter->funcs->move_forward(iter TSRMLS_CC);
+						continue;
+					}
+				FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			}
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_drop_last)
+{
+	FUNCTIONAL_DECLARE(3);
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	array_init(return_value);
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "drop_last")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (!zend_is_true(retval_ptr)) {
+					break;
+				}
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (!zend_is_true(retval_ptr)) {
+					goto done;
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
