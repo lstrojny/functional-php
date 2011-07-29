@@ -43,6 +43,7 @@ PHP_FUNCTION(functional_any);
 PHP_FUNCTION(functional_drop_first);
 PHP_FUNCTION(functional_drop_last);
 PHP_FUNCTION(functional_first);
+PHP_FUNCTION(functional_group);
 PHP_FUNCTION(functional_last);
 PHP_FUNCTION(functional_each);
 PHP_FUNCTION(functional_invoke);

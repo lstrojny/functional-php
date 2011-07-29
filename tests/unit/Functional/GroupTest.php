@@ -41,6 +41,7 @@ class GroupTest extends AbstractTestCase
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : 'bar';
         };
+        var_dump(group($this->array, $fn));
         $this->assertSame(array('foo' => array('value1', 'value3'), 'bar' => array('value2')), group($this->array, $fn));
         $this->assertSame(array('foo' => array('value1', 'value3'), 'bar' => array('value2')), group($this->iterator, $fn));
         $this->assertSame(array('bar' => array('val1', 'val3'), 'foo' => array('val2')), group($this->keyedArray, $fn));

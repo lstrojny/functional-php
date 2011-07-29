@@ -47,6 +47,10 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_first, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_group, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_last, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
@@ -88,6 +92,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", drop_first,	ZEND_FN(functional_drop_first),		arginfo_function_drop,				0)
 	ZEND_NS_FENTRY("Functional", drop_last,		ZEND_FN(functional_drop_last),		arginfo_function_drop,				0)
 	ZEND_NS_FENTRY("Functional", first,			ZEND_FN(functional_first),			arginfo_functional_first,			0)
+	ZEND_NS_FENTRY("Functional", group,			ZEND_FN(functional_group),			arginfo_functional_group,			0)
 	ZEND_NS_FENTRY("Functional", each,			ZEND_FN(functional_each),			arginfo_functional_each,			0)
 	ZEND_NS_FENTRY("Functional", invoke,		ZEND_FN(functional_invoke),			arginfo_functional_invoke,			0)
 	ZEND_NS_FENTRY("Functional", last,			ZEND_FN(functional_last),			arginfo_functional_last,			0)
@@ -966,3 +971,77 @@ PHP_FUNCTION(functional_drop_last)
 	}
 }
 
+PHP_FUNCTION(functional_group)
+{
+	FUNCTIONAL_DECLARE(3);
+	zval *group, **group_ptr = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	array_init(return_value);
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "drop_last")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				switch (Z_TYPE_P(retval_ptr)) {
+					case IS_STRING:
+					case IS_NULL:
+						printf("null or string: %s\n", Z_STRVAL_P(retval_ptr));
+						if (zend_hash_find(Z_ARRVAL_P(return_value), Z_STRVAL_P(retval_ptr), Z_STRLEN_P(retval_ptr) + 1, (void **)&group_ptr) == FAILURE) {
+							printf("new init\n");
+							MAKE_STD_ZVAL(group);
+							array_init(group);
+							zend_hash_update(Z_ARRVAL_P(return_value), Z_STRVAL_P(retval_ptr), Z_STRLEN_P(retval_ptr) + 1, &group, sizeof(zval *), NULL);
+						} else {
+							group = *group_ptr;
+						}
+						printf("after str group\n");
+						break;
+
+					case IS_LONG:
+					case IS_DOUBLE:
+					case IS_BOOL:
+						if (zend_hash_index_find(Z_ARRVAL_P(return_value), Z_LVAL_P(retval_ptr), (void **)&group_ptr) == FAILURE) {
+							printf("create long idx\n");
+							MAKE_STD_ZVAL(group);
+							array_init(group);
+							zend_hash_index_update(Z_ARRVAL_P(return_value), Z_LVAL_P(retval_ptr), &group, sizeof(zval *), NULL);
+						} else {
+							group = *group_ptr;
+						}
+						printf("after long idx\n");
+						break;
+
+					default:
+						break;
+						// ERROR HANDLING
+				}
+			php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (!zend_is_true(retval_ptr)) {
+					goto done;
+				}
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+
+}
