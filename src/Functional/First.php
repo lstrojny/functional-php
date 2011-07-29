@@ -31,7 +31,7 @@ namespace Functional;
  * @param callable $callback
  * @return mixed
  */
-function detect($collection, $callback)
+function first($collection, $callback)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);

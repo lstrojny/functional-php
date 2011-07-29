@@ -3,7 +3,7 @@
  * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * of this software and associated documentation files (the 'Software'), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
@@ -12,7 +12,7 @@
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
@@ -24,7 +24,7 @@ namespace Functional;
 
 use ArrayIterator;
 
-class DetectTest extends AbstractTestCase
+class FirstTest extends AbstractTestCase
 {
     function setUp()
     {
@@ -42,33 +42,33 @@ class DetectTest extends AbstractTestCase
             return $v == 'second' && $k == 1;
         };
 
-        $this->assertSame('second', detect($this->array, $fn));
-        $this->assertSame('second', detect($this->iterator, $fn));
-        $this->assertNull(detect($this->badArray, $fn));
-        $this->assertNull(detect($this->badIterator, $fn));
+        $this->assertSame('second', first($this->array, $fn));
+        $this->assertSame('second', first($this->iterator, $fn));
+        $this->assertNull(first($this->badArray, $fn));
+        $this->assertNull(first($this->badIterator, $fn));
     }
 
     function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\detect() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        detect($this->array, 'undefinedFunction');
+        $this->expectArgumentError('Functional\first() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
+        first($this->array, 'undefinedFunction');
     }
 
     function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('Exception', 'Callback exception');
-        detect($this->array, array($this, 'exception'));
+        first($this->array, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('Exception', 'Callback exception');
-        detect($this->iterator, array($this, 'exception'));
+        first($this->iterator, array($this, 'exception'));
     }
 
     function testPassNoCollection()
     {
-        $this->expectArgumentError('Functional\detect() expects parameter 1 to be array or instance of Traversable');
-        detect('invalidCollection', 'strlen');
+        $this->expectArgumentError('Functional\first() expects parameter 1 to be array or instance of Traversable');
+        first('invalidCollection', 'strlen');
     }
 }

@@ -28,18 +28,20 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'All.php';
     /** @var Functional\any() */
     require_once $basePath . 'Any.php';
-    /** @var Functional\detect() */
-    require_once $basePath . 'Detect.php';
     /** @var Functional\drop_first */
     require_once $basePath . 'DropFirst.php';
     /** @var Functional\drop_last */
     require_once $basePath . 'DropLast.php';
     /** @var Functional\each() */
     require_once $basePath . 'Each.php';
+    /** @var Functional\first() */
+    require_once $basePath . 'First.php';
     /** @var Functional\group() */
     require_once $basePath . 'Group.php';
     /** @var Functional\invoke() */
     require_once $basePath . 'Invoke.php';
+    /** @var Functional\last() */
+    require_once $basePath . 'Last.php';
     /** @var Functional\map() */
     require_once $basePath . 'Map.php';
     /** @var Functional\none() */

@@ -15,11 +15,10 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
 
 ## TODO
- - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_left()`, `Functional\drop_right()`
+ - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_left()`, `Functional\drop_right()`, `Functional\first()`, `Functional\last()`
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
    properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Simple math shortcuts: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
- - Rename `Functional\detect()` to `Functional\first()` to make room for `Functional\last()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
@@ -203,6 +202,10 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
    Applies a callback to each element
  - `array Functional\map(array|Traversable $collection, callable $callback)`
    Applies a callback to each element in the collection and collects the return value
+ - `mixed Functional\first(array|Traversable $collection, callable $callback)`
+   Returns the first element of the collection where the callback returned true
+ - `mixed Functional\last(array|Traversable $collection, callable $callback)`
+   Returns the last element of the collection where the callback returned true
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
