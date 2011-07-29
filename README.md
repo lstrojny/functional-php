@@ -15,9 +15,8 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
 
 ## TODO
- - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_left()`, `Functional\drop_right()`, `Functional\first()`, `Functional\last()`
- - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected
-   properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
+ - Native implementation of `Functional\partition()`, `Functional\group()`, `Functional\drop_first()`, `Functional\drop_first()`, `Functional\first()`, `Functional\last()`
+ - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Simple math shortcuts: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
@@ -112,11 +111,11 @@ $activeUsers = F\select($users, $fn);
 $inactiveUsers = F\reject($users, $fn);
 ```
 
-### Functional\drop_left() & Functional\drop_right()
+### Functional\drop_first() & Functional\drop_last()
 
-``array Functional\drop_left(array|Traversable $collection, callable $callback)``
+``array Functional\drop_first(array|Traversable $collection, callable $callback)``
 
-``array Functional\drop_right(array|Traversable $collection, callable $callback)``
+``array Functional\drop_last(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
