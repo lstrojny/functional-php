@@ -196,6 +196,14 @@ $sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reductio
 }, 2);
 ```
 
+### Functional\flatten()
+```php
+<?php
+use Functional as F;
+
+$flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
+// array(1, 2, 3, 1, 2, 3, 4, 5);
+
 ### Additional functions:
 
  - `void Functional\each(array|Traversable $collection, callable $callback)`
