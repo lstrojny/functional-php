@@ -55,6 +55,7 @@ PHP_FUNCTION(functional_reduce_left);
 PHP_FUNCTION(functional_reduce_right);
 PHP_FUNCTION(functional_reject);
 PHP_FUNCTION(functional_select);
+PHP_FUNCTION(functional_partition);
 
 
 #ifdef ZTS

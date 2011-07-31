@@ -41,10 +41,10 @@ class PartitionTest extends AbstractTestCase
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
         };
-        $this->assertSame(array(array('value1', 'value3'), array('value2')), partition($this->array, $fn));
-        $this->assertSame(array(array('value1', 'value3'), array('value2')), partition($this->iterator, $fn));
-        $this->assertSame(array(array('val2'), array('val1', 'val3')), partition($this->keyedArray, $fn));
-        $this->assertSame(array(array('val2'), array('val1', 'val3')), partition($this->keyedIterator, $fn));
+        $this->assertSame(array(array(0 => 'value1', 2 => 'value3'), array(1 => 'value2')), partition($this->array, $fn));
+        $this->assertSame(array(array(0 => 'value1', 2 => 'value3'), array(1 => 'value2')), partition($this->iterator, $fn));
+        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->keyedArray, $fn));
+        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->keyedIterator, $fn));
     }
 
     function testExceptionIsThrownInArray()
