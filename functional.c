@@ -89,6 +89,9 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce, 2)
 	ZEND_ARG_INFO(0, callback)
 	ZEND_ARG_INFO(0, initialValue)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_flatten, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,			ZEND_FN(functional_every),			arginfo_functional_every,			0)
@@ -108,6 +111,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", reduce_right,	ZEND_FN(functional_reduce_right),	arginfo_functional_reduce,			0)
 	ZEND_NS_FENTRY("Functional", reject,		ZEND_FN(functional_reject),			arginfo_functional_reject,			0)
 	ZEND_NS_FENTRY("Functional", select,		ZEND_FN(functional_select),			arginfo_functional_select,			0)
+	ZEND_NS_FENTRY("Functional", flatten,		ZEND_FN(functional_flatten),		arginfo_functional_flatten,			0)
 	{NULL, NULL, NULL}
 };
 
@@ -149,13 +153,13 @@ ZEND_GET_MODULE(functional)
 #endif
 
 #define FUNCTIONAL_COLLECTION_PARAM(collection, function) \
-	if ( \
-		Z_TYPE_P(collection) != IS_ARRAY && \
-		!(Z_TYPE_P(collection) == IS_OBJECT && instanceof_function(Z_OBJCE_P(collection), zend_ce_traversable TSRMLS_CC)) \
-	) { \
+	if ((FUNCTIONAL_NOT_ITERABLE(collection))) { \
 		zend_error(E_WARNING, "Functional\\%s() expects parameter 1 to be array or instance of Traversable", function); \
 		RETURN_NULL(); \
 	}
+#define FUNCTIONAL_NOT_ITERABLE(arg) \
+		Z_TYPE_P(arg) != IS_ARRAY && \
+		!(Z_TYPE_P(arg) == IS_OBJECT && instanceof_function(Z_OBJCE_P(arg), zend_ce_traversable TSRMLS_CC))
 #define FUNCTIONAL_ITERATOR_PREPARE \
 		ce = Z_OBJCE_P(collection); \
 		iter = ce->get_iterator(ce, collection, 0 TSRMLS_CC); \
@@ -967,7 +971,7 @@ PHP_FUNCTION(functional_drop_last)
 PHP_FUNCTION(functional_group)
 {
 	FUNCTIONAL_DECLARE(3);
-	zval *group = NULL;
+	zval *group;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -1007,7 +1011,7 @@ PHP_FUNCTION(functional_group)
 
 }
 
-PHPAPI int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr)
+int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr)
 {
 	zval *group, **gptr;
 	long index, key_len;
@@ -1100,6 +1104,10 @@ PHP_FUNCTION(functional_partition)
 		RETURN_NULL();
 	}
 
+	FUNCTIONAL_COLLECTION_PARAM(collection, "partition")
+	FUNCTIONAL_PREPARE_ARGS
+	FUNCTIONAL_PREPARE_CALLBACK(3)
+
 	array_init(return_value);
 	MAKE_STD_ZVAL(left);
 	array_init(left);
@@ -1107,10 +1115,6 @@ PHP_FUNCTION(functional_partition)
 	array_init(right);
 	zend_hash_index_update(Z_ARRVAL_P(return_value), 0, &left, sizeof(zval *), NULL);
 	zend_hash_index_update(Z_ARRVAL_P(return_value), 1, &right, sizeof(zval *), NULL);
-
-	FUNCTIONAL_COLLECTION_PARAM(collection, "partition")
-	FUNCTIONAL_PREPARE_ARGS
-	FUNCTIONAL_PREPARE_CALLBACK(3)
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -1133,4 +1137,55 @@ PHP_FUNCTION(functional_partition)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
+}
+
+PHP_FUNCTION(functional_flatten)
+{
+	zval *collection;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "flatten")
+
+	array_init(return_value);
+	php_functional_flatten(collection, &return_value, 0);
+}
+
+long php_functional_flatten(zval *collection, zval **return_value, long index)
+{
+	zval **args[1];
+	HashPosition pos;
+	zend_object_iterator *iter;
+	zend_class_entry *ce;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (FUNCTIONAL_NOT_ITERABLE(*args[0])) {
+				zval_add_ref(args[0]);
+				zend_hash_index_update(Z_ARRVAL_PP(return_value), index, (void *)args[0], sizeof(zval *), NULL);
+				index++;
+			} else {
+				index += php_functional_flatten(*args[0], return_value, index);
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (FUNCTIONAL_NOT_ITERABLE(*args[0])) {
+				zval_add_ref(args[0]);
+				zend_hash_index_update(Z_ARRVAL_PP(return_value), index, (void *)args[0], sizeof(zval *), NULL);
+				index++;
+			} else {
+				index += php_functional_flatten(*args[0], return_value, index);
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+	}
+
+	return index;
 }
