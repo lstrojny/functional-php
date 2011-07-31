@@ -41,8 +41,8 @@ function partition($collection, $callback)
     );
 
     foreach ($collection as $key => $element) {
-        $key = call_user_func($callback, $element, $key, $collection) ? 0 : 1;
-        $partitions[$key][] = $element;
+        $partitionKey = call_user_func($callback, $element, $key, $collection) ? 0 : 1;
+        $partitions[$partitionKey][$key] = $element;
     }
 
     return $partitions;
