@@ -1011,7 +1011,6 @@ PHP_FUNCTION(functional_group)
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (php_functional_prepare_group(retval_ptr, &return_value, &group) == SUCCESS) {
 					php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
-					group = NULL;
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
