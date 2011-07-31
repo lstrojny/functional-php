@@ -29,7 +29,7 @@ class GroupTest extends AbstractTestCase
     function setUp()
     {
         parent::setUp();
-        $this->array = array('value1', 'value2', 'value3');
+        $this->array = array('value1', 'value2', 'value3', 'value4');
         $this->iterator = new ArrayIterator($this->array);
         $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3');
         $this->keyedIterator = new ArrayIterator($this->keyedArray);
@@ -39,13 +39,12 @@ class GroupTest extends AbstractTestCase
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : 'bar';
+            return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
         };
-        var_dump(group($this->array, $fn));
-        $this->assertSame(array('foo' => array('value1', 'value3'), 'bar' => array('value2')), group($this->array, $fn));
-        $this->assertSame(array('foo' => array('value1', 'value3'), 'bar' => array('value2')), group($this->iterator, $fn));
-        $this->assertSame(array('bar' => array('val1', 'val3'), 'foo' => array('val2')), group($this->keyedArray, $fn));
-        $this->assertSame(array('bar' => array('val1', 'val3'), 'foo' => array('val2')), group($this->keyedIterator, $fn));
+        $this->assertSame(array('foo' => array(0 => 'value1', 2 => 'value3'), '' => array(1 => 'value2', 3 => 'value4')), group($this->array, $fn));
+        $this->assertSame(array('foo' => array(0 => 'value1', 2 => 'value3'), '' => array(1 => 'value2', 3 => 'value4')), group($this->iterator, $fn));
+        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->keyedArray, $fn));
+        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->keyedIterator, $fn));
     }
 
     function testExceptionIsThrownWhenCallbacksReturnsInvalidKey()
@@ -56,11 +55,11 @@ class GroupTest extends AbstractTestCase
             return $keyMap[$k];
         };
         $result = array(
-            1     => array('v1', 'v2'),
-            -1    => array('v3'),
-            2     => array('v4'),
-            'str' => array('v5'),
-            null  => array('v6')
+            1     => array(0 => 'v1', 1 => 'v2'),
+            -1    => array(2 => 'v3'),
+            2     => array(3 => 'v4'),
+            'str' => array(4 => 'v5'),
+            null  => array(5 => 'v6')
         );
         $this->assertSame($result, group($array, $fn));
         $this->assertSame($result, group(new ArrayIterator($array), $fn));
@@ -76,10 +75,11 @@ class GroupTest extends AbstractTestCase
             $keyMap = array($value);
             try {
                 group(array('v1'), $fn);
+                $this->fail(sprintf('Error expected for array key type "%s"', $type));
             } catch (\Exception $e) {
                 $this->assertSame(
                     sprintf(
-                        'Functional\group() callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
+                        'Functional\group(): callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
                         $type
                     ),
                     $e->getMessage()

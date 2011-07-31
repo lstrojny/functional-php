@@ -37,15 +37,15 @@ function group($collection, $callback)
     $groups = array();
 
     foreach ($collection as $key => $element) {
-        $key = call_user_func($callback, $element, $key, $collection);
+        $groupKey = call_user_func($callback, $element, $key, $collection);
 
-        Exceptions\InvalidArgumentException::assertValidArrayKey($key, __FUNCTION__);
+        Exceptions\InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
 
-        if (!isset($groups[$key])) {
-            $groups[$key] = array();
+        if (!isset($groups[$groupKey])) {
+            $groups[$groupKey] = array();
         }
 
-        $groups[$key][] = $element;
+        $groups[$groupKey][$key] = $element;
     }
 
     return $groups;
