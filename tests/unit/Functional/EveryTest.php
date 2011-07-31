@@ -24,52 +24,53 @@ namespace Functional;
 
 use ArrayIterator;
 
-class AnyTest extends AbstractTestCase
+class EveryTest extends AbstractTestCase
 {
     function setUp()
     {
         parent::setUp();
-        $this->goodArray = array('value', 'wrong');
+        $this->goodArray = array('value', 'value', 'value');
         $this->goodIterator = new ArrayIterator($this->goodArray);
-        $this->badArray = array('wrong', 'wrong', 'wrong');
+        $this->badArray = array('value', 'nope', 'value');
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
     function test()
     {
-        $this->assertTrue(any($this->goodArray, array($this, 'callback')));
-        $this->assertTrue(any($this->goodIterator, array($this, 'callback')));
-        $this->assertFalse(any($this->badArray, array($this, 'callback')));
-        $this->assertFalse(any($this->badIterator, array($this, 'callback')));
+        $this->assertTrue(every($this->goodArray, array($this, 'callback')));
+        $this->assertTrue(every($this->goodIterator, array($this, 'callback')));
+        $this->assertFalse(every($this->badArray, array($this, 'callback')));
+        $this->assertFalse(every($this->badIterator, array($this, 'callback')));
     }
 
     function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\any() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        any($this->goodArray, 'undefinedFunction');
+        $this->expectArgumentError("Functional\every() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        every($this->goodArray, 'undefinedFunction');
     }
 
     function testPassNoCollection()
     {
-        $this->expectArgumentError('Functional\any() expects parameter 1 to be array or instance of Traversable');
-        any('invalidCollection', 'strlen');
+        $this->expectArgumentError('Functional\every() expects parameter 1 to be array or instance of Traversable');
+        every('invalidCollection', 'strlen');
     }
 
-    function testExceptionThrownInArray()
+    function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('Exception', 'Callback exception');
-        any($this->goodArray, array($this, 'exception'));
+        every($this->goodArray, array($this, 'exception'));
     }
 
-    function testExceptionThrownInCollection()
+    function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('Exception', 'Callback exception');
-        any($this->goodIterator, array($this, 'exception'));
+        every($this->goodIterator, array($this, 'exception'));
     }
 
     function callback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-        return $value == 'value' && $key === 0;
+
+        return $value == 'value' && is_numeric($key);
     }
 }

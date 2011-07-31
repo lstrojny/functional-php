@@ -27,11 +27,11 @@
 #include "spl/spl_iterators.h"
 #include "zend_interfaces.h"
 
-ZEND_BEGIN_ARG_INFO(arginfo_functional_all, 2)
+ZEND_BEGIN_ARG_INFO(arginfo_functional_every, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(arginfo_functional_any, 2)
+ZEND_BEGIN_ARG_INFO(arginfo_functional_some, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
@@ -91,8 +91,8 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_reduce, 2)
 ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
-	ZEND_NS_FENTRY("Functional", all,			ZEND_FN(functional_all),			arginfo_functional_all,				0)
-	ZEND_NS_FENTRY("Functional", any,			ZEND_FN(functional_any),			arginfo_functional_any,				0)
+	ZEND_NS_FENTRY("Functional", every,			ZEND_FN(functional_every),			arginfo_functional_every,			0)
+	ZEND_NS_FENTRY("Functional", some,			ZEND_FN(functional_some),			arginfo_functional_some,			0)
 	ZEND_NS_FENTRY("Functional", drop_first,	ZEND_FN(functional_drop_first),		arginfo_function_drop,				0)
 	ZEND_NS_FENTRY("Functional", drop_last,		ZEND_FN(functional_drop_last),		arginfo_function_drop,				0)
 	ZEND_NS_FENTRY("Functional", first,			ZEND_FN(functional_first),			arginfo_functional_first,			0)
@@ -314,7 +314,7 @@ PHP_FUNCTION(functional_each)
 	}
 }
 
-PHP_FUNCTION(functional_any)
+PHP_FUNCTION(functional_some)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -322,7 +322,7 @@ PHP_FUNCTION(functional_any)
 		RETURN_NULL();
 	}
 
-	FUNCTIONAL_COLLECTION_PARAM(collection, "any")
+	FUNCTIONAL_COLLECTION_PARAM(collection, "some")
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(3)
 
@@ -358,7 +358,7 @@ PHP_FUNCTION(functional_any)
 	}
 }
 
-PHP_FUNCTION(functional_all)
+PHP_FUNCTION(functional_every)
 {
 	FUNCTIONAL_DECLARE(3)
 
@@ -366,7 +366,7 @@ PHP_FUNCTION(functional_all)
 		RETURN_NULL();
 	}
 
-	FUNCTIONAL_COLLECTION_PARAM(collection, "all")
+	FUNCTIONAL_COLLECTION_PARAM(collection, "every")
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(3)
 

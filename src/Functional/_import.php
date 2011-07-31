@@ -24,10 +24,10 @@ if (!extension_loaded('functional')) {
     $basePath = __DIR__ . DIRECTORY_SEPARATOR;
     /** @var Functional\Exceptions\InvalidArgumentsException */
     require_once $basePath . 'Exceptions/InvalidArgumentException.php';
-    /** @var Functional\all() */
-    require_once $basePath . 'All.php';
-    /** @var Functional\any() */
-    require_once $basePath . 'Any.php';
+    /** @var Functional\every() */
+    require_once $basePath . 'Every.php';
+    /** @var Functional\some() */
+    require_once $basePath . 'Some.php';
     /** @var Functional\drop_first */
     require_once $basePath . 'DropFirst.php';
     /** @var Functional\drop_last */

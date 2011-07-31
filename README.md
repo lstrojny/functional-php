@@ -20,7 +20,6 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
- - Rename `any()` and `all()` to `some()` and `every()`
 
 
 ## Installation
@@ -49,9 +48,9 @@ your PHP file.
 ## Overview
 
 
-### Functional\all() & Functional\invoke()
+### Functional\every() & Functional\invoke()
 
-``Functional\all(array|Traversable $collection, callable $callback)``
+``Functional\every(array|Traversable $collection, callable $callback)``
 
 ``bool Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
 
@@ -60,21 +59,21 @@ your PHP file.
 use Functional as F;
 
 // If all users are active, set them all inactive
-if (F\all($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
+if (F\every($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     F\invoke($users, 'setActive', array(false));
 }
 ```
 
 
-### Functional\any()
+### Functional\some()
 
-``bool Functional\any(array|Traversable $collection, callable $callback)``
+``bool Functional\some(array|Traversable $collection, callable $callback)``
 
 ```php
 <?php
 use Functional as F;
 
-if (F\any($users, function($user, $collectionKey, $collection) use($me) {return $user->isFriendOf($me);})) {
+if (F\some($users, function($user, $collectionKey, $collection) use($me) {return $user->isFriendOf($me);})) {
     // One of those users is a friend of me
 }
 ```

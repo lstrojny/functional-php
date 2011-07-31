@@ -39,8 +39,8 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key);
 PHPAPI int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr);
 
-PHP_FUNCTION(functional_all);
-PHP_FUNCTION(functional_any);
+PHP_FUNCTION(functional_every);
+PHP_FUNCTION(functional_some);
 PHP_FUNCTION(functional_drop_first);
 PHP_FUNCTION(functional_drop_last);
 PHP_FUNCTION(functional_first);
