@@ -237,9 +237,7 @@ ZEND_GET_MODULE(functional)
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
 			} \
-			if (return_value_used) { \
-				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
-			}
+			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 #define FUNCTIONAL_PLUCK_INNER(on_failure) \
 			if (Z_TYPE_P(*args[0]) == IS_OBJECT) { \
 				retval_ptr = zend_read_property(scope, &**args[0], property_name, property_name_len, 1 TSRMLS_CC); \
@@ -414,9 +412,7 @@ PHP_FUNCTION(functional_map)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(3)
 
-	if (return_value_used) {
-		array_init(return_value);
-	}
+	array_init(return_value);
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -424,9 +420,7 @@ PHP_FUNCTION(functional_map)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used) {
-					php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
-				}
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -436,9 +430,7 @@ PHP_FUNCTION(functional_map)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used) {
-					php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
-				}
+				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -501,9 +493,7 @@ PHP_FUNCTION(functional_reject)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(3)
 
-	if (return_value_used) {
-		array_init(return_value);
-	}
+	array_init(return_value);
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -511,7 +501,7 @@ PHP_FUNCTION(functional_reject)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used && !zend_is_true(retval_ptr)) {
+				if (!zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
@@ -523,7 +513,7 @@ PHP_FUNCTION(functional_reject)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used && !zend_is_true(retval_ptr)) {
+				if (!zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
@@ -545,9 +535,7 @@ PHP_FUNCTION(functional_select)
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(3)
 
-	if (return_value_used) {
-		array_init(return_value);
-	}
+	array_init(return_value);
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -555,7 +543,7 @@ PHP_FUNCTION(functional_select)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used && zend_is_true(retval_ptr)) {
+				if (zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
@@ -567,7 +555,7 @@ PHP_FUNCTION(functional_select)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (return_value_used && zend_is_true(retval_ptr)) {
+				if (zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
