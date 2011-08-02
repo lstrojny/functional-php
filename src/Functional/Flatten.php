@@ -36,10 +36,10 @@ function flatten($collection)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($collection));
+    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($collection));
 
     $result = array();
-    foreach($iter as $key => $val) {
+    foreach($it as $val) {
         $result[] = $val;
     }
 
