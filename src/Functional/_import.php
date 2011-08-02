@@ -58,4 +58,6 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Reject.php';
     /** @var Functional\select() */
     require_once $basePath . 'Select.php';
+    /** @var Functional\select() */
+    require_once $basePath . 'Chain.php';
 }
