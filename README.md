@@ -20,6 +20,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
+ - Add iterator based generators: `range`, `repeat`, `cycle`, `ìncrement`
 
 
 ## Installation
@@ -201,6 +202,7 @@ use Functional as F;
 
 $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 // array(1, 2, 3, 1, 2, 3, 4, 5);
+```
 
 ### Additional functions:
 
