@@ -5,7 +5,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 [Dojo’s array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
 [Underscore.js](http://documentcloud.github.com/underscore/)
 
-  - Works with arrays and everything implementing interface Traversable
+  - Works with arrays and everything implementing interface `Traversable`
   - Consistent interface: first parameter is always the collection, than the callback. Callbacks always receives value, key,
     collection
   - Calls 5.3 closures as well as traditional callbacks
@@ -20,7 +20,9 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
- - Add iterator based generators: `range`, `repeat`, `cycle`, `ìncrement`
+ - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`
+ - Add `max()`, `min()`, `find_index()`, `concat(array1, array2, ...)`, `average()`
+ - Allow passing a callback to math functions and `flatten()`
 
 
 ## Installation
