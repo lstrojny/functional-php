@@ -22,12 +22,12 @@
  */
 namespace Functional;
 
-use RecursiveIteratorIterator;
-use RecursiveArrayIterator;
+use RecursiveIteratorIterator,
+    RecursiveArrayIterator;
 
 /**
  * Takes a nested combination of arrays and returns their contents
- * as a single, flat array. Does not Preserve non integer keys.
+ * as a single, flat array. Does not preserve keys.
  *
  * @param Traversable|array $collection
  * @return array
@@ -36,8 +36,7 @@ function flatten($collection)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $iter = new RecursiveIteratorIterator(
-                new RecursiveArrayIterator($collection));
+    $iter = new RecursiveIteratorIterator(new RecursiveArrayIterator($collection));
 
     $result = array();
     foreach($iter as $key => $val) {
