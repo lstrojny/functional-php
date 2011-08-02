@@ -36,6 +36,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Each.php';
     /** @var Functional\first() */
     require_once $basePath . 'First.php';
+    /** @var Functional\flatten() */
+    require_once $basePath . 'Flatten.php';
     /** @var Functional\group() */
     require_once $basePath . 'Group.php';
     /** @var Functional\invoke() */
