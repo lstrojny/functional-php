@@ -1149,10 +1149,10 @@ PHP_FUNCTION(functional_flatten)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "flatten")
 
 	array_init(return_value);
-	php_functional_flatten(collection, &return_value, 0);
+	php_functional_flatten(collection, &return_value);
 }
 
-long php_functional_flatten(zval *collection, zval **return_value, long index)
+void php_functional_flatten(zval *collection, zval **return_value)
 {
 	zval **args[1];
 	HashPosition pos;
@@ -1165,10 +1165,9 @@ long php_functional_flatten(zval *collection, zval **return_value, long index)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			if (FUNCTIONAL_NOT_ITERABLE(*args[0])) {
 				zval_add_ref(args[0]);
-				zend_hash_index_update(Z_ARRVAL_PP(return_value), index, (void *)args[0], sizeof(zval *), NULL);
-				index++;
+				zend_hash_next_index_insert(Z_ARRVAL_PP(return_value), (void *)args[0], sizeof(zval *), NULL);
 			} else {
-				index += php_functional_flatten(*args[0], return_value, index);
+				php_functional_flatten(*args[0], return_value);
 			}
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1178,14 +1177,11 @@ long php_functional_flatten(zval *collection, zval **return_value, long index)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			if (FUNCTIONAL_NOT_ITERABLE(*args[0])) {
 				zval_add_ref(args[0]);
-				zend_hash_index_update(Z_ARRVAL_PP(return_value), index, (void *)args[0], sizeof(zval *), NULL);
-				index++;
+				zend_hash_next_index_insert(Z_ARRVAL_PP(return_value), (void *)args[0], sizeof(zval *), NULL);
 			} else {
-				index += php_functional_flatten(*args[0], return_value, index);
+				php_functional_flatten(*args[0], return_value);
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
-
-	return index;
 }
