@@ -46,6 +46,6 @@ class FlattenTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\flatten() expects parameter 1 to be array or instance of Traversable');
-        flatten('invalidCollection', 'strlen');
+        flatten('invalidCollection');
     }
 }

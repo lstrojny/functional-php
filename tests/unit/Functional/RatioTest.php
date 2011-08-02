@@ -45,6 +45,12 @@ class RatioTest extends AbstractTestCase
         $this->assertEquals(-1, ratio($this->floatIterator, -1.65), '', 0.01);
     }
 
+    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    function testElementsOfWrongTypeAreIgnored($collection)
+    {
+        $this->assertEquals(0.4, ratio($collection), '', 0.1);
+    }
+
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\ratio() expects parameter 1 to be array or instance of Traversable');

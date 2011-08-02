@@ -33,8 +33,12 @@ function difference($collection, $initial = 0)
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $result = $initial;
-    foreach ($collection as $key => $value) {
-        $result -= $value;
+    foreach ($collection as $value) {
+
+        if (is_numeric($value)) {
+            $result -= $value;
+        }
+
     }
 
     return $result;

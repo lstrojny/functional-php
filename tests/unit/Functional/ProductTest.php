@@ -45,6 +45,12 @@ class ProductTest extends AbstractTestCase
         $this->assertEquals(1.65, product($this->floatIterator), '', 0.01);
     }
 
+    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    function testElementsOfWrongTypeAreIgnored($collection)
+    {
+        $this->assertEquals(3, product($collection), '', 0.01);
+    }
+
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\product() expects parameter 1 to be array or instance of Traversable');

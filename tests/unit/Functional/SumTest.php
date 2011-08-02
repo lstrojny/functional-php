@@ -26,6 +26,7 @@ use ArrayIterator;
 
 class SumTest extends AbstractTestCase
 {
+
     function setUp()
     {
         parent::setUp();
@@ -33,6 +34,12 @@ class SumTest extends AbstractTestCase
         $this->intIterator = new ArrayIterator($this->intArray);
         $this->floatArray = array(1.1, 2.9, 3.5);
         $this->floatIterator = new ArrayIterator($this->floatArray);
+    }
+
+    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    function testElementsOfWrongTypeAreIgnored($collection)
+    {
+        $this->assertEquals(3.5, sum($collection), '', 0.1);
     }
 
     function test()

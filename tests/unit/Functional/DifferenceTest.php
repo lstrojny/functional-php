@@ -47,6 +47,12 @@ class DifferenceTest extends AbstractTestCase
         $this->assertEquals(-10, difference($this->floatIterator, -3.4), '', 0.01);
     }
 
+    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    function testElementsOfWrongTypeAreIgnored($collection)
+    {
+        $this->assertEquals(-3.5, difference($collection), '', 0.1);
+    }
+
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\difference() expects parameter 1 to be array or instance of Traversable');

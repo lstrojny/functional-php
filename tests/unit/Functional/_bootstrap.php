@@ -29,3 +29,5 @@ require_once __DIR__ . '/../../../src/Functional/_import.php';
 require_once __DIR__ . '/../../../src/Functional/Exceptions/InvalidArgumentException.php';
 /* @var Functional\AbstractTestCase */
 require_once __DIR__ . '/AbstractTestCase.php';
+/* @var Functional\MathDataProvider */
+require_once __DIR__ . '/MathDataProvider.php';
