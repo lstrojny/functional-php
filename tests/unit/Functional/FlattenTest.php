@@ -22,21 +22,25 @@
  */
 namespace Functional;
 
+use ArrayIterator;
+
 class FlattenTest extends AbstractTestCase
 {
     function setUp()
     {
         parent::setUp();
-        $this->goodArray = array(1, 2, 3, array(4, 5, 6, array(7, 8, 9)), 10, array(11));
+        $this->goodArray = array(1, 2, 3, array(4, 5, 6, array(7, 8, 9)), 10, array(11, array(12, 13), 14), 15);
         $this->goodArray2 = array(1 => 1, "foo" => "2", 3 => "3", array("foo" => 5));
+        $this->goodIterator = new ArrayIterator($this->goodArray);
+        $this->goodIterator[3] = new ArrayIterator($this->goodIterator[3]);
+        $this->goodIterator[5][1] = new ArrayIterator($this->goodIterator[5][1]);
     }
 
     function test()
     {
-        $this->assertSame(array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
-            flatten($this->goodArray));
-        $this->assertSame(array(1, "2", "3", 5),
-            flatten($this->goodArray2));
+        $this->assertSame(range(1, 15), flatten($this->goodArray));
+        $this->assertSame(range(1, 15), flatten($this->goodIterator));
+        $this->assertSame(array(1, "2", "3", 5), flatten($this->goodArray2));
     }
 
     function testPassNoCollection()
