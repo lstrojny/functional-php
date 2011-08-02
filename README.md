@@ -224,4 +224,4 @@ To run the test suite with the userland implementation use `php -n $(which phpun
 ## Thank you
  - [Richard Quadling](https://github.com/RQuadling) and [Pierre Joye](https://github.com/pierrejoye) for Windows build
    help
- - [David Soria Parra](https://github.com/dsp) for various ideas
+ - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
