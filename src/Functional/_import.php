@@ -28,6 +28,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Every.php';
     /** @var Functional\some() */
     require_once $basePath . 'Some.php';
+    /** @var Functional\difference() */
+    require_once $basePath . 'Difference.php';
     /** @var Functional\drop_first */
     require_once $basePath . 'DropFirst.php';
     /** @var Functional\drop_last */
@@ -52,6 +54,10 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Partition.php';
     /** @var Functional\pluck() */
     require_once $basePath . 'Pluck.php';
+    /** @var Functional\product() */
+    require_once $basePath . 'Product.php';
+    /** @var Functional\ratio */
+    require_once $basePath . 'Ratio.php';
     /** @var Functional\reduce_left() */
     require_once $basePath . 'ReduceLeft.php';
     /** @var Functional\reduce_right() */
@@ -60,4 +66,6 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Reject.php';
     /** @var Functional\select() */
     require_once $basePath . 'Select.php';
+    /** @var Functional\sum() */
+    require_once $basePath . 'Sum.php';
 }

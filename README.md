@@ -16,7 +16,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
 ## TODO
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
- - Simple math shortcuts: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
+ - Native implementation: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
  - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
  - Finish currying implementation
  - Test reference handling
@@ -212,6 +212,14 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
    Returns the first element of the collection where the callback returned true
  - `mixed Functional\last(array|Traversable $collection, callable $callback)`
    Returns the last element of the collection where the callback returned true
+ - `integer|float Functional\product(array|Traversable $collection, $initial = 1)`
+   Calculates the product of all elements, starting with `$initial`
+ - `integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`
+   Calculates the ratio of all elements, starting with `$initial`
+ - `integer|float Functional\sum(array|Traversable $collection, $initial = 0)`
+   Calculates the sum of all elements, starting with `$initial`
+ - `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
+   Calculates the difference of all elements, starting with `$initial`
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
