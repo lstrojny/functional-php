@@ -22,7 +22,8 @@
  */
 namespace Functional;
 
-use stdClass;
+use stdClass,
+    ArrayIterator;
 
 class MathDataProvider
 {
@@ -30,8 +31,17 @@ class MathDataProvider
     {
         $args = array();
         foreach (array(new stdClass(), stream_context_create(), array(), "str") as $v) {
-            $args[] = array(array(2, $v, "1.5"));
+            $arg = array(2, $v, "1.5", true, null);
+            $args[] = array($arg);
+            $args[] = array(new ArrayIterator($arg));
         }
         return $args;
+    }
+
+    public static function injectBooleanValues()
+    {
+        return array(
+            array(false, true, 1)
+        );
     }
 }
