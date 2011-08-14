@@ -935,7 +935,7 @@ PHP_FUNCTION(functional_last)
 
 PHP_FUNCTION(functional_drop_first)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE(3)
 	int drop = 1;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1033,7 +1033,7 @@ PHP_FUNCTION(functional_drop_last)
 
 PHP_FUNCTION(functional_group)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE(3)
 	zval *group;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1160,7 +1160,7 @@ int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zv
 
 PHP_FUNCTION(functional_partition)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE(3)
 	zval *left, *right;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
