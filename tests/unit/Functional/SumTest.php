@@ -36,12 +36,6 @@ class SumTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
-    function testElementsOfWrongTypeAreIgnored($collection)
-    {
-        $this->assertEquals(3.5, sum($collection), '', 0.1);
-    }
-
     function test()
     {
         $this->assertSame(6, sum($this->intArray));
@@ -52,6 +46,12 @@ class SumTest extends AbstractTestCase
         $this->assertSame(10, sum($this->intIterator, 4));
         $this->assertEquals(10, sum($this->floatArray, 2.5), '', 0.01);
         $this->assertEquals(10, sum($this->floatIterator, 2.5), '', 0.01);
+    }
+
+    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    function testElementsOfWrongTypeAreIgnored($collection)
+    {
+        $this->assertEquals(4.5, sum($collection), '', 0.1);
     }
 
     function testPassNoCollection()

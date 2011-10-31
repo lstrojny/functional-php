@@ -50,7 +50,7 @@ class DifferenceTest extends AbstractTestCase
     /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
     function testElementsOfWrongTypeAreIgnored($collection)
     {
-        $this->assertEquals(-3.5, difference($collection), '', 0.1);
+        $this->assertEquals(-4.5, difference($collection), '', 0.1);
     }
 
     function testPassNoCollection()

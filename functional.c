@@ -92,6 +92,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_flatten, 1)
 	ZEND_ARG_INFO(0, collection)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_math, 1)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, initial)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,			ZEND_FN(functional_every),			arginfo_functional_every,			0)
@@ -112,6 +116,10 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", reject,		ZEND_FN(functional_reject),			arginfo_functional_reject,			0)
 	ZEND_NS_FENTRY("Functional", select,		ZEND_FN(functional_select),			arginfo_functional_select,			0)
 	ZEND_NS_FENTRY("Functional", flatten,		ZEND_FN(functional_flatten),		arginfo_functional_flatten,			0)
+	ZEND_NS_FENTRY("Functional", sum,			ZEND_FN(functional_sum),			arginfo_functional_math,			0)
+	ZEND_NS_FENTRY("Functional", difference,	ZEND_FN(functional_difference),		arginfo_functional_math,			0)
+	ZEND_NS_FENTRY("Functional", product,		ZEND_FN(functional_product),		arginfo_functional_math,			0)
+	ZEND_NS_FENTRY("Functional", ratio,			ZEND_FN(functional_ratio),			arginfo_functional_math,			0)
 	{NULL, NULL, NULL}
 };
 
@@ -177,13 +185,15 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_DECLARE(arg_num)	zend_fcall_info fci = empty_fcall_info; \
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE \
 	FUNCTIONAL_DECLARE_EX(arg_num)
-#define FUNCTIONAL_DECLARE_EX(arg_num) zval *collection, **args[arg_num], *retval_ptr = NULL, *key; \
-	HashPosition pos; \
-	zend_object_iterator *iter; \
-	zend_class_entry *ce; \
+#define FUNCTIONAL_DECLARE_EX(arg_num)	FUNCTIONAL_DECLARE_MIN(arg_num) \
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
+	zval *retval_ptr = NULL, *key; \
 	char *string_key;
+#define FUNCTIONAL_DECLARE_MIN(arg_num) zval *collection, **args[arg_num]; \
+	HashPosition pos; \
+	zend_object_iterator *iter; \
+	zend_class_entry *ce;
 #define FUNCTIONAL_PREPARE_ARGS args[1] = &key; \
 	args[2] = &collection;
 #define FUNCTIONAL_PREPARE_CALLBACK(arg_num) fci.params = args; \
@@ -252,7 +262,60 @@ ZEND_GET_MODULE(functional)
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
 			} \
-			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+#define FUNCTIONAL_MATH(func, sym, in) FUNCTIONAL_COLLECTION_PARAM(collection, func) \
+	if (initial) { \
+		RETVAL_ZVAL(initial, 1, 0); \
+	} else { \
+		ZVAL_LONG(return_value, in); \
+	} \
+	if (Z_TYPE_P(collection) == IS_ARRAY) { \
+		FUNCTIONAL_ARRAY_PREPARE \
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN \
+			FUNCTIONAL_MATH_CALC(sym) \
+		FUNCTIONAL_ARRAY_ITERATE_END \
+	} else { \
+		FUNCTIONAL_ITERATOR_PREPARE \
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN \
+			FUNCTIONAL_MATH_CALC(sym) \
+		FUNCTIONAL_ITERATOR_ITERATE_END \
+		FUNCTIONAL_ITERATOR_DONE \
+	}
+#define FUNCTIONAL_MATH_CALC(sym) el = **args[0]; \
+			type = FAILURE; \
+			switch (Z_TYPE(el)) { \
+				case IS_LONG: \
+				case IS_BOOL: \
+					lval = Z_LVAL(el); \
+					type = IS_LONG; \
+					break; \
+				case IS_STRING: \
+					type = is_numeric_string(Z_STRVAL(el), Z_STRLEN(el), &lval, &dval, 0); \
+					break; \
+				case IS_DOUBLE: \
+					dval = Z_DVAL(el); \
+					type = IS_DOUBLE; \
+					break; \
+			} \
+			if (type > 0) { \
+				if (type == IS_DOUBLE && Z_TYPE_P(return_value) != IS_DOUBLE) { \
+					convert_to_double(return_value); \
+				} \
+				if (type == IS_LONG && Z_TYPE_P(return_value) == IS_LONG) { \
+					dval = (double)Z_LVAL_P(return_value) sym (double)lval; \
+					if ((double)(long)dval == dval && dval >= (double)LONG_MIN && dval <= (double)LONG_MAX) { \
+						Z_LVAL_P(return_value) = (long)dval; \
+					} else { \
+						convert_to_double(return_value); \
+						Z_DVAL_P(return_value) = dval; \
+					} \
+				} else { \
+					if (type == IS_LONG) { \
+						dval = (double)lval; \
+					} \
+					Z_DVAL_P(return_value) sym##= dval; \
+				} \
+			}
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
@@ -872,8 +935,8 @@ PHP_FUNCTION(functional_last)
 
 PHP_FUNCTION(functional_drop_first)
 {
-	FUNCTIONAL_DECLARE(3);
-	bool drop = true;
+	FUNCTIONAL_DECLARE(3)
+	int drop = 1;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -893,7 +956,7 @@ PHP_FUNCTION(functional_drop_first)
 			if (drop) {
 				FUNCTIONAL_CALL_BACK_EX_BEGIN
 					if (!zend_is_true(retval_ptr)) {
-						drop = false;
+						drop = 0;
 					} else {
 						zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
 						continue;
@@ -911,7 +974,7 @@ PHP_FUNCTION(functional_drop_first)
 			if (drop) {
 				FUNCTIONAL_CALL_BACK_EX_BEGIN
 					if (!zend_is_true(retval_ptr)) {
-						drop = false;
+						drop = 0;
 					} else {
 						iter->funcs->move_forward(iter TSRMLS_CC);
 						continue;
@@ -970,7 +1033,7 @@ PHP_FUNCTION(functional_drop_last)
 
 PHP_FUNCTION(functional_group)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE(3)
 	zval *group;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1097,7 +1160,7 @@ int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zv
 
 PHP_FUNCTION(functional_partition)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE(3)
 	zval *left, *right;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1184,4 +1247,64 @@ void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
+}
+
+PHP_FUNCTION(functional_sum)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval el, *initial = NULL;
+	double dval;
+	long lval;
+	int type = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &collection, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_MATH("sum", +, 0)
+}
+
+PHP_FUNCTION(functional_difference)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval el, *initial = NULL;
+	double dval;
+	long lval;
+	int type = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &collection, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_MATH("difference", -, 0)
+}
+
+PHP_FUNCTION(functional_product)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval el, *initial = NULL;
+	double dval;
+	long lval;
+	int type = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &collection, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_MATH("product", *, 1)
+}
+
+PHP_FUNCTION(functional_ratio)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval el, *initial = NULL;
+	double dval;
+	long lval;
+	int type = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &collection, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_MATH("ratio", /, 1)
 }

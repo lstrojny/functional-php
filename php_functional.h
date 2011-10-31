@@ -58,7 +58,10 @@ PHP_FUNCTION(functional_reject);
 PHP_FUNCTION(functional_select);
 PHP_FUNCTION(functional_partition);
 PHP_FUNCTION(functional_flatten);
-
+PHP_FUNCTION(functional_sum);
+PHP_FUNCTION(functional_difference);
+PHP_FUNCTION(functional_product);
+PHP_FUNCTION(functional_ratio);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
