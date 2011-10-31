@@ -989,7 +989,7 @@ PHP_FUNCTION(functional_group)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (php_functional_prepare_group(retval_ptr, &return_value, &group) == SUCCESS) {
+				if (php_functional_prepare_group(retval_ptr, &return_value, &group TSRMLS_CC) == SUCCESS) {
 					php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
@@ -1001,7 +1001,7 @@ PHP_FUNCTION(functional_group)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				if (php_functional_prepare_group(retval_ptr, &return_value, &group) == SUCCESS) {
+				if (php_functional_prepare_group(retval_ptr, &return_value, &group TSRMLS_CC) == SUCCESS) {
 					php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
@@ -1011,7 +1011,7 @@ PHP_FUNCTION(functional_group)
 
 }
 
-int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr)
+int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr TSRMLS_DC)
 {
 	zval *group, **gptr;
 	long index, key_len;
@@ -1149,10 +1149,10 @@ PHP_FUNCTION(functional_flatten)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "flatten")
 
 	array_init(return_value);
-	php_functional_flatten(collection, &return_value);
+	php_functional_flatten(collection, &return_value TSRMLS_CC);
 }
 
-void php_functional_flatten(zval *collection, zval **return_value)
+void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC)
 {
 	zval **args[1];
 	HashPosition pos;
@@ -1167,7 +1167,7 @@ void php_functional_flatten(zval *collection, zval **return_value)
 				zval_add_ref(args[0]);
 				zend_hash_next_index_insert(Z_ARRVAL_PP(return_value), (void *)args[0], sizeof(zval *), NULL);
 			} else {
-				php_functional_flatten(*args[0], return_value);
+				php_functional_flatten(*args[0], return_value TSRMLS_CC);
 			}
 		FUNCTIONAL_ARRAY_ITERATE_END
 

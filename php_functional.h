@@ -37,8 +37,8 @@ PHP_MINFO_FUNCTION(functional);
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int num_key);
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key);
-void php_functional_flatten(zval *collection, zval **return_value);
-int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr);
+void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC);
+int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr TSRMLS_DC);
 
 PHP_FUNCTION(functional_every);
 PHP_FUNCTION(functional_some);
