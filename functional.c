@@ -1242,7 +1242,7 @@ void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC)
 				zval_add_ref(args[0]);
 				zend_hash_next_index_insert(Z_ARRVAL_PP(return_value), (void *)args[0], sizeof(zval *), NULL);
 			} else {
-				php_functional_flatten(*args[0], return_value);
+				php_functional_flatten(*args[0], return_value TSRMLS_CC);
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
