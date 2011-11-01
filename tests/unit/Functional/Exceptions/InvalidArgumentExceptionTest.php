@@ -122,7 +122,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be positive integer, integer given'
+            'func() expects parameter 2 to be positive integer, negative integer given'
         );
         InvalidArgumentException::assertPositiveInteger(-1, 'func', 2);
     }

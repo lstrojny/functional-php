@@ -117,12 +117,16 @@ class InvalidArgumentException extends \InvalidArgumentException
     public static function assertPositiveInteger($value, $callee, $parameterPosition)
     {
         if ((string)(int)$value !== (string)$value || $value < 0) {
+
+            $type = gettype($value);
+            $type = $type === 'integer' ? 'negative integer' : $type;
+
             throw new static(
                 sprintf(
                     '%s() expects parameter %d to be positive integer, %s given',
                     $callee,
                     $parameterPosition,
-                    gettype($value)
+                    $type
                 )
             );
         }
