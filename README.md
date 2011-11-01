@@ -18,7 +18,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `max()`, `min()`, `find_index()`, `concat(array1, array2, ...)`, `average()`
- - Allow passing a callback to math functions and `flatten()`
+ - Complete benchmarking suite
 
 
 ## Installation
