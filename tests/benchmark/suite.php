@@ -7,7 +7,7 @@ ini_set('memory_limit', '2G');
 
 $sourceFiles = new RegexIterator(
     new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator(__DIR__ . '/../../../src/Functional/')
+        new RecursiveDirectoryIterator(__DIR__ . '/../../src/Functional/')
     ),
     '/\.php$/'
 );
@@ -111,9 +111,10 @@ function benchmark($functionName, $array, $iterator, $hash, $hashIterator)
     echo str_repeat('-', 100) . "\n";
 }
 
-benchmark('any', $array, $iterator, $hash, $hashIterator);
-benchmark('all', $array, $iterator, $hash, $hashIterator);
-benchmark('detect', $array, $iterator, $hash, $hashIterator);
+benchmark('some', $array, $iterator, $hash, $hashIterator);
+benchmark('every', $array, $iterator, $hash, $hashIterator);
+benchmark('first', $array, $iterator, $hash, $hashIterator);
+benchmark('last', $array, $iterator, $hash, $hashIterator);
 benchmark('map', $array, $iterator, $hash, $hashIterator);
 benchmark('none', $array, $iterator, $hash, $hashIterator);
 benchmark('each', $array, $iterator, $hash, $hashIterator);
