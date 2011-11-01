@@ -16,11 +16,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
 ## TODO
  - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
- - Native implementation: `Functional\sum()`, `Functional\product()`, `Functional\difference()`, `Functional\ratio()`
- - Add something like `Functional\FilterChain` to allow chaining filters and still executing them at low complexity
- - Finish currying implementation
- - Test reference handling
- - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`
+ - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `max()`, `min()`, `find_index()`, `concat(array1, array2, ...)`, `average()`
  - Allow passing a callback to math functions and `flatten()`
 
