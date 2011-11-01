@@ -24,7 +24,8 @@
     backupStaticAttributes="false"
     bootstrap="tests/unit/Functional/_bootstrap.php"
     strict="true"
-    verbose="true">
+    verbose="true"
+    colors="true">
     <filter>
         <whitelist>
             <directory suffix=".php">src/Functional</directory>
