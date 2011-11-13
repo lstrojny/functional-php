@@ -165,6 +165,11 @@ ZEND_GET_MODULE(functional)
 		zend_error(E_WARNING, "Functional\\%s() expects parameter 1 to be array or instance of Traversable", function); \
 		RETURN_NULL(); \
 	}
+#define FUNCTIONAL_PROPERTY_NAME_PARAM(property, function) \
+	if (Z_TYPE_P(property) == IS_OBJECT) { \
+		zend_error(E_WARNING, "Functional\\%s() expects parameter 2 to be a valid property name or array index, %s given", function, zend_get_type_by_const(Z_TYPE_P(property))); \
+		RETURN_NULL(); \
+	}
 #define FUNCTIONAL_NOT_ITERABLE(arg) \
 		Z_TYPE_P(arg) != IS_ARRAY && \
 		!(Z_TYPE_P(arg) == IS_OBJECT && instanceof_function(Z_OBJCE_P(arg), zend_ce_traversable TSRMLS_CC))
@@ -252,13 +257,35 @@ ZEND_GET_MODULE(functional)
 				retval_ptr = null_value; \
 			} \
 			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
-#define FUNCTIONAL_PLUCK_INNER(on_failure) \
-			if (Z_TYPE_P(*args[0]) == IS_OBJECT) { \
-				retval_ptr = zend_read_property(scope, &**args[0], property_name, property_name_len, 1 TSRMLS_CC); \
+#define FUNCTIONAL_PLUCK_INNER(on_failure, suffix) \
+			if (numeric && Z_TYPE_PP(args[0]) == IS_ARRAY) { \
+				if (zend_hash_index_find(HASH_OF(*args[0]), h, (void **)&hash_value) == SUCCESS) { \
+					retval_ptr = *hash_value; \
+				} else { \
+					goto null_##suffix; \
+				} \
+			} else if (Z_TYPE_PP(args[0]) == IS_OBJECT) { \
+				if (Z_OBJ_HT_PP(args[0])->has_property && Z_OBJ_HT_PP(args[0])->has_property(&**args[0], property, 0 TSRMLS_CC)) { \
+					retval_ptr = Z_OBJ_HT_P(*args[0])->read_property(&**args[0], property, BP_VAR_IS TSRMLS_CC); \
+				} else if (Z_OBJ_HT_PP(args[0])->read_dimension && instanceof_function_ex(Z_OBJCE_PP(args[0]), zend_ce_arrayaccess, 1 TSRMLS_CC)) { \
+					retval_ptr = Z_OBJ_HT_PP(args[0])->read_dimension(&**args[0], property, BP_VAR_R TSRMLS_CC); \
+				} else { \
+					goto null_##suffix; \
+				} \
 				if (EG(exception)) { \
 					on_failure; \
 				} \
+			} else if (Z_TYPE_PP(args[0]) == IS_ARRAY) { \
+				if (h == 0) { \
+					h = zend_get_hash_value(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1); \
+				} \
+				if (zend_hash_quick_find(HASH_OF(*args[0]), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, (void **)&hash_value) == SUCCESS) { \
+					retval_ptr = *hash_value; \
+				} else { \
+					goto null_##suffix; \
+				} \
 			} else { \
+				null_##suffix: \
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
 			} \
@@ -692,27 +719,35 @@ PHP_FUNCTION(functional_invoke)
 PHP_FUNCTION(functional_pluck)
 {
 	FUNCTIONAL_DECLARE_EX(3)
-	char *property_name;
-	int property_name_len;
-	zend_class_entry *scope;
-	zval *null_value;
+	int numeric = 0;
+	ulong h = 0;
+	zval *property,
+		*null_value,
+		**hash_value;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs", &collection, &property_name, &property_name_len)) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &collection, &property)) {
 		RETURN_NULL();
 	}
 	FUNCTIONAL_COLLECTION_PARAM(collection, "pluck")
+	FUNCTIONAL_PROPERTY_NAME_PARAM(property, "pluck")
 
 	array_init(return_value);
 	MAKE_STD_ZVAL(null_value);
 
-	scope = EG(scope);
+	if (Z_TYPE_P(property) != IS_LONG) {
+		ZEND_HANDLE_NUMERIC_EX(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, numeric = 1);
+	} else {
+		numeric = 1;
+	}
+
+	EG(scope) = NULL;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			FUNCTIONAL_PLUCK_INNER(break)
+			FUNCTIONAL_PLUCK_INNER(break, array)
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -720,7 +755,7 @@ PHP_FUNCTION(functional_pluck)
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_PLUCK_INNER(goto done)
+			FUNCTIONAL_PLUCK_INNER(goto done, iter)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 

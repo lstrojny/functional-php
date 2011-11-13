@@ -79,4 +79,44 @@ PHP_FUNCTION(functional_ratio);
 #endif
 
 
+#ifndef ZEND_HANDLE_NUMERIC_EX
+#define ZEND_HANDLE_NUMERIC_EX(key, length, idx, func) do {                 \
+    register const char *tmp = key;                                         \
+                                                                            \
+    if (*tmp == '-') {                                                      \
+        tmp++;                                                              \
+    }                                                                       \
+    if (*tmp >= '0' && *tmp <= '9') { /* possibly a numeric index */        \
+        const char *end = key + length - 1;                                 \
+        ulong idx;                                                          \
+                                                                            \
+        if ((*end != '\0') /* not a null terminated string */               \
+         || (*tmp == '0' && length > 2) /* numbers with leading zeros */    \
+         || (end - tmp > MAX_LENGTH_OF_LONG - 1) /* number too long */      \
+         || (SIZEOF_LONG == 4 &&                                            \
+             end - tmp == MAX_LENGTH_OF_LONG - 1 &&                         \
+             *tmp > '2')) { /* overflow */                                  \
+            break;                                                          \
+        }                                                                   \
+        idx = (*tmp - '0');                                                 \
+        while (++tmp != end && *tmp >= '0' && *tmp <= '9') {                \
+            idx = (idx * 10) + (*tmp - '0');                                \
+        }                                                                   \
+        if (tmp == end) {                                                   \
+            if (*key == '-') {                                              \
+                if (idx-1 > LONG_MAX) { /* overflow */                      \
+                    break;                                                  \
+                }                                                           \
+                idx = (ulong)(-(long)idx);                                  \
+            } else if (idx > LONG_MAX) { /* overflow */                     \
+                break;                                                      \
+            }                                                               \
+            func;                                                           \
+        }                                                                   \
+    }                                                                       \
+} while (0)
+
+
+#endif
+
 #endif

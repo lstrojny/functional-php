@@ -105,9 +105,12 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
 
     function testExceptionIfInvalidPropertyName()
     {
+        InvalidArgumentException::assertPropertyName('property', 'func', 2);
+        InvalidArgumentException::assertPropertyName(0, 'func', 2);
+        InvalidArgumentException::assertPropertyName(0.2, 'func', 2);
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be string, object given'
+            'func() expects parameter 2 to be a valid property name or array index, object given'
         );
         InvalidArgumentException::assertPropertyName(new \stdClass(), "func", 2);
     }
