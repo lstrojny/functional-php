@@ -50,25 +50,25 @@ class ReduceTest extends AbstractTestCase
 
     function testExceptionThrownInIteratorCallbackWhileReduceLeft()
     {
-        $this->setExpectedException('Exception', 'Callback exception: 0');
+        $this->setExpectedException('DomainException', 'Callback exception: 0');
         reduce_left($this->iterator, array($this, 'exception'));
     }
 
     function testExceptionThrownInIteratorCallbackWhileReduceRight()
     {
-        $this->setExpectedException('Exception', 'Callback exception: 2');
+        $this->setExpectedException('DomainException', 'Callback exception: 2');
         reduce_right($this->iterator, array($this, 'exception'));
     }
 
     function testExceptionThrownInArrayCallbackWhileReduceLeft()
     {
-        $this->setExpectedException('Exception', 'Callback exception: 0');
+        $this->setExpectedException('DomainException', 'Callback exception: 0');
         reduce_left($this->array, array($this, 'exception'));
     }
 
     function testExceptionThrownInArrayCallbackWhileReduceRight()
     {
-        $this->setExpectedException('Exception', 'Callback exception: 2');
+        $this->setExpectedException('DomainException', 'Callback exception: 2');
         reduce_right($this->array, array($this, 'exception'));
     }
 

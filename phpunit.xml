@@ -34,4 +34,10 @@
             <file>src/Functional/_import.php</file>
         </blacklist>
     </filter>
+
+    <testsuites>
+        <testsuite name="unit-tests">
+            <directory>tests/unit</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

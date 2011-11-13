@@ -61,25 +61,25 @@ class SelectTest extends AbstractTestCase
 
     function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         select($this->array, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInKeyedArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         select($this->keyedArray, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         select($this->iterator, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInKeyedIterator()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         select($this->keyedIterator, array($this, 'exception'));
     }
 }

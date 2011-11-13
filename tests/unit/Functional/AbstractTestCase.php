@@ -47,9 +47,9 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     function exception()
     {
         if (func_num_args() < 3) {
-            throw new \Exception('Callback exception');
+            throw new \DomainException('Callback exception');
         }
         list($v, $k, $c) = func_get_args();
-        throw new \Exception('Callback exception: ' . $k);
+        throw new \DomainException('Callback exception: ' . $k);
     }
 }

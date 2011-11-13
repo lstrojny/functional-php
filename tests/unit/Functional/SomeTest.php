@@ -57,13 +57,13 @@ class SomeTest extends AbstractTestCase
 
     function testExceptionThrownInArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         some($this->goodArray, array($this, 'exception'));
     }
 
     function testExceptionThrownInCollection()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         some($this->goodIterator, array($this, 'exception'));
     }
 

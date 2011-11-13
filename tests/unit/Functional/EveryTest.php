@@ -57,13 +57,13 @@ class EveryTest extends AbstractTestCase
 
     function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         every($this->goodArray, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInCollection()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         every($this->goodIterator, array($this, 'exception'));
     }
 

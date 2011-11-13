@@ -49,25 +49,25 @@ class PartitionTest extends AbstractTestCase
 
     function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->array, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInKeyedArray()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->keyedArray, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->iterator, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInKeyedIterator()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->keyedIterator, array($this, 'exception'));
     }
 

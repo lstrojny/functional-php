@@ -60,28 +60,28 @@ class DropTest extends AbstractTestCase
     /** @dataProvider getFunctions */
     function testExceptionIsThrownInArray($fn)
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         $fn($this->array, array($this, 'exception'));
     }
 
     /** @dataProvider getFunctions */
     function testExceptionIsThrownInKeyedArray($fn)
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         $fn($this->keyedArray, array($this, 'exception'));
     }
 
     /** @dataProvider getFunctions */
     function testExceptionIsThrownInIterator($fn)
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         $fn($this->iterator, array($this, 'exception'));
     }
 
     /** @dataProvider getFunctions */
     function testExceptionIsThrownInKeyedIterator($fn)
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         $fn($this->keyedIterator, array($this, 'exception'));
     }
 

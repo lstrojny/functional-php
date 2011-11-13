@@ -60,7 +60,7 @@ class InvokeTest extends AbstractTestCase
 
     function testException()
     {
-        $this->setExpectedException('Exception', 'Callback exception');
+        $this->setExpectedException('DomainException', 'Callback exception');
         invoke($this->array, 'exception');
     }
 

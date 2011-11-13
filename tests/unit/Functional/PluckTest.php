@@ -68,7 +68,7 @@ class MagicGetException
     public function __isset($propertyName)
     {
         if ($this->throwExceptionInIsset) {
-            throw new \Exception('__isset exception: ' . $propertyName);
+            throw new \DomainException('__isset exception: ' . $propertyName);
         }
         return true;
     }
@@ -76,7 +76,7 @@ class MagicGetException
     public function __get($propertyName)
     {
         if ($this->throwExceptionInGet) {
-            throw new \Exception('__get exception: ' . $propertyName);
+            throw new \DomainException('__get exception: ' . $propertyName);
         }
         return "value";
     }
@@ -155,25 +155,25 @@ class PluckTest extends AbstractTestCase
 
     function testExceptionThrownInMagicIssetWhileIteratingArray()
     {
-        $this->setExpectedException('Exception', '__isset exception: foobar');
+        $this->setExpectedException('DomainException', '__isset exception: foobar');
         pluck($this->issetExceptionArray, 'foobar');
     }
 
     function testExceptionThrownInMagicIssetWhileIteratingIterator()
     {
-        $this->setExpectedException('Exception', '__isset exception: foobar');
+        $this->setExpectedException('DomainException', '__isset exception: foobar');
         pluck($this->issetExceptionIterator, 'foobar');
     }
 
     function testExceptionThrownInMagicGetWhileIteratingArray()
     {
-        $this->setExpectedException('Exception', '__get exception: foobar');
+        $this->setExpectedException('DomainException', '__get exception: foobar');
         pluck($this->getExceptionArray, 'foobar');
     }
 
     function testExceptionThrownInMagicGetWhileIteratingIterator()
     {
-        $this->setExpectedException('Exception', '__get exception: foobar');
+        $this->setExpectedException('DomainException', '__get exception: foobar');
         pluck($this->getExceptionIterator, 'foobar');
     }
 }
