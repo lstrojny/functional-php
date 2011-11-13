@@ -23,7 +23,8 @@
 namespace Functional;
 
 use ArrayIterator,
-    ArrayObject;
+    ArrayObject,
+    SplFixedArray;
 
 class MagicGetThrowException
 {
@@ -93,7 +94,9 @@ class PluckTest extends AbstractTestCase
         $this->propertyMagicGet = array(new MagicGet(array('property' => 1)), new MagicGet(array('property' => 2)), array('property' => '3'), new ArrayObject(array('property' => 4)));
         $this->mixedCollection = array((object)array('property' => 1), array('key'  => 'value'), array('property' => 2));
         $this->keyedCollection = array('test' => (object)array('property' => 1), 'test2' => (object)array('property' => 2));
-        $this->numericArrayCollection = array('one' => array(1), 'two' => array(1 => 2), 'three' => array('idx' => 2), 'four' => new ArrayObject(array(2)));
+        $fixedArray = new SplFixedArray(1);
+        $fixedArray[0] = 3;
+        $this->numericArrayCollection = array('one' => array(1), 'two' => array(1 => 2), 'three' => array('idx' => 2), 'four' => new ArrayObject(array(2)), 'five' => $fixedArray);
         $this->issetExceptionArray = array((object)array('property' => 1), new MagicGetException(true, false));
         $this->issetExceptionIterator = new ArrayIterator($this->issetExceptionArray);
         $this->getExceptionArray = array((object)array('property' => 1), new MagicGetException(false, true));
@@ -130,12 +133,12 @@ class PluckTest extends AbstractTestCase
 
     function testPluckNumericArrayIndex()
     {
-        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2), pluck($this->numericArrayCollection, 0));
-        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2), pluck($this->numericArrayCollection, 0));
-        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2), pluck(new ArrayIterator($this->numericArrayCollection), 0));
-        $this->assertSame(array(1, null, null, 2), pluck(array_values($this->numericArrayCollection), 0));
-        $this->assertSame(array(1, null, null, 2), pluck(new ArrayIterator(array_values($this->numericArrayCollection)), 0));
-        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2), pluck($this->numericArrayCollection, '0'));
+        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3), pluck($this->numericArrayCollection, 0));
+        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3), pluck($this->numericArrayCollection, 0));
+        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3), pluck(new ArrayIterator($this->numericArrayCollection), 0));
+        $this->assertSame(array(1, null, null, 2, 3), pluck(array_values($this->numericArrayCollection), 0));
+        $this->assertSame(array(1, null, null, 2, 3), pluck(new ArrayIterator(array_values($this->numericArrayCollection)), 0));
+        $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3), pluck($this->numericArrayCollection, '0'));
     }
 
     function testPassNoCollection()
