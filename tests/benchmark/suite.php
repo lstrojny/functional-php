@@ -18,19 +18,21 @@ foreach ($sourceFiles as $file) {
 }
 
 $numberOfElements = 100000;
-$array = range(0, $numberOfElements - 1);
+$array = array_reverse(range(0, $numberOfElements - 1));
 $hash = array_keys($array);
-$hash = array_map('strval', $hash);
+$hash = array_map(function($v){return 'k_' . $v;}, $hash);
+$hash = array_flip($hash);
 $iterator = new ArrayIterator($array);
 $hashIterator = new ArrayIterator($hash);
 
-function benchmark($functionName, $array, $iterator, $hash, $hashIterator)
+function benchmark($functionName, $array, $iterator, $hash, $hashIterator, $secondParam = null)
 {
     /** Reset values */
     $start = $end = $ret = null;
 
-    $closure = function($value, $key, $collection) {
-    };
+    if ($secondParam === null) {
+        $secondParam = function($value, $key, $collection) {};
+    }
 
     $recipes = array(
         array(
@@ -90,7 +92,11 @@ function benchmark($functionName, $array, $iterator, $hash, $hashIterator)
         $start = $end = $ret = $warn = null;
 
         $start = microtime(true);
-        $ret = $function($collection, $closure);
+        if ($secondParam) {
+            $ret = $function($collection, $secondParam);
+        } else {
+            $ret = $function($collection);
+        }
         $end = microtime(true);
 
         if ($implementation == 'Native' && ($end - $start) > $result) {
@@ -111,12 +117,26 @@ function benchmark($functionName, $array, $iterator, $hash, $hashIterator)
     echo str_repeat('-', 100) . "\n";
 }
 
-benchmark('some', $array, $iterator, $hash, $hashIterator);
+
+benchmark('difference', $array, $iterator, $hash, $hashIterator, false);
+benchmark('drop_first', $array, $iterator, $hash, $hashIterator, function($v, $k) {return $v > 1000;});
+benchmark('drop_last', $array, $iterator, $hash, $hashIterator, function($v, $k) {return $v > 1000;});
+benchmark('each', $array, $iterator, $hash, $hashIterator);
+benchmark('first', $array, $iterator, $hash, $hashIterator, function($v, $k) {return $v > 1000;});
+benchmark('flatten', $array, $iterator, $hash, $hashIterator, false);
 benchmark('every', $array, $iterator, $hash, $hashIterator);
-benchmark('first', $array, $iterator, $hash, $hashIterator);
-benchmark('last', $array, $iterator, $hash, $hashIterator);
+benchmark('group', $array, $iterator, $hash, $hashIterator, function($v) {return $v % 2 == 0;});
+benchmark('invoke', $array, $iterator, $hash, $hashIterator, 'method');
+benchmark('last', $array, $iterator, $hash, $hashIterator, function($v, $k) {return $v > 1000;});
 benchmark('map', $array, $iterator, $hash, $hashIterator);
 benchmark('none', $array, $iterator, $hash, $hashIterator);
-benchmark('each', $array, $iterator, $hash, $hashIterator);
-benchmark('select', $array, $iterator, $hash, $hashIterator);
+benchmark('partition', $array, $iterator, $hash, $hashIterator, function($v, $k) {return $v / 2;});
+benchmark('pluck', $array, $iterator, $hash, $hashIterator, 'property');
+benchmark('product', $array, $iterator, $hash, $hashIterator, false);
+benchmark('ratio', $array, $iterator, $hash, $hashIterator, false);
+benchmark('reduce_left', $array, $iterator, $hash, $hashIterator, function($v){return $v;});
+benchmark('reduce_right', $array, $iterator, $hash, $hashIterator, function($v){return $v;});
 benchmark('reject', $array, $iterator, $hash, $hashIterator);
+benchmark('select', $array, $iterator, $hash, $hashIterator);
+benchmark('some', $array, $iterator, $hash, $hashIterator);
+benchmark('sum', $array, $iterator, $hash, $hashIterator, false);
