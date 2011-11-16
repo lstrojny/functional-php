@@ -257,6 +257,17 @@ ZEND_GET_MODULE(functional)
 				retval_ptr = null_value; \
 			} \
 			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+
+#if PHP_VERSION_ID >= 50400
+#define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
+#else
+#define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0 TSRMLS_CC)
+#endif
+#if PHP_VERSION_ID >= 50400
+#define FUNCTIONAL_READ_PROPERTY(obj, value, property) obj->read_property(value, property, BP_VAR_IS, NULL TSRMLS_CC);
+#else
+#define FUNCTIONAL_READ_PROPERTY(obj, value, property) obj->read_property(value, property, BP_VAR_IS TSRMLS_CC);
+#endif
 #define FUNCTIONAL_PLUCK_INNER(on_failure, suffix) \
 			if (numeric && Z_TYPE_PP(args[0]) == IS_ARRAY) { \
 				if (zend_hash_index_find(HASH_OF(*args[0]), h, (void **)&hash_value) == SUCCESS) { \
@@ -265,8 +276,8 @@ ZEND_GET_MODULE(functional)
 					goto null_##suffix; \
 				} \
 			} else if (Z_TYPE_PP(args[0]) == IS_OBJECT) { \
-				if (Z_OBJ_HT_PP(args[0])->has_property && Z_OBJ_HT_PP(args[0])->has_property(&**args[0], property, 0 TSRMLS_CC)) { \
-					retval_ptr = Z_OBJ_HT_P(*args[0])->read_property(&**args[0], property, BP_VAR_IS TSRMLS_CC); \
+				if (Z_OBJ_HT_PP(args[0])->has_property && FUNCTIONA_HAS_PROPERTY(Z_OBJ_HT_PP(args[0]), &**args[0], property)) { \
+					retval_ptr = FUNCTIONAL_READ_PROPERTY(Z_OBJ_HT_P(*args[0]), &**args[0], property); \
 				} else if (Z_OBJ_HT_PP(args[0])->read_dimension && instanceof_function_ex(Z_OBJCE_PP(args[0]), zend_ce_arrayaccess, 1 TSRMLS_CC)) { \
 					retval_ptr = Z_OBJ_HT_PP(args[0])->read_dimension(&**args[0], property, BP_VAR_R TSRMLS_CC); \
 				} else { \
