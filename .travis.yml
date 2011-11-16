@@ -11,7 +11,7 @@ before_script:
   - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make; fi"
 
 script:
-  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then php -n -dextension=.libs/functional.so `which phpunit`; else phpunit; fi"
+  - sh -c "echo $FUNCTIONAL; if [ '$FUNCTIONAL' = 'native' ]; then php -n -dextension=.libs/functional.so `which phpunit`; else phpunit; fi"
 
 notifications:
   email:
