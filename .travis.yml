@@ -3,6 +3,15 @@ php:
   - 5.3
   - 5.4
 
+env:
+  - FUNCTIONAL=native PHPUNIT="php -n -dextension=.libs/functional.so `which phpunit`"
+  - FUNCTIONAL=userland PHPUNIT="phpunit"
+
+before_script:
+  - sh -c "[ $FUNCTIONAL == 'native' ] ( && phpize && ./configure && make )"
+
+script:
+  - $PHPUNIT
 
 notifications:
   email:
