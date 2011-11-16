@@ -8,7 +8,7 @@ env:
   - FUNCTIONAL=userland PHPUNIT="phpunit"
 
 before_script:
-  - sh -c "[ $FUNCTIONAL == 'native' ] ( && phpize && ./configure && make )"
+  - sh -c "[ '$FUNCTIONAL' == 'native' ] && ( phpize && ./configure && make )"
 
 script:
   - $PHPUNIT
