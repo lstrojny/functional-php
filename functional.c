@@ -276,7 +276,7 @@ ZEND_GET_MODULE(functional)
 					goto null_##suffix; \
 				} \
 			} else if (Z_TYPE_PP(args[0]) == IS_OBJECT) { \
-				if (Z_OBJ_HT_PP(args[0])->has_property && FUNCTIONA_HAS_PROPERTY(Z_OBJ_HT_PP(args[0]), &**args[0], property)) { \
+				if (Z_OBJ_HT_PP(args[0])->has_property && FUNCTIONAL_HAS_PROPERTY(Z_OBJ_HT_PP(args[0]), &**args[0], property)) { \
 					retval_ptr = FUNCTIONAL_READ_PROPERTY(Z_OBJ_HT_P(*args[0]), &**args[0], property); \
 				} else if (Z_OBJ_HT_PP(args[0])->read_dimension && instanceof_function_ex(Z_OBJCE_PP(args[0]), zend_ce_arrayaccess, 1 TSRMLS_CC)) { \
 					retval_ptr = Z_OBJ_HT_PP(args[0])->read_dimension(&**args[0], property, BP_VAR_R TSRMLS_CC); \
