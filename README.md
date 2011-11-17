@@ -14,11 +14,11 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
   - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
 
+!["Start using Functional PHP"](http://memegenerator.net/cache/instances/400x/10/11239/11509601.jpg)
+
 ## TODO
- - Native implementation of `Functional\pluck()` shows slightly different behavior when dealing with private/protected properties (see `Functional\PluckTest::testPluckProtectedProperty()`)
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
- - Add `max()`, `min()`, `find_index()`, `concat(array1, array2, ...)`, `average()`
- - Complete benchmarking suite
+ - Add `concat(array1, array2, ...)`, `average()`
 
 
 ## Installation
@@ -220,6 +220,10 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
    Calculates the sum of all elements, starting with `$initial`
  - `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
    Calculates the difference of all elements, starting with `$initial`
+ - `mixed Functional\maximum(array|Traversable $collection)`
+   Returns the highest element in the array
+ - `mixed Functional\minimum(array|Traversable $collection)`
+   Returns the lowest element in the array
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
