@@ -96,6 +96,12 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_math, 1)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, initial)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_maximum, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_minimum, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,			ZEND_FN(functional_every),			arginfo_functional_every,			0)
@@ -120,6 +126,8 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", difference,	ZEND_FN(functional_difference),		arginfo_functional_math,			0)
 	ZEND_NS_FENTRY("Functional", product,		ZEND_FN(functional_product),		arginfo_functional_math,			0)
 	ZEND_NS_FENTRY("Functional", ratio,			ZEND_FN(functional_ratio),			arginfo_functional_math,			0)
+	ZEND_NS_FENTRY("Functional", maximum,		ZEND_FN(functional_maximum),		arginfo_functional_maximum,			0)
+	ZEND_NS_FENTRY("Functional", minimum,		ZEND_FN(functional_minimum),		arginfo_functional_minimum,			0)
 	{NULL, NULL, NULL}
 };
 
@@ -194,7 +202,8 @@ ZEND_GET_MODULE(functional)
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
 	zval *retval_ptr = NULL, *key; \
-	char *string_key;
+	char *string_key; \
+	MAKE_STD_ZVAL(key);
 #define FUNCTIONAL_DECLARE_MIN(arg_num) zval *collection, **args[arg_num]; \
 	HashPosition pos; \
 	zend_object_iterator *iter; \
@@ -225,7 +234,6 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
 #define FUNCTIONAL_ARRAY_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos))
 #define FUNCTIONAL_PREPARE_KEY(get_key) \
-			MAKE_STD_ZVAL(key); \
 			hash_key_type = get_key; \
 			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key);
 #define FUNCTIONAL_ITERATOR_DONE \
@@ -354,6 +362,10 @@ ZEND_GET_MODULE(functional)
 					Z_DVAL_P(return_value) sym##= dval; \
 				} \
 			}
+
+#define FUNCTIONAL_IS_NUMERIC_PP(arg) FUNCTIONAL_IS_NUMERIC_P(*arg)
+#define FUNCTIONAL_IS_NUMERIC_P(arg) FUNCTIONAL_IS_NUMERIC(*arg)
+#define FUNCTIONAL_IS_NUMERIC(arg) (Z_TYPE(arg) == IS_LONG || Z_TYPE(arg) == IS_DOUBLE || (Z_TYPE(arg) == IS_STRING && is_numeric_string(Z_STRVAL(arg), Z_STRLEN(arg), NULL, NULL, 0)))
 
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
@@ -1353,4 +1365,77 @@ PHP_FUNCTION(functional_ratio)
 	}
 
 	FUNCTIONAL_MATH("ratio", /, 1)
+}
+
+PHP_FUNCTION(functional_maximum)
+{
+	FUNCTIONAL_DECLARE(1)
+	zval result, *max = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "maximum")
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			if (max == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_or_equal_function(&result, *args[0], max TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 0)) {
+				max = *args[0];
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			if (max == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_or_equal_function(&result, *args[0], max TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 0)) {
+				max = *args[0];
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+
+	RETVAL_ZVAL(max, 1, 0);
+}
+
+PHP_FUNCTION(functional_minimum)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval result, *min = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "minimum")
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (min == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_function(&result, *args[0], min TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1)) {
+				min = *args[0];
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			printf("Type: %d\n", Z_TYPE_PP(args[0]));
+			if (min == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_function(&result, *args[0], min TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1)) {
+				min = *args[0];
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+
+	RETVAL_ZVAL(min, 1, 0);
 }

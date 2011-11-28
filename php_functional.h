@@ -62,6 +62,8 @@ PHP_FUNCTION(functional_sum);
 PHP_FUNCTION(functional_difference);
 PHP_FUNCTION(functional_product);
 PHP_FUNCTION(functional_ratio);
+PHP_FUNCTION(functional_maximum);
+PHP_FUNCTION(functional_minimum);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
