@@ -205,15 +205,15 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 ### Additional functions:
 
 `void Functional\each(array|Traversable $collection, callable $callback)`
-  - Applies a callback to each element
+- Applies a callback to each element
 
 
 `array Functional\map(array|Traversable $collection, callable $callback)`
-  - Applies a callback to each element in the collection and collects the return value
+- Applies a callback to each element in the collection and collects the return value
 
 
 `mixed Functional\first(array|Traversable $collection, callable $callback)`
-  - Returns the first element of the collection where the callback returned true
+- Returns the first element of the collection where the callback returned true
 
 
 `mixed Functional\last(array|Traversable $collection, callable $callback)`
