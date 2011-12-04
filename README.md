@@ -204,7 +204,7 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 
 ### Additional functions:
 
-`void Functional\each(array|Traversable $collection, callable $callback)` \\
+`void Functional\each(array|Traversable $collection, callable $callback)`
  Applies a callback to each element
 
 `array Functional\map(array|Traversable $collection, callable $callback)`
