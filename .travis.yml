@@ -11,7 +11,7 @@ before_script:
   - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make; fi"
 
 script:
-  - sh -x ./ci.sh
+  - sh -x ./ci.sh && echo "Success" || echo "FAILURE"; exit 1
 
 notifications:
   email:
