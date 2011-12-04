@@ -1409,7 +1409,7 @@ PHP_FUNCTION(functional_maximum)
 
 	}
 
-	RETVAL_ZVAL(max, 1, 0);
+	RETVAL_ZVAL(max, 0, 0);
 }
 
 PHP_FUNCTION(functional_minimum)
