@@ -46,7 +46,20 @@ class ReduceTest extends AbstractTestCase
         $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->iterator, array($this, 'callback'), 'default'));
         $this->assertSame('2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'callback')));
         $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'callback'), 'default'));
-    }
+
+        $this->assertSame('initial', reduce_left(array(), function(){}, 'initial'));
+        $this->assertNull(reduce_left(array(), function(){}));
+        $this->assertNull(reduce_left(array(), function(){}, null));
+        $this->assertSame('initial', reduce_left(new ArrayIterator(array()), function(){}, 'initial'));
+        $this->assertNull(reduce_left(new ArrayIterator(array()), function(){}));
+        $this->assertNull(reduce_left(new ArrayIterator(array()), function(){}, null));
+        $this->assertSame('initial', reduce_right(array(), function(){}, 'initial'));
+        $this->assertNull(reduce_right(array(), function(){}));
+        $this->assertNull(reduce_right(array(), function(){}, null));
+        $this->assertSame('initial', reduce_right(new ArrayIterator(array()), function(){}, 'initial'));
+        $this->assertNull(reduce_right(new ArrayIterator(array()), function(){}));
+        $this->assertNull(reduce_right(new ArrayIterator(array()), function(){}, null));
+   }
 
     function testExceptionThrownInIteratorCallbackWhileReduceLeft()
     {

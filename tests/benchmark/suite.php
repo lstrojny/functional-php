@@ -17,7 +17,7 @@ foreach ($sourceFiles as $file) {
     eval($code);
 }
 
-$numberOfElements = 100000;
+$numberOfElements = 1000;
 $array = array_reverse(range(0, $numberOfElements - 1));
 $hash = array_keys($array);
 $hash = array_map(function($v){return 'k_' . $v;}, $hash);
@@ -116,6 +116,7 @@ function benchmark($functionName, $array, $iterator, $hash, $hashIterator, $seco
     }
     echo str_repeat('-', 100) . "\n";
 }
+
 
 
 benchmark('difference', $array, $iterator, $hash, $hashIterator, false);

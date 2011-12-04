@@ -198,8 +198,8 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_DECLARE_EX(arg_num)	FUNCTIONAL_DECLARE_MIN(arg_num) \
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
-	zval *retval_ptr = NULL, *key; \
-	char *string_key;
+	zval *retval_ptr = NULL, *key = NULL; \
+	char *string_key = NULL;
 #define FUNCTIONAL_DECLARE_MIN(arg_num) zval *collection, **args[arg_num]; \
 	HashPosition pos; \
 	zend_object_iterator *iter; \
@@ -233,6 +233,8 @@ ZEND_GET_MODULE(functional)
 			MAKE_STD_ZVAL(key); \
 			hash_key_type = get_key; \
 			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key);
+#define FUNCTIONAL_ARRAY_FREE_KEY efree(key);
+#define FUNCTIONAL_ITERATOR_FREE_KEY FUNCTIONAL_ARRAY_FREE_KEY; if (hash_key_type == HASH_KEY_IS_STRING) efree(string_key);
 #define FUNCTIONAL_ITERATOR_DONE \
 	done: \
 		if (iter) { \
@@ -244,8 +246,15 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_ITERATOR_CALL_BACK_EX_END	FUNCTIONAL_CALL_BACK_EX_END(goto done)
 #define FUNCTIONAL_CALL_BACK(on_failure)		FUNCTIONAL_CALL_BACK_EX_BEGIN FUNCTIONAL_CALL_BACK_EX_END(on_failure)
 #define FUNCTIONAL_CALL_BACK_EX_BEGIN			if (FUNCTIONAL_CALL_BACK_CALL) {
-#define FUNCTIONAL_CALL_BACK_EX_END(on_failure) } else { \
-				/* zval_dtor(return_value); */ \
+#define FUNCTIONAL_CALL_BACK_EX_END(on_failure) if (retval_ptr) { \
+					zval_ptr_dtor(&retval_ptr); \
+					retval_ptr = NULL; \
+				} \
+			} else { \
+				if (retval_ptr) { \
+					zval_ptr_dtor(&retval_ptr); \
+					retval_ptr = NULL; \
+				} \
 				on_failure; \
 			}
 #define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
@@ -261,6 +270,7 @@ ZEND_GET_MODULE(functional)
 				ZVAL_NULL(null_value); \
 				retval_ptr = null_value; \
 			} \
+			efree(callable); \
 			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 
 #if PHP_VERSION_ID >= 50400
@@ -372,8 +382,8 @@ ZEND_GET_MODULE(functional)
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
 					php_functional_append_array_value(hash_key_type, &indexes, args[0], string_key, string_key_len, int_key); \
 				} \
-			} \			
-			
+			}
+
 void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
 	switch (hash_key_type) {
@@ -390,7 +400,6 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key)
 {
-	zval_add_ref(return_value);
 	zval_add_ref(value);
 	switch (hash_key_type) {
 		case HASH_KEY_IS_LONG:
@@ -422,6 +431,7 @@ PHP_FUNCTION(functional_each)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK
+			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -430,6 +440,7 @@ PHP_FUNCTION(functional_each)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
@@ -460,6 +471,7 @@ PHP_FUNCTION(functional_some)
 					RETVAL_TRUE;
 					break;
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -473,6 +485,7 @@ PHP_FUNCTION(functional_some)
 					RETVAL_TRUE;
 					goto done;
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -501,8 +514,11 @@ PHP_FUNCTION(functional_every)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ARRAY_FREE_KEY
+					zval_ptr_dtor(&retval_ptr);
 					RETURN_FALSE;
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -513,9 +529,12 @@ PHP_FUNCTION(functional_every)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ITERATOR_FREE_KEY
+					zval_ptr_dtor(&retval_ptr);
 					RETVAL_FALSE;
 					goto done;
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -545,6 +564,7 @@ PHP_FUNCTION(functional_map)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -555,6 +575,7 @@ PHP_FUNCTION(functional_map)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -583,8 +604,11 @@ PHP_FUNCTION(functional_none)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ARRAY_FREE_KEY
+					zval_ptr_dtor(&retval_ptr);
 					RETURN_FALSE;
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -595,9 +619,11 @@ PHP_FUNCTION(functional_none)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ITERATOR_FREE_KEY
 					RETVAL_FALSE;
 					goto done;
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -628,6 +654,7 @@ PHP_FUNCTION(functional_reject)
 				if (!zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -640,6 +667,7 @@ PHP_FUNCTION(functional_reject)
 				if (!zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -670,6 +698,7 @@ PHP_FUNCTION(functional_select)
 				if (zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -682,6 +711,7 @@ PHP_FUNCTION(functional_select)
 				if (zend_is_true(retval_ptr)) {
 					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -709,7 +739,7 @@ PHP_FUNCTION(functional_invoke)
 
 	MAKE_STD_ZVAL(null_value);
 	MAKE_STD_ZVAL(method);
-	ZVAL_STRINGL(method, method_name, method_name_len, 1);
+	ZVAL_STRINGL(method, method_name, method_name_len, 0);
 
 	if (arguments) {
 		arguments_len = zend_hash_num_elements(arguments);
@@ -728,6 +758,7 @@ PHP_FUNCTION(functional_invoke)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_INVOKE_INNER(break)
 			/** printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method)); */
+			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -736,11 +767,14 @@ PHP_FUNCTION(functional_invoke)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_INVOKE_INNER(goto done)
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
 
+	efree(method);
+	efree(null_value);
 	if (method_args) {
 		efree(method_args);
 	}
@@ -778,6 +812,7 @@ PHP_FUNCTION(functional_pluck)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_PLUCK_INNER(break, array)
+			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	} else {
@@ -786,16 +821,19 @@ PHP_FUNCTION(functional_pluck)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_PLUCK_INNER(goto done, iter)
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
+
+	efree(null_value);
 }
 
 PHP_FUNCTION(functional_reduce_left)
 {
 	FUNCTIONAL_DECLARE(4)
-	zval *initial = NULL;
+	zval *initial, *result = NULL;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf|z", &collection, &fci, &fci_cache, &initial) == FAILURE) {
 		RETURN_NULL();
@@ -804,21 +842,26 @@ PHP_FUNCTION(functional_reduce_left)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "reduce_left")
 	FUNCTIONAL_PREPARE_ARGS
 	FUNCTIONAL_PREPARE_CALLBACK(4)
-	if (!initial) {
-		MAKE_STD_ZVAL(initial);
-		ZVAL_NULL(initial);
+
+	if (ZEND_NUM_ARGS() > 2) {
+		ALLOC_ZVAL(result);
+		MAKE_COPY_ZVAL(&initial, result);
+	} else {
+		MAKE_STD_ZVAL(result);
+		ZVAL_NULL(result);
 	}
-	args[3] = &initial;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			MAKE_COPY_ZVAL(args[3], initial);
-			zval_add_ref(args[3]);
+			args[3] = &result;
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				initial = retval_ptr;
+				zval_ptr_dtor(&result);
+				result = retval_ptr;
+				zval_add_ref(&result);
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -827,22 +870,25 @@ PHP_FUNCTION(functional_reduce_left)
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			MAKE_COPY_ZVAL(args[3], initial);
+			args[3] = &result;
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				initial = retval_ptr;
-			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+				zval_ptr_dtor(&result);
+				result = retval_ptr;
+				zval_add_ref(&result);
+			FUNCTIONAL_ITERATOR_FREE_KEY
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
 
-	RETURN_ZVAL(initial, 0, 0);
+	RETURN_ZVAL(result, 1, 1);
 }
 
 PHP_FUNCTION(functional_reduce_right)
 {
 	FUNCTIONAL_DECLARE(4)
-	zval *initial = NULL;
+	zval *initial, *result = NULL;
 	zend_llist reversed;
 	zend_llist_position reverse_pos;
 
@@ -852,32 +898,32 @@ PHP_FUNCTION(functional_reduce_right)
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "reduce_right")
 	FUNCTIONAL_PREPARE_ARGS
-	if (!initial) {
-		MAKE_STD_ZVAL(initial);
-		ZVAL_NULL(initial);
+	if (ZEND_NUM_ARGS() > 2) {
+		ALLOC_ZVAL(result);
+		MAKE_COPY_ZVAL(&initial, result);
+	} else {
+		MAKE_STD_ZVAL(result);
+		ZVAL_NULL(result);
 	}
 
 	FUNCTIONAL_PREPARE_CALLBACK(4)
-	args[3] = &initial;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		zend_hash_internal_pointer_end_ex(Z_ARRVAL_P(collection), &pos);
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
 			FUNCTIONAL_ARRAY_PREPARE_KEY
-			MAKE_COPY_ZVAL(args[3], initial);
-			zval_add_ref(args[3]);
+			args[3] = &result;
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				initial = retval_ptr;
+				zval_ptr_dtor(&result);
+				result = retval_ptr;
+				zval_add_ref(&result);
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 			zend_hash_move_backwards_ex(Z_ARRVAL_P(collection), &pos);
 		}
 
-		if (retval_ptr) {
-			RETURN_ZVAL(retval_ptr, 0, 0);
-		} else {
-			RETURN_ZVAL(initial, 0, 0);
-		}
+		RETURN_ZVAL(result, 1, 1);
 
 	} else {
 		zend_llist_init(&reversed, sizeof(zval), NULL, 0);
@@ -887,7 +933,6 @@ PHP_FUNCTION(functional_reduce_right)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			zval_add_ref(args[0]);
 			zend_llist_prepend_element(&reversed, &*args[0]);
-			zval_add_ref(args[1]);
 			zend_llist_prepend_element(&reversed, &*args[1]);
 		FUNCTIONAL_ITERATOR_ITERATE_END
 
@@ -896,22 +941,20 @@ PHP_FUNCTION(functional_reduce_right)
 			args[1] = (zval **)zend_llist_get_next_ex(&reversed, &reverse_pos)) {
 			args[0] = (zval **)zend_llist_get_next_ex(&reversed, &reverse_pos);
 
-			MAKE_COPY_ZVAL(args[3], initial);
-			zval_add_ref(args[3]);
+			args[3] = &result;
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
-				initial = retval_ptr;
+				zval_ptr_dtor(&result);
+				result = retval_ptr;
+				zval_add_ref(&result);
+				zval_ptr_dtor(args[0]);
+				zval_ptr_dtor(args[1]);
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		}
 		zend_llist_clean(&reversed);
 		zend_llist_destroy(&reversed);
 
-		if (retval_ptr) {
-			RETURN_ZVAL(retval_ptr, 0, 0);
-		} else {
-			RETURN_ZVAL(initial, 0, 0);
-		}
-
 		FUNCTIONAL_ITERATOR_DONE
+		RETURN_ZVAL(result, 1, 1);
 	}
 }
 
@@ -934,8 +977,10 @@ PHP_FUNCTION(functional_first)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ARRAY_FREE_KEY
 					RETURN_ZVAL(*args[0], 1, 0);
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -946,9 +991,11 @@ PHP_FUNCTION(functional_first)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ITERATOR_FREE_KEY
 					RETVAL_ZVAL(*args[0], 1, 0);
 					goto done;
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -979,6 +1026,7 @@ PHP_FUNCTION(functional_last)
 				if (zend_is_true(retval_ptr)) {
 					RETVAL_ZVAL(*args[0], 1, 0);
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -991,6 +1039,7 @@ PHP_FUNCTION(functional_last)
 				if (zend_is_true(retval_ptr)) {
 					RETVAL_ZVAL(*args[0], 1, 0);
 				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -1023,11 +1072,14 @@ PHP_FUNCTION(functional_drop_first)
 					if (!zend_is_true(retval_ptr)) {
 						drop = 0;
 					} else {
+						FUNCTIONAL_ARRAY_FREE_KEY
+						zval_ptr_dtor(&retval_ptr);
 						zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
 						continue;
 					}
 				FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 			}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1041,12 +1093,15 @@ PHP_FUNCTION(functional_drop_first)
 					if (!zend_is_true(retval_ptr)) {
 						drop = 0;
 					} else {
+						FUNCTIONAL_ITERATOR_FREE_KEY
+						zval_ptr_dtor(&retval_ptr);
 						iter->funcs->move_forward(iter TSRMLS_CC);
 						continue;
 					}
 				FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 			}
 			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
@@ -1074,8 +1129,11 @@ PHP_FUNCTION(functional_drop_last)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ARRAY_FREE_KEY
+					zval_ptr_dtor(&retval_ptr);
 					break;
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
 		FUNCTIONAL_ARRAY_ITERATE_END
@@ -1087,10 +1145,13 @@ PHP_FUNCTION(functional_drop_last)
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (!zend_is_true(retval_ptr)) {
+					FUNCTIONAL_ITERATOR_FREE_KEY
+					zval_ptr_dtor(&retval_ptr);
 					goto done;
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
 			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
@@ -1120,6 +1181,7 @@ PHP_FUNCTION(functional_group)
 				if (php_functional_prepare_group(retval_ptr, &return_value, &group TSRMLS_CC) == SUCCESS) {
 					php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
 				}
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1133,6 +1195,7 @@ PHP_FUNCTION(functional_group)
 					php_functional_append_array_value(hash_key_type, &group, args[0], string_key, string_key_len, int_key);
 				}
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
@@ -1251,6 +1314,7 @@ PHP_FUNCTION(functional_partition)
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				php_functional_append_array_value(hash_key_type, zend_is_true(retval_ptr) ? &left : &right, args[0], string_key, string_key_len, int_key);
+			FUNCTIONAL_ARRAY_FREE_KEY
 			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1262,6 +1326,7 @@ PHP_FUNCTION(functional_partition)
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				php_functional_append_array_value(hash_key_type, zend_is_true(retval_ptr) ? &left : &right, args[0], string_key, string_key_len, int_key);
 			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
@@ -1381,76 +1446,78 @@ static int functional_is_equal(zval *value, zval **entry, int behaviour TSRMLS_D
 {
 	int (*is_equal_func)(zval *, zval *, zval * TSRMLS_DC) = is_equal_function;
 	zval res;
-	
+
 	if (behaviour == 1) {
 		is_equal_func = is_identical_function;
 	}
-	
+
 	is_equal_func(&res, value, *entry TSRMLS_CC);
-	
+
 	if (Z_LVAL(res)) {
-		return 1;	
+		return 1;
 	} else {
 		return 0;
 	}
 }
- 
+
 static int functional_in_array(zval *array, zval *value, int behaviour TSRMLS_DC)
 {
-	HashPosition pos; 
+	HashPosition pos;
 	zval **entry;
-	
+
 	/*php_printf(">> Cur val: %d\n", Z_LVAL_P(value));*/
-	
- 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(array), &pos);
- 	
- 	while (zend_hash_get_current_data_ex(Z_ARRVAL_P(array), (void **)&entry, &pos) == SUCCESS) {
- 		if (functional_is_equal(value, entry, behaviour TSRMLS_CC)) {
- 			return 1;
- 		}
+
+	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(array), &pos);
+
+	while (zend_hash_get_current_data_ex(Z_ARRVAL_P(array), (void **)&entry, &pos) == SUCCESS) {
+		if (functional_is_equal(value, entry, behaviour TSRMLS_CC)) {
+		return 1;
+	}
 
 		zend_hash_move_forward_ex(Z_ARRVAL_P(array), &pos);
- 	}
- 	
- 	return 0;
+	}
+
+	return 0;
 }
 
 PHP_FUNCTION(functional_unique)
 {
 	FUNCTIONAL_DECLARE(3);
-	
+
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
 	}
-		
+
 	array_init(return_value);
-	
+
 	FUNCTIONAL_COLLECTION_PARAM(collection, "unique")
 	FUNCTIONAL_PREPARE_ARGS
-	
+
 	if (ZEND_NUM_ARGS() > 1) {
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
-	
+
 	zval *indexes;
 	MAKE_STD_ZVAL(indexes);
 	array_init(indexes);
-	
-	/* if callback given, uniqify based on callback return value, otherwise on current array/iterator value */
+
+	/* if callback given, unify based on callback return value, otherwise on current array/iterator value */
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 				FUNCTIONAL_UNIQUE_INNER(FUNCTIONAL_ARRAY_CALL_BACK_EX_END)
+			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 	} else {
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 				FUNCTIONAL_UNIQUE_INNER(FUNCTIONAL_ITERATOR_CALL_BACK_EX_END)
+			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
-	
+
 	zval_ptr_dtor(&indexes);
 }
