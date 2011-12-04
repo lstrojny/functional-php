@@ -11,7 +11,7 @@ before_script:
   - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make; fi"
 
 script:
-  - sh -c "if [ -f .libs/functional.so ]; then php -n -d extension=.libs/functional.so /home/vagrant/.phpenv/shims/phpunit || exit 1; else phpunit || exit 1; fi"
+  - sh -c "if [ -f .libs/functional.so ]; then php -n -d extension=.libs/functional.so `phpunit` || exit 1; else phpunit || exit 1; fi"
 
 notifications:
   email:
