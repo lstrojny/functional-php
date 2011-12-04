@@ -48,6 +48,10 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Last.php';
     /** @var Functional\map() */
     require_once $basePath . 'Map.php';
+    /** @var Functional\maximum() */
+    require_once $basePath . 'Maximum.php';
+    /** @var Functional\minimum() */
+    require_once $basePath . 'Minimum.php';
     /** @var Functional\none() */
     require_once $basePath . 'None.php';
     /** @var Functional\partition() */
