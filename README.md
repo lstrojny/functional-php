@@ -220,7 +220,7 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
    Calculates the sum of all elements, starting with `$initial`
  - `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
    Calculates the difference of all elements, starting with `$initial`
- - array Functional\unique(array|Traversable $collection[, callback $indexer])`
+ - `array Functional\unique(array|Traversable $collection[, callback $indexer])`
    Returns a unified array based on the index value returned by the callback
  - `mixed Functional\maximum(array|Traversable $collection)`
    Returns the highest element in the array
