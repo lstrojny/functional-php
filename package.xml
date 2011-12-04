@@ -9,10 +9,10 @@
 		<email>lstrojny@php.net</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-06-11</date>
+	<date>2011-12-04</date>
 	<version>
-		<release>0.0.1</release>
-		<api>0.1</api>
+		<release>0.0.5</release>
+		<api>0.5</api>
 	</version>
 	<stability>
 		<release>alpha</release>
@@ -20,7 +20,17 @@
 	</stability>
 	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
 	<notes>
-- Initial release
+- Renamed all() to every() and any() to some()
+- Added drop_first() and drop_last()
+- Fixed property access with pluck()
+- pluck() now works with associative arrays
+- Added partition()
+- Added group()
+- Added flatten()
+- Added first() and last()
+- Added product(), sum(), ratio(), difference()
+- Added unique()
+- Fixed a lot of memory leaks
 	</notes>
 	<contents>
 		<dir name="/">
