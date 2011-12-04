@@ -11,7 +11,7 @@
 	</lead>
 	<date>2011-12-04</date>
 	<version>
-		<release>0.0.6-dev</release>
+		<release>0.6.0-dev</release>
 		<api>0.6</api>
 	</version>
 	<stability>
