@@ -1489,6 +1489,7 @@ static int functional_in_array(zval *array, zval *value, int behaviour TSRMLS_DC
 PHP_FUNCTION(functional_unique)
 {
 	FUNCTIONAL_DECLARE(3);
+	zval *indexes;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -1503,7 +1504,6 @@ PHP_FUNCTION(functional_unique)
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
 
-	zval *indexes;
 	MAKE_STD_ZVAL(indexes);
 	array_init(indexes);
 
