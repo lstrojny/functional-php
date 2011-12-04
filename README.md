@@ -205,47 +205,37 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 ### Additional functions:
 
 `void Functional\each(array|Traversable $collection, callable $callback)`
- Applies a callback to each element
+Applies a callback to each element
 
 `array Functional\map(array|Traversable $collection, callable $callback)`
-
-   Applies a callback to each element in the collection and collects the return value
+Applies a callback to each element in the collection and collects the return value
 
 `mixed Functional\first(array|Traversable $collection, callable $callback)`
-
-   Returns the first element of the collection where the callback returned true
+Returns the first element of the collection where the callback returned true
 
 `mixed Functional\last(array|Traversable $collection, callable $callback)`
-
-   Returns the last element of the collection where the callback returned true
+Returns the last element of the collection where the callback returned true
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`
-
-   Calculates the product of all elements, starting with `$initial`
+Calculates the product of all elements, starting with `$initial`
 
 `integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`
-
-   Calculates the ratio of all elements, starting with `$initial`
+Calculates the ratio of all elements, starting with `$initial`
 
 `integer|float Functional\sum(array|Traversable $collection, $initial = 0)`
-
-   Calculates the sum of all elements, starting with `$initial`
+Calculates the sum of all elements, starting with `$initial`
 
 `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
-
-   Calculates the difference of all elements, starting with `$initial`
+Calculates the difference of all elements, starting with `$initial`
 
 `array Functional\unique(array|Traversable $collection[, callback $indexer])`
-
-   Returns a unified array based on the index value returned by the callback
+Returns a unified array based on the index value returned by the callback
 
 `mixed Functional\maximum(array|Traversable $collection)`
-
-   Returns the highest element in the array
+Returns the highest element in the array
 
 `mixed Functional\minimum(array|Traversable $collection)`
-
-   Returns the lowest element in the array
+Returns the lowest element in the array
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
