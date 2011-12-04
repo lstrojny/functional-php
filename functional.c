@@ -1384,7 +1384,11 @@ PHP_FUNCTION(functional_maximum)
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			if (max == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_or_equal_function(&result, *args[0], max TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 0)) {
-				max = *args[0];
+				if (max != NULL) {
+					zval_ptr_dtor(&max);
+				}
+				ALLOC_ZVAL(max);
+				MAKE_COPY_ZVAL(args[0], max);
 			}
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1394,7 +1398,11 @@ PHP_FUNCTION(functional_maximum)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			if (max == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_or_equal_function(&result, *args[0], max TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 0)) {
-				max = *args[0];
+				if (max != NULL) {
+					zval_ptr_dtor(&max);
+				}
+				ALLOC_ZVAL(max);
+				MAKE_COPY_ZVAL(args[0], max);
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
@@ -1420,7 +1428,11 @@ PHP_FUNCTION(functional_minimum)
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			if (min == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_function(&result, *args[0], min TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1)) {
-				min = *args[0];
+				if (min != NULL) {
+					zval_ptr_dtor(&min);
+				}
+				ALLOC_ZVAL(min);
+				MAKE_COPY_ZVAL(args[0], min);
 			}
 		FUNCTIONAL_ARRAY_ITERATE_END
 
@@ -1428,14 +1440,17 @@ PHP_FUNCTION(functional_minimum)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			printf("Type: %d\n", Z_TYPE_PP(args[0]));
 			if (min == NULL || (FUNCTIONAL_IS_NUMERIC_PP(args[0]) && is_smaller_function(&result, *args[0], min TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1)) {
-				min = *args[0];
+				if (min != NULL) {
+					zval_ptr_dtor(&min);
+				}
+				ALLOC_ZVAL(min);
+				MAKE_COPY_ZVAL(args[0], min);
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
 
-	RETVAL_ZVAL(min, 1, 0);
+	RETVAL_ZVAL(min, 0, 0);
 }
