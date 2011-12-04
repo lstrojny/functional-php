@@ -21,7 +21,7 @@
  */
 #ifndef PHP_FUNCTIONAL_H
 #define PHP_FUNCTIONAL_H
-#define FUNCTIONAL_VERSION "0.0.5"
+#define FUNCTIONAL_VERSION "0.0.6-dev"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"

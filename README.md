@@ -14,8 +14,6 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
   - All functions reside in namespace `Functional` to not conflict with any other extension or library
 
 
-!["Start using Functional PHP"](http://memegenerator.net/cache/instances/400x/10/11239/11509601.jpg)
-
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `average()`
