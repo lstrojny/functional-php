@@ -233,12 +233,12 @@ Calculates the ratio of all numeric elements, starting with `$initial`
 Calculates the sum of all numeric elements, starting with `$initial`
 
 
-`integer|float|null Functional\average(array|Traversable $collection)`  
-Calculates the average of all numeric elements
-
-
 `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`  
 Calculates the difference of all elements, starting with `$initial`
+
+
+`integer|float|null Functional\average(array|Traversable $collection)`  
+Calculates the average of all numeric elements
 
 
 `array Functional\unique(array|Traversable $collection[, callback $indexer])`  
