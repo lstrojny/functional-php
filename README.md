@@ -222,15 +222,19 @@ Returns the last element of the collection where the callback returned true
 
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`  
-Calculates the product of all elements, starting with `$initial`
+Calculates the product of all numeric elements, starting with `$initial`
 
 
 `integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`  
-Calculates the ratio of all elements, starting with `$initial`
+Calculates the ratio of all numeric elements, starting with `$initial`
 
 
 `integer|float Functional\sum(array|Traversable $collection, $initial = 0)`  
-Calculates the sum of all elements, starting with `$initial`
+Calculates the sum of all numeric elements, starting with `$initial`
+
+
+`integer|float|null Functional\average(array|Traversable $collection)`  
+Calculates the average of all numeric elements
 
 
 `integer|float Functional\difference(array|Traversable $collection, $initial = 0)`  
