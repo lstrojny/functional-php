@@ -20,7 +20,7 @@
 	</stability>
 	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
 	<notes>
-- ???
+- Changing behavior of sum()/product()/difference()/ratio() to ignore booleans
 	</notes>
 	<contents>
 		<dir name="/">

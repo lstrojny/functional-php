@@ -345,7 +345,6 @@ ZEND_GET_MODULE(functional)
 			type = FAILURE; \
 			switch (Z_TYPE(el)) { \
 				case IS_LONG: \
-				case IS_BOOL: \
 					lval = Z_LVAL(el); \
 					type = IS_LONG; \
 					break; \

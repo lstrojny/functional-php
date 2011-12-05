@@ -38,7 +38,7 @@ function sum($collection, $initial = 0)
     $result = $initial;
     foreach ($collection as $value) {
 
-        if (is_numeric($value) || is_bool($value)) {
+        if (is_numeric($value)) {
             $result += $value;
         }
 

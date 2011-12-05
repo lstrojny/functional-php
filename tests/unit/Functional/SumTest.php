@@ -51,7 +51,7 @@ class SumTest extends AbstractTestCase
     /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
     function testElementsOfWrongTypeAreIgnored($collection)
     {
-        $this->assertEquals(4.5, sum($collection), '', 0.1);
+        $this->assertEquals(3.5, sum($collection), '', 0.1);
     }
 
     function testPassNoCollection()
