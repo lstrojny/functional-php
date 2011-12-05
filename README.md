@@ -19,7 +19,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`, `first()`, `last()`,
-   `rest()`, `compact()`, `without()`, `intersection()`, `index_of()`, `last_index_of()`, `contains()`
+   `rest()`, `truthy()`, `falsy()`, `true()`, `false()`, `without()`, `intersection()`, `index_of()`, `last_index_of()`, `contains()`
 
 
 ## Installation
