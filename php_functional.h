@@ -58,6 +58,7 @@ PHP_FUNCTION(functional_reject);
 PHP_FUNCTION(functional_select);
 PHP_FUNCTION(functional_partition);
 PHP_FUNCTION(functional_flatten);
+PHP_FUNCTION(functional_average);
 PHP_FUNCTION(functional_sum);
 PHP_FUNCTION(functional_difference);
 PHP_FUNCTION(functional_product);

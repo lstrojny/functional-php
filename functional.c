@@ -126,6 +126,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", reject,		ZEND_FN(functional_reject),			arginfo_functional_reject,			0)
 	ZEND_NS_FENTRY("Functional", select,		ZEND_FN(functional_select),			arginfo_functional_select,			0)
 	ZEND_NS_FENTRY("Functional", flatten,		ZEND_FN(functional_flatten),		arginfo_functional_flatten,			0)
+	ZEND_NS_FENTRY("Functional", average,		ZEND_FN(functional_average),		arginfo_functional_math,			0)
 	ZEND_NS_FENTRY("Functional", sum,			ZEND_FN(functional_sum),			arginfo_functional_math,			0)
 	ZEND_NS_FENTRY("Functional", difference,	ZEND_FN(functional_difference),		arginfo_functional_math,			0)
 	ZEND_NS_FENTRY("Functional", product,		ZEND_FN(functional_product),		arginfo_functional_math,			0)
@@ -323,7 +324,8 @@ ZEND_GET_MODULE(functional)
 				ZVAL_NULL(retval_ptr); \
 			} \
 			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
-#define FUNCTIONAL_MATH(func, sym, in) FUNCTIONAL_COLLECTION_PARAM(collection, func) \
+#define FUNCTIONAL_MATH(func, sym, in) FUNCTIONAL_MATH_EX(func, sym, in, ;)
+#define FUNCTIONAL_MATH_EX(func, sym, in, cb) FUNCTIONAL_COLLECTION_PARAM(collection, func) \
 	if (initial) { \
 		RETVAL_ZVAL(initial, 1, 0); \
 	} else { \
@@ -332,16 +334,16 @@ ZEND_GET_MODULE(functional)
 	if (Z_TYPE_P(collection) == IS_ARRAY) { \
 		FUNCTIONAL_ARRAY_PREPARE \
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN \
-			FUNCTIONAL_MATH_CALC(sym) \
+			FUNCTIONAL_MATH_CALC(sym, cb) \
 		FUNCTIONAL_ARRAY_ITERATE_END \
 	} else { \
 		FUNCTIONAL_ITERATOR_PREPARE \
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN \
-			FUNCTIONAL_MATH_CALC(sym) \
+			FUNCTIONAL_MATH_CALC(sym, cb) \
 		FUNCTIONAL_ITERATOR_ITERATE_END \
 		FUNCTIONAL_ITERATOR_DONE \
 	}
-#define FUNCTIONAL_MATH_CALC(sym) el = **args[0]; \
+#define FUNCTIONAL_MATH_CALC(sym, cb) el = **args[0]; \
 			type = FAILURE; \
 			switch (Z_TYPE(el)) { \
 				case IS_LONG: \
@@ -374,6 +376,7 @@ ZEND_GET_MODULE(functional)
 					} \
 					Z_DVAL_P(return_value) sym##= dval; \
 				} \
+				cb; \
 			}
 #define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
 			if (ZEND_NUM_ARGS() > 1) { \
@@ -1381,6 +1384,37 @@ void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC)
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
+	}
+}
+
+PHP_FUNCTION(functional_average)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	zval el, *initial = NULL;
+	double dval;
+	long lval;
+	int type = 0, divisor = 0;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|z", &collection, &initial) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_MATH_EX("average", +, 0, (divisor++))
+
+	if (divisor > 0) {
+		if (Z_TYPE_P(return_value) == IS_LONG) {
+			dval = (double)Z_LVAL_P(return_value) / (double)divisor;
+			if ((double)(long)dval == dval && dval >= (double)LONG_MIN && dval <= (double)LONG_MAX) { \
+				Z_LVAL_P(return_value) = (long)dval; \
+			} else { \
+				convert_to_double(return_value);
+				Z_DVAL_P(return_value) = dval;
+			}
+		} else {
+			Z_DVAL_P(return_value) /= (double)divisor;
+		}
+	} else {
+		RETVAL_NULL();
 	}
 }
 

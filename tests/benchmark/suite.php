@@ -141,3 +141,7 @@ benchmark('reject', $array, $iterator, $hash, $hashIterator);
 benchmark('select', $array, $iterator, $hash, $hashIterator);
 benchmark('some', $array, $iterator, $hash, $hashIterator);
 benchmark('sum', $array, $iterator, $hash, $hashIterator, false);
+benchmark('difference', $array, $iterator, $hash, $hashIterator, false);
+benchmark('ratio', $array, $iterator, $hash, $hashIterator, false);
+benchmark('product', $array, $iterator, $hash, $hashIterator, false);
+benchmark('average', $array, $iterator, $hash, $hashIterator, false);
