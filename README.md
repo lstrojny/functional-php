@@ -253,7 +253,7 @@ Returns the highest element in the array
 Returns the lowest element in the array
 
 ## Running the test suite
-To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
+To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`  
 To run the test suite with the userland implementation use `php -n $(which phpunit) tests/`
 
 ## Mailing lists
