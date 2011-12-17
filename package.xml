@@ -9,9 +9,9 @@
 		<email>lstrojny@php.net</email>
 		<active>yes</active>
 	</lead>
-	<date>2011-12-04</date>
+	<date>2011-12-17</date>
 	<version>
-		<release>0.6.0-dev</release>
+		<release>0.6.0</release>
 		<api>0.6</api>
 	</version>
 	<stability>
@@ -22,6 +22,7 @@
 	<notes>
 - Adding average()
 - Changing behavior of sum()/product()/difference()/ratio() to ignore booleans
+- Fixed critical bug in Functional\pluck() that made the current scope unavailable to the caller
 	</notes>
 	<contents>
 		<dir name="/">
