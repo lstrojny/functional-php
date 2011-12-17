@@ -220,22 +220,22 @@ ZEND_GET_MODULE(functional)
 	fci.no_separation = 0; \
 	fci.retval_ptr_ptr = &retval_ptr;
 #define FUNCTIONAL_ITERATOR_ITERATE_BEGIN \
-		while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) { \
-			if (EG(exception)) { \
-				goto done; \
-			} \
-			zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);
+	while (iter->funcs->valid(iter TSRMLS_CC) == SUCCESS) { \
+		if (EG(exception)) { \
+			goto done; \
+		} \
+		zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS)
 #define FUNCTIONAL_ARRAY_ITERATE_END \
-			zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos); \
-		}
+		zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos); \
+	}
 #define FUNCTIONAL_ITERATOR_ITERATE_END \
-			iter->funcs->move_forward(iter TSRMLS_CC); \
-			if (EG(exception)) { \
-				goto done; \
-			} \
-		}
+	iter->funcs->move_forward(iter TSRMLS_CC); \
+	if (EG(exception)) { \
+		goto done; \
+	} \
+}
 #define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
 #define FUNCTIONAL_ARRAY_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos))
 #define FUNCTIONAL_PREPARE_KEY(get_key) MAKE_STD_ZVAL(key); \
@@ -243,11 +243,10 @@ ZEND_GET_MODULE(functional)
 			php_functional_prepare_array_key(hash_key_type, &key, &args[0], string_key, string_key_len, int_key);
 #define FUNCTIONAL_ARRAY_FREE_KEY efree(key);
 #define FUNCTIONAL_ITERATOR_FREE_KEY FUNCTIONAL_ARRAY_FREE_KEY; if (hash_key_type == HASH_KEY_IS_STRING) efree(string_key);
-#define FUNCTIONAL_ITERATOR_DONE \
-	done: \
-		if (iter) { \
-			iter->funcs->dtor(iter TSRMLS_CC); \
-		}
+#define FUNCTIONAL_ITERATOR_DONE done: \
+	if (iter) { \
+		iter->funcs->dtor(iter TSRMLS_CC); \
+	}
 #define FUNCTIONAL_ARRAY_CALL_BACK				FUNCTIONAL_CALL_BACK(RETURN_FALSE)
 #define FUNCTIONAL_ARRAY_CALL_BACK_EX_END		FUNCTIONAL_CALL_BACK_EX_END(break)
 #define FUNCTIONAL_ITERATOR_CALL_BACK			FUNCTIONAL_CALL_BACK(goto done)
@@ -255,32 +254,31 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_CALL_BACK(on_failure)		FUNCTIONAL_CALL_BACK_EX_BEGIN FUNCTIONAL_CALL_BACK_EX_END(on_failure)
 #define FUNCTIONAL_CALL_BACK_EX_BEGIN			if (FUNCTIONAL_CALL_BACK_CALL) {
 #define FUNCTIONAL_CALL_BACK_EX_END(on_failure) if (retval_ptr) { \
-					zval_ptr_dtor(&retval_ptr); \
-					retval_ptr = NULL; \
-				} \
-			} else { \
-				if (retval_ptr) { \
-					zval_ptr_dtor(&retval_ptr); \
-					retval_ptr = NULL; \
-				} \
-				on_failure; \
-			}
+			zval_ptr_dtor(&retval_ptr); \
+			retval_ptr = NULL; \
+		} \
+	} else { \
+		if (retval_ptr) { \
+			zval_ptr_dtor(&retval_ptr); \
+			retval_ptr = NULL; \
+		} \
+		on_failure; \
+	}
 #define FUNCTIONAL_CALL_BACK_CALL zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception)
 #define FUNCTIONAL_INVOKE_INNER(on_failure) \
-			if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
-				MAKE_STD_ZVAL(retval_ptr); \
-				ZVAL_NULL(retval_ptr); \
-			} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 0, NULL TSRMLS_CC) == SUCCESS) { \
-				if (EG(exception)) { \
-					on_failure; \
-				} \
-			} else { \
-				MAKE_STD_ZVAL(retval_ptr); \
-				ZVAL_NULL(retval_ptr); \
-			} \
-			efree(callable); \
-			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
-
+	if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		MAKE_STD_ZVAL(retval_ptr); \
+		ZVAL_NULL(retval_ptr); \
+	} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+		if (EG(exception)) { \
+			on_failure; \
+		} \
+	} else { \
+		MAKE_STD_ZVAL(retval_ptr); \
+		ZVAL_NULL(retval_ptr); \
+	} \
+	efree(callable); \
+	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
 #else
@@ -292,38 +290,38 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_READ_PROPERTY(obj, value, property) obj->read_property(value, property, BP_VAR_IS TSRMLS_CC);
 #endif
 #define FUNCTIONAL_PLUCK_INNER(on_failure, suffix) \
-			if (numeric && Z_TYPE_PP(args[0]) == IS_ARRAY) { \
-				if (zend_hash_index_find(HASH_OF(*args[0]), h, (void **)&hash_value) == SUCCESS) { \
-					retval_ptr = *hash_value; \
-				} else { \
-					goto null_##suffix; \
-				} \
-			} else if (Z_TYPE_PP(args[0]) == IS_OBJECT) { \
-				if (Z_OBJ_HT_PP(args[0])->has_property && FUNCTIONAL_HAS_PROPERTY(Z_OBJ_HT_PP(args[0]), &**args[0], property)) { \
-					retval_ptr = FUNCTIONAL_READ_PROPERTY(Z_OBJ_HT_P(*args[0]), &**args[0], property); \
-				} else if (Z_OBJ_HT_PP(args[0])->read_dimension && instanceof_function_ex(Z_OBJCE_PP(args[0]), zend_ce_arrayaccess, 1 TSRMLS_CC)) { \
-					retval_ptr = Z_OBJ_HT_PP(args[0])->read_dimension(&**args[0], property, BP_VAR_R TSRMLS_CC); \
-				} else { \
-					goto null_##suffix; \
-				} \
-				if (EG(exception)) { \
-					on_failure; \
-				} \
-			} else if (Z_TYPE_PP(args[0]) == IS_ARRAY) { \
-				if (h == 0) { \
-					h = zend_get_hash_value(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1); \
-				} \
-				if (zend_hash_quick_find(HASH_OF(*args[0]), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, (void **)&hash_value) == SUCCESS) { \
-					retval_ptr = *hash_value; \
-				} else { \
-					goto null_##suffix; \
-				} \
-			} else { \
-				null_##suffix: \
-				MAKE_STD_ZVAL(retval_ptr); \
-				ZVAL_NULL(retval_ptr); \
-			} \
-			php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+	if (numeric && Z_TYPE_PP(args[0]) == IS_ARRAY) { \
+		if (zend_hash_index_find(HASH_OF(*args[0]), h, (void **)&hash_value) == SUCCESS) { \
+			retval_ptr = *hash_value; \
+		} else { \
+			goto null_##suffix; \
+		} \
+	} else if (Z_TYPE_PP(args[0]) == IS_OBJECT) { \
+		if (Z_OBJ_HT_PP(args[0])->has_property && FUNCTIONAL_HAS_PROPERTY(Z_OBJ_HT_PP(args[0]), &**args[0], property)) { \
+			retval_ptr = FUNCTIONAL_READ_PROPERTY(Z_OBJ_HT_P(*args[0]), &**args[0], property); \
+		} else if (Z_OBJ_HT_PP(args[0])->read_dimension && instanceof_function_ex(Z_OBJCE_PP(args[0]), zend_ce_arrayaccess, 1 TSRMLS_CC)) { \
+			retval_ptr = Z_OBJ_HT_PP(args[0])->read_dimension(&**args[0], property, BP_VAR_R TSRMLS_CC); \
+		} else { \
+			goto null_##suffix; \
+		} \
+		if (EG(exception)) { \
+			on_failure; \
+		} \
+	} else if (Z_TYPE_PP(args[0]) == IS_ARRAY) { \
+		if (h == 0) { \
+			h = zend_get_hash_value(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1); \
+		} \
+		if (zend_hash_quick_find(HASH_OF(*args[0]), Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, (void **)&hash_value) == SUCCESS) { \
+			retval_ptr = *hash_value; \
+		} else { \
+			goto null_##suffix; \
+		} \
+	} else { \
+		null_##suffix: \
+		MAKE_STD_ZVAL(retval_ptr); \
+		ZVAL_NULL(retval_ptr); \
+	} \
+	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 #define FUNCTIONAL_MATH(func, sym, in) FUNCTIONAL_MATH_EX(func, sym, in, ;)
 #define FUNCTIONAL_MATH_EX(func, sym, in, cb) FUNCTIONAL_COLLECTION_PARAM(collection, func) \
 	if (initial) { \
@@ -344,55 +342,54 @@ ZEND_GET_MODULE(functional)
 		FUNCTIONAL_ITERATOR_DONE \
 	}
 #define FUNCTIONAL_MATH_CALC(sym, cb) el = **args[0]; \
-			type = FAILURE; \
-			switch (Z_TYPE(el)) { \
-				case IS_LONG: \
-					lval = Z_LVAL(el); \
-					type = IS_LONG; \
-					break; \
-				case IS_STRING: \
-					type = is_numeric_string(Z_STRVAL(el), Z_STRLEN(el), &lval, &dval, 0); \
-					break; \
-				case IS_DOUBLE: \
-					dval = Z_DVAL(el); \
-					type = IS_DOUBLE; \
-					break; \
-			} \
-			if (type > 0) { \
-				if (type == IS_DOUBLE && Z_TYPE_P(return_value) != IS_DOUBLE) { \
-					convert_to_double(return_value); \
-				} \
-				if (type == IS_LONG && Z_TYPE_P(return_value) == IS_LONG) { \
-					dval = (double)Z_LVAL_P(return_value) sym (double)lval; \
-					if ((double)(long)dval == dval && dval >= (double)LONG_MIN && dval <= (double)LONG_MAX) { \
-						Z_LVAL_P(return_value) = (long)dval; \
-					} else { \
-						convert_to_double(return_value); \
-						Z_DVAL_P(return_value) = dval; \
-					} \
-				} else { \
-					if (type == IS_LONG) { \
-						dval = (double)lval; \
-					} \
-					Z_DVAL_P(return_value) sym##= dval; \
-				} \
-				cb; \
-			}
-#define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
-			if (ZEND_NUM_ARGS() > 1) { \
-				FUNCTIONAL_CALL_BACK_EX_BEGIN \
-					if (functional_in_array(indexes, retval_ptr, 0 TSRMLS_CC) == 0) { \
-						php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
-						php_functional_append_array_value(hash_key_type, &indexes, &retval_ptr, string_key, string_key_len, int_key); \
-					} \
-				CALL_BACK_END \
+	type = FAILURE; \
+	switch (Z_TYPE(el)) { \
+		case IS_LONG: \
+			lval = Z_LVAL(el); \
+			type = IS_LONG; \
+			break; \
+		case IS_STRING: \
+			type = is_numeric_string(Z_STRVAL(el), Z_STRLEN(el), &lval, &dval, 0); \
+			break; \
+		case IS_DOUBLE: \
+			dval = Z_DVAL(el); \
+			type = IS_DOUBLE; \
+			break; \
+	} \
+	if (type > 0) { \
+		if (type == IS_DOUBLE && Z_TYPE_P(return_value) != IS_DOUBLE) { \
+			convert_to_double(return_value); \
+		} \
+		if (type == IS_LONG && Z_TYPE_P(return_value) == IS_LONG) { \
+			dval = (double)Z_LVAL_P(return_value) sym (double)lval; \
+			if ((double)(long)dval == dval && dval >= (double)LONG_MIN && dval <= (double)LONG_MAX) { \
+				Z_LVAL_P(return_value) = (long)dval; \
 			} else { \
-				if (functional_in_array(indexes, *args[0], 0 TSRMLS_CC) == 0) { \
-					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
-					php_functional_append_array_value(hash_key_type, &indexes, args[0], string_key, string_key_len, int_key); \
-				} \
-			}
-
+				convert_to_double(return_value); \
+				Z_DVAL_P(return_value) = dval; \
+			} \
+		} else { \
+			if (type == IS_LONG) { \
+				dval = (double)lval; \
+			} \
+			Z_DVAL_P(return_value) sym##= dval; \
+		} \
+		cb; \
+	}
+#define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
+	if (ZEND_NUM_ARGS() > 1) { \
+		FUNCTIONAL_CALL_BACK_EX_BEGIN \
+			if (functional_in_array(indexes, retval_ptr, 0 TSRMLS_CC) == 0) { \
+				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
+				php_functional_append_array_value(hash_key_type, &indexes, &retval_ptr, string_key, string_key_len, int_key); \
+			} \
+		CALL_BACK_END \
+	} else { \
+		if (functional_in_array(indexes, *args[0], 0 TSRMLS_CC) == 0) { \
+			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
+			php_functional_append_array_value(hash_key_type, &indexes, args[0], string_key, string_key_len, int_key); \
+		} \
+	}
 #define FUNCTIONAL_IS_NUMERIC_PP(arg) FUNCTIONAL_IS_NUMERIC_P(*arg)
 #define FUNCTIONAL_IS_NUMERIC_P(arg) FUNCTIONAL_IS_NUMERIC(*arg)
 #define FUNCTIONAL_IS_NUMERIC(arg) (Z_TYPE(arg) == IS_LONG || Z_TYPE(arg) == IS_DOUBLE || (Z_TYPE(arg) == IS_STRING && is_numeric_string(Z_STRVAL(arg), Z_STRLEN(arg), NULL, NULL, 0)))
