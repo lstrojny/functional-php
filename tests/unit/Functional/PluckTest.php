@@ -82,6 +82,20 @@ class MagicGetException
     }
 }
 
+class PluckCaller
+{
+    protected $property;
+
+    public function call($collection, $property)
+    {
+        $this->property = 'value';
+        $plucked = pluck($collection, $property);
+        if (!isset($this->property)) {
+            throw new \Exception('Property is no longer accessable');
+        }
+        return $plucked;
+    }
+}
 
 class PluckTest extends AbstractTestCase
 {
@@ -175,5 +189,11 @@ class PluckTest extends AbstractTestCase
     {
         $this->setExpectedException('DomainException', '__get exception: foobar');
         pluck($this->getExceptionIterator, 'foobar');
+    }
+
+    function testClassCallsPluck()
+    {
+        $caller = new PluckCaller();
+        $this->assertSame(array('test' => 1, 'test2' => 2), $caller->call($this->keyedCollection, 'property'));
     }
 }
