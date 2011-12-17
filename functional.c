@@ -795,6 +795,7 @@ PHP_FUNCTION(functional_pluck)
 	ulong h = 0;
 	zval *property,
 		**hash_value;
+	zend_class_entry *calling_scope;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &collection, &property)) {
 		RETURN_NULL();
@@ -810,6 +811,7 @@ PHP_FUNCTION(functional_pluck)
 		numeric = 1;
 	}
 
+	calling_scope = EG(scope);
 	EG(scope) = NULL;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
@@ -833,6 +835,7 @@ PHP_FUNCTION(functional_pluck)
 
 	}
 
+	EG(scope) = calling_scope;
 }
 
 PHP_FUNCTION(functional_reduce_left)
