@@ -8,12 +8,12 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 [Underscore.js](http://documentcloud.github.com/underscore/)
 
   - Works with arrays and everything implementing interface `Traversable`
-  - Consistent interface: first parameter is always the collection, than the callback. Callbacks always receives value, key,
-    collection
-  - Calls 5.3 closures as well as traditional callbacks
-  - C implementation for performance but compatible userland implementation is packaged if you can’t install PHP
+  - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.
+Callbacks are always passed `$value`, `$key`, `$collection`
+  - Calls 5.3 closures as well as usual callbacks
+  - C implementation for performance but a compatible userland implementation is provided if you can’t install PHP
     extensions
-  - All functions reside in namespace `Functional` to not conflict with any other extension or library
+  - All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
 
 
 ## TODO
@@ -246,11 +246,11 @@ Returns a unified array based on the index value returned by the callback
 
 
 `mixed Functional\maximum(array|Traversable $collection)`  
-Returns the highest element in the array
+Returns the highest element in the array or collection
 
 
 `mixed Functional\minimum(array|Traversable $collection)`  
-Returns the lowest element in the array
+Returns the lowest element in the array or collection
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`  
