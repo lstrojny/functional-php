@@ -265,3 +265,4 @@ To run the test suite with the userland implementation use `php -n $(which phpun
    help
  - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
  - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`
+ - The people behind [Travis CI](http://travis-ci.org/) for continous integration
