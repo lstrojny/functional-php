@@ -1672,7 +1672,7 @@ PHP_FUNCTION(functional_first_index_of)
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "first_index_of")
 
-	RETVAL_FALSE
+	RETVAL_FALSE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -1718,7 +1718,7 @@ PHP_FUNCTION(functional_last_index_of)
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "last_index_of")
 
-	RETVAL_FALSE
+	RETVAL_FALSE;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
