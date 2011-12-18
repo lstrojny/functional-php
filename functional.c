@@ -106,34 +106,39 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_minimum, 1)
 	ZEND_ARG_INFO(0, collection)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_first_index_of, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
-	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),         arginfo_functional_every,         0)
-	ZEND_NS_FENTRY("Functional", some,           ZEND_FN(functional_some),          arginfo_functional_some,          0)
-	ZEND_NS_FENTRY("Functional", drop_first,     ZEND_FN(functional_drop_first),    arginfo_function_drop,            0)
-	ZEND_NS_FENTRY("Functional", drop_last,      ZEND_FN(functional_drop_last),     arginfo_function_drop,            0)
-	ZEND_NS_FENTRY("Functional", first,          ZEND_FN(functional_first),         arginfo_functional_first,         0)
-	ZEND_NS_FENTRY("Functional", group,          ZEND_FN(functional_group),         arginfo_functional_group,         0)
-	ZEND_NS_FENTRY("Functional", each,           ZEND_FN(functional_each),          arginfo_functional_each,          0)
-	ZEND_NS_FENTRY("Functional", invoke,         ZEND_FN(functional_invoke),        arginfo_functional_invoke,        0)
-	ZEND_NS_FENTRY("Functional", last,           ZEND_FN(functional_last),          arginfo_functional_last,          0)
-	ZEND_NS_FENTRY("Functional", map,            ZEND_FN(functional_map),           arginfo_functional_map,           0)
-	ZEND_NS_FENTRY("Functional", none,           ZEND_FN(functional_none),          arginfo_functional_none,          0)
-	ZEND_NS_FENTRY("Functional", partition,      ZEND_FN(functional_partition),     arginfo_functional_partition,     0)
-	ZEND_NS_FENTRY("Functional", pluck,          ZEND_FN(functional_pluck),         arginfo_functional_pluck,         0)
-	ZEND_NS_FENTRY("Functional", reduce_left,    ZEND_FN(functional_reduce_left),   arginfo_functional_reduce,        0)
-	ZEND_NS_FENTRY("Functional", reduce_right,   ZEND_FN(functional_reduce_right),  arginfo_functional_reduce,        0)
-	ZEND_NS_FENTRY("Functional", reject,         ZEND_FN(functional_reject),        arginfo_functional_reject,        0)
-	ZEND_NS_FENTRY("Functional", select,         ZEND_FN(functional_select),        arginfo_functional_select,        0)
-	ZEND_NS_FENTRY("Functional", flatten,        ZEND_FN(functional_flatten),       arginfo_functional_flatten,       0)
-	ZEND_NS_FENTRY("Functional", average,        ZEND_FN(functional_average),       arginfo_functional_math,          0)
-	ZEND_NS_FENTRY("Functional", sum,            ZEND_FN(functional_sum),           arginfo_functional_math,          0)
-	ZEND_NS_FENTRY("Functional", difference,     ZEND_FN(functional_difference),    arginfo_functional_math,          0)
-	ZEND_NS_FENTRY("Functional", product,        ZEND_FN(functional_product),       arginfo_functional_math,          0)
-	ZEND_NS_FENTRY("Functional", ratio,          ZEND_FN(functional_ratio),         arginfo_functional_math,          0)
-	ZEND_NS_FENTRY("Functional", unique,         ZEND_FN(functional_unique),        arginfo_functional_unique,        0)
-	ZEND_NS_FENTRY("Functional", maximum,        ZEND_FN(functional_maximum),       arginfo_functional_maximum,       0)
-	ZEND_NS_FENTRY("Functional", minimum,        ZEND_FN(functional_minimum),       arginfo_functional_minimum,       0)
+	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
+	ZEND_NS_FENTRY("Functional", some,           ZEND_FN(functional_some),           arginfo_functional_some,            0)
+	ZEND_NS_FENTRY("Functional", drop_first,     ZEND_FN(functional_drop_first),     arginfo_function_drop,              0)
+	ZEND_NS_FENTRY("Functional", drop_last,      ZEND_FN(functional_drop_last),      arginfo_function_drop,              0)
+	ZEND_NS_FENTRY("Functional", first,          ZEND_FN(functional_first),          arginfo_functional_first,           0)
+	ZEND_NS_FENTRY("Functional", group,          ZEND_FN(functional_group),          arginfo_functional_group,           0)
+	ZEND_NS_FENTRY("Functional", each,           ZEND_FN(functional_each),           arginfo_functional_each,            0)
+	ZEND_NS_FENTRY("Functional", invoke,         ZEND_FN(functional_invoke),         arginfo_functional_invoke,          0)
+	ZEND_NS_FENTRY("Functional", last,           ZEND_FN(functional_last),           arginfo_functional_last,            0)
+	ZEND_NS_FENTRY("Functional", map,            ZEND_FN(functional_map),            arginfo_functional_map,             0)
+	ZEND_NS_FENTRY("Functional", none,           ZEND_FN(functional_none),           arginfo_functional_none,            0)
+	ZEND_NS_FENTRY("Functional", partition,      ZEND_FN(functional_partition),      arginfo_functional_partition,       0)
+	ZEND_NS_FENTRY("Functional", pluck,          ZEND_FN(functional_pluck),          arginfo_functional_pluck,           0)
+	ZEND_NS_FENTRY("Functional", reduce_left,    ZEND_FN(functional_reduce_left),    arginfo_functional_reduce,          0)
+	ZEND_NS_FENTRY("Functional", reduce_right,   ZEND_FN(functional_reduce_right),   arginfo_functional_reduce,          0)
+	ZEND_NS_FENTRY("Functional", reject,         ZEND_FN(functional_reject),         arginfo_functional_reject,          0)
+	ZEND_NS_FENTRY("Functional", select,         ZEND_FN(functional_select),         arginfo_functional_select,          0)
+	ZEND_NS_FENTRY("Functional", flatten,        ZEND_FN(functional_flatten),        arginfo_functional_flatten,         0)
+	ZEND_NS_FENTRY("Functional", average,        ZEND_FN(functional_average),        arginfo_functional_math,            0)
+	ZEND_NS_FENTRY("Functional", sum,            ZEND_FN(functional_sum),            arginfo_functional_math,            0)
+	ZEND_NS_FENTRY("Functional", difference,     ZEND_FN(functional_difference),     arginfo_functional_math,            0)
+	ZEND_NS_FENTRY("Functional", product,        ZEND_FN(functional_product),        arginfo_functional_math,            0)
+	ZEND_NS_FENTRY("Functional", ratio,          ZEND_FN(functional_ratio),          arginfo_functional_math,            0)
+	ZEND_NS_FENTRY("Functional", unique,         ZEND_FN(functional_unique),         arginfo_functional_unique,          0)
+	ZEND_NS_FENTRY("Functional", maximum,        ZEND_FN(functional_maximum),        arginfo_functional_maximum,         0)
+	ZEND_NS_FENTRY("Functional", minimum,        ZEND_FN(functional_minimum),        arginfo_functional_minimum,         0)
+	ZEND_NS_FENTRY("Functional", first_index_of, ZEND_FN(functional_first_index_of), arginfo_functional_first_index_of,  0)
 	{NULL, NULL, NULL}
 };
 
@@ -1646,4 +1651,50 @@ PHP_FUNCTION(functional_minimum)
 	}
 
 	RETVAL_ZVAL(min, 0, 0);
+}
+
+PHP_FUNCTION(functional_first_index_of)
+{
+	FUNCTIONAL_DECLARE_MIN(2)
+	zval *value, result, *key = NULL;
+	uint string_key_len, hash_key_type;
+	ulong int_key;
+	char *string_key = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &collection, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "first_index_of")
+
+	RETVAL_FALSE
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			if (is_identical_function(&result, value, &**args[0] TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1) {
+				RETVAL_ZVAL(key, 1, 0);
+				FUNCTIONAL_ARRAY_FREE_KEY
+				break;
+			}
+			FUNCTIONAL_ARRAY_FREE_KEY
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			if (is_identical_function(&result, value, &**args[0] TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1) {
+				RETVAL_ZVAL(key, 1, 0);
+				FUNCTIONAL_ITERATOR_FREE_KEY
+				goto done;
+			}
+			FUNCTIONAL_ITERATOR_FREE_KEY
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
 }

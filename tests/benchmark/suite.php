@@ -17,7 +17,7 @@ foreach ($sourceFiles as $file) {
     eval($code);
 }
 
-$numberOfElements = 1000;
+$numberOfElements = 10000;
 $array = array_reverse(range(0, $numberOfElements - 1));
 $hash = array_keys($array);
 $hash = array_map(function($v){return 'k_' . $v;}, $hash);
@@ -145,3 +145,4 @@ benchmark('difference', $array, $iterator, $hash, $hashIterator, false);
 benchmark('ratio', $array, $iterator, $hash, $hashIterator, false);
 benchmark('product', $array, $iterator, $hash, $hashIterator, false);
 benchmark('average', $array, $iterator, $hash, $hashIterator, false);
+benchmark('first_index_of', $array, $iterator, $hash, $hashIterator, 2000);
