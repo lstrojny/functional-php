@@ -26,6 +26,8 @@
 - New function Functional\false()
 - New function Functional\truthy()
 - New function Functional\falsy()
+- Functional\last() now simply returns the last element if no callback is given
+- Functional\first() now simply returns the last element if no callback is given
 	</notes>
 	<contents>
 		<dir name="/">
