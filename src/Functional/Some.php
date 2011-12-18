@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Returns true if some of the elements in the collection pass the callback truthy test. Short-circuits and stops
- * traversing the collection if a truthy element is found. Callback arguments will be value, key, collection
+ * traversing the collection if a truthy element is found. Callback arguments will be value, index, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -35,9 +35,9 @@ function some($collection, $callback)
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        if (call_user_func($callback, $element, $key, $collection)) {
+        if (call_user_func($callback, $element, $index, $collection)) {
             return true;
         }
 

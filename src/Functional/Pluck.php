@@ -38,7 +38,7 @@ function pluck($collection, $propertyName)
 
     $aggregation = array();
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
         $value = null;
 
@@ -48,7 +48,7 @@ function pluck($collection, $propertyName)
             $value = $element[$propertyName];
         }
 
-        $aggregation[$key] = $value;
+        $aggregation[$index] = $value;
     }
 
     return $aggregation;

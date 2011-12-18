@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Partitions a collection by callback result. The thruthy partition is the first one
- * (array key "0"), the falsy the second one (array key "1")
+ * (array index "0"), the falsy the second one (array index "1")
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -40,9 +40,9 @@ function partition($collection, $callback)
         1 => array()
     );
 
-    foreach ($collection as $key => $element) {
-        $partitionKey = call_user_func($callback, $element, $key, $collection) ? 0 : 1;
-        $partitions[$partitionKey][$key] = $element;
+    foreach ($collection as $index => $element) {
+        $partitionKey = call_user_func($callback, $element, $index, $collection) ? 0 : 1;
+        $partitions[$partitionKey][$index] = $element;
     }
 
     return $partitions;

@@ -38,17 +38,17 @@ function drop_first($collection, $callback)
     $result = array();
 
     $drop = true;
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
         if ($drop) {
-            if (!call_user_func($callback, $element, $key, $collection)) {
+            if (!call_user_func($callback, $element, $index, $collection)) {
                 $drop = false;
             } else {
                 continue;
             }
         }
 
-        $result[$key] = $element;
+        $result[$index] = $element;
     }
 
     return $result;

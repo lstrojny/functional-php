@@ -48,4 +48,6 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Select.php';
     require_once $basePath . 'Sum.php';
     require_once $basePath . 'Average.php';
+    require_once $basePath . 'FirstIndexOf.php';
+    require_once $basePath . 'LastIndexOf.php';
 }

@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Groups a collection by key returned by callback.
+ * Groups a collection by index returned by callback.
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -36,8 +36,8 @@ function group($collection, $callback)
 
     $groups = array();
 
-    foreach ($collection as $key => $element) {
-        $groupKey = call_user_func($callback, $element, $key, $collection);
+    foreach ($collection as $index => $element) {
+        $groupKey = call_user_func($callback, $element, $index, $collection);
 
         Exceptions\InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
 
@@ -45,7 +45,7 @@ function group($collection, $callback)
             $groups[$groupKey] = array();
         }
 
-        $groups[$groupKey][$key] = $element;
+        $groups[$groupKey][$index] = $element;
     }
 
     return $groups;

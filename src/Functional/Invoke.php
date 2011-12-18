@@ -38,7 +38,7 @@ function invoke($collection, $methodName, array $arguments = array())
 
     $aggregation = array();
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
         $value = null;
 
@@ -47,7 +47,7 @@ function invoke($collection, $methodName, array $arguments = array())
             $value = call_user_func_array($callback, $arguments);
         }
 
-        $aggregation[$key] = $value;
+        $aggregation[$index] = $value;
     }
 
     return $aggregation;

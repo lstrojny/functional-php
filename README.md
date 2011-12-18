@@ -9,7 +9,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
   - Works with arrays and everything implementing interface `Traversable`
   - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.
-Callbacks are always passed `$value`, `$key`, `$collection`
+Callbacks are always passed `$value`, `$index`, `$collection`
   - Calls 5.3 closures as well as usual callbacks
   - C implementation for performance but a compatible userland implementation is provided if you can’t install PHP
     extensions
@@ -19,7 +19,7 @@ Callbacks are always passed `$value`, `$key`, `$collection`
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`, `first()`, `last()`,
-   `rest()`, `truthy()`, `falsy()`, `true()`, `false()`, `without()`, `intersection()`, `index_of()`, `last_index_of()`, `contains()`
+   `rest()`, `truthy()`, `falsy()`, `true()`, `false()`, `without()`, `intersect()`, `contains()`
 
 
 ## Installation
@@ -120,8 +120,8 @@ $inactiveUsers = F\reject($users, $fn);
 <?php
 use Functional as F;
 
-$fn = function($user, $key, $collection) {
-    return $key == 3;
+$fn = function($user, $index, $collection) {
+    return $index === 3;
 };
 
 // All users except the first three
@@ -157,7 +157,7 @@ list($admins, $users) = F\partition($collection, function($user) {
 ```
 
 ###Functional\group()
-Splits a collection into groups by the key returned by the callback
+Splits a collection into groups by the index returned by the callback
 
 ``array Functional\group(array|Traversable $collection, callable $callback)``
 
@@ -184,17 +184,21 @@ with the last element.
 use Functional as F;
 
 // $sum will be 64 (2^2^3)
-$sum = F\reduce_left(array(2, 3), function($value, $key, $collection, $reduction) {
+$sum = F\reduce_left(array(2, 3), function($value, $index, $collection, $reduction) {
     return $reduction ^ $value;
 }, 2);
 
 // $sum will be 512 (2^3^2)
-$sum = F\reduce_right(array(2, 3), function($value, $key, $collection, $reduction) {
+$sum = F\reduce_right(array(2, 3), function($value, $index, $collection, $reduction) {
     return $reduction ^ $value;
 }, 2);
 ```
 
 ### Functional\flatten()
+Takes a nested combination of collections and returns their contents as a single, flat array. Does not preserve indexes.
+
+``array Functional\flatten(array|Traversable $collection)``
+
 ```php
 <?php
 use Functional as F;
@@ -202,6 +206,35 @@ use Functional as F;
 $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 // array(1, 2, 3, 1, 2, 3, 4, 5);
 ```
+
+
+
+### Functional\first_index_of()
+Returns the first index holding specified value in the ccollection. Returns false if value was not found
+
+``array Functional\first_index_of(array|Traversable $collection, mixed $value)``
+
+```
+<?php
+use Functional as F;
+
+// $index will be 0
+$index = F\first_index_of(array('value', 'value'), 'value');
+```
+
+### Functional\last_index_of()
+Returns the last index holding specified value in the ccollection. Returns false if value was not found
+
+``array Functional\last_index_of(array|Traversable $collection, mixed $value)``
+
+```
+<?php
+use Functional as F;
+
+// $index will be 1
+$index = F\first_index_of(array('value', 'value'), 'value');
+```
+
 
 ### Additional functions:
 

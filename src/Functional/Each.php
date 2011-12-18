@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Iterates over a collection of elements, yielding each in turn to a callback function. Each invocation of $callback
- * is called with three arguments: (element, key, collection)
+ * is called with three arguments: (element, index, collection)
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -36,8 +36,8 @@ function each($collection, $callback)
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        call_user_func($callback, $element, $key, $collection);
+        call_user_func($callback, $element, $index, $collection);
     }
 }

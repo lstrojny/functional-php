@@ -38,13 +38,13 @@ function drop_last($collection, $callbackOrIndex)
     $result = array();
 
     $drop = false;
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        if (!$drop && !call_user_func($callbackOrIndex, $element, $key, $collection)) {
+        if (!$drop && !call_user_func($callbackOrIndex, $element, $index, $collection)) {
             break;
         }
 
-        $result[$key] = $element;
+        $result[$index] = $element;
     }
 
     return $result;

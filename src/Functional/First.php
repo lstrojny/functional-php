@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Looks through each element in the collection, returning the first one that passes a truthy test (callback). The
  * function returns as soon as it finds an acceptable element, and doesn't traverse the entire collection. Callback
- * arguments will be element, key, collection
+ * arguments will be element, index, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -36,9 +36,9 @@ function first($collection, $callback)
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        if (call_user_func($callback, $element, $key, $collection)) {
+        if (call_user_func($callback, $element, $index, $collection)) {
             return $element;
         }
 

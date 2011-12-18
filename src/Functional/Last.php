@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
- * Callback arguments will be element, key, collection
+ * Callback arguments will be element, index, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -36,9 +36,9 @@ function last($collection, $callback)
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     $match = null;
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        if (call_user_func($callback, $element, $key, $collection)) {
+        if (call_user_func($callback, $element, $index, $collection)) {
             $match = $element;
         }
 

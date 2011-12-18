@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Produces a new array of elements by mapping each element in collection through a transformation function (callback).
- * Callback arguments will be element, key, collection
+ * Callback arguments will be element, index, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -37,8 +37,8 @@ function map($collection, $callback)
 
     $aggregation = array();
 
-    foreach ($collection as $key => $element) {
-        $aggregation[$key] = call_user_func($callback, $element, $key, $collection);
+    foreach ($collection as $index => $element) {
+        $aggregation[$index] = call_user_func($callback, $element, $index, $collection);
     }
 
     return $aggregation;

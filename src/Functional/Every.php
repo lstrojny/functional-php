@@ -24,7 +24,7 @@ namespace Functional;
 
 /**
  * Returns true if every value in the collection passes the callback truthy test. Opposite of Functional\none().
- * Callback arguments will be element, key, collection
+ * Callback arguments will be element, index, collection
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -35,9 +35,9 @@ function every($collection, $callback)
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
-        if (!call_user_func($callback, $element, $key, $collection)) {
+        if (!call_user_func($callback, $element, $index, $collection)) {
             return false;
         }
 

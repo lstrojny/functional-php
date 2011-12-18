@@ -23,25 +23,23 @@
 namespace Functional;
 
 /**
- * Returns true if all of the elements in the collection pass the callback falsy test. Opposite of Functional\all().
- * Callback arguments will be element, index, collection.
+ * Returns the last index holding specified value in the ccollection. Returns false if value was not found
  *
  * @param Traversable|array $collection
- * @param callable $callback
- * @return bool
+ * @param mixed $value
+ * @return mixed
  */
-function none($collection, $callback)
+function last_index_of($collection, $value)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+
+    $matchingIndex = false;
 
     foreach ($collection as $index => $element) {
-
-        if (call_user_func($callback, $element, $index, $collection)) {
-            return false;
+        if ($element === $value) {
+            $matchingIndex = $index;
         }
-
     }
 
-    return true;
+    return $matchingIndex;
 }

@@ -35,7 +35,7 @@ function maximum($collection)
 
     $max = null;
 
-    foreach ($collection as $key => $element) {
+    foreach ($collection as $index => $element) {
 
         if (!is_numeric($element)) {
             continue;
