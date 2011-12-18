@@ -50,4 +50,8 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Average.php';
     require_once $basePath . 'FirstIndexOf.php';
     require_once $basePath . 'LastIndexOf.php';
+    require_once $basePath . 'True.php';
+    require_once $basePath . 'False.php';
+    require_once $basePath . 'Truthy.php';
+    require_once $basePath . 'Falsy.php';
 }

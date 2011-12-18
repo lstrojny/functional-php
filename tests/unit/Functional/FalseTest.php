@@ -1,0 +1,59 @@
+<?php
+/**
+ * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+namespace Functional;
+
+use ArrayIterator;
+
+class FalseTest extends AbstractTestCase
+{
+    function setUp()
+    {
+        parent::setUp();
+        $this->trueArray = array(false, false, false, false);
+        $this->trueIterator = new ArrayIterator($this->trueArray);
+        $this->trueHash = array('k1' => false, 'k2' => false, 'k3' => false);
+        $this->trueHashIterator = new ArrayIterator($this->trueHash);
+        $this->falseArray = array(false, 0, false);
+        $this->falseIterator = new ArrayIterator($this->falseArray);
+        $this->falseHash = array('k1' => false, 'k2' => 0, 'k3' => false);
+        $this->falseHashIterator = new ArrayIterator($this->falseHash);
+    }
+
+    function test()
+    {
+        $this->assertTrue(false($this->trueArray));
+        $this->assertTrue(false($this->trueIterator));
+        $this->assertTrue(false($this->trueHash));
+        $this->assertTrue(false($this->trueHashIterator));
+        $this->assertFalse(false($this->falseArray));
+        $this->assertFalse(false($this->falseIterator));
+        $this->assertFalse(false($this->falseHash));
+        $this->assertFalse(false($this->falseHashIterator));
+    }
+
+    function testPassNoCollection()
+    {
+        $this->expectArgumentError('Functional\false() expects parameter 1 to be array or instance of Traversable');
+        false('invalidCollection', 'strlen');
+    }
+}

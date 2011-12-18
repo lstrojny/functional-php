@@ -19,7 +19,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`, `first()`, `last()`,
-   `rest()`, `truthy()`, `falsy()`, `true()`, `false()`, `without()`, `intersect()`, `contains()`
+   `rest()`, `without()`, `intersect()`, `contains()`
 
 
 ## Installation
@@ -231,6 +231,48 @@ use Functional as F;
 
 // $index will be 1
 $index = F\first_index_of(array('value', 'value'), 'value');
+```
+
+### Functional\true() / Functional\false()
+Returns true or false if all elements in the collection are strictly true or false
+
+``bool Functional\true(array|Traversable $collection)``  
+``bool Functional\false(array|Traversable $collection)``
+
+```php
+<?php
+use Functional as F;
+
+// Returns true
+F\true(array(true, true));
+// Returns false
+F\true(array(true, 1));
+
+// Returns true
+F\false(array(false, false, false));
+// Returns false
+F\false(array(false, 0, null, false));
+```
+
+### Functional\truthy() / Functional\falsy()
+Returns true or false if all elements in the collection evaluate to true or false
+
+``bool Functional\truthy(array|Traversable $collection)``  
+``bool Functional\falsy(array|Traversable $collection)``
+
+```php
+<?php
+use Functional as F;
+
+// Returns true
+F\true(array(true, true, 1, 'foo'));
+// Returns false
+F\true(array(true, 0, false));
+
+// Returns true
+F\false(array(false, false, 0, null));
+// Returns false
+F\false(array(false, 'str', null, false));
 ```
 
 
