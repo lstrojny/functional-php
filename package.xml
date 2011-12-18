@@ -28,6 +28,7 @@
 - New function Functional\falsy()
 - Functional\last() now simply returns the last element if no callback is given
 - Functional\first() now simply returns the last element if no callback is given
+- New function Functional\contains()
 	</notes>
 	<contents>
 		<dir name="/">

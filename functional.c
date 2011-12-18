@@ -117,6 +117,11 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO(arginfo_functional_bool_funcs, 1)
 	ZEND_ARG_INFO(0, collection)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_contains, 0, 0, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, value)
+	ZEND_ARG_INFO(0, strict)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -151,6 +156,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", false,          ZEND_FN(functional_false),          arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", truthy,         ZEND_FN(functional_truthy),         arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", falsy,          ZEND_FN(functional_falsy),          arginfo_functional_bool_funcs,      0)
+	ZEND_NS_FENTRY("Functional", contains,       ZEND_FN(functional_contains),       arginfo_functional_contains,        0)
 	{NULL, NULL, NULL}
 };
 
@@ -1556,8 +1562,8 @@ static int functional_in_array(zval *array, zval *value, int behaviour TSRMLS_DC
 
 	while (zend_hash_get_current_data_ex(Z_ARRVAL_P(array), (void **)&entry, &pos) == SUCCESS) {
 		if (functional_is_equal(value, entry, behaviour TSRMLS_CC)) {
-		return 1;
-	}
+			return 1;
+		}
 
 		zend_hash_move_forward_ex(Z_ARRVAL_P(array), &pos);
 	}
@@ -1910,6 +1916,42 @@ PHP_FUNCTION(functional_falsy)
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			if (zend_is_true(*args[0])) {
 				RETVAL_FALSE;
+				goto done;
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_contains)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+	int strict = 1;
+	zval *value;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|b", &collection, &value, &strict) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "contains")
+
+	RETVAL_FALSE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (functional_is_equal(value, args[0], strict TSRMLS_CC)) {
+				RETURN_TRUE;
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (functional_is_equal(value, args[0], strict TSRMLS_CC)) {
+				RETVAL_TRUE;
 				goto done;
 			}
 		FUNCTIONAL_ITERATOR_ITERATE_END

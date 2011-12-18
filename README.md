@@ -19,7 +19,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`,
-   `rest()`, `without()`, `intersect()`, `contains()`
+   `rest()`, `without()`, `intersect()`
 
 
 ## Installation
@@ -275,6 +275,24 @@ F\false(array(false, false, 0, null));
 F\false(array(false, 'str', null, false));
 ```
 
+### Functional\contains()
+Returns true if given collection contains given element. If third parameter is false, the comparison
+will be non-strict
+
+``bool Functional\contains(array|Traversable $collection, mixed $value[, bool $strict = false])``
+
+```php
+<?php
+use Functional as F;
+
+// Returns true
+F\contains(array('el1', 'el2'), 'el1');
+
+// Returns false
+F\contains(array('0', '1', '2'), 2);
+// Returns true
+F\contains(array('0', '1', '2'), 2, false);
+```
 
 ### Additional functions:
 

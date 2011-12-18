@@ -72,6 +72,7 @@ PHP_FUNCTION(functional_true);
 PHP_FUNCTION(functional_false);
 PHP_FUNCTION(functional_truthy);
 PHP_FUNCTION(functional_falsy);
+PHP_FUNCTION(functional_contains);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
