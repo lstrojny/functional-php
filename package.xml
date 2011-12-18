@@ -22,6 +22,10 @@
 	<notes>
 - New function Functional\first_index_of()
 - New function Functional\last_index_of()
+- New function Functional\true()
+- New function Functional\false()
+- New function Functional\truthy()
+- New function Functional\falsy()
 	</notes>
 	<contents>
 		<dir name="/">
