@@ -207,14 +207,12 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 // array(1, 2, 3, 1, 2, 3, 4, 5);
 ```
 
-
-
 ### Functional\first_index_of()
 Returns the first index holding specified value in the ccollection. Returns false if value was not found
 
 ``array Functional\first_index_of(array|Traversable $collection, mixed $value)``
 
-```
+```php
 <?php
 use Functional as F;
 
@@ -227,7 +225,7 @@ Returns the last index holding specified value in the ccollection. Returns false
 
 ``array Functional\last_index_of(array|Traversable $collection, mixed $value)``
 
-```
+```php
 <?php
 use Functional as F;
 
