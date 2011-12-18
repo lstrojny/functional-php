@@ -987,18 +987,24 @@ PHP_FUNCTION(functional_first)
 {
 	FUNCTIONAL_DECLARE(3)
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "first")
 	FUNCTIONAL_PREPARE_ARGS
-	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (fci.function_name != NULL) {
+		FUNCTIONAL_PREPARE_CALLBACK(3)
+	}
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (fci.function_name == NULL) {
+				RETURN_ZVAL(*args[0], 1, 0);
+			}
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
@@ -1013,6 +1019,10 @@ PHP_FUNCTION(functional_first)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (fci.function_name == NULL) {
+				RETVAL_ZVAL(*args[0], 1, 0);
+				goto done;
+			}
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
@@ -1032,13 +1042,16 @@ PHP_FUNCTION(functional_last)
 {
 	FUNCTIONAL_DECLARE(3);
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
 	}
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "last")
-	FUNCTIONAL_PREPARE_ARGS
-	FUNCTIONAL_PREPARE_CALLBACK(3)
+
+	if (fci.function_name != NULL) {
+		FUNCTIONAL_PREPARE_ARGS
+		FUNCTIONAL_PREPARE_CALLBACK(3)
+	}
 
 	RETVAL_NULL();
 
@@ -1046,6 +1059,11 @@ PHP_FUNCTION(functional_last)
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (fci.function_name == NULL) {
+				RETVAL_ZVAL(*args[0], 1, 0);
+				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+				continue;
+			}
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
@@ -1059,6 +1077,14 @@ PHP_FUNCTION(functional_last)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (fci.function_name == NULL) {
+				RETVAL_ZVAL(*args[0], 1, 0);
+				iter->funcs->move_forward(iter TSRMLS_CC);
+				if (EG(exception)) {
+					goto done;
+				}
+				continue;
+			}
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 			FUNCTIONAL_CALL_BACK_EX_BEGIN
 				if (zend_is_true(retval_ptr)) {
@@ -1121,6 +1147,9 @@ PHP_FUNCTION(functional_drop_first)
 						FUNCTIONAL_ITERATOR_FREE_KEY
 						zval_ptr_dtor(&retval_ptr);
 						iter->funcs->move_forward(iter TSRMLS_CC);
+						if (EG(exception)) {
+							goto done;
+						}
 						continue;
 					}
 				FUNCTIONAL_ITERATOR_CALL_BACK_EX_END

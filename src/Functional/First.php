@@ -31,12 +31,19 @@ namespace Functional;
  * @param callable $callback
  * @return mixed
  */
-function first($collection, $callback)
+function first($collection, $callback = null)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+
+    if ($callback !== null) {
+        Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    }
 
     foreach ($collection as $index => $element) {
+
+        if ($callback === null) {
+            return $element;
+        }
 
         if (call_user_func($callback, $element, $index, $collection)) {
             return $element;

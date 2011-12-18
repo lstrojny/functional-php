@@ -30,15 +30,18 @@ namespace Functional;
  * @param callable $callback
  * @return mixed
  */
-function last($collection, $callback)
+function last($collection, $callback = null)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+
+    if ($callback !== null) {
+        Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    }
 
     $match = null;
     foreach ($collection as $index => $element) {
 
-        if (call_user_func($callback, $element, $index, $collection)) {
+        if ($callback === null || call_user_func($callback, $element, $index, $collection)) {
             $match = $element;
         }
 

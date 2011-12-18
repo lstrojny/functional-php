@@ -48,6 +48,12 @@ class LastTest extends AbstractTestCase
         $this->assertNull(last($this->badIterator, $fn));
     }
 
+    function testWithoutCallback()
+    {
+        $this->assertSame('fourth', last($this->array));
+        $this->assertSame('fourth', last($this->iterator));
+    }
+
     function testPassNonCallable()
     {
         $this->expectArgumentError('Functional\last() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');

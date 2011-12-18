@@ -48,6 +48,14 @@ class FirstTest extends AbstractTestCase
         $this->assertNull(first($this->badIterator, $fn));
     }
 
+    function testWithoutCallback()
+    {
+        $this->assertSame('first', first($this->array));
+        $this->assertSame('first', first($this->iterator));
+        $this->assertSame('foo', first($this->badArray));
+        $this->assertSame('foo', first($this->badIterator));
+    }
+
     function testPassNonCallable()
     {
         $this->expectArgumentError('Functional\first() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');

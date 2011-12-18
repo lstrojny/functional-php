@@ -18,7 +18,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`
 
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
- - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`, `first()`, `last()`,
+ - Add `concat(array1, array2, ...)`, `drop_while()`, `invoke_first()`, `invoke_last()`, `sort()`, `split()`, `slice()`, `zip()`,
    `rest()`, `without()`, `intersect()`, `contains()`
 
 
@@ -286,12 +286,14 @@ Applies a callback to each element
 Applies a callback to each element in the collection and collects the return value
 
 
-`mixed Functional\first(array|Traversable $collection, callable $callback)`  
-Returns the first element of the collection where the callback returned true
+`mixed Functional\first(array|Traversable $collection[, callable $callback])`  
+Returns the first element of the collection where the callback returned true. If no callback is given, the first element
+is returned
 
 
-`mixed Functional\last(array|Traversable $collection, callable $callback)`  
-Returns the last element of the collection where the callback returned true
+`mixed Functional\last(array|Traversable $collection[, callable $callback])`  
+Returns the last element of the collection where the callback returned true. If no callback is given, the last element
+is returned
 
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`  
