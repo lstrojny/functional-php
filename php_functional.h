@@ -67,6 +67,7 @@ PHP_FUNCTION(functional_unique);
 PHP_FUNCTION(functional_maximum);
 PHP_FUNCTION(functional_minimum);
 PHP_FUNCTION(functional_first_index_of);
+PHP_FUNCTION(functional_last_index_of);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)

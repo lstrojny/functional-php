@@ -110,6 +110,10 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_first_index_of, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_last_index_of, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, value)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -139,6 +143,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", maximum,        ZEND_FN(functional_maximum),        arginfo_functional_maximum,         0)
 	ZEND_NS_FENTRY("Functional", minimum,        ZEND_FN(functional_minimum),        arginfo_functional_minimum,         0)
 	ZEND_NS_FENTRY("Functional", first_index_of, ZEND_FN(functional_first_index_of), arginfo_functional_first_index_of,  0)
+	ZEND_NS_FENTRY("Functional", last_index_of,  ZEND_FN(functional_last_index_of),  arginfo_functional_last_index_of,   0)
 	{NULL, NULL, NULL}
 };
 
@@ -1691,6 +1696,48 @@ PHP_FUNCTION(functional_first_index_of)
 				RETVAL_ZVAL(key, 1, 0);
 				FUNCTIONAL_ITERATOR_FREE_KEY
 				goto done;
+			}
+			FUNCTIONAL_ITERATOR_FREE_KEY
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_last_index_of)
+{
+	FUNCTIONAL_DECLARE_MIN(2)
+	zval *value, result, *key = NULL;
+	uint string_key_len, hash_key_type;
+	ulong int_key;
+	char *string_key = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz", &collection, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "last_index_of")
+
+	RETVAL_FALSE
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+			if (is_identical_function(&result, value, &**args[0] TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1) {
+				RETVAL_ZVAL(key, 1, 0);
+			}
+			FUNCTIONAL_ARRAY_FREE_KEY
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+			if (is_identical_function(&result, value, &**args[0] TSRMLS_CC) == SUCCESS && Z_LVAL(result) == 1) {
+				RETVAL_ZVAL(key, 1, 0);
 			}
 			FUNCTIONAL_ITERATOR_FREE_KEY
 		FUNCTIONAL_ITERATOR_ITERATE_END

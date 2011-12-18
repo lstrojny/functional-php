@@ -146,3 +146,4 @@ benchmark('ratio', $array, $iterator, $hash, $hashIterator, false);
 benchmark('product', $array, $iterator, $hash, $hashIterator, false);
 benchmark('average', $array, $iterator, $hash, $hashIterator, false);
 benchmark('first_index_of', $array, $iterator, $hash, $hashIterator, 2000);
+benchmark('last_index_of', $array, $iterator, $hash, $hashIterator, 2000);
