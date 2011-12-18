@@ -44,7 +44,8 @@ class ContainsTest extends AbstractTestCase
         $this->assertTrue(contains($this->array, 'value1'));
         $this->assertTrue(contains($this->array, 'value2'));
         $this->assertTrue(contains($this->array, 2));
-        $this->assertFalse(contains($this->array, '2'));
+        $this->assertFalse(contains($this->array, '2', true));
+        $this->assertTrue(contains($this->array, '2'));
         $this->assertTrue(contains($this->array, '2', false));
         $this->assertFalse(contains($this->array, 'value'));
 
@@ -52,7 +53,8 @@ class ContainsTest extends AbstractTestCase
         $this->assertTrue(contains($this->iterator, 'value1'));
         $this->assertTrue(contains($this->iterator, 'value2'));
         $this->assertTrue(contains($this->iterator, 2));
-        $this->assertFalse(contains($this->iterator, '2'));
+        $this->assertFalse(contains($this->iterator, '2', true));
+        $this->assertTrue(contains($this->iterator, '2'));
         $this->assertTrue(contains($this->iterator, '2', false));
         $this->assertFalse(contains($this->iterator, 'value'));
 
@@ -60,7 +62,8 @@ class ContainsTest extends AbstractTestCase
         $this->assertTrue(contains($this->hash, 'val2'));
         $this->assertTrue(contains($this->hash, 'val3'));
         $this->assertTrue(contains($this->hash, 2));
-        $this->assertFalse(contains($this->hash, '2'));
+        $this->assertFalse(contains($this->hash, '2', true));
+        $this->assertTrue(contains($this->hash, '2'));
         $this->assertTrue(contains($this->hash, '2', false));
         $this->assertFalse(contains($this->hash, 'value'));
 
@@ -68,7 +71,8 @@ class ContainsTest extends AbstractTestCase
         $this->assertTrue(contains($this->hashIterator, 'val2'));
         $this->assertTrue(contains($this->hashIterator, 'val3'));
         $this->assertTrue(contains($this->hashIterator, 2));
-        $this->assertFalse(contains($this->hashIterator, '2'));
+        $this->assertFalse(contains($this->hashIterator, '2', true));
+        $this->assertTrue(contains($this->hashIterator, '2'));
         $this->assertTrue(contains($this->hashIterator, '2', false));
         $this->assertFalse(contains($this->hashIterator, 'value'));
     }

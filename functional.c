@@ -1927,7 +1927,7 @@ PHP_FUNCTION(functional_falsy)
 PHP_FUNCTION(functional_contains)
 {
 	FUNCTIONAL_DECLARE_MIN(1)
-	int strict = 1;
+	int strict = 0;
 	zval *value;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|b", &collection, &value, &strict) == FAILURE) {

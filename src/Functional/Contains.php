@@ -24,14 +24,14 @@ namespace Functional;
 
 /**
  * Returns true if the collection contains the given value. If the third parameter is
- * false values will be compared non strict
+ * true values will be compared in strict mode
  *
  * @param Traversable|array $collection
  * @param mixed $value
  * @param bool $strict
  * @return bool
  */
-function contains($collection, $value, $strict = true)
+function contains($collection, $value, $strict = false)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

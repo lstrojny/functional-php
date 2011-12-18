@@ -276,8 +276,8 @@ F\false(array(false, 'str', null, false));
 ```
 
 ### Functional\contains()
-Returns true if given collection contains given element. If third parameter is false, the comparison
-will be non-strict
+Returns true if given collection contains given element. If third parameter is true, the comparison
+will be strict
 
 ``bool Functional\contains(array|Traversable $collection, mixed $value[, bool $strict = false])``
 
