@@ -41,6 +41,8 @@ class FalsyTest extends AbstractTestCase
 
     function test()
     {
+        $this->assertTrue(falsy(array()));
+        $this->assertTrue(falsy(new ArrayIterator(array())));
         $this->assertTrue(falsy($this->trueArray));
         $this->assertTrue(falsy($this->trueIterator));
         $this->assertTrue(falsy($this->trueHash));
@@ -54,6 +56,6 @@ class FalsyTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\falsy() expects parameter 1 to be array or instance of Traversable');
-        falsy('invalidCollection', 'strlen');
+        falsy('invalidCollection');
     }
 }

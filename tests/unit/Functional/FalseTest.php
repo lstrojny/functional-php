@@ -33,7 +33,7 @@ class FalseTest extends AbstractTestCase
         $this->trueIterator = new ArrayIterator($this->trueArray);
         $this->trueHash = array('k1' => false, 'k2' => false, 'k3' => false);
         $this->trueHashIterator = new ArrayIterator($this->trueHash);
-        $this->falseArray = array(false, 0, false);
+        $this->falseArray = array(false, 0, false, 'foo', array(), (object)array());
         $this->falseIterator = new ArrayIterator($this->falseArray);
         $this->falseHash = array('k1' => false, 'k2' => 0, 'k3' => false);
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
@@ -41,6 +41,8 @@ class FalseTest extends AbstractTestCase
 
     function test()
     {
+        $this->assertTrue(false(array()));
+        $this->assertTrue(false(new ArrayIterator(array())));
         $this->assertTrue(false($this->trueArray));
         $this->assertTrue(false($this->trueIterator));
         $this->assertTrue(false($this->trueHash));
@@ -54,6 +56,6 @@ class FalseTest extends AbstractTestCase
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\false() expects parameter 1 to be array or instance of Traversable');
-        false('invalidCollection', 'strlen');
+        false('invalidCollection');
     }
 }

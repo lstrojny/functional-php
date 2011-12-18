@@ -114,6 +114,9 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_last_index_of, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_bool_funcs, 1)
+	ZEND_ARG_INFO(0, collection)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -144,6 +147,10 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", minimum,        ZEND_FN(functional_minimum),        arginfo_functional_minimum,         0)
 	ZEND_NS_FENTRY("Functional", first_index_of, ZEND_FN(functional_first_index_of), arginfo_functional_first_index_of,  0)
 	ZEND_NS_FENTRY("Functional", last_index_of,  ZEND_FN(functional_last_index_of),  arginfo_functional_last_index_of,   0)
+	ZEND_NS_FENTRY("Functional", true,           ZEND_FN(functional_true),           arginfo_functional_bool_funcs,      0)
+	ZEND_NS_FENTRY("Functional", false,          ZEND_FN(functional_false),          arginfo_functional_bool_funcs,      0)
+	ZEND_NS_FENTRY("Functional", truthy,         ZEND_FN(functional_truthy),         arginfo_functional_bool_funcs,      0)
+	ZEND_NS_FENTRY("Functional", falsy,          ZEND_FN(functional_falsy),          arginfo_functional_bool_funcs,      0)
 	{NULL, NULL, NULL}
 };
 
@@ -1740,6 +1747,142 @@ PHP_FUNCTION(functional_last_index_of)
 				RETVAL_ZVAL(key, 1, 0);
 			}
 			FUNCTIONAL_ITERATOR_FREE_KEY
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_true)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "true")
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (Z_TYPE_PP(args[0]) != IS_BOOL || Z_LVAL_PP(args[0]) != 1) {
+				RETURN_FALSE;
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (Z_TYPE_PP(args[0]) != IS_BOOL || Z_LVAL_PP(args[0]) != 1) {
+				RETVAL_FALSE;
+				goto done;
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_false)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "false")
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (Z_TYPE_PP(args[0]) != IS_BOOL || Z_LVAL_PP(args[0]) != 0) {
+				RETURN_FALSE;
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (Z_TYPE_PP(args[0]) != IS_BOOL || Z_LVAL_PP(args[0]) != 0) {
+				RETVAL_FALSE;
+				goto done;
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_truthy)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "truthy")
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (!zend_is_true(*args[0])) {
+				RETURN_FALSE;
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (!zend_is_true(*args[0])) {
+				RETVAL_FALSE;
+				goto done;
+			}
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+}
+
+PHP_FUNCTION(functional_falsy)
+{
+	FUNCTIONAL_DECLARE_MIN(1)
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
+		RETURN_NULL();
+	}
+	FUNCTIONAL_COLLECTION_PARAM(collection, "falsy")
+
+	RETVAL_TRUE;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (zend_is_true(*args[0])) {
+				RETURN_FALSE;
+			}
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (zend_is_true(*args[0])) {
+				RETVAL_FALSE;
+				goto done;
+			}
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
