@@ -28,7 +28,7 @@ class InvokeAtTest extends AbstractTestCase
 {
     function setUp()
     {
-        parent::setUp();
+        parent::setUp(array('Functional\\invoke_at'));
         $this->array = array(null, $this, null);
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => null, 'k2' => $this);
@@ -37,43 +37,43 @@ class InvokeAtTest extends AbstractTestCase
        
     function test()
     {
-        $this->assertSame('methodValue', invokeAt($this->array, 'method', 1, array(1, 2)));
-        $this->assertSame('methodValue', invokeAt($this->iterator, 'method', 1, array(1, 2)));
-        $this->assertSame(null, invokeAt($this->array, 'undefinedMethod', 1));
-        $this->assertSame(null, invokeAt($this->array, 'setExpectedExceptionFromAnnotation', 1), 'Protected method');
-        $this->assertSame(array(1, 2), invokeAt($this->array, 'returnArguments', 1, array(1, 2)));
-        $this->assertSame('methodValue', invokeAt($this->keyArray, 'method', 'k2'));
-        $this->assertSame('methodValue', invokeAt($this->keyIterator, 'method', 'k2'));
+        $this->assertSame('methodValue', invoke_at($this->array, 'method', 1, array(1, 2)));
+        $this->assertSame('methodValue', invoke_at($this->iterator, 'method', 1, array(1, 2)));
+        $this->assertSame(null, invoke_at($this->array, 'undefinedMethod', 1));
+        $this->assertSame(null, invoke_at($this->array, 'setExpectedExceptionFromAnnotation', 1), 'Protected method');
+        $this->assertSame(array(1, 2), invoke_at($this->array, 'returnArguments', 1, array(1, 2)));
+        $this->assertSame('methodValue', invoke_at($this->keyArray, 'method', 'k2'));
+        $this->assertSame('methodValue', invoke_at($this->keyIterator, 'method', 'k2'));
     }
 
     function testPassNoCollection()
     {
-        $this->expectArgumentError('Functional\invokeAt() expects parameter 1 to be array or instance of Traversable');
-        invokeAt('invalidCollection', 'method', 0);
+        $this->expectArgumentError('Functional\invoke_at() expects parameter 1 to be array or instance of Traversable');
+        invoke_at('invalidCollection', 'method', 0);
     } 
 
     function testPassNoPropertyName()
     {
-        $this->expectArgumentError('Functional\invokeAt() expects parameter 2 to be string');
-        invokeAt($this->array, new \stdClass(), 0);
+        $this->expectArgumentError('Functional\invoke_at() expects parameter 2 to be string');
+        invoke_at($this->array, new \stdClass(), 0);
     }
  
     function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        invokeAt($this->array, 'exception', 1);
+        invoke_at($this->array, 'exception', 1);
     }
     
     function testUnknownArrayKey()
     {
-    	$this->expectArgumentError('Functional\invokeAt(): unknown key "not_there"');
-    	invokeAt($this->array, 'method', 'not_there');
+    	$this->expectArgumentError('Functional\invoke_at(): unknown key "not_there"');
+    	invoke_at($this->array, 'method', 'not_there');
     }
     
     function testPassInvalidArrayKey()
     {
-    	$this->expectArgumentError('Functional\invokeAt(): invalid array key of type "object". Expected NULL, string, integer, double or boolean');
-    	invokeAt($this->array, 'method', new \stdClass());
+    	$this->expectArgumentError('Functional\invoke_at(): invalid array key of type "object". Expected NULL, string, integer, double or boolean');
+    	invoke_at($this->array, 'method', new \stdClass());
     }
 
     function method()

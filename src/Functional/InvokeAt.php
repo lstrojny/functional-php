@@ -31,7 +31,7 @@ namespace Functional;
  * @param array $arguments
  * @return array
  */
-function invokeAt($collection, $methodName, $key, array $arguments = array())
+function invoke_at($collection, $methodName, $key, array $arguments = array())
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
@@ -46,23 +46,4 @@ function invokeAt($collection, $methodName, $key, array $arguments = array())
 	}
     
     return call_user_func_array($callback, $arguments);
-    
-
-    /*
-    $aggregation = array();
-
-    foreach ($collection as $index => $element) {
-
-        $value = null;
-
-        $callback = array($element, $methodName);
-        if (is_callable($callback)) {
-            $value = call_user_func_array($callback, $arguments);
-        }
-
-        $aggregation[$index] = $value;
-    }
-
-    return $aggregation;
-    */
 }
