@@ -55,4 +55,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Truthy.php';
     require_once $basePath . 'Falsy.php';
     require_once $basePath . 'Contains.php';
+    require_once $basePath . 'InvokeFirst.php';
+    require_once $basePath . 'InvokeLast.php';
+    require_once $basePath . 'InvokeAt.php';
 }

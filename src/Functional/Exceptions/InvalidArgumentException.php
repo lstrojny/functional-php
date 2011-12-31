@@ -141,7 +141,7 @@ class InvalidArgumentException extends \InvalidArgumentException
         if (!in_array($keyType, $keyTypes, true)) {
             throw new static(
                 sprintf(
-                    '%s(): callback returned invalid array key of type "%s". Expected %4$s or %3$s',
+                    '%s(): invalid array key of type "%s". Expected %4$s or %3$s',
                     $callee,
                     $keyType,
                     array_pop($keyTypes),
@@ -149,5 +149,18 @@ class InvalidArgumentException extends \InvalidArgumentException
                 )
             );
         }
+    }
+    
+    public static function assertArrayKeyExists($collection, $key, $callee)
+    {
+    	if (!isset($collection[$key])) {
+            throw new static(
+                sprintf(
+                    '%s(): unknown key "%s"',
+                    $callee,
+                    $key
+                )
+            );
+    	}
     }
 }
