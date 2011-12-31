@@ -29,7 +29,7 @@ namespace Functional;
 * @param callable $callback
 * @return array
 */
-function unique($collection, $callback = null)
+function unique($collection, $callback = null, $strict = false)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     if ($callback != null) {
@@ -46,7 +46,7 @@ function unique($collection, $callback = null)
             $index = $element;
         }
 
-        if (!in_array($index, $indexes)) {
+        if (!in_array($index, $indexes, $strict)) {
             $aggregation[$key] = $element;
 
             $indexes[] = $index;
