@@ -141,7 +141,7 @@ class InvalidArgumentException extends \InvalidArgumentException
         if (!in_array($keyType, $keyTypes, true)) {
             throw new static(
                 sprintf(
-                    '%s(): invalid array key of type "%s". Expected %4$s or %3$s',
+                    '%s(): callback returned invalid array key of type "%s". Expected %4$s or %3$s',
                     $callee,
                     $keyType,
                     array_pop($keyTypes),

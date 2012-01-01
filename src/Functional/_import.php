@@ -57,5 +57,4 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Contains.php';
     require_once $basePath . 'InvokeFirst.php';
     require_once $basePath . 'InvokeLast.php';
-    require_once $basePath . 'InvokeAt.php';
 }

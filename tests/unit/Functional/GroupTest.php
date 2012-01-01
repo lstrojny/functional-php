@@ -79,7 +79,7 @@ class GroupTest extends AbstractTestCase
             } catch (\Exception $e) {
                 $this->assertSame(
                     sprintf(
-                        'Functional\group(): invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
+                        'Functional\group(): callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
                         $type
                     ),
                     $e->getMessage()
