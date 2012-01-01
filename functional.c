@@ -132,12 +132,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_last, 0, 0, 2)
 	ZEND_ARG_INFO(0, methodName)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_at, 0, 0, 3)
-	ZEND_ARG_INFO(0, collection)
-	ZEND_ARG_INFO(0, methodName)
-	ZEND_ARG_INFO(0, key)
-	ZEND_ARG_INFO(0, arguments)
-ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -174,8 +168,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", falsy,          ZEND_FN(functional_falsy),          arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", contains,       ZEND_FN(functional_contains),       arginfo_functional_contains,        0)
 	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
-	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
-	ZEND_NS_FENTRY("Functional", invoke_at,      ZEND_FN(functional_invoke_at),      arginfo_functional_invoke_at,       0)	
+	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)	
 	{NULL, NULL, NULL}
 };
 
@@ -2030,14 +2023,3 @@ PHP_FUNCTION(functional_invoke_last)
 {
 	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", 0, 1);
 }
-
-PHP_FUNCTION(functional_invoke_at)
-{
-	
-}
-
-
-
-
-
-
