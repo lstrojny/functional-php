@@ -52,7 +52,9 @@ your PHP file.
 
 ``Functional\every(array|Traversable $collection, callable $callback)``
 
-``bool Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
+``array Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
+``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``
+``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``
 
 ```php
 <?php
