@@ -240,7 +240,7 @@ ZEND_GET_MODULE(functional)
 			if (EG(exception)) { \
 				goto done; \
 			} \
-		}
+		}		
 #define FUNCTIONAL_ARRAY_PREPARE zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
 #define FUNCTIONAL_DECLARE_FCALL_INFO_CACHE zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 #define FUNCTIONAL_DECLARE(arg_num)	zend_fcall_info fci = empty_fcall_info; \
@@ -266,7 +266,7 @@ ZEND_GET_MODULE(functional)
 		if (EG(exception)) { \
 			goto done; \
 		} \
-		zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);
+		zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);		
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS)
 #define FUNCTIONAL_ARRAY_ITERATE_END \
@@ -320,7 +320,14 @@ ZEND_GET_MODULE(functional)
 		ZVAL_NULL(retval_ptr); \
 	} \
 	efree(callable); \
-	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+	if (invoke_first || invoke_last) { \
+		*return_value = *retval_ptr; \
+		zval_copy_ctor(return_value); \
+	} else { \
+		php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+	}
+	
+	
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
 #else
@@ -771,64 +778,7 @@ PHP_FUNCTION(functional_select)
 	}
 }
 
-PHP_FUNCTION(functional_invoke)
-{
-	FUNCTIONAL_DECLARE_EX(3)
-	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
 
-	int arguments_len = 0, method_name_len, element = 0;
-	zval *method, ***method_args = NULL;
-	HashTable *arguments = NULL;
-	char *callable, *error, *method_name;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	FUNCTIONAL_COLLECTION_PARAM(collection, "invoke")
-
-	array_init(return_value);
-
-	MAKE_STD_ZVAL(method);
-	ZVAL_STRINGL(method, method_name, method_name_len, 0);
-
-	if (arguments) {
-		arguments_len = zend_hash_num_elements(arguments);
-		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
-		zend_hash_internal_pointer_reset(arguments);
-		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
-			zend_hash_move_forward(arguments);
-			element++;
-		}
-	}
-
-	if (Z_TYPE_P(collection) == IS_ARRAY) {
-
-		FUNCTIONAL_ARRAY_PREPARE
-		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			FUNCTIONAL_ARRAY_PREPARE_KEY
-			FUNCTIONAL_INVOKE_INNER(break)
-			/** printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method)); */
-			FUNCTIONAL_ARRAY_FREE_KEY
-		FUNCTIONAL_ARRAY_ITERATE_END
-
-	} else {
-
-		FUNCTIONAL_ITERATOR_PREPARE
-		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_INVOKE_INNER(goto done)
-			FUNCTIONAL_ITERATOR_FREE_KEY
-		FUNCTIONAL_ITERATOR_ITERATE_END
-		FUNCTIONAL_ITERATOR_DONE
-
-	}
-
-	efree(method);
-	if (method_args) {
-		efree(method_args);
-	}
-}
 
 PHP_FUNCTION(functional_pluck)
 {
@@ -1979,14 +1929,106 @@ PHP_FUNCTION(functional_contains)
 	}
 }
 
+static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int invoke_first, int invoke_last)
+{
+	FUNCTIONAL_DECLARE_EX(3)
+	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
+
+	int arguments_len = 0, method_name_len, element = 0;
+	zval *method, ***method_args = NULL;
+	HashTable *arguments = NULL;
+	char *callable, *error, *method_name;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, function_name)
+
+	array_init(return_value);
+
+	MAKE_STD_ZVAL(method);
+	ZVAL_STRINGL(method, method_name, method_name_len, 0);
+
+	if (arguments) {
+		arguments_len = zend_hash_num_elements(arguments);
+		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
+		zend_hash_internal_pointer_reset(arguments);
+		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
+			zend_hash_move_forward(arguments);
+			element++;
+		}
+	}
+
+	/* find and invoke first element collection */
+	if (invoke_first) {
+
+		zend_hash_internal_pointer_reset_ex(HASH_OF(collection), &pos);
+		
+		if (zend_hash_get_current_data_ex(HASH_OF(collection), (void **)&args[0], &pos) == FAILURE) {
+			goto cleanup;
+		}
+		
+		FUNCTIONAL_INVOKE_INNER(goto cleanup);
+
+	/* find an invoke last element in collection */
+	} else if (invoke_last) {
+
+		zend_hash_internal_pointer_end_ex(HASH_OF(collection), &pos);
+		
+		if (zend_hash_get_current_data_ex(HASH_OF(collection), (void **)&args[0], &pos) == FAILURE) {
+			goto cleanup;
+		}
+		
+		FUNCTIONAL_INVOKE_INNER(goto cleanup);
+
+	/* invoke every element in collection */
+	} else {
+
+		if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+			FUNCTIONAL_ARRAY_PREPARE
+			FUNCTIONAL_ARRAY_ITERATE_BEGIN
+				FUNCTIONAL_ARRAY_PREPARE_KEY
+				FUNCTIONAL_INVOKE_INNER(break)		
+				FUNCTIONAL_ARRAY_FREE_KEY
+			FUNCTIONAL_ARRAY_ITERATE_END
+
+		} else {
+
+			FUNCTIONAL_ITERATOR_PREPARE
+			FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+				FUNCTIONAL_ITERATOR_PREPARE_KEY
+				FUNCTIONAL_INVOKE_INNER(goto done)			
+				FUNCTIONAL_ITERATOR_FREE_KEY
+			FUNCTIONAL_ITERATOR_ITERATE_END
+			FUNCTIONAL_ITERATOR_DONE
+
+		}
+
+	}
+	
+	cleanup:
+	
+	efree(method);
+	if (method_args) {
+		efree(method_args);
+	}
+}
+
+PHP_FUNCTION(functional_invoke)
+{
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", 0, 0);
+}
+
 PHP_FUNCTION(functional_invoke_first)
 {
-	
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", 1, 0);
 }
 
 PHP_FUNCTION(functional_invoke_last)
 {
-	
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", 0, 1);
 }
 
 PHP_FUNCTION(functional_invoke_at)
