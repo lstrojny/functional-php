@@ -1938,8 +1938,6 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, function_name)
 
-	array_init(return_value);
-
 	MAKE_STD_ZVAL(method);
 	ZVAL_STRINGL(method, method_name, method_name_len, 0);
 
@@ -1977,6 +1975,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 	/* invoke every element in collection */
 	} else {
+		array_init(return_value);
 
 		if (Z_TYPE_P(collection) == IS_ARRAY) {
 
