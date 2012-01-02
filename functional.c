@@ -994,7 +994,7 @@ PHP_FUNCTION(functional_first)
 {
 	FUNCTIONAL_DECLARE(3)
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
 	}
 
@@ -1049,7 +1049,7 @@ PHP_FUNCTION(functional_last)
 {
 	FUNCTIONAL_DECLARE(3);
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f", &collection, &fci, &fci_cache) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
 	}
 

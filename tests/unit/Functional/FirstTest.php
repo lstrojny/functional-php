@@ -51,9 +51,13 @@ class FirstTest extends AbstractTestCase
     function testWithoutCallback()
     {
         $this->assertSame('first', first($this->array));
+        $this->assertSame('first', first($this->array, null));
         $this->assertSame('first', first($this->iterator));
+        $this->assertSame('first', first($this->iterator, null));
         $this->assertSame('foo', first($this->badArray));
+        $this->assertSame('foo', first($this->badArray, null));
         $this->assertSame('foo', first($this->badIterator));
+        $this->assertSame('foo', first($this->badIterator, null));
     }
 
     function testPassNonCallable()

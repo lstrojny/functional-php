@@ -51,7 +51,9 @@ class LastTest extends AbstractTestCase
     function testWithoutCallback()
     {
         $this->assertSame('fourth', last($this->array));
+        $this->assertSame('fourth', last($this->array, null));
         $this->assertSame('fourth', last($this->iterator));
+        $this->assertSame('fourth', last($this->iterator, null));
     }
 
     function testPassNonCallable()
