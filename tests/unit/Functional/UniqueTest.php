@@ -83,6 +83,14 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator, $fn));
     }
 
+    function testPassingNullAsCallback()
+    {
+        $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array));
+        $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array, null));
+        $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array, null, false));
+        $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array, null, true));
+    }
+
     function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
@@ -117,11 +125,5 @@ class UniqueTest extends AbstractTestCase
     {
         $this->expectArgumentError("Functional\unique() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         unique($this->array, 'undefinedFunction');
-    }
-
-    function testPassNonCallableNull()
-    {
-        $this->expectArgumentError("Functional\unique() expects parameter 2 to be a valid callback, no array or string given");
-        unique($this->array, null);
     }
 }

@@ -401,7 +401,7 @@ ZEND_GET_MODULE(functional)
 		cb; \
 	}
 #define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
-	if (callback_set) { \
+	if (fci.function_name != NULL) { \
 		FUNCTIONAL_CALL_BACK_EX_BEGIN \
 			if (functional_in_array(indexes, retval_ptr, strict TSRMLS_CC) == 0) { \
 				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
@@ -1570,35 +1570,11 @@ static int functional_in_array(zval *array, zval *value, int strict TSRMLS_DC)
 PHP_FUNCTION(functional_unique)
 {
 	FUNCTIONAL_DECLARE(3);
-	zval *callable = NULL;
 	int strict = 1;
-	int callback_set = 0;
 	zval *indexes = NULL;
 
-	/* parse second argument as neutral zval wich is allowed to be null */
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zb", &collection, &callable, &strict) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!b", &collection, &fci, &fci_cache, &strict) == FAILURE) {
 		RETURN_NULL();
-	}
-
-	/*
-		this is a bit tricky:
-
-		if we get called in userland via
-			unique(collection, callable)
-		we validate callable
-
-		if we get called in userland via:
-			unique(collection, callable, strict)
-		we allow null values for callable
-
-		in order to use the same error message as PHP would throw on a invalid callback, we just parse the arguments again
-	*/
-	if (ZEND_NUM_ARGS() == 2 || (ZEND_NUM_ARGS() == 3 && Z_TYPE_P(callable) != IS_NULL)) {
-		if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|fb", &collection, &fci, &fci_cache, &strict) == FAILURE) {
-			RETURN_NULL();
-		}
-
-		callback_set = 1;
 	}
 
 	array_init(return_value);
@@ -1606,7 +1582,7 @@ PHP_FUNCTION(functional_unique)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "unique")
 	FUNCTIONAL_PREPARE_ARGS
 
-	if (callback_set) {
+	if (fci.function_name != NULL) {
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
 
@@ -1630,7 +1606,7 @@ PHP_FUNCTION(functional_unique)
 		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 	}
-	
+
 	zval_ptr_dtor(&indexes);
 }
 
