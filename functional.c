@@ -225,15 +225,15 @@ ZEND_GET_MODULE(functional)
 		}
 #define FUNCTIONAL_ARRAY_PREPARE zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
 #define FUNCTIONAL_DECLARE_FCALL_INFO_CACHE zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
-#define FUNCTIONAL_DECLARE(arg_num)	zend_fcall_info fci = empty_fcall_info; \
+#define FUNCTIONAL_DECLARE_FCI(arg_num)	zend_fcall_info fci = empty_fcall_info; \
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE \
 	FUNCTIONAL_DECLARE_EX(arg_num)
-#define FUNCTIONAL_DECLARE_EX(arg_num)	FUNCTIONAL_DECLARE_MIN(arg_num) \
+#define FUNCTIONAL_DECLARE_EX(arg_num)	FUNCTIONAL_DECLARE(arg_num) \
 	uint string_key_len, hash_key_type; \
 	ulong int_key; \
 	zval *retval_ptr = NULL, *key = NULL; \
 	char *string_key = NULL;
-#define FUNCTIONAL_DECLARE_MIN(arg_num) zval *collection, **args[arg_num]; \
+#define FUNCTIONAL_DECLARE(arg_num) zval *collection, **args[arg_num]; \
 	HashPosition pos; \
 	zend_object_iterator *iter; \
 	zend_class_entry *ce;
@@ -449,7 +449,7 @@ void php_functional_append_array_value(int hash_key_type, zval **return_value, z
 
 PHP_FUNCTION(functional_each)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -483,7 +483,7 @@ PHP_FUNCTION(functional_each)
 
 PHP_FUNCTION(functional_some)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -529,7 +529,7 @@ PHP_FUNCTION(functional_some)
 
 PHP_FUNCTION(functional_every)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -579,7 +579,7 @@ PHP_FUNCTION(functional_every)
 
 PHP_FUNCTION(functional_map)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -619,7 +619,7 @@ PHP_FUNCTION(functional_map)
 
 PHP_FUNCTION(functional_none)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -667,7 +667,7 @@ PHP_FUNCTION(functional_none)
 
 PHP_FUNCTION(functional_reject)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -711,7 +711,7 @@ PHP_FUNCTION(functional_reject)
 
 PHP_FUNCTION(functional_select)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -864,7 +864,7 @@ PHP_FUNCTION(functional_pluck)
 
 PHP_FUNCTION(functional_reduce_left)
 {
-	FUNCTIONAL_DECLARE(4)
+	FUNCTIONAL_DECLARE_FCI(4)
 	zval *initial, *result = NULL;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf|z", &collection, &fci, &fci_cache, &initial) == FAILURE) {
@@ -919,7 +919,7 @@ PHP_FUNCTION(functional_reduce_left)
 
 PHP_FUNCTION(functional_reduce_right)
 {
-	FUNCTIONAL_DECLARE(4)
+	FUNCTIONAL_DECLARE_FCI(4)
 	zval *initial, *result = NULL;
 	zend_llist reversed;
 	zend_llist_position reverse_pos;
@@ -992,7 +992,7 @@ PHP_FUNCTION(functional_reduce_right)
 
 PHP_FUNCTION(functional_first)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -1047,7 +1047,7 @@ PHP_FUNCTION(functional_first)
 
 PHP_FUNCTION(functional_last)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE_FCI(3);
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -1107,7 +1107,7 @@ PHP_FUNCTION(functional_last)
 
 PHP_FUNCTION(functional_drop_first)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 	int drop = 1;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1171,7 +1171,7 @@ PHP_FUNCTION(functional_drop_first)
 
 PHP_FUNCTION(functional_drop_last)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE_FCI(3);
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
 		RETURN_NULL();
@@ -1220,7 +1220,7 @@ PHP_FUNCTION(functional_drop_last)
 
 PHP_FUNCTION(functional_group)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 	zval *group;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1349,7 +1349,7 @@ int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zv
 
 PHP_FUNCTION(functional_partition)
 {
-	FUNCTIONAL_DECLARE(3)
+	FUNCTIONAL_DECLARE_FCI(3)
 	zval *left, *right;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zf", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1442,7 +1442,7 @@ void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC)
 
 PHP_FUNCTION(functional_average)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval el, *initial = NULL;
 	double dval;
 	long lval;
@@ -1473,7 +1473,7 @@ PHP_FUNCTION(functional_average)
 
 PHP_FUNCTION(functional_sum)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval el, *initial = NULL;
 	double dval;
 	long lval;
@@ -1488,7 +1488,7 @@ PHP_FUNCTION(functional_sum)
 
 PHP_FUNCTION(functional_difference)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval el, *initial = NULL;
 	double dval;
 	long lval;
@@ -1503,7 +1503,7 @@ PHP_FUNCTION(functional_difference)
 
 PHP_FUNCTION(functional_product)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval el, *initial = NULL;
 	double dval;
 	long lval;
@@ -1518,7 +1518,7 @@ PHP_FUNCTION(functional_product)
 
 PHP_FUNCTION(functional_ratio)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval el, *initial = NULL;
 	double dval;
 	long lval;
@@ -1569,7 +1569,7 @@ static int functional_in_array(zval *array, zval *value, int strict TSRMLS_DC)
 
 PHP_FUNCTION(functional_unique)
 {
-	FUNCTIONAL_DECLARE(3);
+	FUNCTIONAL_DECLARE_FCI(3);
 	int strict = 1;
 	zval *indexes = NULL;
 
@@ -1613,7 +1613,7 @@ PHP_FUNCTION(functional_unique)
 
 PHP_FUNCTION(functional_maximum)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval result, *max = NULL;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
@@ -1656,7 +1656,7 @@ PHP_FUNCTION(functional_maximum)
 
 PHP_FUNCTION(functional_minimum)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	zval result, *min = NULL;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
@@ -1699,7 +1699,7 @@ PHP_FUNCTION(functional_minimum)
 
 PHP_FUNCTION(functional_first_index_of)
 {
-	FUNCTIONAL_DECLARE_MIN(2)
+	FUNCTIONAL_DECLARE(2)
 	zval *value, result, *key = NULL;
 	uint string_key_len, hash_key_type;
 	ulong int_key;
@@ -1745,7 +1745,7 @@ PHP_FUNCTION(functional_first_index_of)
 
 PHP_FUNCTION(functional_last_index_of)
 {
-	FUNCTIONAL_DECLARE_MIN(2)
+	FUNCTIONAL_DECLARE(2)
 	zval *value, result, *key = NULL;
 	uint string_key_len, hash_key_type;
 	ulong int_key;
@@ -1787,7 +1787,7 @@ PHP_FUNCTION(functional_last_index_of)
 
 PHP_FUNCTION(functional_true)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
 		RETURN_NULL();
@@ -1821,7 +1821,7 @@ PHP_FUNCTION(functional_true)
 
 PHP_FUNCTION(functional_false)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
 		RETURN_NULL();
@@ -1855,7 +1855,7 @@ PHP_FUNCTION(functional_false)
 
 PHP_FUNCTION(functional_truthy)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
 		RETURN_NULL();
@@ -1889,7 +1889,7 @@ PHP_FUNCTION(functional_truthy)
 
 PHP_FUNCTION(functional_falsy)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z", &collection) == FAILURE) {
 		RETURN_NULL();
@@ -1923,7 +1923,7 @@ PHP_FUNCTION(functional_falsy)
 
 PHP_FUNCTION(functional_contains)
 {
-	FUNCTIONAL_DECLARE_MIN(1)
+	FUNCTIONAL_DECLARE(1)
 	int strict = 1;
 	zval *value;
 
