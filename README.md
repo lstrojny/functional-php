@@ -334,8 +334,8 @@ Calculates the difference of all elements, starting with `$initial`
 Calculates the average of all numeric elements
 
 
-`array Functional\unique(array|Traversable $collection[, callback $indexer])`  
-Returns a unified array based on the index value returned by the callback
+`array Functional\unique(array|Traversable $collection[, callback $indexer, bool $strict = false])`  
+Returns a unified array based on the index value returned by the callback, use `$strict` to change comparision mode
 
 
 `mixed Functional\maximum(array|Traversable $collection)`  

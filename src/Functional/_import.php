@@ -42,6 +42,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Pluck.php';
     require_once $basePath . 'Product.php';
     require_once $basePath . 'Ratio.php';
+    require_once $basePath . 'Unique.php';
     require_once $basePath . 'ReduceLeft.php';
     require_once $basePath . 'ReduceRight.php';
     require_once $basePath . 'Reject.php';
