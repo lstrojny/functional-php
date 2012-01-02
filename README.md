@@ -27,7 +27,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
 
 ### Install native extension
 ```bash
-cd functional-php/extension/
+cd functional-php/
 phphize
 ./configure
 make
