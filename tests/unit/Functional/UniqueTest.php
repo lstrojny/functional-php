@@ -36,7 +36,7 @@ class UniqueTest extends AbstractTestCase
         $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val2', 'k1' => 'val1');
         $this->keyedIterator = new ArrayIterator($this->keyedArray);
     }
-   
+
     function testDefaultBehavior()
     {
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array));
@@ -65,22 +65,22 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array('k1' => 'val1'), unique($this->keyedArray, $fn));
         $this->assertSame(array('k1' => 'val1'), unique($this->keyedIterator, $fn));
     }
-    
+
     function testUnifyingStrict()
     {
-    	$this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesArray));
-    	$this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesArray, null, true));
-    	$this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesIterator));
-    	$this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator, null, true));
-    	
+        $this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesArray, null, false));
+        $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesArray));
+        $this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesIterator, null, false));
+        $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator));
+
         $fn = function($value, $key, $collection) {
             return $value;
         };
-        
-    	$this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesArray, $fn));
-    	$this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesArray, $fn, true));
-    	$this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesIterator));
-    	$this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator, $fn, true));
+
+        $this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesArray, $fn, false));
+        $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesArray, $fn));
+        $this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesIterator, null, false));
+        $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator, $fn));
     }
 
     function testExceptionIsThrownInArray()
@@ -118,10 +118,10 @@ class UniqueTest extends AbstractTestCase
         $this->expectArgumentError("Functional\unique() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         unique($this->array, 'undefinedFunction');
     }
-    
+
     function testPassNonCallableNull()
     {
         $this->expectArgumentError("Functional\unique() expects parameter 2 to be a valid callback, no array or string given");
         unique($this->array, null);
-    }    
+    }
 }

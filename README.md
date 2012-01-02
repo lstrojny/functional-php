@@ -9,7 +9,7 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 
   - Works with arrays and everything implementing interface `Traversable`
   - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.
-Callbacks are always passed `$value`, `$index`, `$collection`
+Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison is the default but can be changed
   - Calls 5.3 closures as well as usual callbacks
   - C implementation for performance but a compatible userland implementation is provided if you can’t install PHP
     extensions

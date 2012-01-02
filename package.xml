@@ -29,6 +29,7 @@
 - Functional\last() now simply returns the last element if no callback is given
 - Functional\first() now simply returns the last element if no callback is given
 - New function Functional\contains()
+- Functional\contains() and Functional\unique() compare values strictly per default
 	</notes>
 	<contents>
 		<dir name="/">

@@ -1571,36 +1571,36 @@ PHP_FUNCTION(functional_unique)
 {
 	FUNCTIONAL_DECLARE(3);
 	zval *callable = NULL;
-	int strict = 0;
+	int strict = 1;
 	int callback_set = 0;
 	zval *indexes = NULL;
-	
+
 	/* parse second argument as neutral zval wich is allowed to be null */
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|zb", &collection, &callable, &strict) == FAILURE) {
 		RETURN_NULL();
 	}
 
-	/* 
+	/*
 		this is a bit tricky:
-	
+
 		if we get called in userland via
 			unique(collection, callable)
 		we validate callable
-		
+
 		if we get called in userland via:
 			unique(collection, callable, strict)
 		we allow null values for callable
-		
+
 		in order to use the same error message as PHP would throw on a invalid callback, we just parse the arguments again
-	*/	
+	*/
 	if (ZEND_NUM_ARGS() == 2 || (ZEND_NUM_ARGS() == 3 && Z_TYPE_P(callable) != IS_NULL)) {
 		if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|fb", &collection, &fci, &fci_cache, &strict) == FAILURE) {
 			RETURN_NULL();
 		}
-		
+
 		callback_set = 1;
 	}
-	
+
 	array_init(return_value);
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "unique")
@@ -1948,7 +1948,7 @@ PHP_FUNCTION(functional_falsy)
 PHP_FUNCTION(functional_contains)
 {
 	FUNCTIONAL_DECLARE_MIN(1)
-	int strict = 0;
+	int strict = 1;
 	zval *value;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zz|b", &collection, &value, &strict) == FAILURE) {

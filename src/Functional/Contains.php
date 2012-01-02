@@ -31,7 +31,7 @@ namespace Functional;
  * @param bool $strict
  * @return bool
  */
-function contains($collection, $value, $strict = false)
+function contains($collection, $value, $strict = true)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
