@@ -86,7 +86,7 @@ class EachTest extends AbstractTestCase
 
     function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         each($this->array, 'undefinedFunction');
     }
 
