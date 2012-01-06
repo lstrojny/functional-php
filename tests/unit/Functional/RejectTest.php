@@ -31,8 +31,8 @@ class RejectTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('value', 'wrong', 'value');
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyedArray = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
-        $this->keyedIterator = new ArrayIterator($this->keyedArray);
+        $this->hash = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
+        $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     function test()
@@ -43,8 +43,8 @@ class RejectTest extends AbstractTestCase
         };
         $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->array, $fn));
         $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->keyedArray, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->keyedIterator, $fn));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->hash, $fn));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->hashIterator, $fn));
     }
 
     function testPassNonCallable()
@@ -65,10 +65,10 @@ class RejectTest extends AbstractTestCase
         reject($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedArray()
+    function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->keyedArray, array($this, 'exception'));
+        reject($this->hash, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
@@ -77,9 +77,9 @@ class RejectTest extends AbstractTestCase
         reject($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedIterator()
+    function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->keyedIterator, array($this, 'exception'));
+        reject($this->hashIterator, array($this, 'exception'));
     }
 }

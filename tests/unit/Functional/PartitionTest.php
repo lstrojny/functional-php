@@ -31,8 +31,8 @@ class PartitionTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('value1', 'value2', 'value3');
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3');
-        $this->keyedIterator = new ArrayIterator($this->keyedArray);
+        $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3');
+        $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     function test()
@@ -43,8 +43,8 @@ class PartitionTest extends AbstractTestCase
         };
         $this->assertSame(array(array(0 => 'value1', 2 => 'value3'), array(1 => 'value2')), partition($this->array, $fn));
         $this->assertSame(array(array(0 => 'value1', 2 => 'value3'), array(1 => 'value2')), partition($this->iterator, $fn));
-        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->keyedArray, $fn));
-        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->keyedIterator, $fn));
+        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->hash, $fn));
+        $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->hashIterator, $fn));
     }
 
     function testExceptionIsThrownInArray()
@@ -53,10 +53,10 @@ class PartitionTest extends AbstractTestCase
         partition($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedArray()
+    function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        partition($this->keyedArray, array($this, 'exception'));
+        partition($this->hash, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
@@ -65,10 +65,10 @@ class PartitionTest extends AbstractTestCase
         partition($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedIterator()
+    function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        partition($this->keyedIterator, array($this, 'exception'));
+        partition($this->hashIterator, array($this, 'exception'));
     }
 
     function testPassNoCollection()

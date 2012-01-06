@@ -31,8 +31,8 @@ class GroupTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('value1', 'value2', 'value3', 'value4');
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3');
-        $this->keyedIterator = new ArrayIterator($this->keyedArray);
+        $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3');
+        $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     function test()
@@ -43,8 +43,8 @@ class GroupTest extends AbstractTestCase
         };
         $this->assertSame(array('foo' => array(0 => 'value1', 2 => 'value3'), '' => array(1 => 'value2', 3 => 'value4')), group($this->array, $fn));
         $this->assertSame(array('foo' => array(0 => 'value1', 2 => 'value3'), '' => array(1 => 'value2', 3 => 'value4')), group($this->iterator, $fn));
-        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->keyedArray, $fn));
-        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->keyedIterator, $fn));
+        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->hash, $fn));
+        $this->assertSame(array('' => array('k1' => 'val1', 'k3' => 'val3'), 'foo' => array('k2' => 'val2')), group($this->hashIterator, $fn));
     }
 
     function testExceptionIsThrownWhenCallbacksReturnsInvalidKey()
@@ -94,10 +94,10 @@ class GroupTest extends AbstractTestCase
         group($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedArray()
+    function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        group($this->keyedArray, array($this, 'exception'));
+        group($this->hash, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
@@ -106,10 +106,10 @@ class GroupTest extends AbstractTestCase
         group($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedIterator()
+    function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        group($this->keyedIterator, array($this, 'exception'));
+        group($this->hashIterator, array($this, 'exception'));
     }
 
     function testPassNoCollection()

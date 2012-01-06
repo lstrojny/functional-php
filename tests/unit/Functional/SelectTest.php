@@ -31,8 +31,8 @@ class SelectTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('value', 'wrong', 'value');
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyedArray = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
-        $this->keyedIterator = new ArrayIterator($this->keyedArray); 
+        $this->hash = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
+        $this->hashIterator = new ArrayIterator($this->hash); 
     }
 
     function test()
@@ -43,8 +43,8 @@ class SelectTest extends AbstractTestCase
         };
         $this->assertSame(array('value', 2 => 'value'), select($this->array, $fn));
         $this->assertSame(array('value', 2 => 'value'), select($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->keyedArray, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->keyedIterator, $fn));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->hash, $fn));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->hashIterator, $fn));
     }
 
     function testPassNonCallable()
@@ -65,10 +65,10 @@ class SelectTest extends AbstractTestCase
         select($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedArray()
+    function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->keyedArray, array($this, 'exception'));
+        select($this->hash, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
@@ -77,9 +77,9 @@ class SelectTest extends AbstractTestCase
         select($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedIterator()
+    function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->keyedIterator, array($this, 'exception'));
+        select($this->hashIterator, array($this, 'exception'));
     }
 }

@@ -31,8 +31,8 @@ class MapTest extends AbstractTestCase
         parent::setUp();
         $this->array = array('value', 'value');
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyedArray = array('k1' => 'val1', 'k2' => 'val2');
-        $this->keyedIterator = new ArrayIterator($this->keyedArray);
+        $this->hash = array('k1' => 'val1', 'k2' => 'val2');
+        $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     function test()
@@ -43,8 +43,8 @@ class MapTest extends AbstractTestCase
         };
         $this->assertSame(array('0value', '1value'), map($this->array, $fn));
         $this->assertSame(array('0value', '1value'), map($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->keyedArray, $fn));
-        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->keyedIterator, $fn));
+        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->hash, $fn));
+        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->hashIterator, $fn));
     }
 
     function testExceptionIsThrownInArray()
@@ -53,10 +53,10 @@ class MapTest extends AbstractTestCase
         map($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedArray()
+    function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->keyedArray, array($this, 'exception'));
+        map($this->hash, array($this, 'exception'));
     }
 
     function testExceptionIsThrownInIterator()
@@ -65,10 +65,10 @@ class MapTest extends AbstractTestCase
         map($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInKeyedIterator()
+    function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->keyedIterator, array($this, 'exception'));
+        map($this->hashIterator, array($this, 'exception'));
     }
 
     function testPassNoCollection()
