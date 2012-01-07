@@ -22,7 +22,8 @@
  */
 namespace Functional;
 
-use ArrayIterator;
+use ArrayIterator,
+    Exception;
 
 class ZipTest extends AbstractTestCase
 {
@@ -75,6 +76,52 @@ class ZipTest extends AbstractTestCase
                 new ArrayIterator(array('foo' => -1, 'bar' => -2, false, "ignore"))
             )
         );
+
+        $invocation = 0;
+        $cb = function($one, $two) use (&$invocation) {
+            switch ($invocation) {
+                case 0:
+                    $result = $one === 1 && $two === -1;
+                    break;
+                case 1:
+                    $result = $one === 2 && $two === -2;
+                    break;
+                case 2:
+                    $result = $one === true && $two === false;
+                    break;
+                default:
+                    throw new Exception('Called too often');
+            }
+
+            if (!$result) {
+                throw new Exception(
+                    sprintf('Unexpected values for invocation %d: one %s, two %s', $invocation, $one, $two)
+                );
+            }
+
+            $invocation++;
+
+            return array($one, $two);
+        };
+        $this->assertSame(
+            $result,
+            zip(
+                array('foo' => 1, 'bar' => 2, true),
+                array('foo' => -1, 'bar' => -2, false, "ignore"),
+                $cb
+            )
+        );
+        $this->assertSame(3, $invocation);
+        $invocation = 0;
+        $this->assertSame(
+            $result,
+            zip(
+                new ArrayIterator(array('foo' => 1, 'bar' => 2, true)),
+                new ArrayIterator(array('foo' => -1, 'bar' => -2, false, "ignore")),
+                $cb
+            )
+        );
+        $this->assertSame(3, $invocation);
     }
 
     function testZippingWithCallback()
@@ -111,7 +158,7 @@ class ZipTest extends AbstractTestCase
         $this->assertSame(array(), zip(array()));
         $this->assertSame(array(), zip(array(), array()));
         $this->assertSame(array(), zip(array(), array(), function() {
-            throw new \Exception('Should not be called');
+            throw new Exception('Should not be called');
         }));
     }
 
