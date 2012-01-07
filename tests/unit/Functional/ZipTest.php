@@ -58,6 +58,25 @@ class ZipTest extends AbstractTestCase
         );
     }
 
+    function testZippingHashes()
+    {
+        $result = array(array(1, -1), array(2, -2), array(true, false));
+        $this->assertSame(
+            $result,
+            zip(
+                array('foo' => 1, 'bar' => 2, true),
+                array('foo' => -1, 'bar' => -2, false, "ignore")
+            )
+        );
+        $this->assertSame(
+            $result,
+            zip(
+                new ArrayIterator(array('foo' => 1, 'bar' => 2, true)),
+                new ArrayIterator(array('foo' => -1, 'bar' => -2, false, "ignore"))
+            )
+        );
+    }
+
     function testZippingWithCallback()
     {
         $result = array('one1-11', 'two2-2', 'three3-3');
