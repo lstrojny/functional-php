@@ -55,7 +55,7 @@ function zip($collection)
             $zipped = call_user_func_array($callback, $zipped);
         }
 
-        $result[$index] = $zipped;
+        $result[] = $zipped;
     }
 
     return $result;
