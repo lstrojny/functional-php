@@ -335,10 +335,10 @@ ZEND_GET_MODULE(functional)
 		last_invokable_method_args = method_args; \
 	} \
 
-#define FUNCTIONAL_INVOKE_LAST if (last_invokable_callback_found) { \
+#define FUNCTIONAL_INVOKE_LAST(on_error) if (last_invokable_callback_found) { \
 		if (call_user_function_ex(EG(function_table), last_invokable_obj, last_invokable_method, &retval_ptr, last_invokable_arguments_len, last_invokable_method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
 			if (EG(exception)) { \
-				goto cleanup; \
+				on_error; \
 			} \
 			*return_value = *retval_ptr; \
 			zval_copy_ctor(return_value); \
@@ -2006,7 +2006,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 		if (invoke_last) {
-			FUNCTIONAL_INVOKE_LAST
+			FUNCTIONAL_INVOKE_LAST(goto cleanup)
 		}
 
 	} else {
@@ -2026,7 +2026,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 			FUNCTIONAL_ITERATOR_FREE_KEY
 
 		if (invoke_last) {
-			FUNCTIONAL_INVOKE_LAST
+			FUNCTIONAL_INVOKE_LAST(goto done)
 		}
 
 		FUNCTIONAL_ITERATOR_ITERATE_END
