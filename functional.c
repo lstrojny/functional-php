@@ -259,7 +259,7 @@ ZEND_GET_MODULE(functional)
 		if (EG(exception)) { \
 			goto done; \
 		} \
-		zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);		
+		zend_user_it_get_current_data(iter, &args[0] TSRMLS_CC);
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX {
 #define FUNCTIONAL_ARRAY_ITERATE_BEGIN_EX while (!EG(exception) && zend_hash_get_current_data_ex(Z_ARRVAL_P(collection), (void **)&args[0], &pos) == SUCCESS)
 #define FUNCTIONAL_ARRAY_ITERATE_END \
