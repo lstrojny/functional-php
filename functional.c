@@ -313,14 +313,38 @@ ZEND_GET_MODULE(functional)
 		ZVAL_NULL(retval_ptr); \
 	} \
 	efree(callable); \
-	if (invoke_first || invoke_last) { \
-		*return_value = *retval_ptr; \
-		zval_copy_ctor(return_value); \
-	} else { \
-		php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
-	}
-	
-	
+	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+
+#define FUNCTIONAL_INVOKE_FIRST_INNER(end) if (zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+			if (EG(exception)) { \
+				end; \
+			} \
+			*return_value = *retval_ptr; \
+			zval_copy_ctor(return_value); \
+		} \
+		efree(callable); \
+		end; \
+	} \
+
+#define FUNCTIONAL_INVOKE_LAST_INNER if (zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		last_invokable_callback_found = 1; \
+		last_invokable_obj = &*args[0]; \
+		last_invokable_method = method; \
+		last_invokable_arguments_len = arguments_len; \
+		last_invokable_method_args = method_args; \
+	} \
+
+#define FUNCTIONAL_INVOKE_LAST if (last_invokable_callback_found) { \
+		if (call_user_function_ex(EG(function_table), last_invokable_obj, last_invokable_method, &retval_ptr, last_invokable_arguments_len, last_invokable_method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+			if (EG(exception)) { \
+				goto cleanup; \
+			} \
+			*return_value = *retval_ptr; \
+			zval_copy_ctor(return_value); \
+		} \
+	} \
+
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
 #else
@@ -1922,6 +1946,33 @@ PHP_FUNCTION(functional_contains)
 	}
 }
 
+/*
+#define FUNCTIONAL_INVOKE_INNER(on_failure) \
+	int callback_valid = 1; \
+	if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		MAKE_STD_ZVAL(retval_ptr); \
+		ZVAL_NULL(retval_ptr); \
+		callback_valid = 0; \
+	} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+		if (EG(exception)) { \
+			on_failure; \
+		} \
+	} else { \
+		MAKE_STD_ZVAL(retval_ptr); \
+		ZVAL_NULL(retval_ptr); \
+	} \
+	efree(callable); \
+	if (invoke_first) { \
+		if (callback_valid) { \
+			*return_value = *retval_ptr; \
+			zval_copy_ctor(return_value); \
+		} \
+	} else { \
+		php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+	}
+	
+*/
+
 static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int invoke_first, int invoke_last)
 {
 	FUNCTIONAL_DECLARE_EX(3)
@@ -1931,6 +1982,13 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 	zval *method, ***method_args = NULL;
 	HashTable *arguments = NULL;
 	char *callable, *error, *method_name;
+	
+	int last_invokable_callback_found = 0;
+	zval **last_invokable_obj;
+	zval *last_invokable_method;
+	int last_invokable_arguments_len;
+	zval ***last_invokable_method_args;
+	
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
 		RETURN_NULL();
@@ -1951,57 +2009,61 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 		}
 	}
 
-	/* find and invoke first element collection */
-	if (invoke_first) {
-
-		zend_hash_internal_pointer_reset_ex(HASH_OF(collection), &pos);
-		
-		if (zend_hash_get_current_data_ex(HASH_OF(collection), (void **)&args[0], &pos) == FAILURE) {
-			goto cleanup;
-		}
-		
-		FUNCTIONAL_INVOKE_INNER(goto cleanup);
-
-	/* find an invoke last element in collection */
-	} else if (invoke_last) {
-
-		zend_hash_internal_pointer_end_ex(HASH_OF(collection), &pos);
-		
-		if (zend_hash_get_current_data_ex(HASH_OF(collection), (void **)&args[0], &pos) == FAILURE) {
-			goto cleanup;
-		}
-		
-		FUNCTIONAL_INVOKE_INNER(goto cleanup);
-
-	/* invoke every element in collection */
-	} else {
+	/* we only need to return array of callback results when Functional\invoke is used */
+	if (!invoke_first && !invoke_last) {
 		array_init(return_value);
+	}
 
-		if (Z_TYPE_P(collection) == IS_ARRAY) {
 
-			FUNCTIONAL_ARRAY_PREPARE
-			FUNCTIONAL_ARRAY_ITERATE_BEGIN
-				FUNCTIONAL_ARRAY_PREPARE_KEY
-				FUNCTIONAL_INVOKE_INNER(break)		
-				FUNCTIONAL_ARRAY_FREE_KEY
-			FUNCTIONAL_ARRAY_ITERATE_END
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
-		} else {
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
 
-			FUNCTIONAL_ITERATOR_PREPARE
-			FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-				FUNCTIONAL_ITERATOR_PREPARE_KEY
-				FUNCTIONAL_INVOKE_INNER(goto done)			
-				FUNCTIONAL_ITERATOR_FREE_KEY
-			FUNCTIONAL_ITERATOR_ITERATE_END
-			FUNCTIONAL_ITERATOR_DONE
+			if (invoke_first) {
+				FUNCTIONAL_INVOKE_FIRST_INNER(break)
+			} else if (invoke_last) {
+				FUNCTIONAL_INVOKE_LAST_INNER
+			} else {
+				FUNCTIONAL_INVOKE_INNER(break)
+			}
 
+			FUNCTIONAL_ARRAY_FREE_KEY
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+		if (invoke_last) {
+			FUNCTIONAL_INVOKE_LAST
 		}
+
+	} else {
+		
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+
+			if (invoke_first) {
+				FUNCTIONAL_INVOKE_FIRST_INNER(goto done)
+			} else if (invoke_last) {
+				FUNCTIONAL_INVOKE_LAST_INNER
+			} else {
+				FUNCTIONAL_INVOKE_INNER(goto done)
+			}
+
+			FUNCTIONAL_ITERATOR_FREE_KEY
+
+		if (invoke_last) {
+			FUNCTIONAL_INVOKE_LAST
+		}
+
+		FUNCTIONAL_ITERATOR_ITERATE_END	
+		FUNCTIONAL_ITERATOR_DONE
 
 	}
-	
+
+
 	cleanup:
-	
+
 	efree(method);
 	if (method_args) {
 		efree(method_args);

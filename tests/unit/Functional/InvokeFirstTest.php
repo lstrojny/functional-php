@@ -53,6 +53,9 @@ class InvokeFirstTest extends AbstractTestCase
     {
     	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', array(1, 2)));
     	$this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
+        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
+        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertSame(array(1, 2), invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', array(1, 2)));
     }
 
     function testPassNoCollection()
