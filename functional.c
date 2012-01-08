@@ -168,7 +168,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", falsy,          ZEND_FN(functional_falsy),          arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", contains,       ZEND_FN(functional_contains),       arginfo_functional_contains,        0)
 	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
-	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)	
+	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	{NULL, NULL, NULL}
 };
 
@@ -1946,33 +1946,6 @@ PHP_FUNCTION(functional_contains)
 	}
 }
 
-/*
-#define FUNCTIONAL_INVOKE_INNER(on_failure) \
-	int callback_valid = 1; \
-	if (!zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
-		MAKE_STD_ZVAL(retval_ptr); \
-		ZVAL_NULL(retval_ptr); \
-		callback_valid = 0; \
-	} else if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
-		if (EG(exception)) { \
-			on_failure; \
-		} \
-	} else { \
-		MAKE_STD_ZVAL(retval_ptr); \
-		ZVAL_NULL(retval_ptr); \
-	} \
-	efree(callable); \
-	if (invoke_first) { \
-		if (callback_valid) { \
-			*return_value = *retval_ptr; \
-			zval_copy_ctor(return_value); \
-		} \
-	} else { \
-		php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
-	}
-	
-*/
-
 static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int invoke_first, int invoke_last)
 {
 	FUNCTIONAL_DECLARE_EX(3)
@@ -1982,13 +1955,13 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 	zval *method, ***method_args = NULL;
 	HashTable *arguments = NULL;
 	char *callable, *error, *method_name;
-	
+
 	int last_invokable_callback_found = 0;
 	zval **last_invokable_obj;
 	zval *last_invokable_method;
 	int last_invokable_arguments_len;
 	zval ***last_invokable_method_args;
-	
+
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
 		RETURN_NULL();
@@ -2037,7 +2010,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 		}
 
 	} else {
-		
+
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
@@ -2056,7 +2029,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 			FUNCTIONAL_INVOKE_LAST
 		}
 
-		FUNCTIONAL_ITERATOR_ITERATE_END	
+		FUNCTIONAL_ITERATOR_ITERATE_END
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
