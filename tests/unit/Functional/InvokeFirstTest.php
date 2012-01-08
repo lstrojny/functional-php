@@ -33,9 +33,12 @@ class InvokeFirstTest extends AbstractTestCase
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => $this, 'k2' => null);
         $this->keyIterator = new ArrayIterator(array('k1' => $this, 'k2' => null));
+        
+        $this->arrayVeryFirstNotCallable = array(null, $this, null, null);
+        $this->iteratorVeryFirstNotCallable = new ArrayIterator($this->arrayVeryFirstNotCallable);
     }
 
-    function test()
+    function testSimple()
     {
         $this->assertSame('methodValue', invoke_first($this->array, 'method', array(1, 2)));
         $this->assertSame('methodValue', invoke_first($this->iterator, 'method'));
@@ -44,6 +47,12 @@ class InvokeFirstTest extends AbstractTestCase
         $this->assertSame(array(1, 2), invoke_first($this->array, 'returnArguments', array(1, 2)));
         $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
+    }
+    
+    function testSkipNonCallables()
+    {
+    	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', array(1, 2)));
+    	$this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
     }
 
     function testPassNoCollection()

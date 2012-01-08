@@ -33,9 +33,12 @@ class InvokeLastTest extends AbstractTestCase
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => null, 'k2' => $this);
         $this->keyIterator = new ArrayIterator(array('k1' => null, 'k2' => $this));
+        
+        $this->arrayVeryLastNotCallable = array(null, null, $this, null);
+        $this->iteratorVeryLastNotCallable = new ArrayIterator($this->arrayVeryLastNotCallable);
     }
 
-    function test()
+    function testSimple()
     {
         $this->assertSame('methodValue', invoke_last($this->array, 'method', array(1, 2)));
         $this->assertSame('methodValue', invoke_last($this->iterator, 'method'));
@@ -44,6 +47,12 @@ class InvokeLastTest extends AbstractTestCase
         $this->assertSame(array(1, 2), invoke_last($this->array, 'returnArguments', array(1, 2)));
         $this->assertSame('methodValue', invoke_last($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
+    }
+    
+    function testSkipNonCallables()
+    {
+    	$this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', array(1, 2)));
+    	$this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
     }
 
     function testPassNoCollection()

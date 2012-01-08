@@ -36,12 +36,21 @@ function invoke_last($collection, $methodName, array $arguments = array())
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
-    $element = end($collection);
-    $callback = array($element, $methodName);
-    
-    if (!is_callable($callback)) {
+    $lastCallback = null;
+
+    foreach ($collection as $index => $element) {
+
+        $value = null;
+
+        $callback = array($element, $methodName);
+        if (is_callable($callback)) {
+            $lastCallback = $callback;
+        }
+    }
+
+    if (!$lastCallback) {
     	return null;
     }
     
-    return call_user_func_array($callback, $arguments);
+    return call_user_func_array($lastCallback, $arguments);
 }
