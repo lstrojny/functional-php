@@ -233,7 +233,7 @@ ZEND_GET_MODULE(functional)
 			if (EG(exception)) { \
 				goto done; \
 			} \
-		}		
+		}
 #define FUNCTIONAL_ARRAY_PREPARE zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(collection), &pos);
 #define FUNCTIONAL_DECLARE_FCALL_INFO_CACHE zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
 #define FUNCTIONAL_DECLARE(arg_num)	zend_fcall_info fci = empty_fcall_info; \
