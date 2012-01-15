@@ -11,7 +11,7 @@ before_script:
   - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make && make install; fi"
 
 script:
-  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then echo extension=functional.so | tee -a /home/vagrant/.phpfarm/inst/php*/lib/php.ini ; fi"
+  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then echo extension=functional.so | tee -a /home/vagrant/.phpenv/versions/*/lib/php.ini ; fi"
   - phpunit
 
 notifications:
