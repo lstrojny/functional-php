@@ -300,7 +300,7 @@ F\contains(array('0', '1', '2'), 2, false);
 ### Functional\zip()
 Recombines arrays by index and applies a callback optionally
 
-``array Functional\zip(array|Traversable $collection1, ..., callable $callback)``
+``array Functional\zip(array|Traversable $collection1[, array|Traversable ...[, callable $callback]])``
 
 ```php
 <?php
