@@ -12,6 +12,7 @@ before_script:
 
 script:
   - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then echo extension=functional.so | tee -a /home/vagrant/.phpenv/versions/*/lib/php.ini ; fi"
+  - sh -c "php --info"
   - phpunit
 
 notifications:
