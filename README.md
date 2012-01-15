@@ -18,8 +18,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
 
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
- - Add `concat(array1, array2, ...)`, `drop_while()`, `sort()`, `split_at()`, `slice()`, `zip()`,
-   `without()`, `intersect()`
+ - Add `concat(array1, array2, ...)`, `drop_while()`, `sort()`, `split_at()`, `slice()`, `without()`, `intersect()`
  - Reverse iterate for `last_index_of()`
  - Fix performance of C impl. for iterators and `last_index_of()`/`first_index_of()`
  - Fix performance of C impl. for hash iterators and `drop_first()`
@@ -297,6 +296,29 @@ F\contains(array('0', '1', '2'), 2);
 // Returns true
 F\contains(array('0', '1', '2'), 2, false);
 ```
+
+### Functional\zip()
+Recombines arrays by index and applies a callback optionally
+
+``array Functional\zip(array|Traversable $collection1, ..., callable $callback)``
+
+```php
+<?php
+use Functional as F;
+
+// Returns array(array('one', 1), array('two', 2), array('three', 3))
+Functional\zip(array('one', 'two', 'three'), array(1, 2, 3));
+
+// Returns array('one|1', 'two|2', 'three|3')
+Functional\zip(
+    array('one', 'two', 'three'),
+    array(1, 2, 3),
+    function($one, $two) {
+        return $one . '|' . $two;
+    }
+);
+```
+
 
 ### Additional functions:
 

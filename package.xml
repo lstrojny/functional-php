@@ -31,6 +31,7 @@
 - New function Functional\contains()
 - Functional\contains() and Functional\unique() compare values strictly per default
 - New functions Functional\invoke_first(), Functional\invoke_last() (Max Beutel)
+- New function Functional\zip()
 	</notes>
 	<contents>
 		<dir name="/">

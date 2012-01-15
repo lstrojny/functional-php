@@ -23,8 +23,7 @@
 namespace Functional;
 
 /**
- * Merges together the values of each of the arrays with the values at the corresponding position
- * and applies a callback optionally
+ * Recombines arrays by index and applies a callback optionally
  *
  * @param Traversable|array $collection One or more callbacks
  * @param callable $callback Optionally the last argument can be a callback
