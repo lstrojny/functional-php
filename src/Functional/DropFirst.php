@@ -23,8 +23,7 @@
 namespace Functional;
 
 /**
- * Drop all elements from a collection until callback returns false or array
- * index is reached
+ * Drop all elements from a collection until callback returns false
  *
  * @param Traversable|array $collection
  * @param callable $callback
@@ -40,12 +39,8 @@ function drop_first($collection, $callback)
     $drop = true;
     foreach ($collection as $index => $element) {
 
-        if ($drop) {
-            if (!call_user_func($callback, $element, $index, $collection)) {
-                $drop = false;
-            } else {
-                continue;
-            }
+        if ($drop && ($drop = !call_user_func($callback, $element, $index, $collection))) {
+            continue;
         }
 
         $result[$index] = $element;
