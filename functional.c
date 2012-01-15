@@ -315,7 +315,7 @@ ZEND_GET_MODULE(functional)
 	efree(callable); \
 	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
 
-#define FUNCTIONAL_INVOKE_FIRST_INNER(end) if (zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+#define FUNCTIONAL_INVOKE_FIRST_INNER(end) if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
 		if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
 			if (EG(exception)) { \
 				end; \
@@ -327,7 +327,7 @@ ZEND_GET_MODULE(functional)
 		end; \
 	} \
 
-#define FUNCTIONAL_INVOKE_LAST_INNER if (zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+#define FUNCTIONAL_INVOKE_LAST_INNER if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
 		last_invokable_callback_found = 1; \
 		last_invokable_obj = &*args[0]; \
 		last_invokable_method = method; \
@@ -344,6 +344,10 @@ ZEND_GET_MODULE(functional)
 			zval_copy_ctor(return_value); \
 		} \
 	} \
+
+#define FUNCTIONAL_INVOKE_STRATEGY_DEFAULT 0
+#define FUNCTIONAL_INVOKE_STRATEGY_FIRST 1
+#define FUNCTIONAL_INVOKE_STRATEGY_LAST -1
 
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
@@ -1946,7 +1950,7 @@ PHP_FUNCTION(functional_contains)
 	}
 }
 
-static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int invoke_first, int invoke_last)
+static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int strategy)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
@@ -1983,7 +1987,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 	}
 
 	/* we only need to return array of callback results when Functional\invoke is used */
-	if (!invoke_first && !invoke_last) {
+	if (strategy == FUNCTIONAL_INVOKE_STRATEGY_DEFAULT) {
 		array_init(return_value);
 	}
 
@@ -1994,9 +1998,9 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 
-			if (invoke_first) {
+			if (strategy == FUNCTIONAL_INVOKE_STRATEGY_FIRST) {
 				FUNCTIONAL_INVOKE_FIRST_INNER(break)
-			} else if (invoke_last) {
+			} else if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
 				FUNCTIONAL_INVOKE_LAST_INNER
 			} else {
 				FUNCTIONAL_INVOKE_INNER(break)
@@ -2005,7 +2009,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 
-		if (invoke_last) {
+		if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
 			FUNCTIONAL_INVOKE_LAST(goto cleanup)
 		}
 
@@ -2015,9 +2019,9 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 			FUNCTIONAL_ITERATOR_PREPARE_KEY
 
-			if (invoke_first) {
+			if (strategy == FUNCTIONAL_INVOKE_STRATEGY_FIRST) {
 				FUNCTIONAL_INVOKE_FIRST_INNER(goto done)
-			} else if (invoke_last) {
+			} else if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
 				FUNCTIONAL_INVOKE_LAST_INNER
 			} else {
 				FUNCTIONAL_INVOKE_INNER(goto done)
@@ -2025,7 +2029,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 			FUNCTIONAL_ITERATOR_FREE_KEY
 
-		if (invoke_last) {
+		if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
 			FUNCTIONAL_INVOKE_LAST(goto done)
 		}
 
@@ -2045,15 +2049,15 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 PHP_FUNCTION(functional_invoke)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", 0, 0);
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_DEFAULT);
 }
 
 PHP_FUNCTION(functional_invoke_first)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", 1, 0);
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", FUNCTIONAL_INVOKE_STRATEGY_FIRST);
 }
 
 PHP_FUNCTION(functional_invoke_last)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", 0, 1);
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", FUNCTIONAL_INVOKE_STRATEGY_LAST);
 }
