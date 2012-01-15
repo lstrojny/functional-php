@@ -75,7 +75,7 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_select, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO(arginfo_functional_invoke, 2)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke, 0, 0, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, methodName)
 	ZEND_ARG_INFO(0, arguments)
@@ -123,6 +123,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_contains, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, strict)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_first, 0, 0, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, methodName)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_last, 0, 0, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, methodName)
+	ZEND_ARG_INFO(0, arguments)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -158,6 +168,8 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", truthy,         ZEND_FN(functional_truthy),         arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", falsy,          ZEND_FN(functional_falsy),          arginfo_functional_bool_funcs,      0)
 	ZEND_NS_FENTRY("Functional", contains,       ZEND_FN(functional_contains),       arginfo_functional_contains,        0)
+	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
+	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	{NULL, NULL, NULL}
 };
 
@@ -302,7 +314,42 @@ ZEND_GET_MODULE(functional)
 		ZVAL_NULL(retval_ptr); \
 	} \
 	efree(callable); \
-	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
+	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
+
+#define FUNCTIONAL_INVOKE_FIRST_INNER(end) if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+			if (EG(exception)) { \
+				end; \
+			} \
+			*return_value = *retval_ptr; \
+			zval_copy_ctor(return_value); \
+		} \
+		efree(callable); \
+		end; \
+	} \
+
+#define FUNCTIONAL_INVOKE_LAST_INNER if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
+		last_invokable_callback_found = 1; \
+		last_invokable_obj = &*args[0]; \
+		last_invokable_method = method; \
+		last_invokable_arguments_len = arguments_len; \
+		last_invokable_method_args = method_args; \
+	} \
+
+#define FUNCTIONAL_INVOKE_LAST(on_error) if (last_invokable_callback_found) { \
+		if (call_user_function_ex(EG(function_table), last_invokable_obj, last_invokable_method, &retval_ptr, last_invokable_arguments_len, last_invokable_method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
+			if (EG(exception)) { \
+				on_error; \
+			} \
+			*return_value = *retval_ptr; \
+			zval_copy_ctor(return_value); \
+		} \
+	} \
+
+#define FUNCTIONAL_INVOKE_STRATEGY_ALL 0
+#define FUNCTIONAL_INVOKE_STRATEGY_FIRST 1
+#define FUNCTIONAL_INVOKE_STRATEGY_LAST -1
+
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
 #else
@@ -753,64 +800,7 @@ PHP_FUNCTION(functional_select)
 	}
 }
 
-PHP_FUNCTION(functional_invoke)
-{
-	FUNCTIONAL_DECLARE_EX(3)
-	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
 
-	int arguments_len = 0, method_name_len, element = 0;
-	zval *method, ***method_args = NULL;
-	HashTable *arguments = NULL;
-	char *callable, *error, *method_name;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	FUNCTIONAL_COLLECTION_PARAM(collection, "invoke")
-
-	array_init(return_value);
-
-	MAKE_STD_ZVAL(method);
-	ZVAL_STRINGL(method, method_name, method_name_len, 0);
-
-	if (arguments) {
-		arguments_len = zend_hash_num_elements(arguments);
-		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
-		zend_hash_internal_pointer_reset(arguments);
-		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
-			zend_hash_move_forward(arguments);
-			element++;
-		}
-	}
-
-	if (Z_TYPE_P(collection) == IS_ARRAY) {
-
-		FUNCTIONAL_ARRAY_PREPARE
-		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			FUNCTIONAL_ARRAY_PREPARE_KEY
-			FUNCTIONAL_INVOKE_INNER(break)
-			/** printf("%s::%s() returned\n", Z_OBJ_CLASS_NAME_P(*args[0]), Z_STRVAL_P(method)); */
-			FUNCTIONAL_ARRAY_FREE_KEY
-		FUNCTIONAL_ARRAY_ITERATE_END
-
-	} else {
-
-		FUNCTIONAL_ITERATOR_PREPARE
-		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			FUNCTIONAL_ITERATOR_PREPARE_KEY
-			FUNCTIONAL_INVOKE_INNER(goto done)
-			FUNCTIONAL_ITERATOR_FREE_KEY
-		FUNCTIONAL_ITERATOR_ITERATE_END
-		FUNCTIONAL_ITERATOR_DONE
-
-	}
-
-	efree(method);
-	if (method_args) {
-		efree(method_args);
-	}
-}
 
 PHP_FUNCTION(functional_pluck)
 {
@@ -1955,4 +1945,116 @@ PHP_FUNCTION(functional_contains)
 		FUNCTIONAL_ITERATOR_DONE
 
 	}
+}
+
+static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int strategy)
+{
+	FUNCTIONAL_DECLARE_EX(3)
+	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
+
+	int arguments_len = 0, method_name_len, element = 0;
+	zval *method, ***method_args = NULL;
+	HashTable *arguments = NULL;
+	char *callable, *error, *method_name;
+
+	int last_invokable_callback_found = 0;
+	zval **last_invokable_obj;
+	zval *last_invokable_method;
+	int last_invokable_arguments_len;
+	zval ***last_invokable_method_args;
+
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|H", &collection, &method_name, &method_name_len, &arguments) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, function_name)
+
+	MAKE_STD_ZVAL(method);
+	ZVAL_STRINGL(method, method_name, method_name_len, 0);
+
+	if (arguments) {
+		arguments_len = zend_hash_num_elements(arguments);
+		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
+		zend_hash_internal_pointer_reset(arguments);
+		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
+			zend_hash_move_forward(arguments);
+			element++;
+		}
+	}
+
+	/* we only need to return array of callback results when Functional\invoke is used */
+	if (strategy == FUNCTIONAL_INVOKE_STRATEGY_ALL) {
+		array_init(return_value);
+	}
+
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+
+			if (strategy == FUNCTIONAL_INVOKE_STRATEGY_FIRST) {
+				FUNCTIONAL_INVOKE_FIRST_INNER(break)
+			} else if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
+				FUNCTIONAL_INVOKE_LAST_INNER
+			} else {
+				FUNCTIONAL_INVOKE_INNER(break)
+			}
+
+			FUNCTIONAL_ARRAY_FREE_KEY
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+		if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
+			FUNCTIONAL_INVOKE_LAST(goto cleanup)
+		}
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+
+			if (strategy == FUNCTIONAL_INVOKE_STRATEGY_FIRST) {
+				FUNCTIONAL_INVOKE_FIRST_INNER(goto done)
+			} else if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
+				FUNCTIONAL_INVOKE_LAST_INNER
+			} else {
+				FUNCTIONAL_INVOKE_INNER(goto done)
+			}
+
+			FUNCTIONAL_ITERATOR_FREE_KEY
+
+		if (strategy == FUNCTIONAL_INVOKE_STRATEGY_LAST) {
+			FUNCTIONAL_INVOKE_LAST(goto done)
+		}
+
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
+
+
+	cleanup:
+
+	efree(method);
+	if (method_args) {
+		efree(method_args);
+	}
+}
+
+PHP_FUNCTION(functional_invoke)
+{
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_ALL);
+}
+
+PHP_FUNCTION(functional_invoke_first)
+{
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", FUNCTIONAL_INVOKE_STRATEGY_FIRST);
+}
+
+PHP_FUNCTION(functional_invoke_last)
+{
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", FUNCTIONAL_INVOKE_STRATEGY_LAST);
 }

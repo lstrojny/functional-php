@@ -150,4 +150,17 @@ class InvalidArgumentException extends \InvalidArgumentException
             );
         }
     }
+    
+    public static function assertArrayKeyExists($collection, $key, $callee)
+    {
+    	if (!isset($collection[$key])) {
+            throw new static(
+                sprintf(
+                    '%s(): unknown key "%s"',
+                    $callee,
+                    $key
+                )
+            );
+    	}
+    }
 }
