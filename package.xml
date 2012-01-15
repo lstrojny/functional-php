@@ -30,6 +30,7 @@
 - Functional\first() now simply returns the last element if no callback is given
 - New function Functional\contains()
 - Functional\contains() and Functional\unique() compare values strictly per default
+- New functions Functional\invoke_first(), Functional\invoke_last() (Max Beutel)
 	</notes>
 	<contents>
 		<dir name="/">
