@@ -39,8 +39,12 @@ function drop_first($collection, $callback)
     $drop = true;
     foreach ($collection as $index => $element) {
 
-        if ($drop && ($drop = !call_user_func($callback, $element, $index, $collection))) {
-            continue;
+        if ($drop) {
+            if (!call_user_func($callback, $element, $index, $collection)) {
+                $drop = false;
+            } else {
+                continue;
+            }
         }
 
         $result[$index] = $element;
