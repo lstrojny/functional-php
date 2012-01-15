@@ -452,7 +452,7 @@ ZEND_GET_MODULE(functional)
 		cb; \
 	}
 #define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
-	if (fci.function_name != NULL) { \
+	if (ZEND_FCI_INITIALIZED(fci)) { \
 		FUNCTIONAL_CALL_BACK_EX_BEGIN \
 			if (functional_in_array(indexes, retval_ptr, strict TSRMLS_CC) == 0) { \
 				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
@@ -991,7 +991,7 @@ PHP_FUNCTION(functional_first)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "first")
 	FUNCTIONAL_PREPARE_ARGS
 
-	if (fci.function_name != NULL) {
+	if (ZEND_FCI_INITIALIZED(fci)) {
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
 
@@ -999,7 +999,7 @@ PHP_FUNCTION(functional_first)
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			if (fci.function_name == NULL) {
+			if (!ZEND_FCI_INITIALIZED(fci)) {
 				RETURN_ZVAL(*args[0], 1, 0);
 			}
 			FUNCTIONAL_ARRAY_PREPARE_KEY
@@ -1016,7 +1016,7 @@ PHP_FUNCTION(functional_first)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			if (fci.function_name == NULL) {
+			if (!ZEND_FCI_INITIALIZED(fci)) {
 				RETVAL_ZVAL(*args[0], 1, 0);
 				goto done;
 			}
@@ -1045,7 +1045,7 @@ PHP_FUNCTION(functional_last)
 
 	FUNCTIONAL_COLLECTION_PARAM(collection, "last")
 
-	if (fci.function_name != NULL) {
+	if (ZEND_FCI_INITIALIZED(fci)) {
 		FUNCTIONAL_PREPARE_ARGS
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
@@ -1056,7 +1056,7 @@ PHP_FUNCTION(functional_last)
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			if (fci.function_name == NULL) {
+			if (!ZEND_FCI_INITIALIZED(fci)) {
 				RETVAL_ZVAL(*args[0], 1, 0);
 				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
 				continue;
@@ -1074,7 +1074,7 @@ PHP_FUNCTION(functional_last)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			if (fci.function_name == NULL) {
+			if (!ZEND_FCI_INITIALIZED(fci)) {
 				RETVAL_ZVAL(*args[0], 1, 0);
 				iter->funcs->move_forward(iter TSRMLS_CC);
 				if (EG(exception)) {
@@ -1572,7 +1572,7 @@ PHP_FUNCTION(functional_unique)
 	FUNCTIONAL_COLLECTION_PARAM(collection, "unique")
 	FUNCTIONAL_PREPARE_ARGS
 
-	if (fci.function_name != NULL) {
+	if (ZEND_FCI_INITIALIZED(fci)) {
 		FUNCTIONAL_PREPARE_CALLBACK(3)
 	}
 
@@ -2062,8 +2062,8 @@ PHP_FUNCTION(functional_invoke_last)
 PHP_FUNCTION(functional_zip)
 {
 	FUNCTIONAL_DECLARE_FCI(3);
-	zval ***collections = NULL, *array = NULL, **value, *append_value;
-	int argc, a;
+	zval ***collections = NULL, *array, *null, ***callback_args;
+	int argc, a, value_found;
 
 
 	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET, ZEND_NUM_ARGS() TSRMLS_CC, "+|f!", &collections, &argc, &fci, &fci_cache) == FAILURE) {
@@ -2079,17 +2079,16 @@ PHP_FUNCTION(functional_zip)
 	}
 
 	for (a = 0; a < argc; a++) {
-		/** Transform iterators to arrays */
 		collection = *collections[a];
-		MAKE_STD_ZVAL(arrays[a]);
-		array_init(arrays[a]);
 		if (Z_TYPE_P(collection) == IS_ARRAY) {
 			arrays[a] = collection;
 		} else {
+			/** Transform iterators to arrays */
+			MAKE_STD_ZVAL(arrays[a]);
+			array_init(arrays[a]);
 			FUNCTIONAL_ITERATOR_PREPARE
 			FUNCTIONAL_ITERATOR_ITERATE_BEGIN
 				FUNCTIONAL_ITERATOR_PREPARE_KEY
-				printf("val: %ld\n", Z_LVAL_PP(args[0]));
 				php_functional_append_array_value(hash_key_type, &arrays[a], args[0], string_key, string_key_len, int_key);
 				FUNCTIONAL_ITERATOR_FREE_KEY
 			FUNCTIONAL_ITERATOR_ITERATE_END
@@ -2098,42 +2097,73 @@ PHP_FUNCTION(functional_zip)
 	}
 
 	array_init(return_value);
+	callback_args = (zval ***)safe_emalloc(argc, sizeof(zval **), 0);
+	if (ZEND_FCI_INITIALIZED(fci)) {
+		fci.no_separation = 0;
+		fci.retval_ptr_ptr = &retval_ptr;
+		fci.param_count = argc;
+		fci.params = callback_args;
+	}
 
 	if (argc > 0) {
 		collection = arrays[0];
 
-		MAKE_STD_ZVAL(array);
-		array_init(array);
+		MAKE_STD_ZVAL(null);
+		ZVAL_NULL(null);
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
 			FUNCTIONAL_ARRAY_PREPARE_KEY
 
-			zval_add_ref(args[0]);
-			zend_hash_next_index_insert(HASH_OF(array), (void *)args[0], sizeof(zval *), NULL);
-			for (a = 1; a < argc; a++) {
-				if (hash_key_type == HASH_KEY_IS_LONG) {
-					if (zend_hash_index_find(Z_ARRVAL_P(arrays[a]), int_key, (void **)&value) == SUCCESS) {
-					} else {
-						MAKE_STD_ZVAL(*value);
-					}
-				} else {
-					if (zend_hash_find(Z_ARRVAL_P(arrays[a]), string_key, string_key_len, (void **)&value) == SUCCESS) {
-					} else {
-						MAKE_STD_ZVAL(*value);
-					}
-				}
-				printf("VALUE : %d\n", Z_LVAL_PP(value));
-				zval_add_ref(value);
-				zend_hash_next_index_insert(HASH_OF(array), (void *)&*value, sizeof(zval *), NULL);
+			if (ZEND_FCI_INITIALIZED(fci)) {
+				callback_args[0] = args[0];
+			} else {
+				MAKE_STD_ZVAL(array);
+				array_init(array);
+				zval_add_ref(args[0]);
+				add_next_index_zval(array, *args[0]);
 			}
-			zend_hash_next_index_insert(HASH_OF(return_value), (void *)&array, sizeof(zval *), NULL);
+
+			for (a = 1; a < argc; a++) {
+
+				if (hash_key_type == HASH_KEY_IS_LONG) {
+					value_found = zend_hash_index_find(Z_ARRVAL_P(arrays[a]), int_key, (void **)&callback_args[a]);
+				} else {
+					value_found = zend_hash_find(Z_ARRVAL_P(arrays[a]), string_key, string_key_len, (void **)&callback_args[a]);
+				}
+
+				if (value_found == FAILURE) {
+					callback_args[a] = &null;
+				}
+
+				if (!ZEND_FCI_INITIALIZED(fci)) {
+					zval_add_ref(callback_args[a]);
+					add_next_index_zval(array, *callback_args[a]);
+				}
+			}
+
+			if (ZEND_FCI_INITIALIZED(fci)) {
+				if (FUNCTIONAL_CALL_BACK_CALL && retval_ptr) {
+					add_next_index_zval(return_value, retval_ptr);
+				} else {
+					goto cleanup;
+				}
+			} else {
+				add_next_index_zval(return_value, array);
+			}
+
 			FUNCTIONAL_ARRAY_FREE_KEY
 		FUNCTIONAL_ARRAY_ITERATE_END
 
 	}
 
-	for (a = 0; a < argc; a++) {
-		zval_ptr_dtor(&arrays[a]);
-	}
+	cleanup:
+		for (a = 0; a < argc; a++) {
+			zval_ptr_dtor(&arrays[a]);
+		}
+		efree(collections);
+		efree(callback_args);
+		if (null) {
+			zval_ptr_dtor(&null);
+		}
 }
