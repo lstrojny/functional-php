@@ -345,7 +345,7 @@ ZEND_GET_MODULE(functional)
 		} \
 	} \
 
-#define FUNCTIONAL_INVOKE_STRATEGY_DEFAULT 0
+#define FUNCTIONAL_INVOKE_STRATEGY_ALL 0
 #define FUNCTIONAL_INVOKE_STRATEGY_FIRST 1
 #define FUNCTIONAL_INVOKE_STRATEGY_LAST -1
 
@@ -1987,7 +1987,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 	}
 
 	/* we only need to return array of callback results when Functional\invoke is used */
-	if (strategy == FUNCTIONAL_INVOKE_STRATEGY_DEFAULT) {
+	if (strategy == FUNCTIONAL_INVOKE_STRATEGY_ALL) {
 		array_init(return_value);
 	}
 
@@ -2049,7 +2049,7 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 PHP_FUNCTION(functional_invoke)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_DEFAULT);
+	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_ALL);
 }
 
 PHP_FUNCTION(functional_invoke_first)
