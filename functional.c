@@ -314,8 +314,7 @@ ZEND_GET_MODULE(functional)
 		ZVAL_NULL(retval_ptr); \
 	} \
 	efree(callable); \
-	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key); \
-
+	php_functional_append_array_value(hash_key_type, &return_value, &retval_ptr, string_key, string_key_len, int_key);
 #define FUNCTIONAL_INVOKE_FIRST_INNER(end) if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
 		if (call_user_function_ex(EG(function_table), &*args[0], method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
 			if (EG(exception)) { \
@@ -326,16 +325,14 @@ ZEND_GET_MODULE(functional)
 		} \
 		efree(callable); \
 		end; \
-	} \
-
+	}
 #define FUNCTIONAL_INVOKE_LAST_INNER if (Z_TYPE_P(&**args[0]) == IS_OBJECT && zend_is_callable_ex(method, &**args[0], IS_CALLABLE_CHECK_SILENT, &callable, 0, &fci_cache, &error TSRMLS_CC)) { \
 		last_invokable_callback_found = 1; \
 		last_invokable_obj = &*args[0]; \
 		last_invokable_method = method; \
 		last_invokable_arguments_len = arguments_len; \
 		last_invokable_method_args = method_args; \
-	} \
-
+	}
 #define FUNCTIONAL_INVOKE_LAST(on_error) if (last_invokable_callback_found) { \
 		if (call_user_function_ex(EG(function_table), last_invokable_obj, last_invokable_method, &retval_ptr, last_invokable_arguments_len, last_invokable_method_args, 1, NULL TSRMLS_CC) == SUCCESS) { \
 			if (EG(exception)) { \
@@ -344,12 +341,10 @@ ZEND_GET_MODULE(functional)
 			*return_value = *retval_ptr; \
 			zval_copy_ctor(return_value); \
 		} \
-	} \
-
+	}
 #define FUNCTIONAL_INVOKE_STRATEGY_ALL 0
 #define FUNCTIONAL_INVOKE_STRATEGY_FIRST 1
 #define FUNCTIONAL_INVOKE_STRATEGY_LAST -1
-
 #if PHP_VERSION_ID >= 50400
 #define FUNCTIONAL_HAS_PROPERTY(obj, value, property) obj->has_property(value, property, 0, NULL TSRMLS_CC)
 #else
