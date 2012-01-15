@@ -26,7 +26,6 @@
 #include "standard/info.h"
 #include "spl/spl_iterators.h"
 #include "zend_interfaces.h"
-#include "zend.h"
 
 ZEND_BEGIN_ARG_INFO(arginfo_functional_every, 2)
 	ZEND_ARG_INFO(0, collection)
@@ -134,11 +133,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_last, 0, 0, 2)
 	ZEND_ARG_INFO(0, methodName)
 	ZEND_ARG_INFO(0, arguments)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_zip, 0, 0, 1)
-	ZEND_ARG_INFO(0, collection)
-	ZEND_ARG_INFO(0, ...)
-	ZEND_ARG_INFO(0, callback)
-ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -176,7 +170,6 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", contains,       ZEND_FN(functional_contains),       arginfo_functional_contains,        0)
 	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
 	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
-	ZEND_NS_FENTRY("Functional", zip,            ZEND_FN(functional_zip),            arginfo_functional_zip,             0)
 	{NULL, NULL, NULL}
 };
 
@@ -218,10 +211,8 @@ ZEND_GET_MODULE(functional)
 #endif
 
 #define FUNCTIONAL_COLLECTION_PARAM(collection, function) \
-	FUNCTIONAL_COLLECTION_PARAM_EX(collection, function, 1)
-#define FUNCTIONAL_COLLECTION_PARAM_EX(collection, function, position) \
 	if ((FUNCTIONAL_NOT_ITERABLE(collection))) { \
-		zend_error(E_WARNING, "Functional\\%s() expects parameter %d to be array or instance of Traversable", function, position); \
+		zend_error(E_WARNING, "Functional\\%s() expects parameter 1 to be array or instance of Traversable", function); \
 		RETURN_NULL(); \
 	}
 #define FUNCTIONAL_PROPERTY_NAME_PARAM(property, function) \
@@ -486,10 +477,14 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key)
 {
 	zval_add_ref(value);
-	if (hash_key_type == HASH_KEY_IS_LONG) {
-		zend_hash_index_update(Z_ARRVAL_PP(return_value), int_key, (void *)value, sizeof(zval *), NULL);
-	} else if (hash_key_type == HASH_KEY_IS_STRING) {
-		zend_hash_update(Z_ARRVAL_PP(return_value), string_key, string_key_len, (void *)value, sizeof(zval *), NULL);
+	switch (hash_key_type) {
+		case HASH_KEY_IS_LONG:
+			zend_hash_index_update(Z_ARRVAL_PP(return_value), int_key, (void *)value, sizeof(zval *), NULL);
+			break;
+
+		case HASH_KEY_IS_STRING:
+			zend_hash_update(Z_ARRVAL_PP(return_value), string_key, string_key_len, (void *)value, sizeof(zval *), NULL);
+			break;
 	}
 }
 
@@ -2057,83 +2052,4 @@ PHP_FUNCTION(functional_invoke_first)
 PHP_FUNCTION(functional_invoke_last)
 {
 	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", FUNCTIONAL_INVOKE_STRATEGY_LAST);
-}
-
-PHP_FUNCTION(functional_zip)
-{
-	FUNCTIONAL_DECLARE_FCI(3);
-	zval ***collections = NULL, *array = NULL, **value, *append_value;
-	int argc, a;
-
-
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET, ZEND_NUM_ARGS() TSRMLS_CC, "+|f!", &collections, &argc, &fci, &fci_cache) == FAILURE) {
-		if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "+", &collections, &argc) == FAILURE) {
-			RETURN_NULL();
-		}
-	}
-
-	zval *arrays[argc];
-
-	for (a = 0; a < argc; a++) {
-		FUNCTIONAL_COLLECTION_PARAM_EX(*collections[a], "zip", a + 1);
-	}
-
-	for (a = 0; a < argc; a++) {
-		/** Transform iterators to arrays */
-		collection = *collections[a];
-		MAKE_STD_ZVAL(arrays[a]);
-		array_init(arrays[a]);
-		if (Z_TYPE_P(collection) == IS_ARRAY) {
-			arrays[a] = collection;
-		} else {
-			FUNCTIONAL_ITERATOR_PREPARE
-			FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-				FUNCTIONAL_ITERATOR_PREPARE_KEY
-				printf("val: %ld\n", Z_LVAL_PP(args[0]));
-				php_functional_append_array_value(hash_key_type, &arrays[a], args[0], string_key, string_key_len, int_key);
-				FUNCTIONAL_ITERATOR_FREE_KEY
-			FUNCTIONAL_ITERATOR_ITERATE_END
-			FUNCTIONAL_ITERATOR_DONE
-		}
-	}
-
-	array_init(return_value);
-
-	if (argc > 0) {
-		collection = arrays[0];
-
-		MAKE_STD_ZVAL(array);
-		array_init(array);
-
-		FUNCTIONAL_ARRAY_PREPARE
-		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			FUNCTIONAL_ARRAY_PREPARE_KEY
-
-			zval_add_ref(args[0]);
-			zend_hash_next_index_insert(HASH_OF(array), (void *)args[0], sizeof(zval *), NULL);
-			for (a = 1; a < argc; a++) {
-				if (hash_key_type == HASH_KEY_IS_LONG) {
-					if (zend_hash_index_find(Z_ARRVAL_P(arrays[a]), int_key, (void **)&value) == SUCCESS) {
-					} else {
-						MAKE_STD_ZVAL(*value);
-					}
-				} else {
-					if (zend_hash_find(Z_ARRVAL_P(arrays[a]), string_key, string_key_len, (void **)&value) == SUCCESS) {
-					} else {
-						MAKE_STD_ZVAL(*value);
-					}
-				}
-				printf("VALUE : %d\n", Z_LVAL_PP(value));
-				zval_add_ref(value);
-				zend_hash_next_index_insert(HASH_OF(array), (void *)&*value, sizeof(zval *), NULL);
-			}
-			zend_hash_next_index_insert(HASH_OF(return_value), (void *)&array, sizeof(zval *), NULL);
-			FUNCTIONAL_ARRAY_FREE_KEY
-		FUNCTIONAL_ARRAY_ITERATE_END
-
-	}
-
-	for (a = 0; a < argc; a++) {
-		zval_ptr_dtor(&arrays[a]);
-	}
 }
