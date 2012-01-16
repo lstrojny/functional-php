@@ -22,7 +22,9 @@
  */
 namespace Functional;
 
-use ArrayIterator;
+use ArrayIterator,
+    Exception,
+    stdClass;
 
 class ZipTest extends AbstractTestCase
 {
@@ -106,12 +108,32 @@ class ZipTest extends AbstractTestCase
         );
     }
 
+    function testZippingArraysWithVariousElements()
+    {
+        $object = new stdClass();
+        $resource = stream_context_create();
+        $result = array(
+            array(array(1), $object, array(2)),
+            array(null, 'foo', null),
+            array($resource, null, 2)
+        );
+
+        $this->assertSame(
+            $result,
+            zip(
+                array(array(1), null, $resource),
+                array($object, 'foo', null),
+                array(array(2), null, 2)
+            )
+        );
+    }
+
     function testZipSpecialCases()
     {
         $this->assertSame(array(), zip(array()));
         $this->assertSame(array(), zip(array(), array()));
         $this->assertSame(array(), zip(array(), array(), function() {
-            throw new \Exception('Should not be called');
+            throw new Exception('Should not be called');
         }));
     }
 
