@@ -268,14 +268,14 @@ Returns true or false if all elements in the collection evaluate to true or fals
 use Functional as F;
 
 // Returns true
-F\true(array(true, true, 1, 'foo'));
+F\truthy(array(true, true, 1, 'foo'));
 // Returns false
-F\true(array(true, 0, false));
+F\truthy(array(true, 0, false));
 
 // Returns true
-F\false(array(false, false, 0, null));
+F\falsy(array(false, false, 0, null));
 // Returns false
-F\false(array(false, 'str', null, false));
+F\falsy(array(false, 'str', null, false));
 ```
 
 ### Functional\contains()
