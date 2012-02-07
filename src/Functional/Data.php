@@ -27,7 +27,7 @@ interface Semigroup
     /**
      * Semigroup[A] => Semigroup[A] => Semigroup[A]
      */
-    function append($m, $callback = 'Functional\\append');
+    public function append($m, $callback = 'Functional\\append');
 }
 
 interface Monoid extends Semigroup
@@ -35,7 +35,7 @@ interface Monoid extends Semigroup
     /**
      * Monoid zero polymorphic constant
      */
-    static function zero();
+    public static function zero();
 }
 
 function append($x, $y)
@@ -56,7 +56,7 @@ interface Functor
     /**
      * Functor[A] => (A => B) => Functor[B]
      */
-    function map($callback);
+    public function map($callback);
 }
 
 interface Monad extends Functor
@@ -64,10 +64,10 @@ interface Monad extends Functor
     /**
      * A => Monad[A]
      */
-    static function lift($x);
+    public static function lift($x);
 
     /**
      * Monad[A] => (A => Monad[B]) => Monad[B]
      */
-    function bind($callback);
+    public function bind($callback);
 }
