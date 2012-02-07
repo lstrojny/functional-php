@@ -29,14 +29,20 @@ interface Semigroup
     /**
      * Semigroup[A] => Semigroup[A] => Semigroup[A]
      */
-    public function append($m, $callback = 'Functional\\semigroupDefaultAppend');
+    public function append($m, $callback);
 }
 
 /**
  * Default append operation for Semigroup
+ * $x and $y are assumed to be of the same type
+ *
+ * @returns value with type of $x
  */
 function semigroupDefaultAppend($x, $y)
 {
+    if ($x instanceof Semigroup) {
+        return $x->append($y);
+    }
     if (is_string($x)) return $x . (string) $y;
     if (is_numeric($x)) return $x + $y;
     if (is_bool($x)) return $x && $y;
