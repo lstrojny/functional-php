@@ -380,12 +380,16 @@ Returns the lowest element in the array or collection
 <a name='data_structures'></a>
 ## Data structures
 
+Functional data structures are immutable.
+They may implement typeclasses such as `Monoid`, `Functor` or `Monad`. 
+
 ### Option
 
 > Tony Hoare introduced Null references in ALGOL W back in 1965 “simply because it was so easy to implement”. He now talks about that decision considering it “my billion-dollar mistake”. (source: http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare) 
 
 Option lets you get rid of `null`. They represent optional values. 
 Instances of Option are either an instance of Some(value) or None().
+You can think of them as arrays of zero or one element only.
 
 Consider the following code:
 
@@ -419,6 +423,125 @@ $name = $nameOption->getOrElse('Anonymous');
 In fact, the best would be that `$db->findUser($id)` returns an Option of User, instead of a User or null.
 
 ### Construct an option
+
+```php
+<?php
+$someInt     = new Some(12);
+$none        = new None();
+
+$maybeInt    = option(12);    // Some(12)
+$maybeString = option("foo"); // Some("foo")
+$maybeBool   = option(true);  // Some(true)
+$maybeBool   = option(false); // Some(false)
+$maybe       = option();      // None()
+$maybe       = option(null);  // None()
+```
+
+### Functor support
+
+Options act as functor: they provide the `map` function.
+
+`map` signature is `Functor[A] => (A => B) => Functor[B]`.
+
+```php
+<?php
+$id  = function($x) { return $x; };
+$inc = function($x) { return $x + 1; };
+
+option(42)->map($id);  // Some(42)
+option(42)->map($inc); // Some(43)
+option()->map($inc);   // None
+```
+
+### Monad support
+
+Options act as monads: they provide the `bind` function.
+
+`bind` signature is `Monad[A] => (A => Monad[B]) => Monad[B]`.
+
+```php
+<?php
+// returns a Some($x)
+$someId     = function($x) { return option($x); };
+
+// returns a Some($y) or None() if $x < 0
+$squareRoot = function($x) { return option($x >= 0 ? sqrt($x) : null); }
+
+option(9)->bind($someId);      // Some(9)
+option(9)->bind($squareRoot);  // Some(3)
+option(-2)->bind($squareRoot); // None
+option()->bind($squareRoot);   // None
+```
+
+### Semigroup support
+
+Options act as semigroup: they provide the `append` function.
+
+```php
+<?php
+option(42)->append(option(10))       // Some(52)
+option("foo")->append(option("bar")) // Some("foobar")
+option("foo")->append(option())      // Some("foo")
+option()->append(option("bar"))      // Some("bar")
+option()->append(option())           // None
+```
+
+`append` natively supports numbers, booleans and arrays.
+You can add support for more types by passing a callback function:
+
+```php
+<?php
+option(10)->append(option(2), function($x, $y) { return $x * $y; }) // 20
+```
+
+### Iterator support
+
+You can iterate on options as if they were an array of zero or one element.
+
+```php
+<?php
+// prints "hello"
+foreach(option("hello") as $x) {
+  echo $x;
+}
+// does nothing
+foreach(option() as $x) {
+  die("I won't get there at all!");
+}
+```
+
+### Catamorphism
+
+Options support catamorphism:
+
+```php
+<?php
+$double = function($x) { return $x * 2; };
+$zero   = function() { return 0; };
+
+option(42)->fold($double, $zero) // 84
+option()->fold($double, $zero)   // 0
+```
+
+### Other Option functions
+
+```php
+<?php
+option(42)->getOrElse(33) // 42
+option()->getOrElse(33)   // 33
+
+option(42)->get()         // 42
+option()->get()           // null
+
+option(42)->isEmpty()     // false
+option()->isEmpty()       // true
+
+option(42)->isNotEmpty()  // true
+option()->isNotEmpty()    // false
+
+option(42)->toArray()     // array(42)
+option()->toArray()       // array()
+```
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`  
