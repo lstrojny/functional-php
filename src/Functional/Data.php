@@ -32,6 +32,9 @@ interface Semigroup
 
 interface Monoid extends Semigroup
 {
+    /**
+     * Monoid zero polymorphic constant
+     */
     static function zero();
 }
 

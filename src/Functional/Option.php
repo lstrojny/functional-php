@@ -30,12 +30,41 @@ function option($x = null)
 /**
  * Similar to Scala Option or Haskell Maybe
  */
-abstract class Option implements Semigroup, Monoid, Functor, Monad
+abstract class Option implements \IteratorAggregate, Semigroup, Monoid, Functor, Monad
 {
+    /**
+     * Option catamorphism
+     *
+     * @param callable $callbackSome
+     * @param callable $callbackNone
+     * @return mixed
+     */
+    public abstract function fold($callbackSome, $callbackNone);
+
+    /**
+     * @return bool
+     */
     public abstract function isEmpty();
 
     /**
+     * @return bool
+     */
+    public final function isNotEmpty()
+    {
+        return !$this->isEmpty();
+    }
+
+    /**
+     * @param mixed $y
+     *
+     * @return mixed
+     */
+    public abstract function getOrElse($y);
+
+    /**
      * Monoid zero
+     *
+     * @return None
      */
     public static final function zero()
     {
@@ -44,10 +73,26 @@ abstract class Option implements Semigroup, Monoid, Functor, Monad
 
     /**
      * Monad lift (aka return or pure)
+     *
+     * @return Some
      */
     public static final function lift($x)
     {
         return new Some($x);
+    }
+
+    /**
+     * @return array
+     */
+    public abstract function toArray();
+
+    /**
+     * @implements IteratorAggregate
+     * @return array
+     */
+    public final function getIterator()
+    {
+        return new \ArrayIterator($this->toArray());
     }
 }
 
@@ -70,9 +115,11 @@ final class Some extends Option
         return false;
     }
 
-    /**
-     * Semigroup append
-     */
+    public final function getOrElse($y)
+    {
+        return $this->x;
+    }
+
     public final function append($o, $callback = 'Functional\\append')
     {
         $x = $this->x;
@@ -81,6 +128,11 @@ final class Some extends Option
             : $o->map(function($y) use ($callback, $x) {
                 return $callback($x, $y);
             });
+    }
+
+    public final function fold($callbackSome, $callbackNone)
+    {
+        return $callbackSome($this->x);
     }
 
     public final function map($callback)
@@ -92,6 +144,11 @@ final class Some extends Option
     {
         return call_user_func($callback, $this->x);
     }
+
+    public final function toArray()
+    {
+        return array($this->x);
+    }
 }
 
 final class None extends Option
@@ -101,12 +158,19 @@ final class None extends Option
         return true;
     }
 
-    /**
-     * Semigroup append
-     */
     public final function append($o, $callback = 'Functional\\append')
     {
         return $o;
+    }
+
+    public final function getOrElse($y)
+    {
+        return $y;
+    }
+
+    public final function fold($callbackSome, $callbackNone)
+    {
+        return $callbackNone();
     }
 
     public final function map($callback)
@@ -117,5 +181,10 @@ final class None extends Option
     public final function bind($callback)
     {
         return $this;
+    }
+
+    public final function toArray()
+    {
+        return array();
     }
 }

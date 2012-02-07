@@ -41,6 +41,9 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     private function idNone($x) {
         return function($x) { return new None(); };
     }
+    private function say($s) {
+        return function() use ($s) { return $s; };
+    }
 
     function testConstructor()
     {
@@ -51,6 +54,18 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     function testGet()
     {
         $this->assertSame(42, option(42)->get());
+    }
+
+    function testNoneIsEmpty()
+    {
+        $this->assertTrue(option()->isEmpty());
+        $this->assertFalse(option()->isNotEmpty());
+    }
+
+    function testSomeIsEmpty()
+    {
+        $this->assertFalse(option(42)->isEmpty());
+        $this->assertTrue(option(42)->isNotEmpty());
     }
 
     function testNoneAppend()
@@ -88,6 +103,33 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSome(option(42)->bind($this->idSome(10)), 42);
         $this->assertSome(option(42)->bind($this->incSome(3)), 45);
         $this->assertNone(option(42)->bind($this->idNone(10)));
+    }
+
+    function testNoneFold()
+    {
+        $this->assertSame('boo', option()->fold($this->inc(5), $this->say('boo')));
+    }
+
+    function testSomeFold()
+    {
+        $this->assertSame(47, option(42)->fold($this->inc(5), $this->say('boo')));
+    }
+
+    function testNoneIterator()
+    {
+        foreach(option() as $x) {
+            $this->fail();
+        }
+        $this->assertTrue(true);
+    }
+
+    function testSomeIterator()
+    {
+        $a = true;
+        foreach(option(42) as $x) {
+            $a = $x;
+        }
+        $this->assertSame(42, $a);
     }
 
     private function assertSome($some, $x)
