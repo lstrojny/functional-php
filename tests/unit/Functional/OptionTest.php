@@ -26,22 +26,28 @@ use ArrayIterator;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
-    private function id() {
+    private function id()
+    {
         return function($x) { return $x; };
     }
-    private function inc($y) {
+    private function inc($y)
+    {
         return function($x) use ($y) { return $x + $y; };
     }
-    private function idSome() {
+    private function idSome()
+    {
         return function($x) { return new Some($x); };
     }
-    private function incSome($y) {
+    private function incSome($y)
+    {
         return function($x) use ($y) { return new Some($x + $y); };
     }
-    private function idNone($x) {
+    private function idNone($x)
+    {
         return function($x) { return new None(); };
     }
-    private function say($s) {
+    private function say($s)
+    {
         return function() use ($s) { return $s; };
     }
 
