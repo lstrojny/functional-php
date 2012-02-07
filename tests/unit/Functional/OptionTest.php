@@ -80,6 +80,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSome(option(42)->append(option(10)), 52);
     }
 
+    function testSomeAppendWithCustomCallback()
+    {
+        $callback = function($x, $y) { return $x * $y; };
+        $this->assertSome(option(42)->append(option(10), $callback), 420);
+        $this->assertSome(option(42)->append(option(), $callback), 42);
+        $this->assertSome(option()->append(option(10), $callback), 10);
+    }
+
     function testNoneMap()
     {
         $this->assertNone(option()->map($this->id()));
