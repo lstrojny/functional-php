@@ -25,6 +25,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Exceptions/InvalidArgumentException.php';
     require_once $basePath . 'Every.php';
     require_once $basePath . 'Some.php';
+    require_once $basePath . 'Data.php';
     require_once $basePath . 'Difference.php';
     require_once $basePath . 'DropFirst.php';
     require_once $basePath . 'DropLast.php';
@@ -40,6 +41,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Maximum.php';
     require_once $basePath . 'Minimum.php';
     require_once $basePath . 'None.php';
+    require_once $basePath . 'Option.php';
     require_once $basePath . 'Partition.php';
     require_once $basePath . 'Pluck.php';
     require_once $basePath . 'Product.php';
