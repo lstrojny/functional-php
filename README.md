@@ -15,6 +15,10 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
     extensions
   - All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
 
+## Navigation
+
+[Installation][] | [Functions][] | [Data structures][] 
+
 
 ## TODO
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
@@ -23,6 +27,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
  - Fix performance of C impl. for iterators and `last_index_of()`/`first_index_of()`
  - Fix performance of C impl. for hash iterators and `drop_first()`
 
+<a name='installation'></a>
 ## Installation
 
 
@@ -46,7 +51,8 @@ Everytime you want to work with Functional PHP and not reference the fully quali
 your PHP file.
 
 
-## Overview
+<a name='functions'></a>
+## Functions
 
 
 ### Functional\every() & Functional\invoke()
@@ -371,6 +377,49 @@ Returns the highest element in the array or collection
 `mixed Functional\minimum(array|Traversable $collection)`  
 Returns the lowest element in the array or collection
 
+<a name='data_structures'></a>
+## Data structures
+
+### Option
+
+> Tony Hoare introduced Null references in ALGOL W back in 1965 “simply because it was so easy to implement”. He now talks about that decision considering it “my billion-dollar mistake”. (source: http://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare) 
+
+Option lets you get rid of `null`. They represent optional values. 
+Instances of Option are either an instance of Some(value) or None().
+
+Consider the following code:
+
+```php
+<?php
+$user = $db->findUser($id); // can return null
+if ($user) {
+  $name = $user->getName();
+} else {
+  $name = 'Anonymous';
+}
+```
+
+We have to deal with the possibility that `$db->findUser($id)` returns a `null`.
+Instead, we could use map to propagate the possible absence of user:
+
+```php
+<?php
+$nameOption = option($db->findUser($id))->map(function($user) {
+  return $user->getName();
+});
+```
+
+Now `$name` is either a `Some(name)` or a `None()`. We can extract the name by providing a default value:
+
+```php
+<?php
+$name = $nameOption->getOrElse('Anonymous');
+```
+
+In fact, the best would be that `$db->findUser($id)` returns an Option of User, instead of a User or null.
+
+### Construct an option
+
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`  
 To run the test suite with the userland implementation use `php -n $(which phpunit) tests/`
@@ -386,3 +435,7 @@ To run the test suite with the userland implementation use `php -n $(which phpun
  - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
  - The people behind [Travis CI](http://travis-ci.org/) for continous integration
+
+[Installation]: #installation
+[Functions]: #functions
+[Data Structures]: #data_structures
