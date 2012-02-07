@@ -22,6 +22,7 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
 use ArrayIterator;
 
 function option($x = null)
@@ -124,6 +125,8 @@ final class Some extends Option
 
     public final function append($o, $callback = 'Functional\\semigroupDefaultAppend')
     {
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
+
         $x = $this->x;
         return $o->isEmpty()
             ? $this
@@ -134,16 +137,22 @@ final class Some extends Option
 
     public final function fold($callbackSome, $callbackNone)
     {
+        InvalidArgumentException::assertCallback($callbackSome, __FUNCTION__, 1);
+
         return $callbackSome($this->x);
     }
 
     public final function map($callback)
     {
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
+
         return new Some(call_user_func($callback, $this->x));
     }
 
     public final function bind($callback)
     {
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
+
         return call_user_func($callback, $this->x);
     }
 
@@ -172,6 +181,8 @@ final class None extends Option
 
     public final function fold($callbackSome, $callbackNone)
     {
+        InvalidArgumentException::assertCallback($callbackNone, __FUNCTION__, 1);
+
         return $callbackNone();
     }
 

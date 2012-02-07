@@ -439,7 +439,7 @@ $maybe       = option(null);  // None()
 
 ### Functor support
 
-Options act as functor: they provide the `map` function.
+Options act as functors: they provide the `map` function.
 
 `map` signature is `Functor[A] => (A => B) => Functor[B]`.
 
@@ -487,7 +487,7 @@ option()->append(option())           // None
 ```
 
 `append` natively supports numbers, booleans and arrays.
-You can add support for more types by passing a callback function:
+You can add support for more types or define new append behaviors by passing a callback function:
 
 ```php
 <?php
