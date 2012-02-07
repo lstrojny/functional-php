@@ -25,7 +25,10 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Exceptions/InvalidArgumentException.php';
     require_once $basePath . 'Every.php';
     require_once $basePath . 'Some.php';
-    require_once $basePath . 'Data.php';
+    require_once $basePath . 'Semigroup.php';
+    require_once $basePath . 'Monoid.php';
+    require_once $basePath . 'Functor.php';
+    require_once $basePath . 'Monad.php';
     require_once $basePath . 'Difference.php';
     require_once $basePath . 'DropFirst.php';
     require_once $basePath . 'DropLast.php';

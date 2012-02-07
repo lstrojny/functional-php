@@ -22,43 +22,6 @@
  */
 namespace Functional;
 
-interface Semigroup
-{
-    /**
-     * Semigroup[A] => Semigroup[A] => Semigroup[A]
-     */
-    public function append($m, $callback = 'Functional\\append');
-}
-
-interface Monoid extends Semigroup
-{
-    /**
-     * Monoid zero polymorphic constant
-     */
-    public static function zero();
-}
-
-function append($x, $y)
-{
-    if (is_string($x)) return $x . (string) $y;
-    if (is_numeric($x)) return $x + $y;
-    if (is_bool($x)) return $x && $y;
-    if (is_array($x)) {
-        array_push($x, $y);
-        return $x;
-    }
-
-    throw new \Exception('Monoid append is not applicable on ' . $x);
-}
-
-interface Functor
-{
-    /**
-     * Functor[A] => (A => B) => Functor[B]
-     */
-    public function map($callback);
-}
-
 interface Monad extends Functor
 {
     /**

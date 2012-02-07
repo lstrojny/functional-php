@@ -120,7 +120,7 @@ final class Some extends Option
         return $this->x;
     }
 
-    public final function append($o, $callback = 'Functional\\append')
+    public final function append($o, $callback = 'Functional\\semigroupDefaultAppend')
     {
         $x = $this->x;
         return $o->isEmpty()
