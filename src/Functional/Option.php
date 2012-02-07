@@ -100,7 +100,7 @@ abstract class Option implements \IteratorAggregate, Semigroup, Monoid, Functor,
 
 final class Some extends Option
 {
-    private $x;
+    /* final */ private $x;
 
     public final function __construct($x)
     {
