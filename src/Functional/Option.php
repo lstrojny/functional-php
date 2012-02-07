@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use ArrayIterator;
+
 function option($x = null)
 {
     return null === $x ? Option::zero() : Option::lift($x);
@@ -92,7 +94,7 @@ abstract class Option implements \IteratorAggregate, Semigroup, Monoid, Functor,
      */
     public final function getIterator()
     {
-        return new \ArrayIterator($this->toArray());
+        return new ArrayIterator($this->toArray());
     }
 }
 
