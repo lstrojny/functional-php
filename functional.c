@@ -139,6 +139,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_zip, 0, 0, 1)
 	ZEND_ARG_INFO(0, ...)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_head, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_tail, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -177,6 +185,8 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
 	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	ZEND_NS_FENTRY("Functional", zip,            ZEND_FN(functional_zip),            arginfo_functional_zip,             0)
+	ZEND_NS_FENTRY("Functional", head,           ZEND_FN(functional_head),           arginfo_functional_head,            0)
+	ZEND_NS_FENTRY("Functional", tail,           ZEND_FN(functional_tail),           arginfo_functional_tail,            0)
 	{NULL, NULL, NULL}
 };
 
@@ -980,7 +990,7 @@ PHP_FUNCTION(functional_reduce_right)
 	}
 }
 
-PHP_FUNCTION(functional_first)
+static void php_functional_first(INTERNAL_FUNCTION_PARAMETERS, char *function_name)
 {
 	FUNCTIONAL_DECLARE_FCI(3)
 
@@ -988,7 +998,7 @@ PHP_FUNCTION(functional_first)
 		RETURN_NULL();
 	}
 
-	FUNCTIONAL_COLLECTION_PARAM(collection, "first")
+	FUNCTIONAL_COLLECTION_PARAM(collection, function_name)
 	FUNCTIONAL_PREPARE_ARGS
 
 	if (ZEND_FCI_INITIALIZED(fci)) {
@@ -1034,6 +1044,20 @@ PHP_FUNCTION(functional_first)
 	}
 }
 
+PHP_FUNCTION(functional_first)
+{
+	php_functional_first(INTERNAL_FUNCTION_PARAM_PASSTHRU, "first");
+}
+
+PHP_FUNCTION(functional_head)
+{
+	php_functional_first(INTERNAL_FUNCTION_PARAM_PASSTHRU, "head");
+}
+
+PHP_FUNCTION(functional_tail)
+{
+
+}
 
 PHP_FUNCTION(functional_last)
 {
