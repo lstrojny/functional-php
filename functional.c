@@ -1054,11 +1054,6 @@ PHP_FUNCTION(functional_head)
 	php_functional_first(INTERNAL_FUNCTION_PARAM_PASSTHRU, "head");
 }
 
-PHP_FUNCTION(functional_tail)
-{
-
-}
-
 PHP_FUNCTION(functional_last)
 {
 	FUNCTIONAL_DECLARE_FCI(3);
@@ -1117,6 +1112,84 @@ PHP_FUNCTION(functional_last)
 		FUNCTIONAL_ITERATOR_DONE
 	}
 
+}
+
+PHP_FUNCTION(functional_tail)
+{
+	FUNCTIONAL_DECLARE_FCI(3);
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "tail")
+
+	if (ZEND_FCI_INITIALIZED(fci)) {
+		FUNCTIONAL_PREPARE_ARGS
+		FUNCTIONAL_PREPARE_CALLBACK(3)
+	}
+
+	array_init(return_value);
+
+	int is_head = 1;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (is_head) {
+				is_head = 0;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+				continue;				
+			}
+
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+
+			if (!ZEND_FCI_INITIALIZED(fci)) {
+				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+				continue;
+			}
+			
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ARRAY_FREE_KEY
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (is_head) {
+				is_head = 0;
+				iter->funcs->move_forward(iter TSRMLS_CC);
+				continue;
+			}
+
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+
+			if (!ZEND_FCI_INITIALIZED(fci)) {
+				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				iter->funcs->move_forward(iter TSRMLS_CC);
+				if (EG(exception)) {
+					goto done;
+				}
+				continue;
+			}
+			
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
 }
 
 PHP_FUNCTION(functional_drop_first)
