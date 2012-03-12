@@ -331,6 +331,7 @@ Applies a callback to each element in the collection and collects the return val
 
 
 `mixed Functional\first(array|Traversable $collection[, callable $callback])`  
+`mixed Functional\head(array|Traversable $collection[, callable $callback])`
 Returns the first element of the collection where the callback returned true. If no callback is given, the first element
 is returned
 
@@ -339,6 +340,8 @@ is returned
 Returns the last element of the collection where the callback returned true. If no callback is given, the last element
 is returned
 
+`mixed Functional\tail(array|Traversable $collection[, callable $callback])`  
+Returns every element of the collection except the first one. Elements are optionally filtered by callback.
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`  
 Calculates the product of all numeric elements, starting with `$initial`
