@@ -53,6 +53,7 @@ class MemoizeTest extends AbstractTestCase
 
     function setUp()
     {
+        parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')
                                ->setMethods(array('execute'))
                                ->getMock();
