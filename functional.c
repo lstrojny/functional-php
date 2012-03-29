@@ -139,6 +139,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_zip, 0, 0, 1)
 	ZEND_ARG_INFO(0, ...)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_head, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO(arginfo_functional_tail, 2)
+	ZEND_ARG_INFO(0, collection)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -177,6 +185,8 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", invoke_first,   ZEND_FN(functional_invoke_first),   arginfo_functional_invoke_first,    0)
 	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	ZEND_NS_FENTRY("Functional", zip,            ZEND_FN(functional_zip),            arginfo_functional_zip,             0)
+	ZEND_NS_FENTRY("Functional", head,           ZEND_FN(functional_head),           arginfo_functional_head,            0)
+	ZEND_NS_FENTRY("Functional", tail,           ZEND_FN(functional_tail),           arginfo_functional_tail,            0)
 	{NULL, NULL, NULL}
 };
 
@@ -454,13 +464,13 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_UNIQUE_INNER(CALL_BACK_END) \
 	if (ZEND_FCI_INITIALIZED(fci)) { \
 		FUNCTIONAL_CALL_BACK_EX_BEGIN \
-			if (functional_in_array(indexes, retval_ptr, strict TSRMLS_CC) == 0) { \
+			if (php_functional_in_array(indexes, retval_ptr, strict TSRMLS_CC) == 0) { \
 				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
 				php_functional_append_array_value(hash_key_type, &indexes, &retval_ptr, string_key, string_key_len, int_key); \
 			} \
 		CALL_BACK_END \
 	} else { \
-		if (functional_in_array(indexes, *args[0], strict TSRMLS_CC) == 0) { \
+		if (php_functional_in_array(indexes, *args[0], strict TSRMLS_CC) == 0) { \
 			php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key); \
 			php_functional_append_array_value(hash_key_type, &indexes, args[0], string_key, string_key_len, int_key); \
 		} \
@@ -980,7 +990,7 @@ PHP_FUNCTION(functional_reduce_right)
 	}
 }
 
-PHP_FUNCTION(functional_first)
+static void php_functional_first(INTERNAL_FUNCTION_PARAMETERS, char *function_name)
 {
 	FUNCTIONAL_DECLARE_FCI(3)
 
@@ -988,7 +998,7 @@ PHP_FUNCTION(functional_first)
 		RETURN_NULL();
 	}
 
-	FUNCTIONAL_COLLECTION_PARAM(collection, "first")
+	FUNCTIONAL_COLLECTION_PARAM(collection, function_name)
 	FUNCTIONAL_PREPARE_ARGS
 
 	if (ZEND_FCI_INITIALIZED(fci)) {
@@ -1034,6 +1044,15 @@ PHP_FUNCTION(functional_first)
 	}
 }
 
+PHP_FUNCTION(functional_first)
+{
+	php_functional_first(INTERNAL_FUNCTION_PARAM_PASSTHRU, "first");
+}
+
+PHP_FUNCTION(functional_head)
+{
+	php_functional_first(INTERNAL_FUNCTION_PARAM_PASSTHRU, "head");
+}
 
 PHP_FUNCTION(functional_last)
 {
@@ -1093,6 +1112,84 @@ PHP_FUNCTION(functional_last)
 		FUNCTIONAL_ITERATOR_DONE
 	}
 
+}
+
+PHP_FUNCTION(functional_tail)
+{
+	FUNCTIONAL_DECLARE_FCI(3);
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	FUNCTIONAL_COLLECTION_PARAM(collection, "tail")
+
+	if (ZEND_FCI_INITIALIZED(fci)) {
+		FUNCTIONAL_PREPARE_ARGS
+		FUNCTIONAL_PREPARE_CALLBACK(3)
+	}
+
+	array_init(return_value);
+
+	int is_head = 1;
+
+	if (Z_TYPE_P(collection) == IS_ARRAY) {
+
+		FUNCTIONAL_ARRAY_PREPARE
+		FUNCTIONAL_ARRAY_ITERATE_BEGIN
+			if (is_head) {
+				is_head = 0;
+				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+				continue;				
+			}
+
+			FUNCTIONAL_ARRAY_PREPARE_KEY
+
+			if (!ZEND_FCI_INITIALIZED(fci)) {
+				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				zend_hash_move_forward_ex(Z_ARRVAL_P(collection), &pos);
+				continue;
+			}
+			
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ARRAY_FREE_KEY
+			FUNCTIONAL_ARRAY_CALL_BACK_EX_END
+		FUNCTIONAL_ARRAY_ITERATE_END
+
+	} else {
+
+		FUNCTIONAL_ITERATOR_PREPARE
+		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
+			if (is_head) {
+				is_head = 0;
+				iter->funcs->move_forward(iter TSRMLS_CC);
+				continue;
+			}
+
+			FUNCTIONAL_ITERATOR_PREPARE_KEY
+
+			if (!ZEND_FCI_INITIALIZED(fci)) {
+				php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				iter->funcs->move_forward(iter TSRMLS_CC);
+				if (EG(exception)) {
+					goto done;
+				}
+				continue;
+			}
+			
+			FUNCTIONAL_CALL_BACK_EX_BEGIN
+				if (zend_is_true(retval_ptr)) {
+					php_functional_append_array_value(hash_key_type, &return_value, args[0], string_key, string_key_len, int_key);
+				}
+			FUNCTIONAL_ITERATOR_FREE_KEY
+			FUNCTIONAL_ITERATOR_CALL_BACK_EX_END
+		FUNCTIONAL_ITERATOR_ITERATE_END
+		FUNCTIONAL_ITERATOR_DONE
+
+	}
 }
 
 PHP_FUNCTION(functional_drop_first)
@@ -1521,7 +1618,7 @@ PHP_FUNCTION(functional_ratio)
 	FUNCTIONAL_MATH("ratio", /, 1)
 }
 
-static int functional_is_equal(zval *value, zval **entry, int strict TSRMLS_DC)
+static int php_functional_is_equal(zval *value, zval **entry, int strict TSRMLS_DC)
 {
 	int (*is_equal_func)(zval *, zval *, zval * TSRMLS_DC) = is_equal_function;
 	zval res;
@@ -1539,7 +1636,7 @@ static int functional_is_equal(zval *value, zval **entry, int strict TSRMLS_DC)
 	}
 }
 
-static int functional_in_array(zval *array, zval *value, int strict TSRMLS_DC)
+static int php_functional_in_array(zval *array, zval *value, int strict TSRMLS_DC)
 {
 	HashPosition pos;
 	zval **entry;
@@ -1547,7 +1644,7 @@ static int functional_in_array(zval *array, zval *value, int strict TSRMLS_DC)
 	zend_hash_internal_pointer_reset_ex(Z_ARRVAL_P(array), &pos);
 
 	while (zend_hash_get_current_data_ex(Z_ARRVAL_P(array), (void **)&entry, &pos) == SUCCESS) {
-		if (functional_is_equal(value, entry, strict TSRMLS_CC)) {
+		if (php_functional_is_equal(value, entry, strict TSRMLS_CC)) {
 			return 1;
 		}
 
@@ -1928,7 +2025,7 @@ PHP_FUNCTION(functional_contains)
 
 		FUNCTIONAL_ARRAY_PREPARE
 		FUNCTIONAL_ARRAY_ITERATE_BEGIN
-			if (functional_is_equal(value, args[0], strict TSRMLS_CC)) {
+			if (php_functional_is_equal(value, args[0], strict TSRMLS_CC)) {
 				RETURN_TRUE;
 			}
 		FUNCTIONAL_ARRAY_ITERATE_END
@@ -1937,7 +2034,7 @@ PHP_FUNCTION(functional_contains)
 
 		FUNCTIONAL_ITERATOR_PREPARE
 		FUNCTIONAL_ITERATOR_ITERATE_BEGIN
-			if (functional_is_equal(value, args[0], strict TSRMLS_CC)) {
+			if (php_functional_is_equal(value, args[0], strict TSRMLS_CC)) {
 				RETVAL_TRUE;
 				goto done;
 			}
@@ -1947,7 +2044,7 @@ PHP_FUNCTION(functional_contains)
 	}
 }
 
-static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int strategy)
+static void php_functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name, int strategy)
 {
 	FUNCTIONAL_DECLARE_EX(3)
 	FUNCTIONAL_DECLARE_FCALL_INFO_CACHE
@@ -2046,17 +2143,17 @@ static void functional_invoke(INTERNAL_FUNCTION_PARAMETERS, char *function_name,
 
 PHP_FUNCTION(functional_invoke)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_ALL);
+	php_functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke", FUNCTIONAL_INVOKE_STRATEGY_ALL);
 }
 
 PHP_FUNCTION(functional_invoke_first)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", FUNCTIONAL_INVOKE_STRATEGY_FIRST);
+	php_functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_first", FUNCTIONAL_INVOKE_STRATEGY_FIRST);
 }
 
 PHP_FUNCTION(functional_invoke_last)
 {
-	functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", FUNCTIONAL_INVOKE_STRATEGY_LAST);
+	php_functional_invoke(INTERNAL_FUNCTION_PARAM_PASSTHRU, "invoke_last", FUNCTIONAL_INVOKE_STRATEGY_LAST);
 }
 
 PHP_FUNCTION(functional_zip)

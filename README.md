@@ -330,7 +330,9 @@ Applies a callback to each element
 Applies a callback to each element in the collection and collects the return value
 
 
+<<<<<<< HEAD
 `mixed Functional\first(array|Traversable $collection[, callable $callback])`
+`mixed Functional\head(array|Traversable $collection[, callable $callback])`
 Returns the first element of the collection where the callback returned true. If no callback is given, the first element
 is returned
 
@@ -339,6 +341,8 @@ is returned
 Returns the last element of the collection where the callback returned true. If no callback is given, the last element
 is returned
 
+`mixed Functional\tail(array|Traversable $collection[, callable $callback])`
+Returns every element of the collection except the first one. Elements are optionally filtered by callback.
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`
 Calculates the product of all numeric elements, starting with `$initial`
@@ -371,8 +375,10 @@ Returns the highest element in the array or collection
 `mixed Functional\minimum(array|Traversable $collection)`
 Returns the lowest element in the array or collection
 
+
 `mixed Functional\memoize(callable $callback[, array $callbackArguments = array()], [mixed $memoizeKey = null]])
 Returns and stores the result of the function call. Second call to the same function will return the same result without calling the function again
+
 
 ## Running the test suite
 To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
