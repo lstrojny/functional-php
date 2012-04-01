@@ -322,60 +322,60 @@ Functional\zip(
 
 ### Additional functions:
 
-`void Functional\each(array|Traversable $collection, callable $callback)`
+`void Functional\each(array|Traversable $collection, callable $callback)`    
 Applies a callback to each element
 
 
-`array Functional\map(array|Traversable $collection, callable $callback)`
+`array Functional\map(array|Traversable $collection, callable $callback)`    
 Applies a callback to each element in the collection and collects the return value
 
 
-`mixed Functional\first(array|Traversable $collection[, callable $callback])`
-`mixed Functional\head(array|Traversable $collection[, callable $callback])`
+`mixed Functional\first(array|Traversable $collection[, callable $callback])`    
+`mixed Functional\head(array|Traversable $collection[, callable $callback])`    
 Returns the first element of the collection where the callback returned true. If no callback is given, the first element
 is returned
 
 
-`mixed Functional\last(array|Traversable $collection[, callable $callback])`
+`mixed Functional\last(array|Traversable $collection[, callable $callback])`    
 Returns the last element of the collection where the callback returned true. If no callback is given, the last element
 is returned
 
-`mixed Functional\tail(array|Traversable $collection[, callable $callback])`
+`mixed Functional\tail(array|Traversable $collection[, callable $callback])`    
 Returns every element of the collection except the first one. Elements are optionally filtered by callback.
 
-`integer|float Functional\product(array|Traversable $collection, $initial = 1)`
-Calculates the product of all numeric elements, starting with `$initial`
+`integer|float Functional\product(array|Traversable $collection, $initial = 1)`    
+Calculates the product of all numeric elements, starting with `$initial`    
 
 
-`integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`
-Calculates the ratio of all numeric elements, starting with `$initial`
+`integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`    
+Calculates the ratio of all numeric elements, starting with `$initial`    
 
 
-`integer|float Functional\sum(array|Traversable $collection, $initial = 0)`
-Calculates the sum of all numeric elements, starting with `$initial`
+`integer|float Functional\sum(array|Traversable $collection, $initial = 0)`    
+Calculates the sum of all numeric elements, starting with `$initial`    
 
 
-`integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
-Calculates the difference of all elements, starting with `$initial`
+`integer|float Functional\difference(array|Traversable $collection, $initial = 0)`    
+Calculates the difference of all elements, starting with `$initial`    
 
 
-`integer|float|null Functional\average(array|Traversable $collection)`
+`integer|float|null Functional\average(array|Traversable $collection)`    
 Calculates the average of all numeric elements
 
 
-`array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`
+`array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`    
 Returns a unified array based on the index value returned by the callback, use `$strict` to change comparision mode
 
 
-`mixed Functional\maximum(array|Traversable $collection)`
+`mixed Functional\maximum(array|Traversable $collection)`    
 Returns the highest element in the array or collection
 
 
-`mixed Functional\minimum(array|Traversable $collection)`
+`mixed Functional\minimum(array|Traversable $collection)`    
 Returns the lowest element in the array or collection
 
 
-`mixed Functional\memoize(callable $callback[, array $callbackArguments = array()], [mixed $memoizeKey = null]])
+`mixed Functional\memoize(callable $callback[, array $callbackArguments = array()], [mixed $memoizeKey = null]])`    
 Returns and stores the result of the function call. Second call to the same function will return the same result without calling the function again
 
 
