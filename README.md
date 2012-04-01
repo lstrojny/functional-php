@@ -113,6 +113,8 @@ $activeUsers = F\select($users, $fn);
 $inactiveUsers = F\reject($users, $fn);
 ```
 
+Alias for `Functional\select()` is `Functional\filter()`
+
 ### Functional\drop_first() & Functional\drop_last()
 
 ``array Functional\drop_first(array|Traversable $collection, callable $callback)``
