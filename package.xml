@@ -33,6 +33,9 @@
 - New functions Functional\invoke_first(), Functional\invoke_last() (Max Beutel)
 - New function Functional\zip()
 - New function Functional\memoize()
+- New alias Functional\filter() (aliases Functional\select())
+- New function Functional\tail() (Max Beutel)
+- New alias Functional\head() (aliases Functional\first())
 	</notes>
 	<contents>
 		<dir name="/">
