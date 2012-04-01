@@ -22,9 +22,9 @@
  */
 namespace Functional;
 
-use ArrayIterator,
-    Exception,
-    stdClass;
+use ArrayIterator;
+use BadFunctionCallException;
+use stdClass;
 
 class ZipTest extends AbstractTestCase
 {
@@ -133,7 +133,7 @@ class ZipTest extends AbstractTestCase
         $this->assertSame(array(), zip(array()));
         $this->assertSame(array(), zip(array(), array()));
         $this->assertSame(array(), zip(array(), array(), function() {
-            throw new Exception('Should not be called');
+            throw new BadFunctionCallException('Should not be called');
         }));
     }
 

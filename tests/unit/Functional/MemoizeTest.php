@@ -22,9 +22,9 @@
  */
 namespace Functional;
 
-use ArrayIterator,
-    stdClass,
-    Exception;
+use ArrayIterator;
+use stdClass;
+use BadMethodCallException;
 
 function testfunc()
 {
@@ -40,7 +40,7 @@ class MemoizeTest extends AbstractTestCase
     public static function invoke($name)
     {
         if (self::$invocation > 0) {
-            throw new Exception(sprintf('%s called more than once', $name));
+            throw new BadMethodCallException(sprintf('%s called more than once', $name));
         }
         self::$invocation++;
         return self::$invocation;
@@ -139,18 +139,18 @@ class MemoizeTest extends AbstractTestCase
     {
         $this->callback->expects($this->exactly(2))
                        ->method('execute')
-                       ->will($this->throwException(new Exception('EXCEPTION')));
+                       ->will($this->throwException(new BadMethodCallException('EXCEPTION')));
 
         try {
             memoize(array($this->callback, 'execute'));
             $this->fail('Expected failure');
-        } catch (Exception $e) {
+        } catch (BadMethodCallException $e) {
         }
 
         try {
             memoize(array($this->callback, 'execute'));
             $this->fail('Expected failure');
-        } catch (Exception $e) {
+        } catch (BadMethodCallException $e) {
         }
     }
 

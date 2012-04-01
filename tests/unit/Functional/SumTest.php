@@ -26,7 +26,6 @@ use ArrayIterator;
 
 class SumTest extends AbstractTestCase
 {
-
     function setUp()
     {
         parent::setUp();

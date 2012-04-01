@@ -22,8 +22,8 @@
  */
 namespace Functional;
 
-use ArrayIterator,
-    stdClass;
+use ArrayIterator;
+use stdClass;
 
 class MinimumTest extends AbstractTestCase
 {

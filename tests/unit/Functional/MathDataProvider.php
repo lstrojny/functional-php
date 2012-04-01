@@ -22,8 +22,8 @@
  */
 namespace Functional;
 
-use stdClass,
-    ArrayIterator;
+use stdClass;
+use ArrayIterator;
 
 class MathDataProvider
 {

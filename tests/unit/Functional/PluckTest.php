@@ -22,9 +22,9 @@
  */
 namespace Functional;
 
-use ArrayIterator,
-    ArrayObject,
-    SplFixedArray;
+use ArrayIterator;
+use ArrayObject;
+use SplFixedArray;
 
 class MagicGetThrowException
 {
