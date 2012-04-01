@@ -39,6 +39,7 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key);
 void php_functional_flatten(zval *collection, zval **return_value TSRMLS_DC);
 int php_functional_prepare_group(const zval *retval_ptr, zval **return_value, zval **group_ptr TSRMLS_DC);
+static void php_functional_invoke(INTERNAL_FUNCTION_PARAMETERS, int strategy);
 
 PHP_FUNCTION(functional_every);
 PHP_FUNCTION(functional_some);
@@ -76,7 +77,6 @@ PHP_FUNCTION(functional_contains);
 PHP_FUNCTION(functional_invoke_first);
 PHP_FUNCTION(functional_invoke_last);
 PHP_FUNCTION(functional_zip);
-PHP_FUNCTION(functional_head);
 PHP_FUNCTION(functional_tail);
 
 #ifdef ZTS
@@ -93,7 +93,6 @@ PHP_FUNCTION(functional_tail);
 #define TRUE 1
 #define FALSE 0
 #endif
-
 
 #ifndef ZEND_HANDLE_NUMERIC_EX
 #define ZEND_HANDLE_NUMERIC_EX(key, length, idx, func) do {                 \
@@ -131,8 +130,5 @@ PHP_FUNCTION(functional_tail);
         }                                                                   \
     }                                                                       \
 } while (0)
-
-
 #endif
-
 #endif

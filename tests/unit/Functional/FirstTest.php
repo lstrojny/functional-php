@@ -36,7 +36,7 @@ class FirstTest extends AbstractTestCase
 
     function setUp()
     {
-        parent::setUp();
+        parent::setUp($this->getAliases());
         $this->array = array('first', 'second', 'third');
         $this->iterator = new ArrayIterator($this->array);
         $this->badArray = array('foo', 'bar', 'baz');

@@ -24,16 +24,17 @@ namespace Functional;
 
 use DomainException;
 use PHPUnit_Framework_TestCase as TestCase;
+use Functional as F;
 
 class AbstractTestCase extends TestCase
 {
     function setUp()
     {
-        $functions = func_num_args()
+        $functions = func_num_args() > 0
                    ? func_get_arg(0)
                    : array(ucfirst(strtolower(str_replace('Test', '', get_class($this)))));
 
-        foreach ($functions as $function) {
+        foreach (F\flatten($functions) as $function) {
             if (!function_exists($function)) {
                 $this->markTestSkipped(
                     sprintf(

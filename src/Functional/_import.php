@@ -30,6 +30,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'DropLast.php';
     require_once $basePath . 'Each.php';
     require_once $basePath . 'First.php';
+    require_once $basePath . 'Filter.php';
     require_once $basePath . 'Flatten.php';
     require_once $basePath . 'Group.php';
     require_once $basePath . 'Invoke.php';

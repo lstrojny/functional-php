@@ -26,60 +26,99 @@ use ArrayIterator;
 
 class SelectTest extends AbstractTestCase
 {
+    public function getAliases()
+    {
+        return array(
+            array('Functional\select'),
+            array('Functional\filter'),
+        );
+    }
+
     function setUp()
     {
-        parent::setUp();
+        parent::setUp($this->getAliases());
         $this->array = array('value', 'wrong', 'value');
         $this->iterator = new ArrayIterator($this->array);
         $this->hash = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
-        $this->hashIterator = new ArrayIterator($this->hash); 
+        $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    /**
+     * @dataProvider getAliases
+     */
+    function test($functionName)
     {
-        $fn = function($v, $k, $collection) {
+        $callback = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };
-        $this->assertSame(array('value', 2 => 'value'), select($this->array, $fn));
-        $this->assertSame(array('value', 2 => 'value'), select($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->hash, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), select($this->hashIterator, $fn));
+        $this->assertSame(array('value', 2 => 'value'), $functionName($this->array, $callback));
+        $this->assertSame(array('value', 2 => 'value'), $functionName($this->iterator, $callback));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), $functionName($this->hash, $callback));
+        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), $functionName($this->hashIterator, $callback));
     }
 
-    function testPassNonCallable()
+    /**
+     * @dataProvider getAliases
+     */
+    function testPassNonCallable($functionName)
     {
-        $this->expectArgumentError("Functional\select() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        select($this->array, 'undefinedFunction');
+        $this->expectArgumentError(
+            sprintf(
+                "%s() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name",
+                $functionName
+            )
+         );
+        $functionName($this->array, 'undefinedFunction');
     }
 
-    function testPassNoCollection()
+    /**
+     * @dataProvider getAliases
+     */
+    function testPassNoCollection($functionName)
     {
-        $this->expectArgumentError('Functional\select() expects parameter 1 to be array or instance of Traversable');
-        select('invalidCollection', 'strlen');
+        $this->expectArgumentError(
+            sprintf(
+                '%s() expects parameter 1 to be array or instance of Traversable',
+                $functionName
+            )
+        );
+        $functionName('invalidCollection', 'strlen');
     }
 
-    function testExceptionIsThrownInArray()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->array, array($this, 'exception'));
+        $functionName($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHash()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInHash($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->hash, array($this, 'exception'));
+        $functionName($this->hash, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInIterator()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->iterator, array($this, 'exception'));
+        $functionName($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHashIterator()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInHashIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        select($this->hashIterator, array($this, 'exception'));
+        $functionName($this->hashIterator, array($this, 'exception'));
     }
 }
