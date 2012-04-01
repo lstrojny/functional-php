@@ -22,15 +22,27 @@
  */
 namespace Functional;
 
-class AbstractTestCase extends \PHPUnit_Framework_TestCase
+use DomainException;
+use PHPUnit_Framework_TestCase as TestCase;
+
+class AbstractTestCase extends TestCase
 {
     function setUp()
     {
-        $functions = func_num_args() ? func_get_arg(0) : array(str_replace('Test', '', get_class($this)));
+        $functions = func_num_args()
+                   ? func_get_arg(0)
+                   : array(ucfirst(strtolower(str_replace('Test', '', get_class($this)))));
 
         foreach ($functions as $function) {
             if (!function_exists($function)) {
-                $this->markTestSkipped('Function "' . $function . '" does not exist');
+                $this->markTestSkipped(
+                    sprintf(
+                        'Function "%s()" not implemented in %s version',
+                        $function,
+                        extension_loaded('functional') ? 'native C' : 'PHP userland'
+                    )
+                );
+                break;
             }
         }
     }
@@ -47,9 +59,11 @@ class AbstractTestCase extends \PHPUnit_Framework_TestCase
     function exception()
     {
         if (func_num_args() < 3) {
-            throw new \DomainException('Callback exception');
+            throw new DomainException('Callback exception');
         }
-        list($v, $k, $c) = func_get_args();
-        throw new \DomainException('Callback exception: ' . $k);
+
+        $args = func_get_args();
+        $this->assertGreaterThanOrEqual(3, count($args));
+        throw new DomainException(sprintf('Callback exception: %s', $args[1]));
     }
 }
