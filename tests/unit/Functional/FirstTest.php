@@ -26,6 +26,14 @@ use ArrayIterator;
 
 class FirstTest extends AbstractTestCase
 {
+    function getAliases()
+    {
+        return array(
+            array('Functional\first'),
+            array('Functional\head'),
+        );
+    }
+
     function setUp()
     {
         parent::setUp();
@@ -35,52 +43,75 @@ class FirstTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    /**
+     * @dataProvider getAliases
+     */
+    function test($functionName)
     {
-        $fn = function($v, $k, $collection) {
+        $callback = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v == 'second' && $k == 1;
         };
 
-        $this->assertSame('second', first($this->array, $fn));
-        $this->assertSame('second', first($this->iterator, $fn));
-        $this->assertNull(first($this->badArray, $fn));
-        $this->assertNull(first($this->badIterator, $fn));
+        $this->assertSame('second', $functionName($this->array, $callback));
+        $this->assertSame('second', $functionName($this->iterator, $callback));
+        $this->assertNull($functionName($this->badArray, $callback));
+        $this->assertNull($functionName($this->badIterator, $callback));
     }
 
-    function testWithoutCallback()
+    /**
+     * @dataProvider getAliases
+     */
+    function testWithoutCallback($functionName)
     {
-        $this->assertSame('first', first($this->array));
-        $this->assertSame('first', first($this->array, null));
-        $this->assertSame('first', first($this->iterator));
-        $this->assertSame('first', first($this->iterator, null));
-        $this->assertSame('foo', first($this->badArray));
-        $this->assertSame('foo', first($this->badArray, null));
-        $this->assertSame('foo', first($this->badIterator));
-        $this->assertSame('foo', first($this->badIterator, null));
+        $this->assertSame('first', $functionName($this->array));
+        $this->assertSame('first', $functionName($this->array, null));
+        $this->assertSame('first', $functionName($this->iterator));
+        $this->assertSame('first', $functionName($this->iterator, null));
+        $this->assertSame('foo', $functionName($this->badArray));
+        $this->assertSame('foo', $functionName($this->badArray, null));
+        $this->assertSame('foo', $functionName($this->badIterator));
+        $this->assertSame('foo', $functionName($this->badIterator, null));
     }
 
-    function testPassNonCallable()
+    /**
+     * @dataProvider getAliases
+     */
+    function testPassNonCallable($functionName)
     {
-        $this->expectArgumentError('Functional\first() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
-        first($this->array, 'undefinedFunction');
+        $this->expectArgumentError(
+            sprintf(
+                '%s() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name',
+                $functionName
+            )
+        );
+        $functionName($this->array, 'undefinedFunction');
     }
 
-    function testExceptionIsThrownInArray()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        first($this->array, array($this, 'exception'));
+        $functionName($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInCollection()
+    /**
+     * @dataProvider getAliases
+     */
+    function testExceptionIsThrownInCollection($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        first($this->iterator, array($this, 'exception'));
+        $functionName($this->iterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    /**
+     * @dataProvider getAliases
+     */
+    function testPassNoCollection($functionName)
     {
-        $this->expectArgumentError('Functional\first() expects parameter 1 to be array or instance of Traversable');
-        first('invalidCollection', 'strlen');
+        $this->expectArgumentError(sprintf('%s() expects parameter 1 to be array or instance of Traversable', $functionName));
+        $functionName('invalidCollection', 'strlen');
     }
 }
