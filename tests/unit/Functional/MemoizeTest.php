@@ -156,7 +156,7 @@ class MemoizeTest extends AbstractTestCase
 
     function testPassNoCallable()
     {
-        $this->expectArgumentError("Functional\memoize() expects parameter 0 to be a valid callback, function 'invalidFunction' not found or invalid function name");
+        $this->expectArgumentError("Functional\memoize() expects parameter 1 to be a valid callback, function 'invalidFunction' not found or invalid function name");
         memoize('invalidFunction');
     }
 }

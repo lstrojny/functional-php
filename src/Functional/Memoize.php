@@ -26,22 +26,22 @@ namespace Functional;
  * Memoizes callbacks and returns there value instead of calling them
  *
  * @param callable $callback Callable closure or function
- * @param array $callbackArguments Arguments
- * @param array|string $memoizeKey Optional memoize key to override the auto calculated hash
+ * @param array $arguments Arguments
+ * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
  */
-function memoize($callback, array $callbackArguments = array(), $memoizeKey = null)
+function memoize($callback, array $arguments = array(), $key = null)
 {
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 0);
+    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
 
-    static $generateKey = null,
+    static $keyGenerator = null,
            $storage = array();
 
-    if (!$generateKey) {
-        $generateKey = function($value) use (&$generateKey) {
+    if (!$keyGenerator) {
+        $keyGenerator = function($value) use (&$keyGenerator) {
             $type = gettype($value);
-            if ($type == 'array') {
-                $key = join(':', map($value, $generateKey));
+            if ($type === 'array') {
+                $key = join(':', map($value, $keyGenerator));
             } elseif ($type === 'object') {
                 $key = get_class($value) . ':' . spl_object_hash($value);
             } else {
@@ -52,14 +52,14 @@ function memoize($callback, array $callbackArguments = array(), $memoizeKey = nu
         };
     }
 
-    if ($memoizeKey === null) {
-        $key = $generateKey(array_merge(array($callback), $callbackArguments));
+    if ($key === null) {
+        $key = $keyGenerator(array_merge(array($callback), $arguments));
     } else {
-        $key = $generateKey($memoizeKey);
+        $key = $keyGenerator($key);
     }
 
     if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
-        $storage[$key] = call_user_func_array($callback, $callbackArguments);
+        $storage[$key] = call_user_func_array($callback, $arguments);
     }
 
     return $storage[$key];
