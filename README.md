@@ -40,8 +40,17 @@ sudo make install
 
 #### Using composer
 
- - Run `php composer.phar install lstrojny/functional-php`
- - Include `Functional/_import.php` somewhere in your bootstrap code
+Include `functional-php` in your `composer.json` file:
+
+```json
+{
+    "require": {
+        "lstrojny/functional-php": "*"
+    }
+}
+```
+
+Run `php composer.phar install` and add an include statement for `Functional/_import.php` somewhere in your bootstrap code
 
 
 #### Manually
