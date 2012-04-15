@@ -17,5 +17,5 @@
     "require": {
         "php": ">=5.3.0"
     },
-    "include-paths": ["src/"]
+    "include-path": ["src/"]
 }
