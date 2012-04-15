@@ -40,7 +40,7 @@ sudo make install
 
 #### Using composer
 
-Include `functional-php` in your `composer.json` file:
+Put the require statement for `functional-php` in your `composer.json` file:
 
 ```json
 {
