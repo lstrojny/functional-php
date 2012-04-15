@@ -37,6 +37,17 @@ sudo make install
 
 
 ### Use userland extension
+
+#### Using composer
+
+ - Run `php composer.phar install lstrojny/functional-php`
+ - Include `Functional/_import.php` somewhere in your bootstrap code
+
+
+#### Manually
+
+Checkout functional-php and include the `_import.php`
+
 ```php
 <?php
 include 'path/to/functional-php/src/Functional/_import.php';
