@@ -20,6 +20,8 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
  - Add iterator based generators: `range()`, `repeat()`, `cycle()`, `ìncrement()`, `limit()`
  - Add `concat(array1, array2, ...)`, `drop_while()`, `sort()`, `split_at()`, `slice()`, `without()`, `intersect()`
  - Reverse iterate for `last_index_of()`
+ - Allow passing callables to `last_index_of()` and `first_index_of()`
+ - New functional `array indexes_of(Traversable|array $collection, mixed|callable $predicate)`
  - Fix performance of C impl. for iterators and `last_index_of()`/`first_index_of()`
  - Fix performance of C impl. for hash iterators and `drop_first()`
 
