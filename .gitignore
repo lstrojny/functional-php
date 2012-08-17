@@ -28,3 +28,4 @@ modules
 functional.la
 .libs/
 functional.lo
+/phpunit.xml

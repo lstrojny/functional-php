@@ -23,6 +23,8 @@
     backupGlobals="false"
     backupStaticAttributes="false"
     bootstrap="tests/unit/Functional/_bootstrap.php"
+    convertWarningsToExceptions="true"
+    convertNoticesToExceptions="true"
     strict="true"
     verbose="true"
     colors="true">
