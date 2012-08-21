@@ -34,6 +34,7 @@ if (!extension_loaded('functional')) {
     require_once $basePath . 'Flatten.php';
     require_once $basePath . 'Group.php';
     require_once $basePath . 'Invoke.php';
+    require_once $basePath . 'InvokeIf.php';
     require_once $basePath . 'InvokeFirst.php';
     require_once $basePath . 'InvokeLast.php';
     require_once $basePath . 'Last.php';
