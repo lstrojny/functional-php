@@ -90,6 +90,20 @@ if (F\every($users, function($user, $collectionKey, $collection) {return $user->
 ```
 
 
+### Functional\invoke_if()
+
+``mixed Functional\invoke_if(mixed $object, string $methodName[, array $methodArguments, mixed $defaultValue])``
+
+```php
+<?php
+use Functional as F;
+
+// if $user is an object and has a public method getId() it is returned,
+// otherwise default value 0 (4th argument) is used
+$userId = F\invoke_if($user, 'getId', array(), 0);
+```
+
+
 ### Functional\some()
 
 ``bool Functional\some(array|Traversable $collection, callable $callback)``
