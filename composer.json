@@ -2,7 +2,7 @@
     "name": "lstrojny/functional-php",
     "description": "Functional primitives for PHP",
     "keywords": ["functional"],
-    "license": "BSD",
+    "license": "MIT",
     "authors": [
         {
             "name": "Lars Strojny",
@@ -17,5 +17,7 @@
     "require": {
         "php": ">=5.3.0"
     },
-    "include-path": ["src/"]
+    "autoload": {
+        "files": ["src/Functional/_import.php"]
+    }
 }

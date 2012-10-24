@@ -18,7 +18,7 @@
 		<release>alpha</release>
 		<api>alpha</api>
 	</stability>
-	<license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+	<license uri="http://www.opensource.org/licenses/bsd-license.php">MIT</license>
 	<notes>
 - New function Functional\first_index_of()
 - New function Functional\last_index_of()
