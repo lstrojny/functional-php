@@ -36,16 +36,16 @@ class ReduceTest extends AbstractTestCase
     function testReducing()
     {
         $this->currentCollection = $this->array;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->array, array($this, 'callback')));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->array, array($this, 'callback'), 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->array, array($this, 'callback')));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->array, array($this, 'callback'), 'default'));
+        $this->assertSame('0:one,1:two,2:three', reduce_left($this->array, array($this, 'functionalCallback')));
+        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->array, array($this, 'functionalCallback'), 'default'));
+        $this->assertSame('2:three,1:two,0:one', reduce_right($this->array, array($this, 'functionalCallback')));
+        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->array, array($this, 'functionalCallback'), 'default'));
 
         $this->currentCollection = $this->iterator;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->iterator, array($this, 'callback')));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->iterator, array($this, 'callback'), 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'callback')));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'callback'), 'default'));
+        $this->assertSame('0:one,1:two,2:three', reduce_left($this->iterator, array($this, 'functionalCallback')));
+        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->iterator, array($this, 'functionalCallback'), 'default'));
+        $this->assertSame('2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'functionalCallback')));
+        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->iterator, array($this, 'functionalCallback'), 'default'));
 
         $this->assertSame('initial', reduce_left(array(), function(){}, 'initial'));
         $this->assertNull(reduce_left(array(), function(){}));
@@ -85,7 +85,7 @@ class ReduceTest extends AbstractTestCase
         reduce_right($this->array, array($this, 'exception'));
     }
 
-    function callback($value, $key, $collection, $returnValue)
+    function functionalCallback($value, $key, $collection, $returnValue)
     {
         $this->assertContains($value, $this->currentCollection);
         $this->assertTrue(isset($this->currentCollection[$key]));

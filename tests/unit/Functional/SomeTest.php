@@ -37,10 +37,10 @@ class SomeTest extends AbstractTestCase
 
     function test()
     {
-        $this->assertTrue(some($this->goodArray, array($this, 'callback')));
-        $this->assertTrue(some($this->goodIterator, array($this, 'callback')));
-        $this->assertFalse(some($this->badArray, array($this, 'callback')));
-        $this->assertFalse(some($this->badIterator, array($this, 'callback')));
+        $this->assertTrue(some($this->goodArray, array($this, 'functionalCallback')));
+        $this->assertTrue(some($this->goodIterator, array($this, 'functionalCallback')));
+        $this->assertFalse(some($this->badArray, array($this, 'functionalCallback')));
+        $this->assertFalse(some($this->badIterator, array($this, 'functionalCallback')));
     }
 
     function testPassNonCallable()
@@ -67,7 +67,7 @@ class SomeTest extends AbstractTestCase
         some($this->goodIterator, array($this, 'exception'));
     }
 
-    function callback($value, $key, $collection)
+    function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value == 'value' && $key === 0;

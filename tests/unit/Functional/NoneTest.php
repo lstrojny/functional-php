@@ -37,10 +37,10 @@ class NoneTest extends AbstractTestCase
 
     function test()
     {
-        $this->assertTrue(none($this->goodArray, array($this, 'callback')));
-        $this->assertTrue(none($this->goodIterator, array($this, 'callback')));
-        $this->assertFalse(none($this->badArray, array($this, 'callback')));
-        $this->assertFalse(none($this->badIterator, array($this, 'callback')));
+        $this->assertTrue(none($this->goodArray, array($this, 'functionalCallback')));
+        $this->assertTrue(none($this->goodIterator, array($this, 'functionalCallback')));
+        $this->assertFalse(none($this->badArray, array($this, 'functionalCallback')));
+        $this->assertFalse(none($this->badIterator, array($this, 'functionalCallback')));
     }
 
     function testPassNoCollection()
@@ -67,7 +67,7 @@ class NoneTest extends AbstractTestCase
         none($this->goodIterator, array($this, 'exception'));
     }
 
-    function callback($value, $key, $collection)
+    function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value != 'value' && strlen($key) > 0;

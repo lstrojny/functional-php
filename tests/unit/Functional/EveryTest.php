@@ -37,10 +37,10 @@ class EveryTest extends AbstractTestCase
 
     function test()
     {
-        $this->assertTrue(every($this->goodArray, array($this, 'callback')));
-        $this->assertTrue(every($this->goodIterator, array($this, 'callback')));
-        $this->assertFalse(every($this->badArray, array($this, 'callback')));
-        $this->assertFalse(every($this->badIterator, array($this, 'callback')));
+        $this->assertTrue(every($this->goodArray, array($this, 'functionalCallback')));
+        $this->assertTrue(every($this->goodIterator, array($this, 'functionalCallback')));
+        $this->assertFalse(every($this->badArray, array($this, 'functionalCallback')));
+        $this->assertFalse(every($this->badIterator, array($this, 'functionalCallback')));
     }
 
     function testPassNonCallable()
@@ -67,7 +67,7 @@ class EveryTest extends AbstractTestCase
         every($this->goodIterator, array($this, 'exception'));
     }
 
-    function callback($value, $key, $collection)
+    function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 
