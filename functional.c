@@ -143,11 +143,6 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_tail, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
-ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_memoize, 0, 0, 1)
-	ZEND_ARG_INFO(0, callback)
-	ZEND_ARG_INFO(0, arguments)
-	ZEND_ARG_INFO(0, key)
-ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -189,7 +184,6 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	ZEND_NS_FENTRY("Functional", zip,            ZEND_FN(functional_zip),            arginfo_functional_zip,             0)
 	ZEND_NS_FENTRY("Functional", tail,           ZEND_FN(functional_tail),           arginfo_functional_tail,            0)
-	ZEND_NS_FENTRY("Functional", memoize,        ZEND_FN(functional_memoize),        arginfo_functional_memoize,         0)
 	{NULL, NULL, NULL}
 };
 
@@ -2256,67 +2250,4 @@ PHP_FUNCTION(functional_zip)
 		if (null) {
 			zval_ptr_dtor(&null);
 		}
-}
-
-PHP_FUNCTION(functional_memoize)
-{
-	zend_fcall_info fci = empty_fcall_info;
-	zend_fcall_info_cache fci_cache = empty_fcall_info_cache;
-	zval *key, *retval_ptr = NULL, *arguments;
-	HashPosition pos;
-	char *hash;
-
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "f|az!", &fci, &fci_cache, &arguments, &key) == FAILURE) {
-		RETURN_NULL();
-	}
-
-	zend_hash_internal_pointer_reset_ex(HASH_OF(), &pos);
-
-	zend_fcall_info_args(&fci, arguments TSRMLS_CC);
-	fci.retval_ptr_ptr = &retval_ptr;
-	if (zend_call_function(&fci, &fci_cache TSRMLS_CC) == SUCCESS && !EG(exception) && fci.retval_ptr_ptr && *fci.retval_ptr_ptr) {
-		COPY_PZVAL_TO_ZVAL(*return_value, *fci.retval_ptr_ptr);
-	}
-	zend_fcall_info_args_clear(&fci, 1);
-}
-
-/**
- * Inspired by PECL memoize
- */
-void php_functional_hash_arguments(int argc, zval **, zval ***args, zval **object, char *hash TSRMLS_DC)
-{
-	php_serialize_data_t args_data;
-	unsigned char raw_hash[16];
-	smart_str args_str = {0};
-	PHP_MD5_CTX md5ctx;
-	int i;
-	zval *args_array;
-
-	/* construct php array from args */
-	MAKE_STD_ZVAL(args_array);
-	array_init_size(args_array, argc + 2 + (object != NULL));
-	add_next_index_string(args_array, MEMOIZE_G(cache_namespace), 1);
-	add_next_index_string(args_array, fname, 1);
-	if (object) {
-		Z_ADDREF_PP(object);
-		add_next_index_zval(args_array, *object);
-	}
-	for (i = 0; i < argc; i++) {
-		zval **arg_pp = args[i];
-		Z_ADDREF_PP(arg_pp);
-		add_next_index_zval(args_array, *arg_pp);
-	}
-
-	/* serialize php array */
-	PHP_VAR_SERIALIZE_INIT(args_data);
-	php_var_serialize(&args_str, &args_array, &args_data TSRMLS_CC);
-	PHP_VAR_SERIALIZE_DESTROY(args_data);
-	zval_ptr_dtor(&args_array);
-
-	/* hash serialized string */
-	PHP_MD5Init(&md5ctx);
-	PHP_MD5Update(&md5ctx, args_str.c, args_str.len);
-	PHP_MD5Final(raw_hash, &md5ctx);
-	make_digest(hash, raw_hash);
-	smart_str_free(&args_str);
 }
