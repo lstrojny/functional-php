@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2011 - 2012 by Lars Strojny <lstrojny@php.net>, Max Beutel <me@maxbeutel.de>
+ * Copyright (C) 2011-2013 by Lars Strojny <lstrojny@php.net>, Max Beutel <me@maxbeutel.de>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
