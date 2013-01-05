@@ -1,6 +1,4 @@
-# Functional PHP: Functional primitives for PHP
-[![Build Status](https://secure.travis-ci.org/lstrojny/functional-php.png)](http://travis-ci.org/lstrojny/functional-php)
-
+# Functional PHP: Functional primitives for PHP [![Build Status](https://secure.travis-ci.org/lstrojny/functional-php.png)](http://travis-ci.org/lstrojny/functional-php)
 
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
 collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
