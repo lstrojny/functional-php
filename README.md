@@ -42,7 +42,7 @@ sudo make install
 
 #### Using composer
 
-Put the require statement for `functional-php` in your `composer.json` file:
+Put the require statement for `functional-php` in your `composer.json` file and run `php composer.phar install`:
 
 ```json
 {
@@ -51,8 +51,6 @@ Put the require statement for `functional-php` in your `composer.json` file:
     }
 }
 ```
-
-Run `php composer.phar install` and add an include statement for `Functional/_import.php` somewhere in your bootstrap code
 
 
 #### Manually
