@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Returns true if all elements of the collection evaluate to true
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return bool
  */
 function truthy($collection)

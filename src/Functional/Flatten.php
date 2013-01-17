@@ -29,7 +29,7 @@ use RecursiveIteratorIterator,
  * Takes a nested combination of collections and returns their contents as a single, flat array.
  * Does not preserve indexs.
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return array
  */
 function flatten($collection)

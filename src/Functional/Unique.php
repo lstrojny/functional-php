@@ -25,7 +25,7 @@ namespace Functional;
 /**
 * Returns a array of unique elements
 *
-* @param Traversable|array $collection
+* @param \Traversable|array $collection
 * @param callable $callback
 * @return array
 */

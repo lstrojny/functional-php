@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Returns the average of all numeric values in the array or null if no numeric value was found
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return null|float|int
  */
 function average($collection)

@@ -26,7 +26,7 @@ namespace Functional;
  * Iterates over a collection of elements, yielding each in turn to a callback function. Each invocation of $callback
  * is called with three arguments: (element, index, collection)
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return null
  */

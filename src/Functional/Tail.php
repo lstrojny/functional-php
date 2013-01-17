@@ -26,7 +26,7 @@ namespace Functional;
  * Returns all items from $collection except first element (head). Preserves $collection keys.
  * Takes an optional callback for filtering the collection.
  *
- * @param Traversable|array $
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */
@@ -49,7 +49,7 @@ function tail($collection, $callback = null)
 
         if (!$callback || call_user_func($callback, $element, $index, $collection)) {
             $tail[$index] = $element;
-        }       
+        }
     }
 
     return $tail;

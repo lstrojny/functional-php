@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Groups a collection by index returned by callback.
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

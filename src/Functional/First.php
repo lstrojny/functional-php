@@ -27,7 +27,7 @@ namespace Functional;
  * function returns as soon as it finds an acceptable element, and doesn't traverse the entire collection. Callback
  * arguments will be element, index, collection
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return mixed
  */

@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

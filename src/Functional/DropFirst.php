@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Drop all elements from a collection until callback returns false
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

@@ -26,7 +26,7 @@ namespace Functional;
  * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
  * Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return mixed
  */

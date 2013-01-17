@@ -27,7 +27,7 @@ use ArrayAccess;
 /**
  * Extract a property from a collection of objects.
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param string $propertyName
  * @return array
  */

@@ -26,7 +26,7 @@ namespace Functional;
  * Returns true if all of the elements in the collection pass the callback falsy test. Opposite of Functional\all().
  * Callback arguments will be element, index, collection.
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return bool
  */

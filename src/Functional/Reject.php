@@ -26,7 +26,7 @@ namespace Functional;
  * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
  * Functional\select(). Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

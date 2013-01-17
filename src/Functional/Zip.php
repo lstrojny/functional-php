@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Recombines arrays by index and applies a callback optionally
  *
- * @param Traversable|array $collection One or more callbacks
+ * @param \Traversable|array $collection One or more callbacks
  * @param callable $callback Optionally the last argument can be a callback
  * @return array
  */

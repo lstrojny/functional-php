@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Returns the maximum value of a collection
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

@@ -26,7 +26,7 @@ namespace Functional;
  * Partitions a collection by callback result. The thruthy partition is the first one
  * (array index "0"), the falsy the second one (array index "1")
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

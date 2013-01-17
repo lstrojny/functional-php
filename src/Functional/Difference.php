@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Takes a collection and returns the difference of all elements
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return integer|float
  */
 function difference($collection, $initial = 0)

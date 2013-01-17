@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Alias of Functional\select()
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

@@ -26,7 +26,7 @@ namespace Functional;
  * Returns true if the collection contains the given value. If the third parameter is
  * true values will be compared in strict mode
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param mixed $value
  * @param bool $strict
  * @return bool

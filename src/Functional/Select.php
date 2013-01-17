@@ -26,7 +26,7 @@ namespace Functional;
  * Looks through each element in the list, returning an array of all the elements that pass a truthy test (callback).
  * Opposite is Functional\reject(). Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return array
  */

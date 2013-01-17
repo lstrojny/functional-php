@@ -28,7 +28,7 @@ use RecursiveArrayIterator;
 /**
  * Takes a collection and returns the sum of the elements
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return integer|float
  */
 function sum($collection, $initial = 0)

@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Returns true if all elements of the collection are strictly false
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return bool
  */
 function false($collection)

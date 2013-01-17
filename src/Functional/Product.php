@@ -28,7 +28,7 @@ use RecursiveArrayIterator;
 /**
  * Takes a collection and returns the product of all elements
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @return integer|float
  */
 function product($collection, $initial = 1)

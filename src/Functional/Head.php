@@ -25,7 +25,7 @@ namespace Functional;
 /**
  * Alias for Functional\first
  *
- * @param Traversable|array $collection
+ * @param \Traversable|array $collection
  * @param callable $callback
  * @return mixed
  */
