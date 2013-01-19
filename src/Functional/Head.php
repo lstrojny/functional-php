@@ -36,6 +36,6 @@ function head($collection, $callback = null)
     if ($callback !== null) {
         Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
     }
-    
+
     return first($collection, $callback);
 }
