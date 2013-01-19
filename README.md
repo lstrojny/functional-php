@@ -170,7 +170,7 @@ F\drop_last($users, $fn);
 ### Functional\pluck()
 Fetch a single property from a collection of objects or arrays.
 
-``array Functional\pluck(array|Traversable $collection, string $propertyName)``
+``array Functional\pluck(array|Traversable $collection, string|integer|float|null $propertyName)``
 
 ```php
 <?php
