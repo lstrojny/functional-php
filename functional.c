@@ -232,7 +232,7 @@ ZEND_GET_MODULE(functional)
 		RETURN_NULL(); \
 	}
 #define FUNCTIONAL_PROPERTY_NAME_PARAM(property) \
-	if (Z_TYPE_P(property) == IS_OBJECT || Z_TYPE_P(property) == IS_ARRAY) { \
+	if (Z_TYPE_P(property) != IS_STRING && Z_TYPE_P(property) != IS_DOUBLE && Z_TYPE_P(property) != IS_LONG) { \
 		zend_error(E_WARNING, "%s() expects parameter 2 to be a valid property name or array index, %s given", get_active_function_name(TSRMLS_C), zend_get_type_by_const(Z_TYPE_P(property))); \
 		RETURN_NULL(); \
 	}
