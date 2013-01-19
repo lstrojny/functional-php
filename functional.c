@@ -232,7 +232,7 @@ ZEND_GET_MODULE(functional)
 		RETURN_NULL(); \
 	}
 #define FUNCTIONAL_PROPERTY_NAME_PARAM(property) \
-	if (Z_TYPE_P(property) != IS_STRING && Z_TYPE_P(property) != IS_DOUBLE && Z_TYPE_P(property) != IS_LONG) { \
+	if (Z_TYPE_P(property) != IS_STRING && Z_TYPE_P(property) != IS_DOUBLE && Z_TYPE_P(property) != IS_LONG && Z_TYPE_P(property) != IS_NULL) { \
 		zend_error(E_WARNING, "%s() expects parameter 2 to be a valid property name or array index, %s given", get_active_function_name(TSRMLS_C), zend_get_type_by_const(Z_TYPE_P(property))); \
 		RETURN_NULL(); \
 	}
@@ -826,10 +826,18 @@ PHP_FUNCTION(functional_pluck)
 
 	array_init(return_value);
 
-	if (Z_TYPE_P(property) != IS_LONG) {
-		ZEND_HANDLE_NUMERIC_EX(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, numeric = 1);
-	} else {
-		numeric = 1;
+	switch (Z_TYPE_P(property)) {
+		case IS_LONG:
+			numeric = 1;
+			break;
+
+		case IS_NULL:
+			convert_to_string(property);
+			break;
+
+		default:
+			ZEND_HANDLE_NUMERIC_EX(Z_STRVAL_P(property), Z_STRLEN_P(property) + 1, h, numeric = 1);
+			break;
 	}
 
 	calling_scope = EG(scope);

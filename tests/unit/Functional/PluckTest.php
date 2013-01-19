@@ -117,6 +117,54 @@ class PluckTest extends AbstractTestCase
         $this->getExceptionIterator = new ArrayIterator($this->getExceptionArray);
     }
 
+    public $nullHash = array(
+        'one' => array(null => '1'),
+        'two' => array(null => '2'),
+    );
+
+    function getNullHash()
+    {
+        return $this->variateHash($this->nullHash, false);
+    }
+
+    function getNullList()
+    {
+        return $this->variateList($this->nullHash, false);
+    }
+
+    function variateList($hash, $asObject = true)
+    {
+        return $this->variate(array_values($hash), $asObject);
+    }
+
+    function variateHash($hash, $asObject = true)
+    {
+        return $this->variate($hash, $asObject);
+    }
+
+    function variate($array, $asObject)
+    {
+
+        if (!$asObject) {
+            return array(
+                array($array),
+                array(new ArrayIterator($array)),
+            );
+        }
+
+        $objectArray = array();
+        foreach ($array as $key => $value) {
+            $objectArray[$key] = (object) $value;
+        }
+
+        return array(
+            array($array),
+            array(new ArrayIterator($array)),
+            array($objectArray),
+            array(new ArrayIterator($objectArray)),
+        );
+    }
+
     function testPluckPropertyThatExistsEverywhere()
     {
         $this->assertSame(array(1, 2, '3', 4), pluck($this->propertyMagicGet, 'property'));
@@ -153,6 +201,18 @@ class PluckTest extends AbstractTestCase
         $this->assertSame(array(1, null, null, 2, 3), pluck(array_values($this->numericArrayCollection), 0));
         $this->assertSame(array(1, null, null, 2, 3), pluck(new ArrayIterator(array_values($this->numericArrayCollection)), 0));
         $this->assertSame(array('one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3), pluck($this->numericArrayCollection, '0'));
+    }
+
+    /** @dataProvider getNullList */
+    function testNullLists($it)
+    {
+        $this->assertSame(array('1', '2'), pluck($it, null));
+    }
+
+    /** @dataProvider getNullHash */
+    function testNullHash($it)
+    {
+        $this->assertSame(array('one' => '1', 'two' => '2'), pluck($it, null));
     }
 
     function testPassNoCollection()
