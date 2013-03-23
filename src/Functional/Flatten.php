@@ -23,7 +23,16 @@
 namespace Functional;
 
 use RecursiveIteratorIterator,
-    RecursiveArrayIterator;
+    RecursiveArrayIterator,
+    Traversable;
+
+class RecursiveArrayOnlyIterator extends RecursiveArrayIterator
+{
+    public function hasChildren()
+    {
+        return is_array($this->current()) || $this->current() instanceof Traversable;
+    }
+}
 
 /**
  * Takes a nested combination of collections and returns their contents as a single, flat array.
@@ -36,7 +45,7 @@ function flatten($collection)
 {
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($collection));
+    $it = new RecursiveIteratorIterator(new RecursiveArrayOnlyIterator($collection));
 
     $result = array();
     foreach($it as $val) {
