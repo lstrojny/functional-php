@@ -244,7 +244,7 @@ $flattened = F\flatten(array(1, 2, 3, array(1, 2, 3, 4), 5));
 ```
 
 ### Functional\first_index_of()
-Returns the first index holding specified value in the ccollection. Returns false if value was not found
+Returns the first index holding specified value in the collection. Returns false if value was not found
 
 ``array Functional\first_index_of(array|Traversable $collection, mixed $value)``
 
@@ -257,7 +257,7 @@ $index = F\first_index_of(array('value', 'value'), 'value');
 ```
 
 ### Functional\last_index_of()
-Returns the last index holding specified value in the ccollection. Returns false if value was not found
+Returns the last index holding specified value in the collection. Returns false if value was not found
 
 ``array Functional\last_index_of(array|Traversable $collection, mixed $value)``
 
@@ -301,14 +301,14 @@ Returns true or false if all elements in the collection evaluate to true or fals
 use Functional as F;
 
 // Returns true
-F\true(array(true, true, 1, 'foo'));
+F\truthy(array(true, true, 1, 'foo'));
 // Returns false
-F\true(array(true, 0, false));
+F\truthy(array(true, 0, false));
 
 // Returns true
-F\false(array(false, false, 0, null));
+F\falsy(array(false, false, 0, null));
 // Returns false
-F\false(array(false, 'str', null, false));
+F\falsy(array(false, 'str', null, false));
 ```
 
 ### Functional\contains()
