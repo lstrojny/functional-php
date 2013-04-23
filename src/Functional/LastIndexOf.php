@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Returns the last index holding specified value in the ccollection. Returns false if value was not found
+ * Returns the last index holding specified value in the collection. Returns false if value was not found
  *
  * @param \Traversable|array $collection
  * @param mixed $value

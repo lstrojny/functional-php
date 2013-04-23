@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Returns true if all elements of the collection evaluate to true
+ * Returns true if all elements of the collection evaluate to false
  *
  * @param \Traversable|array $collection
  * @return bool

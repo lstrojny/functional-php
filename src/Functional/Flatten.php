@@ -36,7 +36,7 @@ class RecursiveArrayOnlyIterator extends RecursiveArrayIterator
 
 /**
  * Takes a nested combination of collections and returns their contents as a single, flat array.
- * Does not preserve indexs.
+ * Does not preserve indexes.
  *
  * @param \Traversable|array $collection
  * @return array

@@ -170,7 +170,7 @@ $names = F\pluck($users, 'name');
 ```
 
 ### Functional\partition()
-Splits a collection into two by callback. Thruthy values come first
+Splits a collection into two by callback. Truthy values come first
 
 ``array Functional\partition(array|Traversable $collection, callable $callback)``
 
@@ -390,7 +390,7 @@ Calculates the average of all numeric elements
 
 
 `array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`  
-Returns a unified array based on the index value returned by the callback, use `$strict` to change comparision mode
+Returns a unified array based on the index value returned by the callback, use `$strict` to change comparison mode
 
 
 `mixed Functional\maximum(array|Traversable $collection)`  
@@ -420,4 +420,4 @@ To run the test suite with the userland implementation use `php -n $(which phpun
  - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
  - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
- - The people behind [Travis CI](http://travis-ci.org/) for continous integration
+ - The people behind [Travis CI](http://travis-ci.org/) for continuous integration
