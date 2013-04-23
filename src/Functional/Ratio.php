@@ -26,7 +26,7 @@ use RecursiveIteratorIterator;
 use RecursiveArrayIterator;
 
 /**
- * Takes a collection and returns the product of all elements
+ * Takes a collection and returns the quotient of all elements
  *
  * @param \Traversable|array $collection
  * @return integer|float

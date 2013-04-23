@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Memoizes callbacks and returns there value instead of calling them
+ * Memoizes callbacks and returns their value instead of calling them
  *
  * @param callable $callback Callable closure or function
  * @param array $arguments Arguments
