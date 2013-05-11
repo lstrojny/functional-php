@@ -288,7 +288,11 @@ ZEND_GET_MODULE(functional)
 		goto done; \
 	} \
 }
+#if PHP_VERSION_ID >= 50500
 #define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key_default(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
+#else
+#define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
+#endif
 #define FUNCTIONAL_ARRAY_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_hash_get_current_key_ex(Z_ARRVAL_P(collection), &string_key, &string_key_len, &int_key, 0, &pos))
 #define FUNCTIONAL_PREPARE_KEY(get_key) MAKE_STD_ZVAL(key); \
 			hash_key_type = get_key; \
