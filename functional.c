@@ -289,7 +289,19 @@ ZEND_GET_MODULE(functional)
 	} \
 }
 #if PHP_VERSION_ID >= 50500
-#define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key_default(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
+#define FUNCTIONAL_ITERATOR_PREPARE_KEY { \
+		zval tmp_key; \
+		zend_user_it_get_current_key(iter, &tmp_key TSRMLS_CC); \
+		if (Z_TYPE(tmp_key) == IS_STRING) { \
+			hash_key_type = HASH_KEY_IS_STRING; \
+			string_key = Z_STRVAL(tmp_key); \
+			string_key_len = Z_STRLEN(tmp_key) + 1; \
+		} else { \
+			hash_key_type = HASH_KEY_IS_LONG; \
+			int_key = Z_LVAL(tmp_key); \
+		} \
+		FUNCTIONAL_PREPARE_KEY(hash_key_type) \
+	}
 #else
 #define FUNCTIONAL_ITERATOR_PREPARE_KEY FUNCTIONAL_PREPARE_KEY(zend_user_it_get_current_key(iter, &string_key, &string_key_len, &int_key TSRMLS_CC))
 #endif
@@ -480,7 +492,7 @@ ZEND_GET_MODULE(functional)
 #define FUNCTIONAL_IS_NUMERIC_P(arg) FUNCTIONAL_IS_NUMERIC(*arg)
 #define FUNCTIONAL_IS_NUMERIC(arg) (Z_TYPE(arg) == IS_LONG || Z_TYPE(arg) == IS_DOUBLE || (Z_TYPE(arg) == IS_STRING && is_numeric_string(Z_STRVAL(arg), Z_STRLEN(arg), NULL, NULL, 0)))
 
-void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
+void inline php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***value, char *string_key, uint string_key_len, int int_key)
 {
 	switch (hash_key_type) {
 		case HASH_KEY_IS_LONG:
@@ -494,7 +506,7 @@ void php_functional_prepare_array_key(int hash_key_type, zval **key, zval ***val
 	}
 }
 
-void php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key)
+void inline php_functional_append_array_value(int hash_key_type, zval **return_value, zval **value, char *string_key, uint string_key_len, int int_key)
 {
 	zval_add_ref(value);
 	if (hash_key_type == HASH_KEY_IS_LONG) {
