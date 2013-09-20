@@ -1127,6 +1127,7 @@ PHP_FUNCTION(functional_last)
 
 PHP_FUNCTION(functional_tail)
 {
+	int is_head = 1;
 	FUNCTIONAL_DECLARE_FCI(3);
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!", &collection, &fci, &fci_cache) == FAILURE) {
@@ -1141,8 +1142,6 @@ PHP_FUNCTION(functional_tail)
 	}
 
 	array_init(return_value);
-
-	int is_head = 1;
 
 	if (Z_TYPE_P(collection) == IS_ARRAY) {
 
@@ -1667,9 +1666,9 @@ static int php_functional_in_array(zval *array, zval *value, int strict TSRMLS_D
 
 PHP_FUNCTION(functional_unique)
 {
-	FUNCTIONAL_DECLARE_FCI(3);
 	int strict = 1;
 	zval *indexes = NULL;
+	FUNCTIONAL_DECLARE_FCI(3);
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "z|f!b", &collection, &fci, &fci_cache, &strict) == FAILURE) {
 		RETURN_NULL();
@@ -2169,9 +2168,10 @@ PHP_FUNCTION(functional_invoke_last)
 
 PHP_FUNCTION(functional_zip)
 {
-	FUNCTIONAL_DECLARE_FCI(3);
 	zval ***collections = NULL, *array, *null, ***callback_args;
 	int argc, a, value_found;
+	zval **arrays;
+	FUNCTIONAL_DECLARE_FCI(3);
 
 
 	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET, ZEND_NUM_ARGS() TSRMLS_CC, "+|f!", &collections, &argc, &fci, &fci_cache) == FAILURE) {
@@ -2180,7 +2180,7 @@ PHP_FUNCTION(functional_zip)
 		}
 	}
 
-	zval *arrays[argc];
+	arrays = emalloc(argc * sizeof(zval *));
 
 	for (a = 0; a < argc; a++) {
 		FUNCTIONAL_COLLECTION_PARAM_EX(*collections[a], a + 1);
@@ -2271,6 +2271,7 @@ PHP_FUNCTION(functional_zip)
 		}
 		efree(collections);
 		efree(callback_args);
+		efree(arrays);
 		if (null) {
 			zval_ptr_dtor(&null);
 		}
