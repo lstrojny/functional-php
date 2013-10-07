@@ -13,6 +13,8 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
     extensions
   - All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
 
+[![Functional Comic](http://imgs.xkcd.com/comics/functional.png)](http://xkcd.com/1270/)
+
 ## Installation
 
 
