@@ -53,4 +53,8 @@
         <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
     </logging>
 
+    <php>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+
 </phpunit>
