@@ -212,14 +212,14 @@ with the last element.
 <?php
 use Functional as F;
 
-// $sum will be 64 (2^2^3)
-$sum = F\reduce_left(array(2, 3), function($value, $index, $collection, $reduction) {
-    return $reduction ^ $value;
+// $str will be "223"
+$str = F\reduce_left(array(2, 3), function($value, $index, $collection, $reduction) {
+    return $reduction . $value;
 }, 2);
 
-// $sum will be 512 (2^3^2)
-$sum = F\reduce_right(array(2, 3), function($value, $index, $collection, $reduction) {
-    return $reduction ^ $value;
+// $str will be "232"
+$str = F\reduce_right(array(2, 3), function($value, $index, $collection, $reduction) {
+    return $reduction . $value;
 }, 2);
 ```
 
