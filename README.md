@@ -259,7 +259,7 @@ Returns the last index holding specified value in the collection. Returns false 
 use Functional as F;
 
 // $index will be 1
-$index = F\first_index_of(array('value', 'value'), 'value');
+$index = F\last_index_of(array('value', 'value'), 'value');
 ```
 
 ### Functional\true() / Functional\false()
