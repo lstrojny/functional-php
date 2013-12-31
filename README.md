@@ -56,6 +56,17 @@ Everytime you want to work with Functional PHP and not reference the fully quali
 your PHP file.
 
 
+#### Alternative static facade usage
+
+To avoid manually including ```_import.php``` and let your autoloader do the work, use the static class-method interface:
+
+```php
+
+use Functional\FunctionalClass as F;
+
+F::map(...); // Rather than F\map(...)
+```
+
 ## Overview
 
 
