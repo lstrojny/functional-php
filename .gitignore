@@ -29,3 +29,4 @@ functional.la
 .libs/
 functional.lo
 /phpunit.xml
+/vendor

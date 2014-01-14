@@ -22,13 +22,13 @@
  */
 namespace Functional;
 
-use RecursiveIteratorIterator;
-use RecursiveArrayIterator;
+use Traversable;
 
 /**
  * Takes a collection and returns the quotient of all elements
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
+ * @param int $initial
  * @return integer|float
  */
 function ratio($collection, $initial = 1)

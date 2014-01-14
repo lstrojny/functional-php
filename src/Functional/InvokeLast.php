@@ -38,9 +38,7 @@ function invoke_last($collection, $methodName, array $arguments = array())
 
     $lastCallback = null;
 
-    foreach ($collection as $index => $element) {
-
-        $value = null;
+    foreach ($collection as $element) {
 
         $callback = array($element, $methodName);
         if (is_callable($callback)) {
@@ -51,6 +49,6 @@ function invoke_last($collection, $methodName, array $arguments = array())
     if (!$lastCallback) {
     	return null;
     }
-    
+
     return call_user_func_array($lastCallback, $arguments);
 }

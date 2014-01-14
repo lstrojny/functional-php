@@ -36,9 +36,7 @@ function invoke_first($collection, $methodName, array $arguments = array())
     Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     Exceptions\InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
-    foreach ($collection as $index => $element) {
-
-        $value = null;
+    foreach ($collection as $element) {
 
         $callback = array($element, $methodName);
         if (is_callable($callback)) {

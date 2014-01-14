@@ -22,13 +22,13 @@
  */
 namespace Functional;
 
-use RecursiveIteratorIterator;
-use RecursiveArrayIterator;
+use Traversable;
 
 /**
  * Takes a collection and returns the sum of the elements
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
+ * @param int $initial
  * @return integer|float
  */
 function sum($collection, $initial = 0)
