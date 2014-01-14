@@ -22,23 +22,28 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns true if the collection contains the given value. If the third parameter is
  * true values will be compared in strict mode
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param mixed $value
  * @param bool $strict
  * @return bool
  */
 function contains($collection, $value, $strict = true)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $element) {
+
         if ($value === $element || (!$strict && $value == $element)) {
             return true;
         }
+
     }
 
     return false;

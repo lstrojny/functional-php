@@ -22,20 +22,22 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns the maximum value of a collection
  *
- * @param \Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @param Traversable|array $collection
+ * @return integer|float
  */
 function maximum($collection)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $max = null;
 
-    foreach ($collection as $index => $element) {
+    foreach ($collection as $element) {
 
         if (!is_numeric($element)) {
             continue;

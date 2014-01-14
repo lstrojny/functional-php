@@ -22,20 +22,25 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns true if all elements of the collection are strictly true
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @return bool
  */
 function true($collection)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $value) {
+
         if ($value !== true) {
             return false;
         }
+
     }
 
     return true;

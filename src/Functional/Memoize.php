@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
@@ -32,7 +34,7 @@ namespace Functional;
  */
 function memoize($callback, array $arguments = array(), $key = null)
 {
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
 
     static $keyGenerator = null,
            $storage = array();

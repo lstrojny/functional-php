@@ -21,21 +21,23 @@
  * THE SOFTWARE.
  */
 namespace Functional;
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 /**
  * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
  * Callback arguments will be element, index, collection
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
  * @return mixed
  */
 function last($collection, $callback = null)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     if ($callback !== null) {
-        Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
     }
 
     $match = null;

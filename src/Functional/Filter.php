@@ -22,17 +22,20 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Alias of Functional\select()
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
  * @return array
  */
 function filter($collection, $callback)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     return select($collection, $callback);
 }

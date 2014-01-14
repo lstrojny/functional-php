@@ -22,20 +22,23 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns all items from $collection except first element (head). Preserves $collection keys.
  * Takes an optional callback for filtering the collection.
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
  * @return array
  */
 function tail($collection, $callback = null)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     if ($callback !== null) {
-        Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
     }
 
     $tail = array();

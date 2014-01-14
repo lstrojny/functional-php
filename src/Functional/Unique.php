@@ -22,18 +22,22 @@
 */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
-* Returns an array of unique elements
-*
-* @param \Traversable|array $collection
-* @param callable $callback
-* @return array
-*/
+ * Returns an array of unique elements
+ *
+ * @param Traversable|array $collection
+ * @param callable $callback
+ * @param bool $strict
+ * @return array
+ */
 function unique($collection, $callback = null, $strict = true)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     if ($callback != null) {
-        Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
     }
 
     $indexes = array();

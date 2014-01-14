@@ -22,17 +22,20 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Drop all elements from a collection until callback returns false
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
  * @return array
  */
 function drop_first($collection, $callback)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     $result = array();
 
@@ -40,11 +43,11 @@ function drop_first($collection, $callback)
     foreach ($collection as $index => $element) {
 
         if ($drop) {
-            if (!call_user_func($callback, $element, $index, $collection)) {
-                $drop = false;
-            } else {
+            if (call_user_func($callback, $element, $index, $collection)) {
                 continue;
             }
+
+            $drop = false;
         }
 
         $result[$index] = $element;

@@ -22,15 +22,19 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Takes a collection and returns the difference of all elements
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
+ * @param integer|float $initial
  * @return integer|float
  */
 function difference($collection, $initial = 0)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $result = $initial;
     foreach ($collection as $value) {

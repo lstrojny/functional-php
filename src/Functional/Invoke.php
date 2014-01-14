@@ -22,19 +22,22 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Calls the method named by $methodName on each value in the collection. Any extra arguments passed to invoke will be
  * forwarded on to the method invocation.
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param string $methodName
  * @param array $arguments
  * @return array
  */
 function invoke($collection, $methodName, array $arguments = array())
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
     $aggregation = array();
 

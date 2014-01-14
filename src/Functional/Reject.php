@@ -22,18 +22,21 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
  * Functional\select(). Callback arguments will be element, index, collection
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
  * @return array
  */
 function reject($collection, $callback)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     $aggregation = array();
 

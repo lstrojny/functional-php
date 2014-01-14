@@ -22,16 +22,18 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Returns the minimum value of a collection
  *
- * @param \Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @param Traversable|array $collection
+ * @return integer|float
  */
 function minimum($collection)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $max = null;
 

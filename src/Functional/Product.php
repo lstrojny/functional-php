@@ -22,18 +22,19 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
  * Takes a collection and returns the product of all elements
  *
  * @param Traversable|array $collection
- * @param int $initial
+ * @param integer|float $initial
  * @return integer|float
  */
 function product($collection, $initial = 1)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $result = $initial;
     foreach ($collection as $value) {

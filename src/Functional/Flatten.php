@@ -22,9 +22,10 @@
  */
 namespace Functional;
 
-use RecursiveIteratorIterator,
-    RecursiveArrayIterator,
-    Traversable;
+use Functional\Exceptions\InvalidArgumentException;
+use RecursiveIteratorIterator;
+use RecursiveArrayIterator;
+use Traversable;
 
 class RecursiveArrayOnlyIterator extends RecursiveArrayIterator
 {
@@ -38,18 +39,20 @@ class RecursiveArrayOnlyIterator extends RecursiveArrayIterator
  * Takes a nested combination of collections and returns their contents as a single, flat array.
  * Does not preserve indexes.
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @return array
  */
 function flatten($collection)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $it = new RecursiveIteratorIterator(new RecursiveArrayOnlyIterator($collection));
 
     $result = array();
     foreach($it as $val) {
+
         $result[] = $val;
+
     }
 
     return $result;

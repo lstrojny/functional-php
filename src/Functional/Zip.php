@@ -22,11 +22,13 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Recombines arrays by index and applies a callback optionally
  *
- * @param \Traversable|array $collection One or more callbacks
- * @param callable $callback Optionally the last argument can be a callback
+ * @param Traversable|array $collection One or more callbacks
  * @return array
  */
 function zip($collection)
@@ -39,7 +41,7 @@ function zip($collection)
     }
 
     foreach ($args as $position => $collection) {
-        Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, $position + 1);
+        InvalidArgumentException::assertCollection($collection, __FUNCTION__, $position + 1);
     }
 
     $result = array();

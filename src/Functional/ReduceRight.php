@@ -22,23 +22,31 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param callable $callback
+ * @param mixed $initial
  * @return array
  */
 function reduce_right($collection, $callback, $initial = null)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     $data = array();
     foreach ($collection as $index => $value) {
+
         $data[] = array($index, $value);
+
     }
 
     while (list($index, $value) = array_pop($data)) {
+
         $initial = call_user_func($callback, $value, $index, $collection, $initial);
+
     }
 
     return $initial;

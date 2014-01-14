@@ -23,18 +23,20 @@
 namespace Functional;
 
 use ArrayAccess;
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 /**
  * Extract a property from a collection of objects.
  *
- * @param \Traversable|array $collection
+ * @param Traversable|array $collection
  * @param string $propertyName
  * @return array
  */
 function pluck($collection, $propertyName)
 {
-    Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    Exceptions\InvalidArgumentException::assertPropertyName($propertyName, __FUNCTION__, 2);
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertPropertyName($propertyName, __FUNCTION__, 2);
 
     $aggregation = array();
 
