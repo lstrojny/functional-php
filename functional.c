@@ -2286,12 +2286,16 @@ PHP_FUNCTION(functional_zip)
 
 PHP_FUNCTION(functional_invoke_if)
 {
-	int method_name_len, arguments_len = 0, element = 0;
+	zval *object, *value = NULL, *method, ***method_args = NULL, *retval_ptr;
 	HashTable *arguments = NULL;
 	char *method_name;
-	zval *method, ***method_args = NULL, *object, *value, *retval_ptr = NULL;
+	int method_name_len, arguments_len = 0, element = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "os|Hz", &object, &method_name, &method_name_len, &arguments, &value) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|Hz", &object, &method_name, &method_name_len, &arguments, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		RETURN_NULL();
 	}
 
@@ -2308,7 +2312,7 @@ PHP_FUNCTION(functional_invoke_if)
 		}
 	}
 
-	if (ZEND_NUM_ARGS() == 4) {
+	if (value) {
 		RETVAL_ZVAL(value, 1, 0);
 	} else {
 		RETVAL_NULL();
@@ -2319,4 +2323,10 @@ PHP_FUNCTION(functional_invoke_if)
 			RETVAL_ZVAL(retval_ptr, 1, 0);
 		}
 	}
+
+	efree(method);
+	if (method_args) {
+		efree(method_args);
+	}
+
 }
