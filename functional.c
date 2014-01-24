@@ -143,6 +143,12 @@ ZEND_BEGIN_ARG_INFO(arginfo_functional_tail, 2)
 	ZEND_ARG_INFO(0, collection)
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
+ZEND_BEGIN_ARG_INFO_EX(arginfo_functional_invoke_if, 0, 0, 2)
+	ZEND_ARG_INFO(0, object)
+	ZEND_ARG_INFO(0, methodName)
+	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_INFO(0, defaultValue)
+ZEND_END_ARG_INFO()
 
 static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", every,          ZEND_FN(functional_every),          arginfo_functional_every,           0)
@@ -184,6 +190,7 @@ static const zend_function_entry functional_functions[] = {
 	ZEND_NS_FENTRY("Functional", invoke_last,    ZEND_FN(functional_invoke_last),    arginfo_functional_invoke_last,     0)
 	ZEND_NS_FENTRY("Functional", zip,            ZEND_FN(functional_zip),            arginfo_functional_zip,             0)
 	ZEND_NS_FENTRY("Functional", tail,           ZEND_FN(functional_tail),           arginfo_functional_tail,            0)
+	ZEND_NS_FENTRY("Functional", invoke_if,      ZEND_FN(functional_invoke_if),      arginfo_functional_invoke_if,       0)
 	{NULL, NULL, NULL}
 };
 
@@ -2275,4 +2282,41 @@ PHP_FUNCTION(functional_zip)
 		if (null) {
 			zval_ptr_dtor(&null);
 		}
+}
+
+PHP_FUNCTION(functional_invoke_if)
+{
+	int method_name_len, arguments_len = 0, element = 0;
+	HashTable *arguments = NULL;
+	char *method_name;
+	zval *method, ***method_args = NULL, *object, *value, *retval_ptr = NULL;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "os|Hz", &object, &method_name, &method_name_len, &arguments, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	MAKE_STD_ZVAL(method);
+	ZVAL_STRINGL(method, method_name, method_name_len, 0);
+
+	if (arguments) {
+		arguments_len = zend_hash_num_elements(arguments);
+		method_args = (zval ***) safe_emalloc(sizeof(zval **), arguments_len, 0);
+		zend_hash_internal_pointer_reset(arguments);
+		while (element < arguments_len && zend_hash_get_current_data(arguments, (void **) &(method_args[element])) == SUCCESS) {
+			zend_hash_move_forward(arguments);
+			element++;
+		}
+	}
+
+	if (ZEND_NUM_ARGS() == 4) {
+		RETVAL_ZVAL(value, 1, 0);
+	} else {
+		RETVAL_NULL();
+	}
+
+	if (call_user_function_ex(EG(function_table), &object, method, &retval_ptr, arguments_len, method_args, 1, NULL TSRMLS_CC) == SUCCESS) {
+		if (!EG(exception)) {
+			RETVAL_ZVAL(retval_ptr, 1, 0);
+		}
+	}
 }
