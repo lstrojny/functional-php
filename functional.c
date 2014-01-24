@@ -2291,7 +2291,11 @@ PHP_FUNCTION(functional_invoke_if)
 	char *method_name;
 	int method_name_len, arguments_len = 0, element = 0;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "os|Hz", &object, &method_name, &method_name_len, &arguments, &value) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "zs|Hz", &object, &method_name, &method_name_len, &arguments, &value) == FAILURE) {
+		RETURN_NULL();
+	}
+
+	if (Z_TYPE_P(object) != IS_OBJECT) {
 		RETURN_NULL();
 	}
 
