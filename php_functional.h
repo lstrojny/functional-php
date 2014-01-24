@@ -78,6 +78,7 @@ PHP_FUNCTION(functional_invoke_first);
 PHP_FUNCTION(functional_invoke_last);
 PHP_FUNCTION(functional_zip);
 PHP_FUNCTION(functional_tail);
+PHP_FUNCTION(functional_invoke_if);
 
 #ifdef ZTS
 #define FUNCTIONAL(v) TSRMG(functional_globals_id, zend_functional_globals *, v)
