@@ -154,7 +154,21 @@ class MemoizeTest extends AbstractTestCase
         }
     }
 
-    function testPassNoCallable()
+    public function testResetByPassingNullAsCallable()
+    {
+        $this->callback->expects($this->exactly(2))
+            ->method('execute');
+
+        memoize(array($this->callback, 'execute'));
+        memoize(array($this->callback, 'execute'));
+
+        $this->assertNull(memoize(null));
+
+        memoize(array($this->callback, 'execute'));
+        memoize(array($this->callback, 'execute'));
+    }
+
+    public function testPassNoCallable()
     {
         $this->expectArgumentError("Functional\memoize() expects parameter 1 to be a valid callback, function 'invalidFunction' not found or invalid function name");
         memoize('invalidFunction');
