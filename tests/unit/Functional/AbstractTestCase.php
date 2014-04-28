@@ -28,13 +28,17 @@ use Functional as F;
 
 class AbstractTestCase extends TestCase
 {
+    private $functions = array();
+
     function setUp()
     {
-        $functions = func_num_args() > 0
-                   ? func_get_arg(0)
-                   : array(ucfirst(strtolower(str_replace('Test', '', get_class($this)))));
+        $this->functions = F\flatten(
+            func_num_args() > 0
+               ? func_get_arg(0)
+               : array(ucfirst(strtolower(str_replace('Test', '', get_class($this)))))
+        );
 
-        foreach (F\flatten($functions) as $function) {
+        foreach ($this->functions as $function) {
             if (!function_exists($function)) {
                 $this->markTestSkipped(
                     sprintf(
@@ -48,12 +52,26 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    function expectArgumentError($msg)
+    function expectArgumentError($message)
     {
-        if (extension_loaded('functional')) {
-            $this->setExpectedException('PHPUnit_Framework_Error_Warning', $msg);
-        } else {
-            $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $msg);
+        try {
+            $extension = new \ReflectionExtension('functional');
+            $extensionFunctions = array_keys($extension->getFunctions());
+
+            $isDefinedInExtension = F\every(
+                $this->functions,
+                function ($function) use ($extensionFunctions) {
+                    return in_array($function, $extensionFunctions, true);
+                }
+            );
+
+            if ($isDefinedInExtension) {
+                $this->setExpectedException('PHPUnit_Framework_Error_Warning', $message);
+            } else {
+                $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $message);
+            }
+        } catch (\ReflectionException $e) {
+            $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $message);
         }
     }
 
