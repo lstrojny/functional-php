@@ -76,10 +76,11 @@ call_user_func(function() {
 
         $path = $basePath
             . DIRECTORY_SEPARATOR
-            . '..'
-            . DIRECTORY_SEPARATOR
-            . str_replace('\\', DIRECTORY_SEPARATOR, implode('', array_map('ucfirst', explode('_', $symbol))))
-            . '.php';
+            . str_replace(
+                '\\',
+                DIRECTORY_SEPARATOR,
+                implode('', array_map('ucfirst', explode('_', substr($symbol, 11))))
+            ) . '.php';
 
         if (!file_exists($path)) {
             trigger_error(sprintf('Could not load symbol "%s" in file "%s"', $symbol, $path));
