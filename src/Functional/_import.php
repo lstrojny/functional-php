@@ -20,48 +20,71 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-if (!extension_loaded('functional')) {
-    $basePath = __DIR__ . DIRECTORY_SEPARATOR;
-    require_once $basePath . 'Exceptions/InvalidArgumentException.php';
-    require_once $basePath . 'Every.php';
-    require_once $basePath . 'Some.php';
-    require_once $basePath . 'Difference.php';
-    require_once $basePath . 'DropFirst.php';
-    require_once $basePath . 'DropLast.php';
-    require_once $basePath . 'Each.php';
-    require_once $basePath . 'First.php';
-    require_once $basePath . 'Filter.php';
-    require_once $basePath . 'Flatten.php';
-    require_once $basePath . 'Group.php';
-    require_once $basePath . 'Invoke.php';
-    require_once $basePath . 'InvokeIf.php';
-    require_once $basePath . 'InvokeFirst.php';
-    require_once $basePath . 'InvokeLast.php';
-    require_once $basePath . 'Last.php';
-    require_once $basePath . 'Memoize.php';
-    require_once $basePath . 'Map.php';
-    require_once $basePath . 'Maximum.php';
-    require_once $basePath . 'Minimum.php';
-    require_once $basePath . 'None.php';
-    require_once $basePath . 'Partition.php';
-    require_once $basePath . 'Pluck.php';
-    require_once $basePath . 'Product.php';
-    require_once $basePath . 'Ratio.php';
-    require_once $basePath . 'Unique.php';
-    require_once $basePath . 'ReduceLeft.php';
-    require_once $basePath . 'ReduceRight.php';
-    require_once $basePath . 'Reject.php';
-    require_once $basePath . 'Select.php';
-    require_once $basePath . 'Sum.php';
-    require_once $basePath . 'Average.php';
-    require_once $basePath . 'FirstIndexOf.php';
-    require_once $basePath . 'LastIndexOf.php';
-    require_once $basePath . 'True.php';
-    require_once $basePath . 'False.php';
-    require_once $basePath . 'Truthy.php';
-    require_once $basePath . 'Falsy.php';
-    require_once $basePath . 'Contains.php';
-    require_once $basePath . 'Zip.php';
-    require_once $basePath . 'Head.php';
-    require_once $basePath . 'Tail.php';
-}
+
+call_user_func(function() {
+    static $symbols = array(
+        'Functional\\Exceptions\\InvalidArgumentException',
+        'Functional\\every',
+        'Functional\\some',
+        'Functional\\difference',
+        'Functional\\drop_first',
+        'Functional\\drop_last',
+        'Functional\\each',
+        'Functional\\first',
+        'Functional\\filter',
+        'Functional\\flatten',
+        'Functional\\group',
+        'Functional\\invoke',
+        'Functional\\invoke_if',
+        'Functional\\invoke_first',
+        'Functional\\invoke_last',
+        'Functional\\last',
+        'Functional\\memoize',
+        'Functional\\map',
+        'Functional\\maximum',
+        'Functional\\minimum',
+        'Functional\\none',
+        'Functional\\partition',
+        'Functional\\pluck',
+        'Functional\\product',
+        'Functional\\ratio',
+        'Functional\\unique',
+        'Functional\\reduce_left',
+        'Functional\\reduce_right',
+        'Functional\\reject',
+        'Functional\\select',
+        'Functional\\sum',
+        'Functional\\average',
+        'Functional\\first_index_of',
+        'Functional\\last_index_of',
+        'Functional\\true',
+        'Functional\\false',
+        'Functional\\truthy',
+        'Functional\\falsy',
+        'Functional\\contains',
+        'Functional\\zip',
+        'Functional\\head',
+        'Functional\\tail',
+    );
+    static $basePath = __DIR__;
+
+    foreach ($symbols as $symbol) {
+
+        if (function_exists($symbol) || class_exists($symbol, false) || interface_exists($symbol, false)) {
+            continue;
+        }
+
+        $path = $basePath
+            . DIRECTORY_SEPARATOR
+            . '..'
+            . DIRECTORY_SEPARATOR
+            . str_replace('\\', DIRECTORY_SEPARATOR, implode('', array_map('ucfirst', explode('_', $symbol))))
+            . '.php';
+
+        if (!file_exists($path)) {
+            trigger_error(sprintf('Could not load symbol "%s" in file "%s"', $symbol, $path));
+        }
+
+        include $path;
+    }
+});
