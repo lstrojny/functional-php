@@ -194,7 +194,7 @@ Splits a collection into groups by the index returned by the callback
 <?php
 use Functional as F;
 
-$groupedUser = F\group($collection, $function($user) {
+$groupedUser = F\group($collection, function($user) {
     return $user->getGroup()->getName();
 });
 ```
