@@ -43,6 +43,7 @@ class FlattenTest extends AbstractTestCase
         $this->assertSame(range(1, 15), flatten($this->goodIterator));
         $this->assertSame(array(1, "2", "3", 5), flatten($this->goodArray2));
         $this->assertEquals(array(new stdClass()), flatten(array(array(new stdClass()))));
+        $this->assertSame(array(null, null), flatten(array(array(null), null)));
     }
 
     function testPassNoCollection()
