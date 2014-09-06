@@ -23,14 +23,12 @@
 namespace Functional;
 
 use ArrayIterator;
+use Functional as F;
 
 class FalseTest extends AbstractTestCase
 {
     function setUp()
     {
-        if (PHP_EXTRA_VERSION === 'hhvm') {
-            $this->markTestSkipped('HHVM incopatibility');
-        }
         parent::setUp();
         $this->trueArray = array(false, false, false, false);
         $this->trueIterator = new ArrayIterator($this->trueArray);
@@ -44,21 +42,21 @@ class FalseTest extends AbstractTestCase
 
     function test()
     {
-        $this->assertTrue(false(array()));
-        $this->assertTrue(false(new ArrayIterator(array())));
-        $this->assertTrue(false($this->trueArray));
-        $this->assertTrue(false($this->trueIterator));
-        $this->assertTrue(false($this->trueHash));
-        $this->assertTrue(false($this->trueHashIterator));
-        $this->assertFalse(false($this->falseArray));
-        $this->assertFalse(false($this->falseIterator));
-        $this->assertFalse(false($this->falseHash));
-        $this->assertFalse(false($this->falseHashIterator));
+        $this->assertTrue(F\false(array()));
+        $this->assertTrue(F\false(new ArrayIterator(array())));
+        $this->assertTrue(F\false($this->trueArray));
+        $this->assertTrue(F\false($this->trueIterator));
+        $this->assertTrue(F\false($this->trueHash));
+        $this->assertTrue(F\false($this->trueHashIterator));
+        $this->assertFalse(F\false($this->falseArray));
+        $this->assertFalse(F\false($this->falseIterator));
+        $this->assertFalse(F\false($this->falseHash));
+        $this->assertFalse(F\false($this->falseHashIterator));
     }
 
     function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\false() expects parameter 1 to be array or instance of Traversable');
-        false('invalidCollection');
+        F\false('invalidCollection');
     }
 }
