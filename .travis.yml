@@ -4,16 +4,17 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - hhvm
 
 env:
   - FUNCTIONAL=native
   - FUNCTIONAL=userland
 
 before_script:
-  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make && make install; fi"
-  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then echo extension=functional.so | tee -a /home/vagrant/.phpenv/versions/*/etc/php.ini ; fi"
+  - sh -c "if [ '$FUNCTIONAL' = 'native' ]; then phpize && ./configure && make && make install; echo extension=functional.so | tee -a /home/vagrant/.phpenv/versions/*/etc/php.ini ; fi"
 
 script:
+  - env
   - phpunit --debug
 
 notifications:

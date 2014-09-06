@@ -28,6 +28,9 @@ class TrueTest extends AbstractTestCase
 {
     function setUp()
     {
+        if (PHP_EXTRA_VERSION === 'hhvm') {
+            $this->markTestSkipped('HHVM incompatibility');
+        }
         parent::setUp();
         $this->trueArray = array(true, true, true, true);
         $this->trueIterator = new ArrayIterator($this->trueArray);

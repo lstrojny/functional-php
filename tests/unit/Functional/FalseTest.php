@@ -28,6 +28,9 @@ class FalseTest extends AbstractTestCase
 {
     function setUp()
     {
+        if (PHP_EXTRA_VERSION === 'hhvm') {
+            $this->markTestSkipped('HHVM incopatibility');
+        }
         parent::setUp();
         $this->trueArray = array(false, false, false, false);
         $this->trueIterator = new ArrayIterator($this->trueArray);

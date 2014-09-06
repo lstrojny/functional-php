@@ -40,12 +40,12 @@ function zip($collection)
         $callback = array_pop($args);
     }
 
-    foreach ($args as $position => $collection) {
-        InvalidArgumentException::assertCollection($collection, __FUNCTION__, $position + 1);
+    foreach ($args as $position => $arg) {
+        InvalidArgumentException::assertCollection($arg, __FUNCTION__, $position + 1);
     }
 
     $result = array();
-    foreach (func_get_arg(0) as $index => $value) {
+    foreach ($collection as $index => $value) {
         $zipped = array();
 
         foreach ($args as $arg) {
