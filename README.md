@@ -333,10 +333,10 @@ Recombines arrays by index and applies a callback optionally
 use Functional as F;
 
 // Returns array(array('one', 1), array('two', 2), array('three', 3))
-Functional\zip(array('one', 'two', 'three'), array(1, 2, 3));
+F\zip(array('one', 'two', 'three'), array(1, 2, 3));
 
 // Returns array('one|1', 'two|2', 'three|3')
-Functional\zip(
+F\zip(
     array('one', 'two', 'three'),
     array(1, 2, 3),
     function($one, $two) {
@@ -345,6 +345,17 @@ Functional\zip(
 );
 ```
 
+### Functional\with()
+Invoke a callback on a value if the value is not null
+
+```php
+<?php
+use Functional as F;
+
+F\with($value, function($value) {
+    $this->doSomethingWithValue($value);
+});
+```
 
 ### Additional functions:
 

@@ -65,6 +65,7 @@ call_user_func(function() {
         'Functional\\zip',
         'Functional\\head',
         'Functional\\tail',
+        'Functional\\with',
     );
     static $basePath = __DIR__;
 
