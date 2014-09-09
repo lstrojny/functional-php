@@ -29,10 +29,9 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param mixed $value
  * @param callable $callback
- * @param array $arguments
  * @return mixed
  */
-function with($value, $callback, array $arguments = [])
+function with($value, $callback)
 {
     InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
