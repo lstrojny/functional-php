@@ -160,6 +160,22 @@ F\drop_first($users, $fn);
 F\drop_last($users, $fn);
 ```
 
+### Functional\pick()
+Pick a single element from a collection of objects or an array by index.
+If no such index exists, return the default value.
+
+``array Functional\pick(array|Traversable $collection, mixed $propertyName, mixed $default, callable $callback)``
+
+```php
+<?php
+use Functional as F;
+
+$array = array('one' => 1, 'two' => 2, 'three' => 3);
+F\pick($array, 'one'); //return 1;
+F\pick($array, 'ten'); //return null;
+F\pick($array, 'ten', 10); //return 10;
+```
+
 ### Functional\pluck()
 Fetch a single property from a collection of objects or arrays.
 

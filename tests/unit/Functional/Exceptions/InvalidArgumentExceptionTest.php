@@ -94,6 +94,32 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCollection(new \stdClass(), 'func', 2);
     }
 
+    function testAssertArrayAccessValidCase()
+    {
+        $validObject = new \ArrayObject();
+
+        InvalidArgumentException::assertArrayAccess($validObject, "func", 4);
+        $this->addToAssertionCount(1);
+    }
+
+    function testAssertArrayAccessWithString()
+    {
+        $this->setExpectedException(
+            'Functional\Exceptions\InvalidArgumentException',
+            'func() expects parameter 4 to be array or instance of ArrayAccess'
+        );
+        InvalidArgumentException::assertArrayAccess('string', "func", 4);
+    }
+
+    function testAssertArrayAccessWithStandardClass()
+    {
+        $this->setExpectedException(
+            'Functional\Exceptions\InvalidArgumentException',
+            'func() expects parameter 2 to be array or instance of ArrayAccess'
+        );
+        InvalidArgumentException::assertArrayAccess(new \stdClass(), "func", 2);
+    }
+
     function testExceptionIfInvalidMethodName()
     {
         $this->setExpectedException(
