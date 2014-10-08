@@ -86,6 +86,19 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    public static function assertArrayAccess($collection, $callee, $parameterPosition)
+    {
+        if (!is_array($collection) && !$collection instanceof \ArrayAccess) {
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be array or instance of ArrayAccess',
+                    $callee,
+                    $parameterPosition
+                )
+            );
+        }
+    }
+
     public static function assertMethodName($methodName, $callee, $parameterPosition)
     {
         if (!is_string($methodName)) {

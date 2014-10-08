@@ -45,6 +45,7 @@ call_user_func(function() {
         'Functional\\minimum',
         'Functional\\none',
         'Functional\\partition',
+        'Functional\\pick',
         'Functional\\pluck',
         'Functional\\product',
         'Functional\\ratio',
