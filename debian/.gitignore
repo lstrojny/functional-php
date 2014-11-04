@@ -1,0 +1,5 @@
+files
+php5-functional
+php5-functional.substvars
+php5-functional.debhelper.log
+php5-functional.*.debhelper

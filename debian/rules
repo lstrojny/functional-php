@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with php5
+
+override_dh_auto_configure:
+	phpize
+	dh_auto_configure
+
+override_dh_auto_clean:
+	dh_auto_clean
+	phpize --clean
