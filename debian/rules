@@ -8,5 +8,5 @@ override_dh_auto_configure:
 	dh_auto_configure
 
 override_dh_auto_clean:
-	dh_auto_clean
-	phpize --clean
+	# make clean only if the Makefile exists
+	test -f Makefile && make clean ; phpize --clean
