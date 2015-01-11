@@ -1,4 +1,6 @@
 # Functional PHP: Functional primitives for PHP
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lstrojny/functional-php?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://secure.travis-ci.org/lstrojny/functional-php.svg)](http://travis-ci.org/lstrojny/functional-php) [![Dependency Status](https://www.versioneye.com/user/projects/523ed780632bac1b1100c359/badge.png)](https://www.versioneye.com/user/projects/523ed780632bac1b1100c359) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/lstrojny/functional-php.svg)](http://isitmaintained.com/project/lstrojny/functional-php "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/lstrojny/functional-php.svg)](http://isitmaintained.com/project/lstrojny/functional-php "Percentage of issues still open")
 
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
