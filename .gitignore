@@ -30,3 +30,5 @@ functional.la
 functional.lo
 /phpunit.xml
 /vendor
+composer.lock
+/.idea/
