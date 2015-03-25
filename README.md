@@ -327,7 +327,7 @@ F\falsy(array(false, 'str', null, false));
 Returns true if given collection contains given element. If third parameter is true, the comparison
 will be strict
 
-``bool Functional\contains(array|Traversable $collection, mixed $value[, bool $strict = false])``
+``bool Functional\contains(array|Traversable $collection, mixed $value[, bool $strict = true])``
 
 ```php
 <?php
