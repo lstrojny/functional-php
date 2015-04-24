@@ -176,4 +176,17 @@ class InvalidArgumentException extends \InvalidArgumentException
             );
     	}
     }
+
+    public static function assertBoolean($value, $callee, $parameterPosition)
+    {
+        if (!is_bool($value)) {
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be boolean',
+                    $callee,
+                    $parameterPosition
+                )
+            );
+        }
+    }
 }
