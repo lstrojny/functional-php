@@ -376,6 +376,33 @@ F\with($value, function($value) {
 });
 ```
 
+### Functional\sort()
+Sorts a collection with a user-defined function, optionally preserving array keys
+
+```php
+<?php
+use Functional as F;
+
+// Sorts a collection alphabetically
+F\sort($collection, function($left, $right) {
+    return strcmp($left, $right);
+});
+
+// Sorts a collection alphabetically, preserving keys
+F\sort($collection, function($left, $right, true) {
+    return strcmp($left, $right);
+});
+
+// Sorts a collection of users by age
+F\sort($collection, function($user1, $user2) {
+    if ($user1->getAge() == $user2->getAge()) {
+        return 0;
+    }
+
+    return ($user1->getAge() < $user2->getAge()) ? -1 : 1;
+});
+```
+
 ### Additional functions:
 
 `void Functional\each(array|Traversable $collection, callable $callback)`  
