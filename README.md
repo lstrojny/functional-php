@@ -389,9 +389,9 @@ F\sort($collection, function($left, $right) {
 });
 
 // Sorts a collection alphabetically, preserving keys
-F\sort($collection, function($left, $right, true) {
+F\sort($collection, function($left, $right) {
     return strcmp($left, $right);
-});
+}, true);
 
 // Sorts a collection of users by age
 F\sort($collection, function($user1, $user2) {
