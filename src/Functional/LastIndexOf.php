@@ -39,7 +39,7 @@ function last_index_of($collection, $value)
     $matchingIndex = false;
 
     foreach ($collection as $index => $element) {
-        if ($element === $value) {
+        if ($element === (is_callable($value) ? $value($element) : $value)) {
             $matchingIndex = $index;
         }
     }

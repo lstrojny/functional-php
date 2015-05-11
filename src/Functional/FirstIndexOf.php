@@ -37,11 +37,9 @@ function first_index_of($collection, $value)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $index => $element) {
-
-        if ($element === $value) {
+        if ($element === (is_callable($value) ? $value($element) : $value)) {
             return $index;
         }
-
     }
 
     return false;
