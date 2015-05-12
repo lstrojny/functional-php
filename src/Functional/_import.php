@@ -32,6 +32,7 @@ call_user_func(function() {
         'Functional\\each',
         'Functional\\first',
         'Functional\\filter',
+        'Functional\\flat_map',
         'Functional\\flatten',
         'Functional\\group',
         'Functional\\invoke',

@@ -413,6 +413,10 @@ Applies a callback to each element
 Applies a callback to each element in the collection and collects the return value
 
 
+`array Functional\flat_map(array|Traversable $collection, callable $callback)`  
+Applies a callback to each element in the collection and collects the return values flattening one level of nested arrays.
+
+
 `mixed Functional\first(array|Traversable $collection[, callable $callback])`  
 `mixed Functional\head(array|Traversable $collection[, callable $callback])`  
 Returns the first element of the collection where the callback returned true. If no callback is given, the first element
