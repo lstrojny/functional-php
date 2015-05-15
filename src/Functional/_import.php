@@ -86,10 +86,6 @@ call_user_func(function() {
                 implode('', array_map('ucfirst', explode('_', substr($symbol, 11))))
             ) . '.php';
 
-        if (!file_exists($path)) {
-            trigger_error(sprintf('Could not load symbol "%s" in file "%s"', $symbol, $path));
-        }
-
-        include $path;
+        require $path;
     }
 });
