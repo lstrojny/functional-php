@@ -153,7 +153,7 @@ Alias for `Functional\select()` is `Functional\filter()`
 use Functional as F;
 
 $fn = function($user, $index, $collection) {
-    return $index === 3;
+    return $index <= 2;
 };
 
 // All users except the first three
