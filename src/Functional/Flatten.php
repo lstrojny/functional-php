@@ -39,7 +39,7 @@ function flatten($collection)
     $stack = array($collection);
     $result = array();
 
-    while ($stack) {
+    while (!empty($stack)) {
         $item = array_shift($stack);
 
         if (is_array($item) || $item instanceof Traversable) {
