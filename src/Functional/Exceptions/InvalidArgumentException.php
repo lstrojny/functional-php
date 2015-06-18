@@ -74,12 +74,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 
     public static function assertCollection($collection, $callee, $parameterPosition)
     {
-        static::assertCollectionAlike($collection, 'Traversable', $callee, $parameterPosition);
+        self::assertCollectionAlike($collection, 'Traversable', $callee, $parameterPosition);
     }
 
     public static function assertArrayAccess($collection, $callee, $parameterPosition)
     {
-        static::assertCollectionAlike($collection, 'ArrayAccess', $callee, $parameterPosition);
+        self::assertCollectionAlike($collection, 'ArrayAccess', $callee, $parameterPosition);
     }
 
     public static function assertMethodName($methodName, $callee, $parameterPosition)
