@@ -56,7 +56,6 @@ class InvalidArgumentException extends \InvalidArgumentException
 
                 default:
                     $type = 'function';
-                    $callback = $callback;
                     break;
             }
 
