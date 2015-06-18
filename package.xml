@@ -11,31 +11,16 @@
 	</lead>
 	<date>2011-12-17</date>
 	<version>
-		<release>0.7.0-dev</release>
-		<api>0.7</api>
+		<release>1.0.0</release>
+		<api>1.0.0</api>
 	</version>
 	<stability>
 		<release>alpha</release>
 		<api>alpha</api>
 	</stability>
-	<license uri="http://www.opensource.org/licenses/bsd-license.php">MIT</license>
+	<license uri="http://opensource.org/licenses/MIT">MIT</license>
 	<notes>
-- New function Functional\first_index_of()
-- New function Functional\last_index_of()
-- New function Functional\true()
-- New function Functional\false()
-- New function Functional\truthy()
-- New function Functional\falsy()
-- Functional\last() now simply returns the last element if no callback is given
-- Functional\first() now simply returns the last element if no callback is given
-- New function Functional\contains()
-- Functional\contains() and Functional\unique() compare values strictly per default
-- New functions Functional\invoke_first(), Functional\invoke_last() (Max Beutel)
-- New function Functional\zip()
-- New function Functional\memoize()
-- New alias Functional\filter() (aliases Functional\select())
-- New function Functional\tail() (Max Beutel)
-- New alias Functional\head() (aliases Functional\first())
+To be written
 	</notes>
 	<contents>
 		<dir name="/">
@@ -58,6 +43,56 @@
     <providesextension>functional</providesextension>
 	<extsrcrelease/>
     <changelog>
+        <release>
+            <date>2011-12-17</date>
+            <version>
+                <release>0.7.0</release>
+                <api>0.7</api>
+            </version>
+            <stability>
+                <release>alpha</release>
+                <api>alpha</api>
+            </stability>
+            <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD License</license>
+            <notes>
+                - New function Functional\first_index_of()
+                - New function Functional\last_index_of()
+                - New function Functional\true()
+                - New function Functional\false()
+                - New function Functional\truthy()
+                - New function Functional\falsy()
+                - Functional\last() now simply returns the last element if no callback is given
+                - Functional\first() now simply returns the last element if no callback is given
+                - New function Functional\contains()
+                - Functional\contains() and Functional\unique() compare values strictly per default
+                - New functions Functional\invoke_first(), Functional\invoke_last() (Max Beutel)
+                - New function Functional\zip()
+                - New function Functional\memoize()
+                - New alias Functional\filter() (aliases Functional\select())
+                - New function Functional\tail() (Max Beutel)
+                - New alias Functional\head() (aliases Functional\first())
+            </notes>
+            <contents>
+                <dir name="/">
+                    <file name="config.m4" role="src"/>
+                    <file name="config.w32" role="src"/>
+                    <file name="functional.c" role="src"/>
+                    <file name="php_functional.h" role="src"/>
+                </dir>
+            </contents>
+            <dependencies>
+                <required>
+                    <php>
+                        <min>5.3</min>
+                    </php>
+                    <pearinstaller>
+                        <min>1.4.3</min>
+                    </pearinstaller>
+                </required>
+            </dependencies>
+            <providesextension>functional</providesextension>
+            <extsrcrelease/>
+        </release>
         <release>
             <date>2011-12-17</date>
             <version>
