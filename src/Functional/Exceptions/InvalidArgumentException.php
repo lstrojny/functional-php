@@ -24,6 +24,10 @@ namespace Functional\Exceptions;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {
+    /**
+     * @param string $callee
+     * @param integer $parameterPosition
+     */
     public static function assertCallback($callback, $callee, $parameterPosition)
     {
         if (!is_callable($callback)) {
@@ -96,6 +100,11 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @param string $propertyName
+     * @param string $callee
+     * @param integer $parameterPosition
+     */
     public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
         if (!is_string($propertyName) && !is_integer($propertyName) && !is_float($propertyName) && !is_null($propertyName)) {
@@ -128,6 +137,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @param string $callee
+     */
     public static function assertValidArrayKey($key, $callee)
     {
         $keyTypes = array('NULL', 'string', 'integer', 'double', 'boolean');
@@ -160,6 +172,11 @@ class InvalidArgumentException extends \InvalidArgumentException
     	}
     }
 
+    /**
+     * @param boolean $value
+     * @param string $callee
+     * @param integer $parameterPosition
+     */
     public static function assertBoolean($value, $callee, $parameterPosition)
     {
         if (!is_bool($value)) {
@@ -173,6 +190,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @param string $className
+     */
     private static function assertCollectionAlike($collection, $className, $callee, $parameterPosition)
     {
         if (!is_array($collection) && !$collection instanceof $className) {
