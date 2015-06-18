@@ -28,7 +28,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     {
         if (!is_callable($callback)) {
 
-            if (!is_array($callback) and !is_string($callback)) {
+            if (!is_array($callback) && !is_string($callback)) {
                 throw new static(
                     sprintf(
                         '%s() expected parameter %d to be a valid callback, no array, string, closure or functor given',
@@ -75,28 +75,12 @@ class InvalidArgumentException extends \InvalidArgumentException
 
     public static function assertCollection($collection, $callee, $parameterPosition)
     {
-        if (!is_array($collection) and !$collection instanceof \Traversable) {
-            throw new static(
-                sprintf(
-                    '%s() expects parameter %d to be array or instance of Traversable',
-                    $callee,
-                    $parameterPosition
-                )
-            );
-        }
+        static::assertCollectionAlike($collection, 'Traversable', $callee, $parameterPosition);
     }
 
     public static function assertArrayAccess($collection, $callee, $parameterPosition)
     {
-        if (!is_array($collection) && !$collection instanceof \ArrayAccess) {
-            throw new static(
-                sprintf(
-                    '%s() expects parameter %d to be array or instance of ArrayAccess',
-                    $callee,
-                    $parameterPosition
-                )
-            );
-        }
+        static::assertCollectionAlike($collection, 'ArrayAccess', $callee, $parameterPosition);
     }
 
     public static function assertMethodName($methodName, $callee, $parameterPosition)
@@ -188,5 +172,20 @@ class InvalidArgumentException extends \InvalidArgumentException
                 )
             );
         }
+    }
+
+    private static function assertCollectionAlike($collection, $className, $callee, $parameterPosition)
+    {
+        if (!is_array($collection) && !$collection instanceof $className) {
+            throw new static(
+                sprintf(
+                    '%s() expects parameter %d to be array or instance of %s',
+                    $callee,
+                    $parameterPosition,
+                    $className
+                )
+            );
+        }
+
     }
 }
