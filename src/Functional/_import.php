@@ -61,6 +61,7 @@ call_user_func(function() {
         'Functional\\average',
         'Functional\\first_index_of',
         'Functional\\last_index_of',
+        'Functional\\indexes_of',
         'Functional\\true',
         'Functional\\false',
         'Functional\\truthy',
@@ -76,6 +77,9 @@ call_user_func(function() {
         'Functional\\sequence_constant',
         'Functional\\sequence_linear',
         'Functional\\sequence_exponential',
+        'Functional\\partial_left',
+        'Functional\\partial_right',
+        'Functional\\partial_any',
     ];
     static $basePath = __DIR__;
 

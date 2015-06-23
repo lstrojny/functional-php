@@ -44,9 +44,7 @@ Everytime you want to work with Functional PHP and not reference the fully quali
 your PHP file or use `use function Functional\function_name`.
 
 ## Docs
-[Read the docs](docs/functions.md)
-
-
+[Read the docs](docs/00-index.md)
 
 ## Running the test suite
 To run the test suite use `vendor/bin/phpunit tests/`
