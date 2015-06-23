@@ -495,9 +495,7 @@ Returns and stores the result of the function call. Second call to the same func
 
 
 ## Running the test suite
-To run the test suite with the native implementation use `php -c functional.ini $(which phpunit) tests/`
-
-To run the test suite with the userland implementation use `php -n $(which phpunit) tests/`
+To run the test suite use `vendor/bin/phpunit tests/`
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
