@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class UniqueTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('value1', 'value2', 'value1', 'value');
@@ -37,7 +37,7 @@ class UniqueTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function testDefaultBehavior()
+    public function testDefaultBehavior()
     {
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array));
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->iterator));
@@ -52,7 +52,7 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array('k1' => 'val1', 'k2' => 'val2'), unique($this->hashIterator, $fn));
     }
 
-    function testUnifyingByClosure()
+    public function testUnifyingByClosure()
     {
         $fn = function($value, $key, $collection) {
             return $key === 0 ? 'zero' : 'else';
@@ -66,7 +66,7 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array('k1' => 'val1'), unique($this->hashIterator, $fn));
     }
 
-    function testUnifyingStrict()
+    public function testUnifyingStrict()
     {
         $this->assertSame(array(0 => 1, 2 => '2', 4 => '3', 5 => 4), unique($this->mixedTypesArray, null, false));
         $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesArray));
@@ -83,7 +83,7 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array(1, '1', '2', 2, '3', 4), unique($this->mixedTypesIterator, $fn));
     }
 
-    function testPassingNullAsCallback()
+    public function testPassingNullAsCallback()
     {
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array));
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array, null));
@@ -91,37 +91,37 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame(array(0 => 'value1', 1 => 'value2', 3 => 'value'), unique($this->array, null, true));
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         unique($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         unique($this->hash, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         unique($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         unique($this->hashIterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\unique() expects parameter 1 to be array or instance of Traversable');
         unique('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallableUndefinedFunction()
+    public function testPassNonCallableUndefinedFunction()
     {
         $this->expectArgumentError("Functional\unique() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         unique($this->array, 'undefinedFunction');

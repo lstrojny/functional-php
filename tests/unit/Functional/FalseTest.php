@@ -27,7 +27,7 @@ use Functional as F;
 
 class FalseTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->trueArray = array(false, false, false, false);
@@ -40,7 +40,7 @@ class FalseTest extends AbstractTestCase
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
     }
 
-    function test()
+    public function test()
     {
         $this->assertTrue(F\false(array()));
         $this->assertTrue(F\false(new ArrayIterator(array())));
@@ -54,7 +54,7 @@ class FalseTest extends AbstractTestCase
         $this->assertFalse(F\false($this->falseHashIterator));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\false() expects parameter 1 to be array or instance of Traversable');
         F\false('invalidCollection');

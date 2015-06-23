@@ -26,16 +26,16 @@ use ArrayIterator;
 
 class LastIndexOfTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        parent::setUp(array('Functional\\last_index_of'));
+        parent::setUp();
         $this->array = array('value1', 'value', 'value', 'value2');
         $this->iterator = new ArrayIterator($this->array);
         $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val1', 'k4' => 'val3');
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(0, last_index_of($this->array, 'value1'));
         $this->assertSame(0, last_index_of($this->iterator, 'value1'));
@@ -51,7 +51,7 @@ class LastIndexOfTest extends AbstractTestCase
         $this->assertSame('k4', last_index_of($this->hashIterator, 'val3'));
     }
 
-    function testIfValueCouldNotBeFoundFalseIsReturned()
+    public function testIfValueCouldNotBeFoundFalseIsReturned()
     {
         $this->assertFalse(last_index_of($this->array, 'invalidValue'));
         $this->assertFalse(last_index_of($this->iterator, 'invalidValue'));
@@ -59,7 +59,15 @@ class LastIndexOfTest extends AbstractTestCase
         $this->assertFalse(last_index_of($this->hashIterator, 'invalidValue'));
     }
 
-    function testPassNoCollection()
+    public function testPassCallback()
+    {
+        $this->assertSame(
+            3,
+            last_index_of($this->array, function($element) {return $element;})
+        );
+    }
+
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\last_index_of() expects parameter 1 to be array or instance of Traversable');
         last_index_of('invalidCollection', 'idx');

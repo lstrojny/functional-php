@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class LastTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('first', 'second', 'third', 'fourth');
@@ -35,7 +35,7 @@ class LastTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    public function test()
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
@@ -48,7 +48,7 @@ class LastTest extends AbstractTestCase
         $this->assertNull(last($this->badIterator, $fn));
     }
 
-    function testWithoutCallback()
+    public function testWithoutCallback()
     {
         $this->assertSame('fourth', last($this->array));
         $this->assertSame('fourth', last($this->array, null));
@@ -56,25 +56,25 @@ class LastTest extends AbstractTestCase
         $this->assertSame('fourth', last($this->iterator, null));
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError('Functional\last() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
         last($this->array, 'undefinedFunction');
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         last($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInCollection()
+    public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         last($this->iterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\last() expects parameter 1 to be array or instance of Traversable');
         last('invalidCollection', 'strlen');

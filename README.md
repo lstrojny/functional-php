@@ -403,6 +403,40 @@ F\sort($collection, function($user1, $user2) {
 });
 ```
 
+### Functional\retry()
+Retry a callback until the number of retries are reached or the callback does no longer throw an exception
+
+```php
+use Functional as F;
+
+assert_options(ASSERT_CALLBACK, function () {throw new Exception('Assertion failed');});
+
+// Assert that a file exists 10 times with an exponential back-off
+F\retry(
+    function() {assert(file_exists('/tmp/lockfile'));},
+    10,
+    F\sequence_exponential(1, 100)
+);
+```
+
+### Functional\poll()
+Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
+
+```php
+use Functional as F;
+
+// Poll if a file exists for 10,000 microseconds with a linearly growing back-off starting at 100 milliseconds
+F\poll(
+    function() {
+        return file_exists('/tmp/lockfile');
+    },
+    10000,
+    F\sequence_linear(100, 1)
+);
+```
+
+You can pass any `Traversable` as a sequence for the delay but Functional comes with `F\sequence_constant()`, `F\sequence_linear()` and `F\sequence_exponential()`.
+
 ### Additional functions:
 
 `void Functional\each(array|Traversable $collection, callable $callback)`  

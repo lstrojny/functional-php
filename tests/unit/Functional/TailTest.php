@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class TailTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array(1, 2, 3, 4);
@@ -35,7 +35,7 @@ class TailTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    public function test()
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
@@ -48,7 +48,7 @@ class TailTest extends AbstractTestCase
         $this->assertSame(array(), tail($this->badIterator, $fn));
     }
 
-    function testWithoutCallback()
+    public function testWithoutCallback()
     {
         $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->array));
         $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->array, null));
@@ -60,25 +60,25 @@ class TailTest extends AbstractTestCase
         $this->assertSame(array(1 => 'bar', 2 => 'baz'), tail($this->badIterator, null));
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError('Functional\tail() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
         tail($this->array, 'undefinedFunction');
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         tail($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInCollection()
+    public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         tail($this->iterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\tail() expects parameter 1 to be array or instance of Traversable');
         tail('invalidCollection', 'strlen');

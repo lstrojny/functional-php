@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class PartitionTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('value1', 'value2', 'value3');
@@ -35,7 +35,7 @@ class PartitionTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    public function test()
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
@@ -47,37 +47,37 @@ class PartitionTest extends AbstractTestCase
         $this->assertSame(array(array('k2' => 'val2'), array('k1' => 'val1', 'k3' => 'val3')), partition($this->hashIterator, $fn));
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->hash, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         partition($this->hashIterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\partition() expects parameter 1 to be array or instance of Traversable');
         partition('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\partition() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         partition($this->array, 'undefinedFunction');

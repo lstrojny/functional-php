@@ -28,7 +28,7 @@ use stdClass;
 
 class ZipTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('value', 'value');
@@ -37,7 +37,7 @@ class ZipTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function testZippingSameSizedArrays()
+    public function testZippingSameSizedArrays()
     {
         $result = array(array('one', 1, -1), array('two', 2, -2), array('three', 3, -3));
         $this->assertSame($result, zip(array('one', 'two', 'three'), array(1, 2, 3), array(-1, -2, -3)));
@@ -51,7 +51,7 @@ class ZipTest extends AbstractTestCase
         );
     }
 
-    function testZippingDifferentlySizedArrays()
+    public function testZippingDifferentlySizedArrays()
     {
         $result = array(array('one', 1, -1, true), array('two', 2, -2, false), array('three', 3, -3, null));
         $this->assertSame(
@@ -60,7 +60,7 @@ class ZipTest extends AbstractTestCase
         );
     }
 
-    function testZippingHashes()
+    public function testZippingHashes()
     {
         $result = array(array(1, -1), array(2, -2), array(true, false));
         $this->assertSame(
@@ -79,7 +79,7 @@ class ZipTest extends AbstractTestCase
         );
     }
 
-    function testZippingWithCallback()
+    public function testZippingWithCallback()
     {
         $result = array('one1-11', 'two2-2', 'three3-3');
         $this->assertSame(
@@ -108,7 +108,7 @@ class ZipTest extends AbstractTestCase
         );
     }
 
-    function testZippingArraysWithVariousElements()
+    public function testZippingArraysWithVariousElements()
     {
         $object = new stdClass();
         $resource = stream_context_create();
@@ -128,7 +128,7 @@ class ZipTest extends AbstractTestCase
         );
     }
 
-    function testZipSpecialCases()
+    public function testZipSpecialCases()
     {
         $this->assertSame(array(), zip(array()));
         $this->assertSame(array(), zip(array(), array()));
@@ -137,19 +137,19 @@ class ZipTest extends AbstractTestCase
         }));
     }
 
-    function testPassNoCollectionAsFirstParam()
+    public function testPassNoCollectionAsFirstParam()
     {
         $this->expectArgumentError('Functional\zip() expects parameter 1 to be array or instance of Traversable');
         zip('invalidCollection');
     }
 
-    function testPassNoCollectionAsSecondParam()
+    public function testPassNoCollectionAsSecondParam()
     {
         $this->expectArgumentError('Functional\zip() expects parameter 2 to be array or instance of Traversable');
         zip(array(), 'invalidCollection');
     }
 
-    function testExceptionInCallback()
+    public function testExceptionInCallback()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         map(array(null), array($this, 'exception'));

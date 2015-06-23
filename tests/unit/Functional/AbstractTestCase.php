@@ -25,18 +25,22 @@ namespace Functional;
 use DomainException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Functional as F;
+use Traversable;
 
 class AbstractTestCase extends TestCase
 {
     private $functions = array();
 
-    function setUp()
+    public function setUp()
     {
         $this->functions = F\flatten(
-            func_num_args() > 0
+            (array) (
+                func_num_args() > 0
                ? func_get_arg(0)
-               : array(ucfirst(strtolower(str_replace('Test', '', get_class($this)))))
+               : $this->getFunctionName()
+            )
         );
+
 
         foreach ($this->functions as $function) {
             if (!function_exists($function)) {
@@ -52,7 +56,7 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    function expectArgumentError($message)
+    protected function expectArgumentError($message)
     {
         try {
             $extension = new \ReflectionExtension('functional');
@@ -75,7 +79,7 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    function exception()
+    public function exception()
     {
         if (func_num_args() < 3) {
             throw new DomainException('Callback exception');
@@ -84,5 +88,37 @@ class AbstractTestCase extends TestCase
         $args = func_get_args();
         $this->assertGreaterThanOrEqual(3, count($args));
         throw new DomainException(sprintf('Callback exception: %s', $args[1]));
+    }
+
+    protected function sequenceToArray(Traversable $sequence, $limit)
+    {
+        $values = array();
+        $sequence->rewind();
+        for ($a = 0; $a < $limit; $a++) {
+            $values[] = $sequence->current();
+            $sequence->next();
+        }
+
+        return $values;
+    }
+
+    private function getFunctionName()
+    {
+        $testName = get_class($this);
+        $namespaceSeperatorPosition = strrpos($testName, '\\') + 1;
+        $namespace = substr($testName, 0, $namespaceSeperatorPosition);
+        $testName = substr($testName, $namespaceSeperatorPosition);
+        $function = strtolower(
+            implode(
+                '_',
+                array_slice(
+                    preg_split('/([A-Z][a-z]+)/', $testName, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY),
+                    0,
+                    -1
+                )
+            )
+        );
+
+        return $namespace . $function;
     }
 }

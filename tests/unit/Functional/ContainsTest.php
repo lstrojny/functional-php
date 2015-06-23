@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class ContainsTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('value0', 'value1', 'value2', 2);
@@ -35,7 +35,7 @@ class ContainsTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    public function test()
     {
         $this->assertFalse(contains(array(), 'foo'));
         $this->assertFalse(contains(new ArrayIterator(), 'foo'));
@@ -77,7 +77,7 @@ class ContainsTest extends AbstractTestCase
         $this->assertFalse(contains($this->hashIterator, 'value'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\contains() expects parameter 1 to be array or instance of Traversable');
         contains('invalidCollection', 'value');

@@ -26,19 +26,19 @@ use ArrayIterator;
 
 class InvokeFirstTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        parent::setUp(array('Functional\\invoke_first'));
+        parent::setUp();
         $this->array = array($this, null, null);
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => $this, 'k2' => null);
         $this->keyIterator = new ArrayIterator(array('k1' => $this, 'k2' => null));
-        
+
         $this->arrayVeryFirstNotCallable = array(null, $this, null, null);
         $this->iteratorVeryFirstNotCallable = new ArrayIterator($this->arrayVeryFirstNotCallable);
     }
 
-    function testSimple()
+    public function testSimple()
     {
         $this->assertSame('methodValue', invoke_first($this->array, 'method', array(1, 2)));
         $this->assertSame('methodValue', invoke_first($this->iterator, 'method'));
@@ -48,8 +48,8 @@ class InvokeFirstTest extends AbstractTestCase
         $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
     }
-    
-    function testSkipNonCallables()
+
+    public function testSkipNonCallables()
     {
     	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', array(1, 2)));
     	$this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
@@ -58,30 +58,30 @@ class InvokeFirstTest extends AbstractTestCase
         $this->assertSame(array(1, 2), invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', array(1, 2)));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 1 to be array or instance of Traversable');
         invoke_first('invalidCollection', 'method');
     }
 
-    function testPassNoPropertyName()
+    public function testPassNoPropertyName()
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 2 to be string');
         invoke_first($this->array, new \stdClass());
     }
 
-    function testException()
+    public function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         invoke_first($this->array, 'exception');
     }
 
-    function method()
+    public function method()
     {
         return 'methodValue';
     }
 
-    function returnArguments()
+    public function returnArguments()
     {
         return func_get_args();
     }

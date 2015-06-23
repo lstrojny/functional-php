@@ -24,6 +24,8 @@
 call_user_func(function() {
     static $symbols = array(
         'Functional\\Exceptions\\InvalidArgumentException',
+        'Functional\\Sequences\\LinearSequence',
+        'Functional\\Sequences\\ExponentialSequence',
         'Functional\\every',
         'Functional\\some',
         'Functional\\difference',
@@ -69,6 +71,11 @@ call_user_func(function() {
         'Functional\\tail',
         'Functional\\with',
         'Functional\\sort',
+        'Functional\\retry',
+        'Functional\\poll',
+        'Functional\\sequence_constant',
+        'Functional\\sequence_linear',
+        'Functional\\sequence_exponential',
     );
     static $basePath = __DIR__;
 

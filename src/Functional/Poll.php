@@ -22,45 +22,45 @@
  */
 namespace Functional;
 
-class WithTest extends AbstractTestCase
+use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use InfiniteIterator;
+use Traversable;
+
+/**
+ * Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
+ *
+ * @param callable $callback
+ * @param integer $timeout Timeout in microseconds
+ * @param Traversable|null $delaySequence Default: no delay between calls
+ * @throws InvalidArgumentException
+ * @return boolean
+ */
+function poll($callback, $timeout, Traversable $delaySequence = null)
 {
-    public function testWithNull()
-    {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
-    }
+    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
+    InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 
-    public function testWithValue()
-    {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
-    }
+    $retry = 0;
 
-    public function testWithCallback()
-    {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-    }
+    $delaySequence = $delaySequence ? $delaySequence : new InfiniteIterator(new ArrayIterator(array(0)));
+    $limit = microtime(true) + ($timeout / 100000);
 
-    public function testPassNonCallable()
-    {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
+    foreach ($delaySequence as $delay) {
+        $value = call_user_func($callback, $retry, $delay);
+
+        if ($value) {
+            return $value;
+        }
+
+        if (microtime(true) > $limit) {
+            return false;
+        }
+
+        if ($delay > 0) {
+            usleep($delay);
+        }
+
+        ++$retry;
     }
 }

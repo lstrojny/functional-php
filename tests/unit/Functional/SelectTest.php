@@ -34,7 +34,7 @@ class SelectTest extends AbstractTestCase
         );
     }
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp($this->getAliases());
         $this->array = array('value', 'wrong', 'value');
@@ -46,7 +46,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function test($functionName)
+    public function test($functionName)
     {
         $callback = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
@@ -61,7 +61,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testPassNonCallable($functionName)
+    public function testPassNonCallable($functionName)
     {
         $this->expectArgumentError(
             sprintf(
@@ -75,7 +75,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testPassNoCollection($functionName)
+    public function testPassNoCollection($functionName)
     {
         $this->expectArgumentError(
             sprintf(
@@ -89,7 +89,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInArray($functionName)
+    public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->array, array($this, 'exception'));
@@ -98,7 +98,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInHash($functionName)
+    public function testExceptionIsThrownInHash($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->hash, array($this, 'exception'));
@@ -107,7 +107,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInIterator($functionName)
+    public function testExceptionIsThrownInIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->iterator, array($this, 'exception'));
@@ -116,7 +116,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInHashIterator($functionName)
+    public function testExceptionIsThrownInHashIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->hashIterator, array($this, 'exception'));

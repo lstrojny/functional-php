@@ -22,45 +22,22 @@
  */
 namespace Functional;
 
-class WithTest extends AbstractTestCase
+use Functional\Exceptions\InvalidArgumentException;
+use Functional\Sequences\ExponentialSequence;
+
+/**
+ * Returns an infinite, traversable sequence that exponentially grows by given percentage
+ *
+ * @param integer $start
+ * @param integer $percentage Integer between 1 and 100
+ * @return ExponentialSequence
+ * @throws InvalidArgumentException
+ */
+function sequence_exponential($start, $percentage)
 {
-    public function testWithNull()
-    {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
-    }
+    InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
+    InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);
+    InvalidArgumentException::assertIntegerLessThanOrEqual($percentage, 100, __METHOD__, 2);
 
-    public function testWithValue()
-    {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
-    }
-
-    public function testWithCallback()
-    {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-    }
-
-    public function testPassNonCallable()
-    {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
-    }
+    return new ExponentialSequence($start, $percentage);
 }

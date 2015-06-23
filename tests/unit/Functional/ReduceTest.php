@@ -26,14 +26,14 @@ use ArrayIterator;
 
 class ReduceTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        parent::setUp(array('Functional\reduce_right', 'Functional\reduce_left'));
+        parent::setUp('Functional\reduce_right', 'Functional\reduce_left');
         $this->array = array('one', 'two', 'three');
         $this->iterator = new ArrayIterator($this->array);
     }
 
-    function testReducing()
+    public function testReducing()
     {
         $this->currentCollection = $this->array;
         $this->assertSame('0:one,1:two,2:three', reduce_left($this->array, array($this, 'functionalCallback')));
@@ -61,31 +61,31 @@ class ReduceTest extends AbstractTestCase
         $this->assertNull(reduce_right(new ArrayIterator(array()), function(){}, null));
    }
 
-    function testExceptionThrownInIteratorCallbackWhileReduceLeft()
+    public function testExceptionThrownInIteratorCallbackWhileReduceLeft()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 0');
         reduce_left($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionThrownInIteratorCallbackWhileReduceRight()
+    public function testExceptionThrownInIteratorCallbackWhileReduceRight()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 2');
         reduce_right($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionThrownInArrayCallbackWhileReduceLeft()
+    public function testExceptionThrownInArrayCallbackWhileReduceLeft()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 0');
         reduce_left($this->array, array($this, 'exception'));
     }
 
-    function testExceptionThrownInArrayCallbackWhileReduceRight()
+    public function testExceptionThrownInArrayCallbackWhileReduceRight()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 2');
         reduce_right($this->array, array($this, 'exception'));
     }
 
-    function functionalCallback($value, $key, $collection, $returnValue)
+    public function functionalCallback($value, $key, $collection, $returnValue)
     {
         $this->assertContains($value, $this->currentCollection);
         $this->assertTrue(isset($this->currentCollection[$key]));
@@ -98,25 +98,25 @@ class ReduceTest extends AbstractTestCase
         return $ret;
     }
 
-    function testPassNoCollectionToReduceLeft()
+    public function testPassNoCollectionToReduceLeft()
     {
         $this->expectArgumentError('Functional\reduce_left() expects parameter 1 to be array or instance of Traversable');
         reduce_left('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallableToReduceLeft()
+    public function testPassNonCallableToReduceLeft()
     {
         $this->expectArgumentError("Functional\\reduce_left() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         reduce_left($this->array, 'undefinedFunction');
     }
 
-    function testPassNoCollectionToReduceRight()
+    public function testPassNoCollectionToReduceRight()
     {
         $this->expectArgumentError('Functional\reduce_right() expects parameter 1 to be array or instance of Traversable');
         reduce_right('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallableToReduceRight()
+    public function testPassNonCallableToReduceRight()
     {
         $this->expectArgumentError("Functional\\reduce_right() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         reduce_right($this->array, 'undefinedFunction');
