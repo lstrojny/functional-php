@@ -40,7 +40,7 @@ include 'path/to/functional-php/src/Functional/_import.php';
 ```
 
 Everytime you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on top of
-your PHP file.
+your PHP file or use `use function Functional\function_name`.
 
 
 ## Overview
