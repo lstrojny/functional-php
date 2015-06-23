@@ -47,7 +47,7 @@ function poll($callback, $timeout, Traversable $delaySequence = null)
     $limit = microtime(true) + ($timeout / 100000);
 
     foreach ($delaySequence as $delay) {
-        $value = $callback($retry, $delay);
+        $value = call_user_func($callback, $retry, $delay);
 
         if ($value) {
             return $value;

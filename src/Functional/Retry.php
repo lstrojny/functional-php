@@ -51,7 +51,7 @@ function retry($callback, $retries, Traversable $delaySequence = null)
     foreach ($delaySequence as $delay) {
         try {
 
-            return $callback($retry, $delay);
+            return call_user_func($callback, $retry, $delay);
 
         } catch (Exception $e) {
 
