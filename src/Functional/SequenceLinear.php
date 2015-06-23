@@ -22,45 +22,21 @@
  */
 namespace Functional;
 
-class WithTest extends AbstractTestCase
+use Functional\Exceptions\InvalidArgumentException;
+use Functional\Sequences\LinearSequence;
+use Traversable;
+
+/**
+ * Returns an infinite, traversable sequence that linearly grows by given amount
+ *
+ * @param integer $start
+ * @param integer $amount
+ * @return Traversable
+ */
+function sequence_linear($start, $amount)
 {
-    public function testWithNull()
-    {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
-    }
+    InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __FUNCTION__, 1);
+    InvalidArgumentException::assertInteger($amount, __FUNCTION__, 2);
 
-    public function testWithValue()
-    {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
-    }
-
-    public function testWithCallback()
-    {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-    }
-
-    public function testPassNonCallable()
-    {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
-    }
+    return new LinearSequence($start, $amount);
 }

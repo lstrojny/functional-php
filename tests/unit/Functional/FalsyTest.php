@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class FalsyTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->trueArray = array(false, null, false, false, 0);
@@ -39,7 +39,7 @@ class FalsyTest extends AbstractTestCase
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
     }
 
-    function test()
+    public function test()
     {
         $this->assertTrue(falsy(array()));
         $this->assertTrue(falsy(new ArrayIterator(array())));
@@ -53,7 +53,7 @@ class FalsyTest extends AbstractTestCase
         $this->assertFalse(falsy($this->falseHashIterator));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\falsy() expects parameter 1 to be array or instance of Traversable');
         falsy('invalidCollection');

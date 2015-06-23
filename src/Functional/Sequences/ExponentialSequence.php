@@ -20,47 +20,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Sequences;
 
-class WithTest extends AbstractTestCase
+use Functional\Exceptions\InvalidArgumentException;
+use Iterator;
+
+class ExponentialSequence implements Iterator
 {
-    public function testWithNull()
+    /** @var integer */
+    private $start;
+
+    /** @var integer */
+    private $percentage;
+
+    /** @var integer */
+    private $value;
+
+    /** @var integer */
+    private $times;
+
+    public function __construct($start, $percentage)
     {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
+        InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
+        InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);
+
+        $this->start = $start;
+        $this->percentage = $percentage;
     }
 
-    public function testWithValue()
+    public function current()
     {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
+        return $this->value;
     }
 
-    public function testWithCallback()
+    public function next()
     {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
+        $this->value = (int) round(pow($this->start * (1 + $this->percentage / 100), $this->times));
+        $this->times++;
     }
 
-    public function testPassNonCallable()
+    public function key()
     {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
+        return null;
+    }
+
+    public function valid()
+    {
+        return true;
+    }
+
+    public function rewind()
+    {
+        $this->times = 1;
+        $this->value = $this->start;
     }
 }

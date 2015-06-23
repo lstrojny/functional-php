@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class SumTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->intArray = array(1 => 1, 2, "foo" => 3);
@@ -35,7 +35,7 @@ class SumTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(6, sum($this->intArray));
         $this->assertSame(6, sum($this->intIterator));
@@ -48,12 +48,12 @@ class SumTest extends AbstractTestCase
     }
 
     /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
-    function testElementsOfWrongTypeAreIgnored($collection)
+    public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(3.5, sum($collection), '', 0.1);
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\sum() expects parameter 1 to be array or instance of Traversable');
         sum('invalidCollection', 'strlen');

@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class ProductTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->intArray = array(1 => 1, 2, "foo" => 3, 4);
@@ -35,7 +35,7 @@ class ProductTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(240, product($this->intArray, 10));
         $this->assertSame(240, product($this->intArray, 10));
@@ -46,12 +46,12 @@ class ProductTest extends AbstractTestCase
     }
 
     /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
-    function testElementsOfWrongTypeAreIgnored($collection)
+    public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(3, product($collection), '', 0.01);
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\product() expects parameter 1 to be array or instance of Traversable');
         product('invalidCollection', 'strlen');

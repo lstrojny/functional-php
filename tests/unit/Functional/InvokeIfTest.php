@@ -26,12 +26,7 @@ use ArrayIterator;
 
 class InvokeIfTest extends AbstractTestCase
 {
-    function setUp()
-    {
-        parent::setUp(array('Functional\\invoke_if'));
-    }
-
-    function test()
+    public function test()
     {
         $this->assertSame('methodValue', invoke_if($this, 'method', array(), 'defaultValue'));
         $this->assertSame('methodValue', invoke_if($this, 'method'));
@@ -42,7 +37,7 @@ class InvokeIfTest extends AbstractTestCase
         $this->assertNull(invoke_if(null, 'someMethod', $arguments));
     }
 
-    function testReturnDefaultValueUsed()
+    public function testReturnDefaultValueUsed()
     {
         $instance = new \stdClass();
         $this->assertSame('defaultValue', invoke_if($instance, 'someMethod', array(), 'defaultValue'));
@@ -50,12 +45,12 @@ class InvokeIfTest extends AbstractTestCase
         $this->assertNull(invoke_if($this, 'someMethod', array(), null));
     }
 
-    function method()
+    public function method()
     {
         return 'methodValue';
     }
 
-    function returnArguments()
+    public function returnArguments()
     {
         return func_get_args();
     }

@@ -26,19 +26,19 @@ use ArrayIterator;
 
 class InvokeLastTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        parent::setUp(array('Functional\\invoke_last'));
+        parent::setUp();
         $this->array = array(null, null, $this);
         $this->iterator = new ArrayIterator($this->array);
         $this->keyArray = array('k1' => null, 'k2' => $this);
         $this->keyIterator = new ArrayIterator(array('k1' => null, 'k2' => $this));
-        
+
         $this->arrayVeryLastNotCallable = array(null, null, $this, null);
         $this->iteratorVeryLastNotCallable = new ArrayIterator($this->arrayVeryLastNotCallable);
     }
 
-    function testSimple()
+    public function testSimple()
     {
         $this->assertSame('methodValue', invoke_last($this->array, 'method', array(1, 2)));
         $this->assertSame('methodValue', invoke_last($this->iterator, 'method'));
@@ -49,36 +49,36 @@ class InvokeLastTest extends AbstractTestCase
         $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
     }
 
-    function testSkipNonCallables()
+    public function testSkipNonCallables()
     {
     	$this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', array(1, 2)));
     	$this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 1 to be array or instance of Traversable');
         invoke_last('invalidCollection', 'method');
     }
 
-    function testPassNoPropertyName()
+    public function testPassNoPropertyName()
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 2 to be string');
         invoke_last($this->array, new \stdClass());
     }
 
-    function testException()
+    public function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         invoke_last($this->array, 'exception');
     }
 
-    function method()
+    public function method()
     {
         return 'methodValue';
     }
 
-    function returnArguments()
+    public function returnArguments()
     {
         return func_get_args();
     }

@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class DifferenceTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->intArray = array(1 => 1, 2, "foo" => 3, 4);
@@ -35,7 +35,7 @@ class DifferenceTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(-10, difference($this->intArray));
         $this->assertSame(-10, difference($this->intIterator));
@@ -48,12 +48,12 @@ class DifferenceTest extends AbstractTestCase
     }
 
     /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
-    function testElementsOfWrongTypeAreIgnored($collection)
+    public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(-3.5, difference($collection), '', 0.1);
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\difference() expects parameter 1 to be array or instance of Traversable');
         difference('invalidCollection', 'strlen');

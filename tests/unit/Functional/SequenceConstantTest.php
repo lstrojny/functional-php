@@ -22,45 +22,22 @@
  */
 namespace Functional;
 
-class WithTest extends AbstractTestCase
+class SequenceConstantTest extends AbstractTestCase
 {
-    public function testWithNull()
+    public function testConstantIncrements()
     {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
+        $sequence = sequence_constant(1);
+
+        $values = $this->sequenceToArray($sequence, 10);
+
+        $this->assertSame(array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), $values);
     }
 
-    public function testWithValue()
+    public function testArgumentMustBePositiveInteger()
     {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
+        $this->expectArgumentError(
+            'Functional\sequence_constant() expects parameter 1 to be an integer greater than or equal to 0'
         );
-    }
-
-    public function testWithCallback()
-    {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-    }
-
-    public function testPassNonCallable()
-    {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
+        sequence_constant(-1);
     }
 }

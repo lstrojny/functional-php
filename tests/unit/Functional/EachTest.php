@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class EachTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->cb = $this->getMockBuilder('cb')
@@ -40,43 +40,43 @@ class EachTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function testArray()
+    public function testArray()
     {
         $this->prepareCallback($this->array);
         $this->assertNull(each($this->array, array($this->cb, 'call')));
     }
 
-    function testIterator()
+    public function testIterator()
     {
         $this->prepareCallback($this->iterator);
         $this->assertNull(each($this->iterator, array($this->cb, 'call')));
     }
 
-    function testHash()
+    public function testHash()
     {
         $this->prepareCallback($this->hash);
         $this->assertNull(each($this->hash, array($this->cb, 'call')));
     }
 
-    function testHashIterator()
+    public function testHashIterator()
     {
         $this->prepareCallback($this->hashIterator);
         $this->assertNull(each($this->hashIterator, array($this->cb, 'call')));
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         each($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInCollection()
+    public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         each($this->iterator, array($this, 'exception'));
     }
 
-    function prepareCallback($collection)
+    public function prepareCallback($collection)
     {
         $i = 0;
         foreach ($collection as $key => $value) {
@@ -84,13 +84,13 @@ class EachTest extends AbstractTestCase
         }
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\\each() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         each($this->array, 'undefinedFunction');
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\each() expects parameter 1 to be array or instance of Traversable');
         each('invalidCollection', 'strlen');

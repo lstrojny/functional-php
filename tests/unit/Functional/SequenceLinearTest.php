@@ -22,38 +22,39 @@
  */
 namespace Functional;
 
-use ArrayIterator;
-
-class RatioTest extends AbstractTestCase
+class SequenceLinearTest extends AbstractTestCase
 {
-    public function setUp()
+    public function testLinearIncrements()
     {
-        parent::setUp();
-        $this->intArray = array(1 => 1, 2, "foo" => 3, 4);
-        $this->intIterator = new ArrayIterator($this->intArray);
-        $this->floatArray = array("foo" => 1.5, 1.1, 1);
-        $this->floatIterator = new ArrayIterator($this->floatArray);
+        $sequence = sequence_linear(0, 1);
+
+        $values = $this->sequenceToArray($sequence, 10);
+
+        $this->assertSame(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), $values);
     }
 
-    public function test()
+    public function testLinearNegativeIncrements()
     {
-        $this->assertSame(1, ratio(array(1)));
-        $this->assertSame(1, ratio(new ArrayIterator(array(1))));
-        $this->assertSame(1, ratio($this->intArray, 24));
-        $this->assertSame(1, ratio($this->intIterator, 24));
-        $this->assertEquals(-1, ratio($this->floatArray, -1.65), '', 0.01);
-        $this->assertEquals(-1, ratio($this->floatIterator, -1.65), '', 0.01);
+        $sequence = sequence_linear(0, -1);
+
+        $values = $this->sequenceToArray($sequence, 10);
+
+        $this->assertSame(array(0, -1, -2, -3, -4, -5, -6, -7, -8, -9), $values);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
-    public function testElementsOfWrongTypeAreIgnored($collection)
+    public function testArgumentMustBePositiveInteger()
     {
-        $this->assertEquals(0.333, ratio($collection), '', 0.001);
+        $this->expectArgumentError(
+            'Functional\sequence_linear() expects parameter 1 to be an integer greater than or equal to 0'
+        );
+        sequence_linear(-1, 1);
     }
 
-    public function testPassNoCollection()
+    public function testAmountArgumentMustBeInteger()
     {
-        $this->expectArgumentError('Functional\ratio() expects parameter 1 to be array or instance of Traversable');
-        ratio('invalidCollection', 'strlen');
+        $this->expectArgumentError(
+            'Functional\sequence_linear() expects parameter 2 to be integer'
+        );
+        sequence_linear(0, 1.1);
     }
 }

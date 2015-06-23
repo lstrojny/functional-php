@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class SomeTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->goodArray = array('value', 'wrong');
@@ -35,7 +35,7 @@ class SomeTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertTrue(some($this->goodArray, array($this, 'functionalCallback')));
         $this->assertTrue(some($this->goodIterator, array($this, 'functionalCallback')));
@@ -43,31 +43,31 @@ class SomeTest extends AbstractTestCase
         $this->assertFalse(some($this->badIterator, array($this, 'functionalCallback')));
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\some() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         some($this->goodArray, 'undefinedFunction');
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\some() expects parameter 1 to be array or instance of Traversable');
         some('invalidCollection', 'strlen');
     }
 
-    function testExceptionThrownInArray()
+    public function testExceptionThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         some($this->goodArray, array($this, 'exception'));
     }
 
-    function testExceptionThrownInCollection()
+    public function testExceptionThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         some($this->goodIterator, array($this, 'exception'));
     }
 
-    function functionalCallback($value, $key, $collection)
+    public function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value == 'value' && $key === 0;

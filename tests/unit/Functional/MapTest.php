@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class MapTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array('value', 'value');
@@ -35,7 +35,7 @@ class MapTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    public function test()
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
@@ -47,37 +47,37 @@ class MapTest extends AbstractTestCase
         $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->hashIterator, $fn));
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         map($this->array, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         map($this->hash, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         map($this->iterator, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         map($this->hashIterator, array($this, 'exception'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
         map('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         map($this->array, 'undefinedFunction');

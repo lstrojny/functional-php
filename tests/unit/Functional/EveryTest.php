@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class EveryTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->goodArray = array('value', 'value', 'value');
@@ -35,7 +35,7 @@ class EveryTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertTrue(every($this->goodArray, array($this, 'functionalCallback')));
         $this->assertTrue(every($this->goodIterator, array($this, 'functionalCallback')));
@@ -43,31 +43,31 @@ class EveryTest extends AbstractTestCase
         $this->assertFalse(every($this->badIterator, array($this, 'functionalCallback')));
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\\every() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         every($this->goodArray, 'undefinedFunction');
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\every() expects parameter 1 to be array or instance of Traversable');
         every('invalidCollection', 'strlen');
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         every($this->goodArray, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInCollection()
+    public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         every($this->goodIterator, array($this, 'exception'));
     }
 
-    function functionalCallback($value, $key, $collection)
+    public function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 

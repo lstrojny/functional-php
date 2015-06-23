@@ -24,7 +24,7 @@ namespace Functional\Exceptions;
 
 class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    function testCallbackExceptionWithUndefinedStaticMethod()
+    public function testCallbackExceptionWithUndefinedStaticMethod()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -34,7 +34,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback(array('stdClass', 'method'), 'func', 1);
     }
 
-    function testCallbackExceptionWithUndefinedFunction()
+    public function testCallbackExceptionWithUndefinedFunction()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -44,7 +44,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback('undefinedFunction', 'func', 1);
     }
 
-    function testCallbackExceptionWithUndefinedMethod()
+    public function testCallbackExceptionWithUndefinedMethod()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -54,7 +54,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback(array(new \stdClass(), 'method'), 'func', 2);
     }
 
-    function testCallbackExceptionWithIncorrectArrayIndex()
+    public function testCallbackExceptionWithIncorrectArrayIndex()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -64,7 +64,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback(array(1 => new \stdClass(), 2 => 'method'), 'func', 1);
     }
 
-    function testCallbackExceptionWithObject()
+    public function testCallbackExceptionWithObject()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -74,7 +74,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCallback(new \stdClass(), 'func', 1);
     }
 
-    function testExceptionIfStringIsPassedAsList()
+    public function testExceptionIfStringIsPassedAsList()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -84,7 +84,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCollection('string', 'func', 4);
     }
 
-    function testExceptionIfObjectIsPassedAsList()
+    public function testExceptionIfObjectIsPassedAsList()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -94,7 +94,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertCollection(new \stdClass(), 'func', 2);
     }
 
-    function testAssertArrayAccessValidCase()
+    public function testAssertArrayAccessValidCase()
     {
         $validObject = new \ArrayObject();
 
@@ -102,7 +102,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         $this->addToAssertionCount(1);
     }
 
-    function testAssertArrayAccessWithString()
+    public function testAssertArrayAccessWithString()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -111,7 +111,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertArrayAccess('string', "func", 4);
     }
 
-    function testAssertArrayAccessWithStandardClass()
+    public function testAssertArrayAccessWithStandardClass()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -120,7 +120,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertArrayAccess(new \stdClass(), "func", 2);
     }
 
-    function testExceptionIfInvalidMethodName()
+    public function testExceptionIfInvalidMethodName()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -129,7 +129,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertMethodName(new \stdClass(), "foo", 2);
     }
 
-    function testExceptionIfInvalidPropertyName()
+    public function testExceptionIfInvalidPropertyName()
     {
         InvalidArgumentException::assertPropertyName('property', 'func', 2);
         InvalidArgumentException::assertPropertyName(0, 'func', 2);
@@ -141,13 +141,13 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertPropertyName(new \stdClass(), "func", 2);
     }
 
-    function testNoExceptionThrownWithPositiveInteger()
+    public function testNoExceptionThrownWithPositiveInteger()
     {
         $this->assertNull(InvalidArgumentException::assertPositiveInteger('2', 'foo', 1));
         $this->assertNull(InvalidArgumentException::assertPositiveInteger(2, 'foo', 1));
     }
 
-    function testExceptionIfNegativeIntegerInsteadOfPositiveInteger()
+    public function testExceptionIfNegativeIntegerInsteadOfPositiveInteger()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',
@@ -156,7 +156,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertPositiveInteger(-1, 'func', 2);
     }
 
-    function testExceptionIfStringInsteadOfPositiveInteger()
+    public function testExceptionIfStringInsteadOfPositiveInteger()
     {
         $this->setExpectedException(
             'Functional\Exceptions\InvalidArgumentException',

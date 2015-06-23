@@ -27,7 +27,7 @@ use stdClass;
 
 class MinimumTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array(1, "foo", 5.1, 5, "5.2", true, false, array(), new stdClass());
@@ -46,7 +46,7 @@ class MinimumTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function testExtractingMinimumValue()
+    public function testExtractingMinimumValue()
     {
         $this->assertEquals(1, minimum($this->array));
         $this->assertEquals(1, minimum($this->iterator));
@@ -54,17 +54,17 @@ class MinimumTest extends AbstractTestCase
 #        $this->assertEquals(-10, minimum($this->hashIterator));
     }
 
-    function testSpecialCaseNull()
+    public function testSpecialCaseNull()
     {
         $this->assertSame(-1, minimum(array(-1)));
     }
 
-    function testSpecialCaseSameValueDifferentTypes()
+    public function testSpecialCaseSameValueDifferentTypes()
     {
         $this->assertSame(1, maximum(array(0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0")));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\minimum() expects parameter 1 to be array or instance of Traversable');
         minimum('invalidCollection');

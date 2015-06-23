@@ -51,7 +51,7 @@ class MemoizeTest extends AbstractTestCase
         return 'STATIC METHOD VALUE' . self::invoke(__METHOD__);
     }
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')
@@ -61,32 +61,33 @@ class MemoizeTest extends AbstractTestCase
         self::$invocation = 0;
     }
 
-    function testMemoizeSimpleObjectCall()
+    public function testMemoizeSimpleObjectCall()
     {
-        $this->callback->expects($this->once())
-                       ->method('execute')
-                       ->will($this->returnValue('VALUE1'));
+        $this->callback
+            ->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue('VALUE1'));
 
         $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
         $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
         $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
     }
 
-    function testMemoizeFunctionCall()
+    public function testMemoizeFunctionCall()
     {
         $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
         $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
         $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
     }
 
-    function testMemoizeStaticMethodCall()
+    public function testMemoizeStaticMethodCall()
     {
         $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
         $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
         $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
     }
 
-    function testMemoizeClosureCall()
+    public function testMemoizeClosureCall()
     {
         $closure = function() {
             return 'CLOSURE VALUE' . MemoizeTest::invoke('Closure');
@@ -96,17 +97,19 @@ class MemoizeTest extends AbstractTestCase
         $this->assertSame('CLOSURE VALUE1', memoize($closure));
     }
 
-    function testMemoizeWithArguments()
+    public function testMemoizeWithArguments()
     {
-        $this->callback->expects($this->at(0))
-                       ->method('execute')
-                       ->with('FOO', 'BAR')
-                       ->will($this->returnValue('FOO BAR'));
+        $this->callback
+            ->expects($this->at(0))
+            ->method('execute')
+            ->with('FOO', 'BAR')
+            ->will($this->returnValue('FOO BAR'));
 
-        $this->callback->expects($this->at(1))
-                       ->method('execute')
-                       ->with('BAR', 'BAZ')
-                       ->will($this->returnValue('BAR BAZ'));
+        $this->callback
+            ->expects($this->at(1))
+            ->method('execute')
+            ->with('BAR', 'BAZ')
+            ->will($this->returnValue('BAR BAZ'));
 
         $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR')));
         $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR')));
@@ -116,15 +119,17 @@ class MemoizeTest extends AbstractTestCase
 
     public function testMemoizeWithCustomKey()
     {
-        $this->callback->expects($this->at(0))
-                       ->method('execute')
-                       ->with('FOO', 'BAR')
-                       ->will($this->returnValue('FOO BAR'));
+        $this->callback
+            ->expects($this->at(0))
+            ->method('execute')
+            ->with('FOO', 'BAR')
+            ->will($this->returnValue('FOO BAR'));
 
-        $this->callback->expects($this->at(1))
-                       ->method('execute')
-                       ->with('BAR', 'BAZ')
-                       ->will($this->returnValue('BAR BAZ'));
+        $this->callback
+            ->expects($this->at(1))
+            ->method('execute')
+            ->with('BAR', 'BAZ')
+            ->will($this->returnValue('BAR BAZ'));
 
         $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR'), 'MY:CUSTOM:KEY'));
         $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ'), 'MY:CUSTOM:KEY'), 'Result already memoized');
@@ -137,9 +142,10 @@ class MemoizeTest extends AbstractTestCase
 
     public function testResultIsNotStoredIfExceptionIsThrown()
     {
-        $this->callback->expects($this->exactly(2))
-                       ->method('execute')
-                       ->will($this->throwException(new BadMethodCallException('EXCEPTION')));
+        $this->callback
+            ->expects($this->exactly(2))
+            ->method('execute')
+            ->will($this->throwException(new BadMethodCallException('EXCEPTION')));
 
         try {
             memoize(array($this->callback, 'execute'));
@@ -156,7 +162,8 @@ class MemoizeTest extends AbstractTestCase
 
     public function testResetByPassingNullAsCallable()
     {
-        $this->callback->expects($this->exactly(2))
+        $this->callback
+            ->expects($this->exactly(2))
             ->method('execute');
 
         memoize(array($this->callback, 'execute'));
@@ -170,7 +177,9 @@ class MemoizeTest extends AbstractTestCase
 
     public function testPassNoCallable()
     {
-        $this->expectArgumentError("Functional\memoize() expects parameter 1 to be a valid callback, function 'invalidFunction' not found or invalid function name");
+        $this->expectArgumentError(
+            "Functional\memoize() expects parameter 1 to be a valid callback, function 'invalidFunction' not found or invalid function name"
+        );
         memoize('invalidFunction');
     }
 }

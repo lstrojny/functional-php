@@ -27,7 +27,7 @@ use ArrayIterator,
 
 class FlattenTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->goodArray = array(1, 2, 3, array(4, 5, 6, array(7, 8, 9)), 10, array(11, array(12, 13), 14), 15);
@@ -37,7 +37,7 @@ class FlattenTest extends AbstractTestCase
         $this->goodIterator[5][1] = new ArrayIterator($this->goodIterator[5][1]);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(range(1, 15), flatten($this->goodArray));
         $this->assertSame(range(1, 15), flatten($this->goodIterator));
@@ -46,7 +46,7 @@ class FlattenTest extends AbstractTestCase
         $this->assertSame(array(null, null), flatten(array(array(null), null)));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\flatten() expects parameter 1 to be array or instance of Traversable');
         flatten('invalidCollection');

@@ -20,47 +20,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Sequences;
 
-class WithTest extends AbstractTestCase
+use Functional\Exceptions\InvalidArgumentException;
+use Iterator;
+
+class LinearSequence implements Iterator
 {
-    public function testWithNull()
+    /** @var integer */
+    private $start;
+
+    /** @var integer */
+    private $amount;
+
+    /** @var integer */
+    private $value;
+
+    public function __construct($start, $amount)
     {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
+        InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __METHOD__, 1);
+        InvalidArgumentException::assertInteger($amount, __METHOD__, 2);
+
+        $this->start = $start;
+        $this->amount = $amount;
     }
 
-    public function testWithValue()
+    public function current()
     {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
+        return $this->value;
     }
 
-    public function testWithCallback()
+    public function next()
     {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
+        $this->value += $this->amount;
     }
 
-    public function testPassNonCallable()
+    public function key()
     {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
+        return 0;
+    }
+
+    public function valid()
+    {
+        return true;
+    }
+
+    public function rewind()
+    {
+        $this->value = $this->start;
     }
 }

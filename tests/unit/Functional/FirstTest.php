@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class FirstTest extends AbstractTestCase
 {
-    function getAliases()
+    public function getAliases()
     {
         return array(
             array('Functional\first'),
@@ -34,7 +34,7 @@ class FirstTest extends AbstractTestCase
         );
     }
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp($this->getAliases());
         $this->array = array('first', 'second', 'third');
@@ -46,7 +46,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function test($functionName)
+    public function test($functionName)
     {
         $callback = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
@@ -62,7 +62,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testWithoutCallback($functionName)
+    public function testWithoutCallback($functionName)
     {
         $this->assertSame('first', $functionName($this->array));
         $this->assertSame('first', $functionName($this->array, null));
@@ -77,7 +77,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testPassNonCallable($functionName)
+    public function testPassNonCallable($functionName)
     {
         $this->expectArgumentError(
             sprintf(
@@ -91,7 +91,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInArray($functionName)
+    public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->array, array($this, 'exception'));
@@ -100,7 +100,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testExceptionIsThrownInCollection($functionName)
+    public function testExceptionIsThrownInCollection($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         $functionName($this->iterator, array($this, 'exception'));
@@ -109,7 +109,7 @@ class FirstTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    function testPassNoCollection($functionName)
+    public function testPassNoCollection($functionName)
     {
         $this->expectArgumentError(sprintf('%s() expects parameter 1 to be array or instance of Traversable', $functionName));
         $functionName('invalidCollection', 'strlen');

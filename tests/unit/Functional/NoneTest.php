@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class NoneTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->goodArray = array('value', 'value', 'value');
@@ -35,7 +35,7 @@ class NoneTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    function test()
+    public function test()
     {
         $this->assertTrue(none($this->goodArray, array($this, 'functionalCallback')));
         $this->assertTrue(none($this->goodIterator, array($this, 'functionalCallback')));
@@ -43,31 +43,31 @@ class NoneTest extends AbstractTestCase
         $this->assertFalse(none($this->badIterator, array($this, 'functionalCallback')));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\none() expects parameter 1 to be array or instance of Traversable');
         none('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\\none() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         none($this->goodArray, 'undefinedFunction');
     }
 
-    function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         none($this->goodArray, array($this, 'exception'));
     }
 
-    function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         none($this->goodIterator, array($this, 'exception'));
     }
 
-    function functionalCallback($value, $key, $collection)
+    public function functionalCallback($value, $key, $collection)
     {
         Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value != 'value' && strlen($key) > 0;

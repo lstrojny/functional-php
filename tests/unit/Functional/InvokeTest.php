@@ -26,7 +26,7 @@ use ArrayIterator;
 
 class InvokeTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array($this, $this, $this);
@@ -35,7 +35,7 @@ class InvokeTest extends AbstractTestCase
         $this->keyIterator = new ArrayIterator(array('k1' => $this, 'k2' => $this));
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->array, 'method', array(1, 2)));
         $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->iterator, 'method'));
@@ -46,30 +46,30 @@ class InvokeTest extends AbstractTestCase
         $this->assertSame(array('k1' => 'methodValue', 'k2' => 'methodValue'), invoke($this->keyIterator, 'method'));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\invoke() expects parameter 1 to be array or instance of Traversable');
         invoke('invalidCollection', 'method');
     }
 
-    function testPassNoPropertyName()
+    public function testPassNoPropertyName()
     {
         $this->expectArgumentError('Functional\invoke() expects parameter 2 to be string');
         invoke($this->array, new \stdClass());
     }
 
-    function testException()
+    public function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
         invoke($this->array, 'exception');
     }
 
-    function method()
+    public function method()
     {
         return 'methodValue';
     }
 
-    function returnArguments()
+    public function returnArguments()
     {
         return func_get_args();
     }

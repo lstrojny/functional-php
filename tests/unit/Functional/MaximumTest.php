@@ -27,7 +27,7 @@ use stdClass;
 
 class MaximumTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->array = array(1, "foo", 5.1, 5, "5.2", true, false, array(), new stdClass());
@@ -45,7 +45,7 @@ class MaximumTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function testExtractingMaximumValue()
+    public function testExtractingMaximumValue()
     {
         $this->assertEquals('5.2', maximum($this->array));
         return;
@@ -54,17 +54,17 @@ class MaximumTest extends AbstractTestCase
         $this->assertEquals(10.2, maximum($this->hashIterator));
     }
 
-    function testSpecialCaseNull()
+    public function testSpecialCaseNull()
     {
         $this->assertSame(-1, maximum(array(-1)));
     }
 
-    function testSpecialCaseSameValueDifferentTypes()
+    public function testSpecialCaseSameValueDifferentTypes()
     {
         $this->assertSame(1, maximum(array(0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0")));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\maximum() expects parameter 1 to be array or instance of Traversable');
         maximum('invalidCollection');

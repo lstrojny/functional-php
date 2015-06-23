@@ -22,45 +22,20 @@
  */
 namespace Functional;
 
-class WithTest extends AbstractTestCase
+use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use InfiniteIterator;
+use Traversable;
+
+/**
+ * Returns an infinite, traversable sequence of constant values
+ *
+ * @param integer $value
+ * @return Traversable
+ */
+function sequence_constant($value)
 {
-    public function testWithNull()
-    {
-        $this->assertNull(
-            with(null, function() {
-                throw new \Exception('Should not be called');
-            })
-        );
-    }
+    InvalidArgumentException::assertIntegerGreaterThanOrEqual($value, 0, __FUNCTION__, 1);
 
-    public function testWithValue()
-    {
-        $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
-            })
-        );
-    }
-
-    public function testWithCallback()
-    {
-        $this->assertSame(
-            'value',
-            with(
-                function() {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-    }
-
-    public function testPassNonCallable()
-    {
-        $this->expectArgumentError("Functional\\with() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
-        with(null, 'undefinedFunction');
-    }
+    return new InfiniteIterator(new ArrayIterator(array($value)));
 }

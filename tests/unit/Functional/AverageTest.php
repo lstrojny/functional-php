@@ -27,7 +27,7 @@ use stdClass;
 
 class AverageTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         $this->hash = array("f0" => 12, "f1" => 2, "f3" => true, "f4" => false, "f5" => "str", "f6" => array(), "f7" => new stdClass(), "f8" => 1);
@@ -46,7 +46,7 @@ class AverageTest extends AbstractTestCase
         $this->arrayIterator3 = new ArrayIterator($this->array3);
     }
 
-    function test()
+    public function test()
     {
         $this->assertSame(5, average($this->hash));
         $this->assertSame(5, average($this->hashIterator));
@@ -64,7 +64,7 @@ class AverageTest extends AbstractTestCase
         $this->assertNull(average($this->arrayIterator3));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
         map('invalidCollection', 'strlen');

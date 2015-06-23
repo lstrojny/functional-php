@@ -27,16 +27,16 @@ use ArrayIterator;
 
 class FlatMapTest extends AbstractTestCase
 {
-    function setUp()
+    public function setUp()
     {
-        parent::setUp(array('Functional\\flat_map'));
+        parent::setUp();
         $this->array = array('v1', 'v2', 'v3');
         $this->iterator = new ArrayIterator($this->array);
         $this->hash = array('k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3');
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    function test()
+    public function test()
     {
         $fn = function($v, $k, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
@@ -52,13 +52,13 @@ class FlatMapTest extends AbstractTestCase
         $this->assertEquals(array('k1','v1',array('v','1'),'k2','v2',array('v','2')), flat_map($this->hashIterator, $fn));
     }
 
-    function testPassNoCollection()
+    public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\flat_map() expects parameter 1 to be array or instance of Traversable');
         flat_map('invalidCollection', 'strlen');
     }
 
-    function testPassNonCallable()
+    public function testPassNonCallable()
     {
         $this->expectArgumentError("Functional\\flat_map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
         flat_map($this->array, 'undefinedFunction');
