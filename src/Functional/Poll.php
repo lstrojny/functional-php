@@ -28,7 +28,7 @@ use InfiniteIterator;
 use Traversable;
 
 /**
- * Retry a callback until it returns a truthy value or the timeout (in millisconds) is reached
+ * Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
  *
  * @param callable $callback
  * @param integer $timeout Timeout in microseconds

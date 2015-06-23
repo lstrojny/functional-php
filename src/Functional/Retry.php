@@ -33,7 +33,7 @@ use Traversable;
  *
  * @param callable $callback
  * @param integer $retries
- * @param Traversable|null $delaySequence
+ * @param Traversable|null $delaySequence Default: no delay between calls
  * @throws Exception Any exception thrown by the callback
  * @throws InvalidArgumentException
  * @return mixed Return value of the function
