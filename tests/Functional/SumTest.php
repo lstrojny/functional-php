@@ -20,9 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\sum;
 
 class SumTest extends AbstractTestCase
 {
@@ -47,7 +48,7 @@ class SumTest extends AbstractTestCase
         $this->assertEquals(10, sum($this->floatIterator, 2.5), '', 0.01);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(3.5, sum($collection), '', 0.1);

@@ -20,10 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use stdClass;
+use function Functional\minimum;
 
 class MinimumTest extends AbstractTestCase
 {
@@ -51,7 +52,7 @@ class MinimumTest extends AbstractTestCase
         $this->assertEquals(1, minimum($this->array));
         $this->assertEquals(1, minimum($this->iterator));
         $this->assertEquals(-10, minimum($this->hash));
-#        $this->assertEquals(-10, minimum($this->hashIterator));
+        $this->assertEquals(-10, minimum($this->hashIterator));
     }
 
     public function testSpecialCaseNull()
@@ -61,7 +62,7 @@ class MinimumTest extends AbstractTestCase
 
     public function testSpecialCaseSameValueDifferentTypes()
     {
-        $this->assertSame(1, maximum([0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0"]));
+        $this->assertSame(0, minimum([0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0"]));
     }
 
     public function testPassNoCollection()

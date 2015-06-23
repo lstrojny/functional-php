@@ -20,9 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\difference;
 
 class DifferenceTest extends AbstractTestCase
 {
@@ -47,7 +48,7 @@ class DifferenceTest extends AbstractTestCase
         $this->assertEquals(-10, difference($this->floatIterator, -3.4), '', 0.01);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(-3.5, difference($collection), '', 0.1);

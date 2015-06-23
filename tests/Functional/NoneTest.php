@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\none;
 
 class NoneTest extends AbstractTestCase
 {
@@ -69,7 +71,7 @@ class NoneTest extends AbstractTestCase
 
     public function functionalCallback($value, $key, $collection)
     {
-        Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+        InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
         return $value != 'value' && strlen($key) > 0;
     }
 }

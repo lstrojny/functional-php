@@ -20,11 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use Exception;
+use function Functional\retry;
 
 interface Retryer
 {
@@ -39,7 +40,7 @@ class RetryTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->retryer = $this->getMock('Functional\Retryer');
+        $this->retryer = $this->getMock('Functional\Tests\Retryer');
     }
 
     public function testTriedOnceIfItSucceeds()

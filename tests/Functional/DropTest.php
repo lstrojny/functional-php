@@ -20,9 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\drop_last;
+use function Functional\drop_first;
+use Functional\Exceptions\InvalidArgumentException;
 
 class DropTest extends AbstractTestCase
 {
@@ -38,7 +41,7 @@ class DropTest extends AbstractTestCase
     public function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             $return = is_int($k) ? ($k != 2) : ($v[3] != 3);
             return $return;
         };

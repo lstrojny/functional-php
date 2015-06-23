@@ -20,10 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use stdClass;
+use function Functional\maximum;
 
 class MaximumTest extends AbstractTestCase
 {
@@ -48,7 +49,6 @@ class MaximumTest extends AbstractTestCase
     public function testExtractingMaximumValue()
     {
         $this->assertEquals('5.2', maximum($this->array));
-        return;
         $this->assertEquals('5.2', maximum($this->iterator));
         $this->assertEquals(10.2, maximum($this->hash));
         $this->assertEquals(10.2, maximum($this->hashIterator));

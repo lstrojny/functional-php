@@ -20,9 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\select;
+use function Functional\filter;
 
 class SelectTest extends AbstractTestCase
 {
@@ -49,7 +52,7 @@ class SelectTest extends AbstractTestCase
     public function test($functionName)
     {
         $callback = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };
         $this->assertSame(['value', 2 => 'value'], $functionName($this->array, $callback));

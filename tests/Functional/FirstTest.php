@@ -20,9 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\first;
+use function Functional\head;
 
 class FirstTest extends AbstractTestCase
 {
@@ -49,7 +52,7 @@ class FirstTest extends AbstractTestCase
     public function test($functionName)
     {
         $callback = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v == 'second' && $k == 1;
         };
 

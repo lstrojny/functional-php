@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\every;
+use Functional\Exceptions\InvalidArgumentException;
 
 class EveryTest extends AbstractTestCase
 {
@@ -69,7 +71,7 @@ class EveryTest extends AbstractTestCase
 
     public function functionalCallback($value, $key, $collection)
     {
-        Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+        InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 
         return $value == 'value' && is_numeric($key);
     }

@@ -20,9 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use function Functional\poll;
 
 interface Poller
 {
@@ -37,7 +38,7 @@ class PollTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->poller = $this->getMock('Functional\Poller');
+        $this->poller = $this->getMock('Functional\Tests\Poller');
     }
 
     public function testPollReturnsTrue()

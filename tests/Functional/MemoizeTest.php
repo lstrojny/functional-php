@@ -20,11 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use stdClass;
 use BadMethodCallException;
+use function Functional\memoize;
 
 function testfunc()
 {
@@ -75,16 +76,16 @@ class MemoizeTest extends AbstractTestCase
 
     public function testMemoizeFunctionCall()
     {
-        $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
-        $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
-        $this->assertSame('TESTFUNC1', memoize('Functional\testfunc'));
+        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
+        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
+        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
     }
 
     public function testMemoizeStaticMethodCall()
     {
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
     }
 
     public function testMemoizeClosureCall()

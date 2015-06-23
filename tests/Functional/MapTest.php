@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\map;
 
 class MapTest extends AbstractTestCase
 {
@@ -38,7 +40,7 @@ class MapTest extends AbstractTestCase
     public function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };
         $this->assertSame(['0value', '1value'], map($this->array, $fn));

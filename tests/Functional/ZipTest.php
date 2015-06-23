@@ -20,11 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use BadFunctionCallException;
 use stdClass;
+use function Functional\zip;
 
 class ZipTest extends AbstractTestCase
 {
@@ -152,6 +153,6 @@ class ZipTest extends AbstractTestCase
     public function testExceptionInCallback()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map([null], [$this, 'exception']);
+        zip([null], [$this, 'exception']);
     }
 }

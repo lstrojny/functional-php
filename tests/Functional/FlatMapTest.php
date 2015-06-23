@@ -21,9 +21,11 @@
  * THE SOFTWARE.
  */
 
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\flat_map;
 
 class FlatMapTest extends AbstractTestCase
 {
@@ -39,7 +41,7 @@ class FlatMapTest extends AbstractTestCase
     public function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             if ($v === 'v3') {
                 return []; // flat_map will drop an empty array
             }

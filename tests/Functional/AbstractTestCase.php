@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
@@ -93,7 +93,6 @@ class AbstractTestCase extends TestCase
     {
         $testName = get_class($this);
         $namespaceSeperatorPosition = strrpos($testName, '\\') + 1;
-        $namespace = substr($testName, 0, $namespaceSeperatorPosition);
         $testName = substr($testName, $namespaceSeperatorPosition);
         $function = strtolower(
             implode(
@@ -106,6 +105,6 @@ class AbstractTestCase extends TestCase
             )
         );
 
-        return $namespace . $function;
+        return 'Functional\\' . $function;
     }
 }

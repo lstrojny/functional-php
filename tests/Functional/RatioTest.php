@@ -20,9 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\ratio;
 
 class RatioTest extends AbstractTestCase
 {
@@ -45,7 +46,7 @@ class RatioTest extends AbstractTestCase
         $this->assertEquals(-1, ratio($this->floatIterator, -1.65), '', 0.01);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(0.333, ratio($collection), '', 0.001);

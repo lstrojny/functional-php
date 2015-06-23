@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\reject;
 
 class RejectTest extends AbstractTestCase
 {
@@ -38,7 +40,7 @@ class RejectTest extends AbstractTestCase
     public function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'wrong' && strlen($k) > 0;
         };
         $this->assertSame([0 => 'value', 2 => 'value'], reject($this->array, $fn));

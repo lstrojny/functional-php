@@ -20,9 +20,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use function Functional\product;
 
 class ProductTest extends AbstractTestCase
 {
@@ -45,7 +46,7 @@ class ProductTest extends AbstractTestCase
         $this->assertEquals(1.65, product($this->floatIterator), '', 0.01);
     }
 
-    /** @dataProvider Functional\MathDataProvider::injectErrorCollection */
+    /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
         $this->assertEquals(3, product($collection), '', 0.01);

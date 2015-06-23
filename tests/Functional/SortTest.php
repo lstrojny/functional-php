@@ -20,10 +20,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional as F;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\sort;
 
 class SortTest extends AbstractTestCase
 {
@@ -35,7 +37,7 @@ class SortTest extends AbstractTestCase
         $this->hash = ['c' => 'cat', 'b' => 'bear', 'a' => 'aardvark'];
         $this->hashIterator = new ArrayIterator($this->hash);
         $this->sortCallback = function($left, $right, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return strcmp($left, $right);
         };
     }

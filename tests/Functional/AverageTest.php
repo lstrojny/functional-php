@@ -20,10 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
 use stdClass;
+use function Functional\average;
 
 class AverageTest extends AbstractTestCase
 {
@@ -66,7 +67,7 @@ class AverageTest extends AbstractTestCase
 
     public function testPassNoCollection()
     {
-        $this->expectArgumentError('Functional\map() expects parameter 1 to be array or instance of Traversable');
-        map('invalidCollection', 'strlen');
+        $this->expectArgumentError('Functional\average() expects parameter 1 to be array or instance of Traversable');
+        average('invalidCollection', 'strlen');
     }
 }

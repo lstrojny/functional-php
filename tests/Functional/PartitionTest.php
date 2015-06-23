@@ -20,9 +20,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
 use ArrayIterator;
+use Functional\Exceptions\InvalidArgumentException;
+use function Functional\partition;
 
 class PartitionTest extends AbstractTestCase
 {
@@ -38,7 +40,7 @@ class PartitionTest extends AbstractTestCase
     public function test()
     {
         $fn = function($v, $k, $collection) {
-            Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
         };
         $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->array, $fn));
