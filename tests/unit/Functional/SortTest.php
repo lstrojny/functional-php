@@ -30,9 +30,9 @@ class SortTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('cat', 'bear', 'aardvark');
+        $this->array = ['cat', 'bear', 'aardvark'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('c' => 'cat', 'b' => 'bear', 'a' => 'aardvark');
+        $this->hash = ['c' => 'cat', 'b' => 'bear', 'a' => 'aardvark'];
         $this->hashIterator = new ArrayIterator($this->hash);
         $this->sortCallback = function($left, $right, $collection) {
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
@@ -42,23 +42,23 @@ class SortTest extends AbstractTestCase
 
     public function testPreserveKeys()
     {
-        $this->assertSame(array(2 => 'aardvark', 1 => 'bear', 0 => 'cat'), F\sort($this->array, $this->sortCallback, true));
-        $this->assertSame(array(2 => 'aardvark', 1 => 'bear', 0 => 'cat'), F\sort($this->iterator, $this->sortCallback, true));
-        $this->assertSame(array('a' => 'aardvark', 'b' => 'bear', 'c' => 'cat'), F\sort($this->hash, $this->sortCallback, true));
-        $this->assertSame(array('a' => 'aardvark', 'b' => 'bear', 'c' => 'cat'), F\sort($this->hashIterator, $this->sortCallback, true));
+        $this->assertSame([2 => 'aardvark', 1 => 'bear', 0 => 'cat'], F\sort($this->array, $this->sortCallback, true));
+        $this->assertSame([2 => 'aardvark', 1 => 'bear', 0 => 'cat'], F\sort($this->iterator, $this->sortCallback, true));
+        $this->assertSame(['a' => 'aardvark', 'b' => 'bear', 'c' => 'cat'], F\sort($this->hash, $this->sortCallback, true));
+        $this->assertSame(['a' => 'aardvark', 'b' => 'bear', 'c' => 'cat'], F\sort($this->hashIterator, $this->sortCallback, true));
     }
 
     public function testWithoutPreserveKeys()
     {
-        $this->assertSame(array(0 => 'aardvark', 1 => 'bear', 2 => 'cat'), F\sort($this->array, $this->sortCallback, false));
-        $this->assertSame(array(0 => 'aardvark', 1 => 'bear', 2 => 'cat'), F\sort($this->iterator, $this->sortCallback, false));
-        $this->assertSame(array(0 => 'aardvark', 1 => 'bear', 2 => 'cat'), F\sort($this->hash, $this->sortCallback, false));
-        $this->assertSame(array(0 => 'aardvark', 1 => 'bear', 2 => 'cat'), F\sort($this->hashIterator, $this->sortCallback, false));
+        $this->assertSame([0 => 'aardvark', 1 => 'bear', 2 => 'cat'], F\sort($this->array, $this->sortCallback, false));
+        $this->assertSame([0 => 'aardvark', 1 => 'bear', 2 => 'cat'], F\sort($this->iterator, $this->sortCallback, false));
+        $this->assertSame([0 => 'aardvark', 1 => 'bear', 2 => 'cat'], F\sort($this->hash, $this->sortCallback, false));
+        $this->assertSame([0 => 'aardvark', 1 => 'bear', 2 => 'cat'], F\sort($this->hashIterator, $this->sortCallback, false));
     }
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("sort() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Argument 2 passed to Functional\sort() must be callable");
         F\sort($this->array, 'undefinedFunction');
     }
 
@@ -71,24 +71,24 @@ class SortTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        F\sort($this->array, array($this, 'exception'));
+        F\sort($this->array, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        F\sort($this->hash, array($this, 'exception'));
+        F\sort($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        F\sort($this->iterator, array($this, 'exception'));
+        F\sort($this->iterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        F\sort($this->hashIterator, array($this, 'exception'));
+        F\sort($this->hashIterator, [$this, 'exception']);
     }
 }

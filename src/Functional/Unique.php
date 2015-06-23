@@ -33,19 +33,16 @@ use Traversable;
  * @param bool $strict
  * @return array
  */
-function unique($collection, $callback = null, $strict = true)
+function unique($collection, callable $callback = null, $strict = true)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    if ($callback != null) {
-        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-    }
 
-    $indexes = array();
-    $aggregation = array();
+    $indexes = [];
+    $aggregation = [];
     foreach ($collection as $key => $element) {
 
         if ($callback) {
-            $index = call_user_func($callback, $element, $key, $collection);
+            $index = $callback($element, $key, $collection);
         } else {
             $index = $element;
         }

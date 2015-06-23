@@ -29,33 +29,33 @@ class InvokeFirstTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array($this, null, null);
+        $this->array = [$this, null, null];
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyArray = array('k1' => $this, 'k2' => null);
-        $this->keyIterator = new ArrayIterator(array('k1' => $this, 'k2' => null));
+        $this->keyArray = ['k1' => $this, 'k2' => null];
+        $this->keyIterator = new ArrayIterator(['k1' => $this, 'k2' => null]);
 
-        $this->arrayVeryFirstNotCallable = array(null, $this, null, null);
+        $this->arrayVeryFirstNotCallable = [null, $this, null, null];
         $this->iteratorVeryFirstNotCallable = new ArrayIterator($this->arrayVeryFirstNotCallable);
     }
 
     public function testSimple()
     {
-        $this->assertSame('methodValue', invoke_first($this->array, 'method', array(1, 2)));
+        $this->assertSame('methodValue', invoke_first($this->array, 'method', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->iterator, 'method'));
         $this->assertSame(null, invoke_first($this->array, 'undefinedMethod'));
         $this->assertSame(null, invoke_first($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame(array(1, 2), invoke_first($this->array, 'returnArguments', array(1, 2)));
+        $this->assertSame([1, 2], invoke_first($this->array, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
     }
 
     public function testSkipNonCallables()
     {
-    	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', array(1, 2)));
+    	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
     	$this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
         $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
         $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame(array(1, 2), invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', array(1, 2)));
+        $this->assertSame([1, 2], invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', [1, 2]));
     }
 
     public function testPassNoCollection()

@@ -29,16 +29,16 @@ class RatioTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->intArray = array(1 => 1, 2, "foo" => 3, 4);
+        $this->intArray = [1 => 1, 2, "foo" => 3, 4];
         $this->intIterator = new ArrayIterator($this->intArray);
-        $this->floatArray = array("foo" => 1.5, 1.1, 1);
+        $this->floatArray = ["foo" => 1.5, 1.1, 1];
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
     public function test()
     {
-        $this->assertSame(1, ratio(array(1)));
-        $this->assertSame(1, ratio(new ArrayIterator(array(1))));
+        $this->assertSame(1, ratio([1]));
+        $this->assertSame(1, ratio(new ArrayIterator([1])));
         $this->assertSame(1, ratio($this->intArray, 24));
         $this->assertSame(1, ratio($this->intIterator, 24));
         $this->assertEquals(-1, ratio($this->floatArray, -1.65), '', 0.01);

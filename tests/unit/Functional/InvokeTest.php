@@ -29,21 +29,21 @@ class InvokeTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array($this, $this, $this);
+        $this->array = [$this, $this, $this];
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyArray = array('k1' => $this, 'k2' => $this);
-        $this->keyIterator = new ArrayIterator(array('k1' => $this, 'k2' => $this));
+        $this->keyArray = ['k1' => $this, 'k2' => $this];
+        $this->keyIterator = new ArrayIterator(['k1' => $this, 'k2' => $this]);
     }
 
     public function test()
     {
-        $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->array, 'method', array(1, 2)));
-        $this->assertSame(array('methodValue', 'methodValue', 'methodValue'), invoke($this->iterator, 'method'));
-        $this->assertSame(array(null, null, null), invoke($this->array, 'undefinedMethod'));
-        $this->assertSame(array(null, null, null), invoke($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame(array(array(1, 2), array(1, 2), array(1, 2)), invoke($this->array, 'returnArguments', array(1, 2)));
-        $this->assertSame(array('k1' => 'methodValue', 'k2' => 'methodValue'), invoke($this->keyArray, 'method'));
-        $this->assertSame(array('k1' => 'methodValue', 'k2' => 'methodValue'), invoke($this->keyIterator, 'method'));
+        $this->assertSame(['methodValue', 'methodValue', 'methodValue'], invoke($this->array, 'method', [1, 2]));
+        $this->assertSame(['methodValue', 'methodValue', 'methodValue'], invoke($this->iterator, 'method'));
+        $this->assertSame([null, null, null], invoke($this->array, 'undefinedMethod'));
+        $this->assertSame([null, null, null], invoke($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertSame([[1, 2], [1, 2], [1, 2]], invoke($this->array, 'returnArguments', [1, 2]));
+        $this->assertSame(['k1' => 'methodValue', 'k2' => 'methodValue'], invoke($this->keyArray, 'method'));
+        $this->assertSame(['k1' => 'methodValue', 'k2' => 'methodValue'], invoke($this->keyIterator, 'method'));
     }
 
     public function testPassNoCollection()

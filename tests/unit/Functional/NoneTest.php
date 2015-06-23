@@ -29,18 +29,18 @@ class NoneTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->goodArray = array('value', 'value', 'value');
+        $this->goodArray = ['value', 'value', 'value'];
         $this->goodIterator = new ArrayIterator($this->goodArray);
-        $this->badArray = array('value', 'value', 'foo');
+        $this->badArray = ['value', 'value', 'foo'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
     public function test()
     {
-        $this->assertTrue(none($this->goodArray, array($this, 'functionalCallback')));
-        $this->assertTrue(none($this->goodIterator, array($this, 'functionalCallback')));
-        $this->assertFalse(none($this->badArray, array($this, 'functionalCallback')));
-        $this->assertFalse(none($this->badIterator, array($this, 'functionalCallback')));
+        $this->assertTrue(none($this->goodArray, [$this, 'functionalCallback']));
+        $this->assertTrue(none($this->goodIterator, [$this, 'functionalCallback']));
+        $this->assertFalse(none($this->badArray, [$this, 'functionalCallback']));
+        $this->assertFalse(none($this->badIterator, [$this, 'functionalCallback']));
     }
 
     public function testPassNoCollection()
@@ -51,20 +51,20 @@ class NoneTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\\none() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Argument 2 passed to Functional\\none() must be callable");
         none($this->goodArray, 'undefinedFunction');
     }
 
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        none($this->goodArray, array($this, 'exception'));
+        none($this->goodArray, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        none($this->goodIterator, array($this, 'exception'));
+        none($this->goodIterator, [$this, 'exception']);
     }
 
     public function functionalCallback($value, $key, $collection)

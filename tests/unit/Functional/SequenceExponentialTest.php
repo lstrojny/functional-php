@@ -30,7 +30,7 @@ class SequenceExponentialTest extends AbstractTestCase
 
         $values = $this->sequenceToArray($sequence, 10);
 
-        $this->assertSame(array(1, 2, 4, 8, 16, 32, 64, 128, 256, 512), $values);
+        $this->assertSame([1, 2, 4, 8, 16, 32, 64, 128, 256, 512], $values);
     }
 
     public function testExponentialIncrementsWith50PercentGrowth()
@@ -39,7 +39,7 @@ class SequenceExponentialTest extends AbstractTestCase
 
         $values = $this->sequenceToArray($sequence, 10);
 
-        $this->assertSame(array(1, 2, 2, 3, 5, 8, 11, 17, 26, 38), $values);
+        $this->assertSame([1, 2, 2, 3, 5, 8, 11, 17, 26, 38], $values);
     }
 
     public function testStartArgumentMustBePositiveInteger()

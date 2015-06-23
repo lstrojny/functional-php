@@ -28,18 +28,18 @@ class FirstTest extends AbstractTestCase
 {
     public function getAliases()
     {
-        return array(
-            array('Functional\first'),
-            array('Functional\head'),
-        );
+        return [
+            ['Functional\first'],
+            ['Functional\head'],
+        ];
     }
 
     public function setUp()
     {
         parent::setUp($this->getAliases());
-        $this->array = array('first', 'second', 'third');
+        $this->array = ['first', 'second', 'third'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->badArray = array('foo', 'bar', 'baz');
+        $this->badArray = ['foo', 'bar', 'baz'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
@@ -81,7 +81,7 @@ class FirstTest extends AbstractTestCase
     {
         $this->expectArgumentError(
             sprintf(
-                '%s() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name',
+                'Argument 2 passed to %s() must be callable',
                 $functionName
             )
         );
@@ -94,7 +94,7 @@ class FirstTest extends AbstractTestCase
     public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->array, array($this, 'exception'));
+        $functionName($this->array, [$this, 'exception']);
     }
 
     /**
@@ -103,7 +103,7 @@ class FirstTest extends AbstractTestCase
     public function testExceptionIsThrownInCollection($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->iterator, array($this, 'exception'));
+        $functionName($this->iterator, [$this, 'exception']);
     }
 
     /**

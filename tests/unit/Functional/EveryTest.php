@@ -29,23 +29,23 @@ class EveryTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->goodArray = array('value', 'value', 'value');
+        $this->goodArray = ['value', 'value', 'value'];
         $this->goodIterator = new ArrayIterator($this->goodArray);
-        $this->badArray = array('value', 'nope', 'value');
+        $this->badArray = ['value', 'nope', 'value'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
     public function test()
     {
-        $this->assertTrue(every($this->goodArray, array($this, 'functionalCallback')));
-        $this->assertTrue(every($this->goodIterator, array($this, 'functionalCallback')));
-        $this->assertFalse(every($this->badArray, array($this, 'functionalCallback')));
-        $this->assertFalse(every($this->badIterator, array($this, 'functionalCallback')));
+        $this->assertTrue(every($this->goodArray, [$this, 'functionalCallback']));
+        $this->assertTrue(every($this->goodIterator, [$this, 'functionalCallback']));
+        $this->assertFalse(every($this->badArray, [$this, 'functionalCallback']));
+        $this->assertFalse(every($this->badIterator, [$this, 'functionalCallback']));
     }
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\\every() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Argument 2 passed to Functional\\every() must be callable");
         every($this->goodArray, 'undefinedFunction');
     }
 
@@ -58,13 +58,13 @@ class EveryTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        every($this->goodArray, array($this, 'exception'));
+        every($this->goodArray, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        every($this->goodIterator, array($this, 'exception'));
+        every($this->goodIterator, [$this, 'exception']);
     }
 
     public function functionalCallback($value, $key, $collection)

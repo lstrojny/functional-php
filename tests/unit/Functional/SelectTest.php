@@ -28,18 +28,18 @@ class SelectTest extends AbstractTestCase
 {
     public function getAliases()
     {
-        return array(
-            array('Functional\select'),
-            array('Functional\filter'),
-        );
+        return [
+            ['Functional\select'],
+            ['Functional\filter'],
+        ];
     }
 
     public function setUp()
     {
         parent::setUp($this->getAliases());
-        $this->array = array('value', 'wrong', 'value');
+        $this->array = ['value', 'wrong', 'value'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
+        $this->hash = ['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
@@ -52,10 +52,10 @@ class SelectTest extends AbstractTestCase
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };
-        $this->assertSame(array('value', 2 => 'value'), $functionName($this->array, $callback));
-        $this->assertSame(array('value', 2 => 'value'), $functionName($this->iterator, $callback));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), $functionName($this->hash, $callback));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), $functionName($this->hashIterator, $callback));
+        $this->assertSame(['value', 2 => 'value'], $functionName($this->array, $callback));
+        $this->assertSame(['value', 2 => 'value'], $functionName($this->iterator, $callback));
+        $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hash, $callback));
+        $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hashIterator, $callback));
     }
 
     /**
@@ -65,7 +65,7 @@ class SelectTest extends AbstractTestCase
     {
         $this->expectArgumentError(
             sprintf(
-                "%s() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name",
+                "Argument 2 passed to %s() must be callable",
                 $functionName
             )
          );
@@ -92,7 +92,7 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->array, array($this, 'exception'));
+        $functionName($this->array, [$this, 'exception']);
     }
 
     /**
@@ -101,7 +101,7 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInHash($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->hash, array($this, 'exception'));
+        $functionName($this->hash, [$this, 'exception']);
     }
 
     /**
@@ -110,7 +110,7 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->iterator, array($this, 'exception'));
+        $functionName($this->iterator, [$this, 'exception']);
     }
 
     /**
@@ -119,6 +119,6 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInHashIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->hashIterator, array($this, 'exception'));
+        $functionName($this->hashIterator, [$this, 'exception']);
     }
 }

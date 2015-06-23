@@ -32,10 +32,9 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function filter($collection, $callback)
+function filter($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     return select($collection, $callback);
 }

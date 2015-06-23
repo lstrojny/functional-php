@@ -23,13 +23,14 @@
 namespace Functional;
 
 use DomainException;
+use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit_Framework_TestCase as TestCase;
 use Functional as F;
 use Traversable;
 
 class AbstractTestCase extends TestCase
 {
-    private $functions = array();
+    private $functions = [];
 
     public function setUp()
     {
@@ -58,24 +59,10 @@ class AbstractTestCase extends TestCase
 
     protected function expectArgumentError($message)
     {
-        try {
-            $extension = new \ReflectionExtension('functional');
-            $extensionFunctions = array_keys($extension->getFunctions());
-
-            $isDefinedInExtension = F\every(
-                $this->functions,
-                function ($function) use ($extensionFunctions) {
-                    return in_array($function, $extensionFunctions, true);
-                }
-            );
-
-            if ($isDefinedInExtension) {
-                $this->setExpectedException('PHPUnit_Framework_Error_Warning', $message);
-            } else {
-                $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $message);
-            }
-        } catch (\ReflectionException $e) {
-            $this->setExpectedException('Functional\Exceptions\InvalidArgumentException', $message);
+        if (strpos($message, 'callable') !== false) {
+            $this->setExpectedException('PHPUnit_Framework_Error', $message);
+        } else {
+            $this->setExpectedException(InvalidArgumentException::class, $message);
         }
     }
 
@@ -92,7 +79,7 @@ class AbstractTestCase extends TestCase
 
     protected function sequenceToArray(Traversable $sequence, $limit)
     {
-        $values = array();
+        $values = [];
         $sequence->rewind();
         for ($a = 0; $a < $limit; $a++) {
             $values[] = $sequence->current();

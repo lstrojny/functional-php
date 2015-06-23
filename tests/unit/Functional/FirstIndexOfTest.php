@@ -29,9 +29,9 @@ class FirstIndexOfTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('value1', 'value', 'value', 'value2');
+        $this->array = ['value1', 'value', 'value', 'value2'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val1', 'k4' => 'val3');
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val1', 'k4' => 'val3'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 

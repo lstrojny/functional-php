@@ -38,7 +38,7 @@ function pluck($collection, $propertyName)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertPropertyName($propertyName, __FUNCTION__, 2);
 
-    $aggregation = array();
+    $aggregation = [];
 
     foreach ($collection as $index => $element) {
 

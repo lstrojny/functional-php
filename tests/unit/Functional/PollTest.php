@@ -48,7 +48,7 @@ class PollTest extends AbstractTestCase
             ->with(0)
             ->willReturn(true);
 
-        $this->assertTrue(poll(array($this->poller, 'poll'), 1000));
+        $this->assertTrue(poll([$this->poller, 'poll'], 1000));
     }
 
     public function testPollRetriesIfNotTruthy()
@@ -64,7 +64,7 @@ class PollTest extends AbstractTestCase
             ->with(1)
             ->willReturn('OH HAI');
 
-        $this->assertSame('OH HAI', poll(array($this->poller, 'poll'), 1000));
+        $this->assertSame('OH HAI', poll([$this->poller, 'poll'], 1000));
     }
 
     public function testPollRetriesAndGivesUpAfterTimeout()
@@ -80,7 +80,7 @@ class PollTest extends AbstractTestCase
                 }
             );
 
-        $this->assertFalse(poll(array($this->poller, 'poll'), 100));
+        $this->assertFalse(poll([$this->poller, 'poll'], 100));
     }
 
     public function testThrowsExceptionIfTimeoutCountNotAtLeast0()
@@ -88,6 +88,6 @@ class PollTest extends AbstractTestCase
         $this->expectArgumentError(
             'Functional\poll() expects parameter 2 to be an integer greater than or equal to 0'
         );
-        poll(array($this->poller, 'poll'), -1);
+        poll([$this->poller, 'poll'], -1);
     }
 }

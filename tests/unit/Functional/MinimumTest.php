@@ -30,19 +30,19 @@ class MinimumTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array(1, "foo", 5.1, 5, "5.2", true, false, array(), new stdClass());
+        $this->array = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array(
+        $this->hash = [
             'k1' => 1,
             'k2' => '5.2',
             'k3' => 5,
             'k4' => '5.1',
             'k5' => 10.2,
             'k6' => true,
-            'k7' => array(),
+            'k7' => [],
             'k8' => new stdClass(),
             'k9' => -10,
-        );
+        ];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
@@ -56,12 +56,12 @@ class MinimumTest extends AbstractTestCase
 
     public function testSpecialCaseNull()
     {
-        $this->assertSame(-1, minimum(array(-1)));
+        $this->assertSame(-1, minimum([-1]));
     }
 
     public function testSpecialCaseSameValueDifferentTypes()
     {
-        $this->assertSame(1, maximum(array(0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0")));
+        $this->assertSame(1, maximum([0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0"]));
     }
 
     public function testPassNoCollection()

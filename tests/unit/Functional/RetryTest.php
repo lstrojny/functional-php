@@ -50,7 +50,7 @@ class RetryTest extends AbstractTestCase
             ->with(0, 0)
             ->willReturn('value');
 
-        $this->assertSame('value', retry(array($this->retryer, 'retry'), 10));
+        $this->assertSame('value', retry([$this->retryer, 'retry'], 10));
     }
 
     public function testRetriedIfItFails()
@@ -66,7 +66,7 @@ class RetryTest extends AbstractTestCase
             ->with(1, 0)
             ->willReturn('value');
 
-        $this->assertSame('value', retry(array($this->retryer, 'retry'), 10));
+        $this->assertSame('value', retry([$this->retryer, 'retry'], 10));
     }
 
     public function testThrowsExceptionIfRetryCountIsReached()
@@ -83,7 +83,7 @@ class RetryTest extends AbstractTestCase
             ->willThrowException(new Exception('second'));
 
         $this->setExpectedException('Exception', 'second');
-        retry(array($this->retryer, 'retry'), 2);
+        retry([$this->retryer, 'retry'], 2);
     }
 
     public function testThrowsExceptionIfRetryCountNotAtLeast1()
@@ -91,7 +91,7 @@ class RetryTest extends AbstractTestCase
         $this->expectArgumentError(
             'Functional\retry() expects parameter 2 to be an integer greater than or equal to 1'
         );
-        retry(array($this->retryer, 'retry'), 0);
+        retry([$this->retryer, 'retry'], 0);
     }
 
     public function testUsesDelayTraversableForSleeping()
@@ -108,7 +108,7 @@ class RetryTest extends AbstractTestCase
             ->willThrowException(new Exception('second'));
 
         $this->setExpectedException('Exception', 'second');
-        retry(array($this->retryer, 'retry'), 2);
+        retry([$this->retryer, 'retry'], 2);
     }
 
     public function testDelayerSmallerThanRetries()
@@ -135,6 +135,6 @@ class RetryTest extends AbstractTestCase
             ->willThrowException(new Exception('four'));
 
         $this->setExpectedException('Exception', 'four');
-        retry(array($this->retryer, 'retry'), 4, new ArrayIterator(array(1 => 10, 2 => 20)));
+        retry([$this->retryer, 'retry'], 4, new ArrayIterator([1 => 10, 2 => 20]));
     }
 }

@@ -30,7 +30,7 @@ class SequenceLinearTest extends AbstractTestCase
 
         $values = $this->sequenceToArray($sequence, 10);
 
-        $this->assertSame(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), $values);
+        $this->assertSame([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], $values);
     }
 
     public function testLinearNegativeIncrements()
@@ -39,7 +39,7 @@ class SequenceLinearTest extends AbstractTestCase
 
         $values = $this->sequenceToArray($sequence, 10);
 
-        $this->assertSame(array(0, -1, -2, -3, -4, -5, -6, -7, -8, -9), $values);
+        $this->assertSame([0, -1, -2, -3, -4, -5, -6, -7, -8, -9], $values);
     }
 
     public function testArgumentMustBePositiveInteger()

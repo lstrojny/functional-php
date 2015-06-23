@@ -31,7 +31,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
             "func() expects parameter 1 to be a valid callback, method 'stdClass::method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array('stdClass', 'method'), 'func', 1);
+        InvalidArgumentException::assertCallback(['stdClass', 'method'], 'func', 1);
     }
 
     public function testCallbackExceptionWithUndefinedFunction()
@@ -51,7 +51,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
             "func() expects parameter 2 to be a valid callback, method 'stdClass->method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array(new \stdClass(), 'method'), 'func', 2);
+        InvalidArgumentException::assertCallback([new \stdClass(), 'method'], 'func', 2);
     }
 
     public function testCallbackExceptionWithIncorrectArrayIndex()
@@ -61,7 +61,7 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
             "func() expects parameter 1 to be a valid callback, method 'stdClass->method' not found or invalid method name"
         );
 
-        InvalidArgumentException::assertCallback(array(1 => new \stdClass(), 2 => 'method'), 'func', 1);
+        InvalidArgumentException::assertCallback([1 => new \stdClass(), 2 => 'method'], 'func', 1);
     }
 
     public function testCallbackExceptionWithObject()

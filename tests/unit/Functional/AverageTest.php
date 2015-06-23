@@ -30,17 +30,17 @@ class AverageTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->hash = array("f0" => 12, "f1" => 2, "f3" => true, "f4" => false, "f5" => "str", "f6" => array(), "f7" => new stdClass(), "f8" => 1);
+        $this->hash = ["f0" => 12, "f1" => 2, "f3" => true, "f4" => false, "f5" => "str", "f6" => [], "f7" => new stdClass(), "f8" => 1];
         $this->hashIterator = new ArrayIterator($this->hash);
         $this->array = array_values($this->hash);
         $this->arrayIterator = new ArrayIterator($this->array);
 
-        $this->hash2 = array("f0" => 1.0, "f1" => 0.5, "f3" => true, "f4" => false, "f5" => 1);
+        $this->hash2 = ["f0" => 1.0, "f1" => 0.5, "f3" => true, "f4" => false, "f5" => 1];
         $this->hashIterator2 = new ArrayIterator($this->hash2);
         $this->array2 = array_values($this->hash2);
         $this->arrayIterator2 = new ArrayIterator($this->array2);
 
-        $this->hash3 = array("f0" => array(), "f1" => new stdClass(), "f2" => null, "f3" => "foo");
+        $this->hash3 = ["f0" => [], "f1" => new stdClass(), "f2" => null, "f3" => "foo"];
         $this->hashIterator3 = new ArrayIterator($this->hash3);
         $this->array3 = array_values($this->hash3);
         $this->arrayIterator3 = new ArrayIterator($this->array3);

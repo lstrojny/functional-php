@@ -29,9 +29,9 @@ class DifferenceTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->intArray = array(1 => 1, 2, "foo" => 3, 4);
+        $this->intArray = [1 => 1, 2, "foo" => 3, 4];
         $this->intIterator = new ArrayIterator($this->intArray);
-        $this->floatArray = array("foo" => 4.5, 1.1, 1);
+        $this->floatArray = ["foo" => 4.5, 1.1, 1];
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 

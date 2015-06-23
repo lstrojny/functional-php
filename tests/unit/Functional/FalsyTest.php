@@ -29,20 +29,20 @@ class FalsyTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->trueArray = array(false, null, false, false, 0);
+        $this->trueArray = [false, null, false, false, 0];
         $this->trueIterator = new ArrayIterator($this->trueArray);
-        $this->trueHash = array('k1' => false, 'k2' => null, 'k3' => false, 'k4' => 0);
+        $this->trueHash = ['k1' => false, 'k2' => null, 'k3' => false, 'k4' => 0];
         $this->trueHashIterator = new ArrayIterator($this->trueHash);
-        $this->falseArray = array(false, null, 0, 'foo');
+        $this->falseArray = [false, null, 0, 'foo'];
         $this->falseIterator = new ArrayIterator($this->falseArray);
-        $this->falseHash = array('k1' => false, 'k2' => 0, 'k3' => true, 'k4' => null);
+        $this->falseHash = ['k1' => false, 'k2' => 0, 'k3' => true, 'k4' => null];
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
     }
 
     public function test()
     {
-        $this->assertTrue(falsy(array()));
-        $this->assertTrue(falsy(new ArrayIterator(array())));
+        $this->assertTrue(falsy([]));
+        $this->assertTrue(falsy(new ArrayIterator([])));
         $this->assertTrue(falsy($this->trueArray));
         $this->assertTrue(falsy($this->trueIterator));
         $this->assertTrue(falsy($this->trueHash));

@@ -31,64 +31,64 @@ class ZipTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('value', 'value');
+        $this->array = ['value', 'value'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'val1', 'k2' => 'val2');
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     public function testZippingSameSizedArrays()
     {
-        $result = array(array('one', 1, -1), array('two', 2, -2), array('three', 3, -3));
-        $this->assertSame($result, zip(array('one', 'two', 'three'), array(1, 2, 3), array(-1, -2, -3)));
+        $result = [['one', 1, -1], ['two', 2, -2], ['three', 3, -3]];
+        $this->assertSame($result, zip(['one', 'two', 'three'], [1, 2, 3], [-1, -2, -3]));
         $this->assertSame(
             $result,
             zip(
-                new ArrayIterator(array('one', 'two', 'three')),
-                new ArrayIterator(array(1, 2, 3)),
-                new ArrayIterator(array(-1, -2, -3))
+                new ArrayIterator(['one', 'two', 'three']),
+                new ArrayIterator([1, 2, 3]),
+                new ArrayIterator([-1, -2, -3])
             )
         );
     }
 
     public function testZippingDifferentlySizedArrays()
     {
-        $result = array(array('one', 1, -1, true), array('two', 2, -2, false), array('three', 3, -3, null));
+        $result = [['one', 1, -1, true], ['two', 2, -2, false], ['three', 3, -3, null]];
         $this->assertSame(
             $result,
-            zip(array('one', 'two', 'three'), array(1, 2, 3), array(-1, -2, -3), array(true, false))
+            zip(['one', 'two', 'three'], [1, 2, 3], [-1, -2, -3], [true, false])
         );
     }
 
     public function testZippingHashes()
     {
-        $result = array(array(1, -1), array(2, -2), array(true, false));
+        $result = [[1, -1], [2, -2], [true, false]];
         $this->assertSame(
             $result,
             zip(
-                array('foo' => 1, 'bar' => 2, true),
-                array('foo' => -1, 'bar' => -2, false, "ignore")
+                ['foo' => 1, 'bar' => 2, true],
+                ['foo' => -1, 'bar' => -2, false, "ignore"]
             )
         );
         $this->assertSame(
             $result,
             zip(
-                new ArrayIterator(array('foo' => 1, 'bar' => 2, true)),
-                new ArrayIterator(array('foo' => -1, 'bar' => -2, false, "ignore"))
+                new ArrayIterator(['foo' => 1, 'bar' => 2, true]),
+                new ArrayIterator(['foo' => -1, 'bar' => -2, false, "ignore"])
             )
         );
     }
 
     public function testZippingWithCallback()
     {
-        $result = array('one1-11', 'two2-2', 'three3-3');
+        $result = ['one1-11', 'two2-2', 'three3-3'];
         $this->assertSame(
             $result,
             zip(
-                array('one', 'two', 'three'),
-                array(1, 2, 3),
-                array(-1, -2, -3),
-                array(true, false),
+                ['one', 'two', 'three'],
+                [1, 2, 3],
+                [-1, -2, -3],
+                [true, false],
                 function($one, $two, $three, $four) {
                     return $one . $two . $three . $four;
                 }
@@ -97,10 +97,10 @@ class ZipTest extends AbstractTestCase
         $this->assertSame(
             $result,
             zip(
-                new ArrayIterator(array('one', 'two', 'three')),
-                new ArrayIterator(array(1, 2, 3)),
-                new ArrayIterator(array(-1, -2, -3)),
-                new ArrayIterator(array(true, false)),
+                new ArrayIterator(['one', 'two', 'three']),
+                new ArrayIterator([1, 2, 3]),
+                new ArrayIterator([-1, -2, -3]),
+                new ArrayIterator([true, false]),
                 function($one, $two, $three, $four) {
                     return $one . $two . $three . $four;
                 }
@@ -112,27 +112,27 @@ class ZipTest extends AbstractTestCase
     {
         $object = new stdClass();
         $resource = stream_context_create();
-        $result = array(
-            array(array(1), $object, array(2)),
-            array(null, 'foo', null),
-            array($resource, null, 2)
-        );
+        $result = [
+            [[1], $object, [2]],
+            [null, 'foo', null],
+            [$resource, null, 2]
+        ];
 
         $this->assertSame(
             $result,
             zip(
-                array(array(1), null, $resource),
-                array($object, 'foo', null),
-                array(array(2), null, 2)
+                [[1], null, $resource],
+                [$object, 'foo', null],
+                [[2], null, 2]
             )
         );
     }
 
     public function testZipSpecialCases()
     {
-        $this->assertSame(array(), zip(array()));
-        $this->assertSame(array(), zip(array(), array()));
-        $this->assertSame(array(), zip(array(), array(), function() {
+        $this->assertSame([], zip([]));
+        $this->assertSame([], zip([], []));
+        $this->assertSame([], zip([], [], function() {
             throw new BadFunctionCallException('Should not be called');
         }));
     }
@@ -146,12 +146,12 @@ class ZipTest extends AbstractTestCase
     public function testPassNoCollectionAsSecondParam()
     {
         $this->expectArgumentError('Functional\zip() expects parameter 2 to be array or instance of Traversable');
-        zip(array(), 'invalidCollection');
+        zip([], 'invalidCollection');
     }
 
     public function testExceptionInCallback()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map(array(null), array($this, 'exception'));
+        map([null], [$this, 'exception']);
     }
 }

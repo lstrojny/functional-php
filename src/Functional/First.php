@@ -34,13 +34,9 @@ use Traversable;
  * @param callable $callback
  * @return mixed
  */
-function first($collection, $callback = null)
+function first($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-
-    if ($callback !== null) {
-        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-    }
 
     foreach ($collection as $index => $element) {
 
@@ -48,7 +44,7 @@ function first($collection, $callback = null)
             return $element;
         }
 
-        if (call_user_func($callback, $element, $index, $collection)) {
+        if ($callback($element, $index, $collection)) {
             return $element;
         }
 

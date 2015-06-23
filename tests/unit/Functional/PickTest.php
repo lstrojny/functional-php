@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use ArrayObject;
+
 class PickTest extends AbstractTestCase
 {
     private $array_1;
@@ -29,7 +31,7 @@ class PickTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array_1 = array(
+        $this->array_1 = [
             'one' => '1',
             'two' => '2',
             3 => '3',
@@ -37,7 +39,7 @@ class PickTest extends AbstractTestCase
             'zero-index' => 0,
             'zero-string-index' => '0',
             'false-index' => false
-        );
+        ];
     }
 
     public function test()
@@ -55,19 +57,14 @@ class PickTest extends AbstractTestCase
 
     public function testInvalidCollectionShouldThrowException()
     {
-        $this->setExpectedException(
-            '\Functional\Exceptions\InvalidArgumentException'
-        );
+        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException');
 
         pick(null, '');
     }
 
     public function testInvalidCallbackShouldThrowException()
     {
-        $this->setExpectedException(
-            '\Functional\Exceptions\InvalidArgumentException'
-        );
-
+        $this->expectArgumentError('Argument 4 passed to Functional\pick() must be callable');
         pick($this->array_1, '', null, 'not-a-callback');
     }
 
@@ -107,7 +104,7 @@ class PickTest extends AbstractTestCase
 
     public function testArrayAccess()
     {
-        $object = new \ArrayObject();
+        $object = new ArrayObject();
 
         $object['test'] = 5;
 

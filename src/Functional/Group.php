@@ -32,20 +32,19 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function group($collection, $callback)
+function group($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $groups = array();
+    $groups = [];
 
     foreach ($collection as $index => $element) {
-        $groupKey = call_user_func($callback, $element, $index, $collection);
+        $groupKey = $callback($element, $index, $collection);
 
         InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
 
         if (!isset($groups[$groupKey])) {
-            $groups[$groupKey] = array();
+            $groups[$groupKey] = [];
         }
 
         $groups[$groupKey][$index] = $element;

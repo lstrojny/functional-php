@@ -28,9 +28,9 @@ class InvokeIfTest extends AbstractTestCase
 {
     public function test()
     {
-        $this->assertSame('methodValue', invoke_if($this, 'method', array(), 'defaultValue'));
+        $this->assertSame('methodValue', invoke_if($this, 'method', [], 'defaultValue'));
         $this->assertSame('methodValue', invoke_if($this, 'method'));
-        $arguments = array(1, 2, 3);
+        $arguments = [1, 2, 3];
         $this->assertSame($arguments, invoke_if($this, 'returnArguments', $arguments));
         $this->assertNull(invoke_if($this, 'someMethod', $arguments));
         $this->assertNull(invoke_if(1, 'someMethod', $arguments));
@@ -40,9 +40,9 @@ class InvokeIfTest extends AbstractTestCase
     public function testReturnDefaultValueUsed()
     {
         $instance = new \stdClass();
-        $this->assertSame('defaultValue', invoke_if($instance, 'someMethod', array(), 'defaultValue'));
-        $this->assertSame($instance, invoke_if($this, 'someMethod', array(), $instance));
-        $this->assertNull(invoke_if($this, 'someMethod', array(), null));
+        $this->assertSame('defaultValue', invoke_if($instance, 'someMethod', [], 'defaultValue'));
+        $this->assertSame($instance, invoke_if($this, 'someMethod', [], $instance));
+        $this->assertNull(invoke_if($this, 'someMethod', [], null));
     }
 
     public function method()

@@ -29,29 +29,29 @@ class InvokeLastTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array(null, null, $this);
+        $this->array = [null, null, $this];
         $this->iterator = new ArrayIterator($this->array);
-        $this->keyArray = array('k1' => null, 'k2' => $this);
-        $this->keyIterator = new ArrayIterator(array('k1' => null, 'k2' => $this));
+        $this->keyArray = ['k1' => null, 'k2' => $this];
+        $this->keyIterator = new ArrayIterator(['k1' => null, 'k2' => $this]);
 
-        $this->arrayVeryLastNotCallable = array(null, null, $this, null);
+        $this->arrayVeryLastNotCallable = [null, null, $this, null];
         $this->iteratorVeryLastNotCallable = new ArrayIterator($this->arrayVeryLastNotCallable);
     }
 
     public function testSimple()
     {
-        $this->assertSame('methodValue', invoke_last($this->array, 'method', array(1, 2)));
+        $this->assertSame('methodValue', invoke_last($this->array, 'method', [1, 2]));
         $this->assertSame('methodValue', invoke_last($this->iterator, 'method'));
         $this->assertSame(null, invoke_last($this->array, 'undefinedMethod'));
         $this->assertSame(null, invoke_last($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame(array(1, 2), invoke_last($this->array, 'returnArguments', array(1, 2)));
+        $this->assertSame([1, 2], invoke_last($this->array, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_last($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
     }
 
     public function testSkipNonCallables()
     {
-    	$this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', array(1, 2)));
+    	$this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', [1, 2]));
     	$this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
     }
 

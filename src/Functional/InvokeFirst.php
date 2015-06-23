@@ -34,16 +34,16 @@ use Traversable;
  * @param array $arguments
  * @return array
  */
-function invoke_first($collection, $methodName, array $arguments = array())
+function invoke_first($collection, $methodName, array $arguments = [])
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
 
     foreach ($collection as $element) {
 
-        $callback = array($element, $methodName);
+        $callback = [$element, $methodName];
         if (is_callable($callback)) {
-            return call_user_func_array($callback, $arguments);
+            return $callback(...$arguments);
         }
     }
 

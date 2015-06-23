@@ -29,9 +29,9 @@ class RejectTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('value', 'wrong', 'value');
+        $this->array = ['value', 'wrong', 'value'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'value', 'k2' => 'wrong', 'k3' => 'value');
+        $this->hash = ['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
@@ -41,15 +41,15 @@ class RejectTest extends AbstractTestCase
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'wrong' && strlen($k) > 0;
         };
-        $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->array, $fn));
-        $this->assertSame(array(0 => 'value', 2 => 'value'), reject($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->hash, $fn));
-        $this->assertSame(array('k1' => 'value', 'k3' => 'value'), reject($this->hashIterator, $fn));
+        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->array, $fn));
+        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->iterator, $fn));
+        $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hash, $fn));
+        $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hashIterator, $fn));
     }
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\\reject() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Argument 2 passed to Functional\\reject() must be callable");
         reject($this->array, 'undefinedFunction');
     }
 
@@ -62,24 +62,24 @@ class RejectTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->array, array($this, 'exception'));
+        reject($this->array, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->hash, array($this, 'exception'));
+        reject($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->iterator, array($this, 'exception'));
+        reject($this->iterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->hashIterator, array($this, 'exception'));
+        reject($this->hashIterator, [$this, 'exception']);
     }
 }

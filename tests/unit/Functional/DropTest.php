@@ -29,9 +29,9 @@ class DropTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp('Functional\drop_first', 'Functional\drop_last');
-        $this->array = array('value1', 'value2', 'value3', 'value4');
+        $this->array = ['value1', 'value2', 'value3', 'value4'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 'val4');
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 'val4'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
@@ -42,47 +42,47 @@ class DropTest extends AbstractTestCase
             $return = is_int($k) ? ($k != 2) : ($v[3] != 3);
             return $return;
         };
-        $this->assertSame(array(0 => 'value1', 1 => 'value2'), drop_last($this->array, $fn));
-        $this->assertSame(array(2 => 'value3', 3 => 'value4'), drop_first($this->array, $fn));
-        $this->assertSame(array(2 => 'value3', 3 => 'value4'), drop_first($this->iterator, $fn));
-        $this->assertSame(array(0 => 'value1', 1 => 'value2'), drop_last($this->iterator, $fn));
-        $this->assertSame(array('k3' => 'val3', 'k4' => 'val4'), drop_first($this->hash, $fn));
-        $this->assertSame(array('k1' => 'val1', 'k2' => 'val2'), drop_last($this->hash, $fn));
-        $this->assertSame(array('k3' => 'val3', 'k4' => 'val4'), drop_first($this->hashIterator, $fn));
-        $this->assertSame(array('k1' => 'val1', 'k2' => 'val2'), drop_last($this->hashIterator, $fn));
+        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->array, $fn));
+        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->array, $fn));
+        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->iterator, $fn));
+        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->iterator, $fn));
+        $this->assertSame(['k3' => 'val3', 'k4' => 'val4'], drop_first($this->hash, $fn));
+        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], drop_last($this->hash, $fn));
+        $this->assertSame(['k3' => 'val3', 'k4' => 'val4'], drop_first($this->hashIterator, $fn));
+        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], drop_last($this->hashIterator, $fn));
     }
 
     public static function getFunctions()
     {
-        return array(array('Functional\drop_first'), array('Functional\drop_last'));
+        return [['Functional\drop_first'], ['Functional\drop_last']];
     }
 
     /** @dataProvider getFunctions */
     public function testExceptionIsThrownInArray($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->array, array($this, 'exception'));
+        $fn($this->array, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
     public function testExceptionIsThrownInHash($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->hash, array($this, 'exception'));
+        $fn($this->hash, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
     public function testExceptionIsThrownInIterator($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->iterator, array($this, 'exception'));
+        $fn($this->iterator, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
     public function testExceptionIsThrownInHashIterator($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->hashIterator, array($this, 'exception'));
+        $fn($this->hashIterator, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
@@ -95,7 +95,7 @@ class DropTest extends AbstractTestCase
     /** @dataProvider getFunctions */
     public function testPassNonCallable($fn)
     {
-        $this->expectArgumentError($fn . "() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError(sprintf('Argument 2 passed to %s() must be callable', $fn));
         $fn($this->array, 'undefinedFunction');
     }
 }

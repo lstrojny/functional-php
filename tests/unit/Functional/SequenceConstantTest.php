@@ -30,7 +30,7 @@ class SequenceConstantTest extends AbstractTestCase
 
         $values = $this->sequenceToArray($sequence, 10);
 
-        $this->assertSame(array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1), $values);
+        $this->assertSame([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], $values);
     }
 
     public function testArgumentMustBePositiveInteger()

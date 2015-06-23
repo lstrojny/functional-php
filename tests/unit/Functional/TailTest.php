@@ -29,9 +29,9 @@ class TailTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array(1, 2, 3, 4);
+        $this->array = [1, 2, 3, 4];
         $this->iterator = new ArrayIterator($this->array);
-        $this->badArray = array('foo', 'bar', 'baz');
+        $this->badArray = ['foo', 'bar', 'baz'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
@@ -42,40 +42,40 @@ class TailTest extends AbstractTestCase
             return $v > 2;
         };
 
-        $this->assertSame(array(2 => 3, 3 => 4), tail($this->array, $fn));
-        $this->assertSame(array(2 => 3, 3 => 4), tail($this->iterator, $fn));
-        $this->assertSame(array(), tail($this->badArray, $fn));
-        $this->assertSame(array(), tail($this->badIterator, $fn));
+        $this->assertSame([2 => 3, 3 => 4], tail($this->array, $fn));
+        $this->assertSame([2 => 3, 3 => 4], tail($this->iterator, $fn));
+        $this->assertSame([], tail($this->badArray, $fn));
+        $this->assertSame([], tail($this->badIterator, $fn));
     }
 
     public function testWithoutCallback()
     {
-        $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->array));
-        $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->array, null));
-        $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->iterator));
-        $this->assertSame(array(1 => 2, 2 => 3, 3 => 4), tail($this->iterator, null));
-        $this->assertSame(array(1 => 'bar', 2 => 'baz'), tail($this->badArray));
-        $this->assertSame(array(1 => 'bar', 2 => 'baz'), tail($this->badArray, null));
-        $this->assertSame(array(1 => 'bar', 2 => 'baz'), tail($this->badIterator));
-        $this->assertSame(array(1 => 'bar', 2 => 'baz'), tail($this->badIterator, null));
+        $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->array));
+        $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->array, null));
+        $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->iterator));
+        $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->iterator, null));
+        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badArray));
+        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badArray, null));
+        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badIterator));
+        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badIterator, null));
     }
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Functional\tail() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
+        $this->expectArgumentError('Argument 2 passed to Functional\tail() must be callable');
         tail($this->array, 'undefinedFunction');
     }
 
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        tail($this->array, array($this, 'exception'));
+        tail($this->array, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        tail($this->iterator, array($this, 'exception'));
+        tail($this->iterator, [$this, 'exception']);
     }
 
     public function testPassNoCollection()

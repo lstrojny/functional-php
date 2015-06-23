@@ -29,9 +29,9 @@ class MapTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('value', 'value');
+        $this->array = ['value', 'value'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'val1', 'k2' => 'val2');
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
@@ -41,34 +41,34 @@ class MapTest extends AbstractTestCase
             Exceptions\InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };
-        $this->assertSame(array('0value', '1value'), map($this->array, $fn));
-        $this->assertSame(array('0value', '1value'), map($this->iterator, $fn));
-        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->hash, $fn));
-        $this->assertSame(array('k1' => 'k1val1', 'k2' => 'k2val2'), map($this->hashIterator, $fn));
+        $this->assertSame(['0value', '1value'], map($this->array, $fn));
+        $this->assertSame(['0value', '1value'], map($this->iterator, $fn));
+        $this->assertSame(['k1' => 'k1val1', 'k2' => 'k2val2'], map($this->hash, $fn));
+        $this->assertSame(['k1' => 'k1val1', 'k2' => 'k2val2'], map($this->hashIterator, $fn));
     }
 
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->array, array($this, 'exception'));
+        map($this->array, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->hash, array($this, 'exception'));
+        map($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->iterator, array($this, 'exception'));
+        map($this->iterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->hashIterator, array($this, 'exception'));
+        map($this->hashIterator, [$this, 'exception']);
     }
 
     public function testPassNoCollection()
@@ -79,7 +79,7 @@ class MapTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Functional\map() expects parameter 2 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
+        $this->expectArgumentError("Argument 2 passed to Functional\map() must be callable");
         map($this->array, 'undefinedFunction');
     }
 }

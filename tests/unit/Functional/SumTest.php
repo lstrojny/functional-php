@@ -29,9 +29,9 @@ class SumTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->intArray = array(1 => 1, 2, "foo" => 3);
+        $this->intArray = [1 => 1, 2, "foo" => 3];
         $this->intIterator = new ArrayIterator($this->intArray);
-        $this->floatArray = array(1.1, 2.9, 3.5);
+        $this->floatArray = [1.1, 2.9, 3.5];
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 

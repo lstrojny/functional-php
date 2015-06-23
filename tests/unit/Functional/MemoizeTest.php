@@ -55,7 +55,7 @@ class MemoizeTest extends AbstractTestCase
     {
         parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')
-                               ->setMethods(array('execute'))
+                               ->setMethods(['execute'])
                                ->getMock();
 
         self::$invocation = 0;
@@ -68,9 +68,9 @@ class MemoizeTest extends AbstractTestCase
             ->method('execute')
             ->will($this->returnValue('VALUE1'));
 
-        $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
-        $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
-        $this->assertSame('VALUE1', memoize(array($this->callback, 'execute')));
+        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
+        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
+        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
     }
 
     public function testMemoizeFunctionCall()
@@ -82,9 +82,9 @@ class MemoizeTest extends AbstractTestCase
 
     public function testMemoizeStaticMethodCall()
     {
-        $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(array('Functional\MemoizeTest', 'call')));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
+        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\MemoizeTest', 'call']));
     }
 
     public function testMemoizeClosureCall()
@@ -111,10 +111,10 @@ class MemoizeTest extends AbstractTestCase
             ->with('BAR', 'BAZ')
             ->will($this->returnValue('BAR BAZ'));
 
-        $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR')));
-        $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR')));
-        $this->assertSame('BAR BAZ', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ')));
-        $this->assertSame('BAR BAZ', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ')));
+        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
+        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
+        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
+        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
     }
 
     public function testMemoizeWithCustomKey()
@@ -131,13 +131,13 @@ class MemoizeTest extends AbstractTestCase
             ->with('BAR', 'BAZ')
             ->will($this->returnValue('BAR BAZ'));
 
-        $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('FOO', 'BAR'), 'MY:CUSTOM:KEY'));
-        $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ'), 'MY:CUSTOM:KEY'), 'Result already memoized');
-        $this->assertSame('FOO BAR', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ'), array('MY', 'CUSTOM', 'KEY')), 'Result already memoized');
+        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:CUSTOM:KEY'));
+        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:CUSTOM:KEY'), 'Result already memoized');
+        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], ['MY', 'CUSTOM', 'KEY']), 'Result already memoized');
 
-        $this->assertSame('BAR BAZ', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ'), 'MY:DIFFERENT:KEY'));
-        $this->assertSame('BAR BAZ', memoize(array($this->callback, 'execute'), array('BAR', 'BAZ'), 'MY:DIFFERENT:KEY'), 'Result already memoized');
-        $this->assertSame('BAR BAZ', memoize(array($this->callback, 'execute'), array('FOO', 'BAR'), 'MY:DIFFERENT:KEY'), 'Result already memoized');
+        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'));
+        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
+        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
     }
 
     public function testResultIsNotStoredIfExceptionIsThrown()
@@ -148,13 +148,13 @@ class MemoizeTest extends AbstractTestCase
             ->will($this->throwException(new BadMethodCallException('EXCEPTION')));
 
         try {
-            memoize(array($this->callback, 'execute'));
+            memoize([$this->callback, 'execute']);
             $this->fail('Expected failure');
         } catch (BadMethodCallException $e) {
         }
 
         try {
-            memoize(array($this->callback, 'execute'));
+            memoize([$this->callback, 'execute']);
             $this->fail('Expected failure');
         } catch (BadMethodCallException $e) {
         }
@@ -166,19 +166,19 @@ class MemoizeTest extends AbstractTestCase
             ->expects($this->exactly(2))
             ->method('execute');
 
-        memoize(array($this->callback, 'execute'));
-        memoize(array($this->callback, 'execute'));
+        memoize([$this->callback, 'execute']);
+        memoize([$this->callback, 'execute']);
 
         $this->assertNull(memoize(null));
 
-        memoize(array($this->callback, 'execute'));
-        memoize(array($this->callback, 'execute'));
+        memoize([$this->callback, 'execute']);
+        memoize([$this->callback, 'execute']);
     }
 
     public function testPassNoCallable()
     {
         $this->expectArgumentError(
-            "Functional\memoize() expects parameter 1 to be a valid callback, function 'invalidFunction' not found or invalid function name"
+            "Argument 1 passed to Functional\memoize() must be callable"
         );
         memoize('invalidFunction');
     }

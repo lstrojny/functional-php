@@ -29,9 +29,9 @@ class LastTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('first', 'second', 'third', 'fourth');
+        $this->array = ['first', 'second', 'third', 'fourth'];
         $this->iterator = new ArrayIterator($this->array);
-        $this->badArray = array('foo', 'bar', 'baz');
+        $this->badArray = ['foo', 'bar', 'baz'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
@@ -58,20 +58,20 @@ class LastTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Functional\last() expects parameter 2 to be a valid callback, function \'undefinedFunction\' not found or invalid function name');
+        $this->expectArgumentError('Argument 2 passed to Functional\last() must be callable');
         last($this->array, 'undefinedFunction');
     }
 
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        last($this->array, array($this, 'exception'));
+        last($this->array, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        last($this->iterator, array($this, 'exception'));
+        last($this->iterator, [$this, 'exception']);
     }
 
     public function testPassNoCollection()

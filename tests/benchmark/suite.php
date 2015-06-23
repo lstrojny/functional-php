@@ -13,7 +13,7 @@ $sourceFiles = new RegexIterator(
 );
 foreach ($sourceFiles as $file) {
     $code = file_get_contents($file->getPathName());
-    $code = str_replace(array('namespace Functional', '<?php'), array('namespace FunctionalUserland', ''), $code);
+    $code = str_replace(['namespace Functional', '<?php'], ['namespace FunctionalUserland', ''], $code);
     eval($code);
 }
 
@@ -34,55 +34,55 @@ function benchmark($functionName, $array, $iterator, $hash, $hashIterator, $seco
         $secondParam = function($value, $key, $collection) {};
     }
 
-    $recipes = array(
-        array(
+    $recipes = [
+        [
             'Userl.',
             'num array',
             'FunctionalUserland\\' . $functionName,
             $array,
-        ),
-        array(
+        ],
+        [
             'Native',
             'num array',
             'Functional\\' . $functionName,
             $array,
-        ),array(
+        ], [
             'Userl.',
             'hsh array',
             'FunctionalUserland\\' . $functionName,
             $hash,
-        ),
-        array(
+        ],
+        [
             'Native',
             'hsh array',
             'Functional\\' . $functionName,
             $hash,
-        ),
-        array(
+        ],
+        [
             'Userl.',
             'num iter.',
             'FunctionalUserland\\' . $functionName,
             $iterator,
-        ),
-        array(
+        ],
+        [
             'Native',
             'num iter.',
             'Functional\\' . $functionName,
             $iterator,
-        ),
-        array(
+        ],
+        [
             'Userl.',
             'hsh iter.',
             'FunctionalUserland\\' . $functionName,
             $hashIterator,
-        ),
-        array(
+        ],
+        [
             'Native',
             'hsh iter.',
             'Functional\\' . $functionName,
             $hashIterator,
-        ),
-    );
+        ],
+    ];
 
     echo str_repeat('-', 100) . "\n";
 

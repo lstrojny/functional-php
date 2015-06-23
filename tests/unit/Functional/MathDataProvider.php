@@ -29,19 +29,19 @@ class MathDataProvider
 {
     public static function injectErrorCollection()
     {
-        $args = array();
-        foreach (array(new stdClass(), stream_context_create(), array(), "str") as $v) {
-            $arg = array(2, $v, "1.5", true, null);
-            $args[] = array($arg);
-            $args[] = array(new ArrayIterator($arg));
+        $args = [];
+        foreach ([new stdClass(), stream_context_create(), [], "str"] as $v) {
+            $arg = [2, $v, "1.5", true, null];
+            $args[] = [$arg];
+            $args[] = [new ArrayIterator($arg)];
         }
         return $args;
     }
 
     public static function injectBooleanValues()
     {
-        return array(
-            array(false, true, 1)
-        );
+        return [
+            [false, true, 1]
+        ];
     }
 }

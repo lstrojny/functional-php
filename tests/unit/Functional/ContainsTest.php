@@ -29,15 +29,15 @@ class ContainsTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = array('value0', 'value1', 'value2', 2);
+        $this->array = ['value0', 'value1', 'value2', 2];
         $this->iterator = new ArrayIterator($this->array);
-        $this->hash = array('k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 2);
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 2];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     public function test()
     {
-        $this->assertFalse(contains(array(), 'foo'));
+        $this->assertFalse(contains([], 'foo'));
         $this->assertFalse(contains(new ArrayIterator(), 'foo'));
 
         $this->assertTrue(contains($this->array, 'value0'));
