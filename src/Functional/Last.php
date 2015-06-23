@@ -32,18 +32,14 @@ use Traversable;
  * @param callable $callback
  * @return mixed
  */
-function last($collection, $callback = null)
+function last($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-
-    if ($callback !== null) {
-        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-    }
 
     $match = null;
     foreach ($collection as $index => $element) {
 
-        if ($callback === null || call_user_func($callback, $element, $index, $collection)) {
+        if ($callback === null || $callback($element, $index, $collection)) {
             $match = $element;
         }
 

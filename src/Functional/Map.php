@@ -33,15 +33,14 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function map($collection, $callback)
+function map($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $aggregation = array();
+    $aggregation = [];
 
     foreach ($collection as $index => $element) {
-        $aggregation[$index] = call_user_func($callback, $element, $index, $collection);
+        $aggregation[$index] = $callback($element, $index, $collection);
     }
 
     return $aggregation;

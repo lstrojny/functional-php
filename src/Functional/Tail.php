@@ -33,15 +33,11 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function tail($collection, $callback = null)
+function tail($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    if ($callback !== null) {
-        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-    }
-
-    $tail = array();
+    $tail = [];
     $isHead = true;
 
     foreach ($collection as $index => $element) {
@@ -50,7 +46,7 @@ function tail($collection, $callback = null)
             continue;
         }
 
-        if (!$callback || call_user_func($callback, $element, $index, $collection)) {
+        if (!$callback || $callback($element, $index, $collection)) {
             $tail[$index] = $element;
         }
     }

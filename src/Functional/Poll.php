@@ -36,14 +36,13 @@ use Traversable;
  * @throws InvalidArgumentException
  * @return boolean
  */
-function poll($callback, $timeout, Traversable $delaySequence = null)
+function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 {
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 
     $retry = 0;
 
-    $delaySequence = $delaySequence ? $delaySequence : new InfiniteIterator(new ArrayIterator(array(0)));
+    $delaySequence = $delaySequence ? $delaySequence : new InfiniteIterator(new ArrayIterator([0]));
     $limit = microtime(true) + ($timeout / 100000);
 
     foreach ($delaySequence as $delay) {

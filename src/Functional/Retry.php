@@ -38,9 +38,8 @@ use Traversable;
  * @throws InvalidArgumentException
  * @return mixed Return value of the function
  */
-function retry($callback, $retries, Traversable $delaySequence = null)
+function retry(callable $callback, $retries, Traversable $delaySequence = null)
 {
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($retries, 1, __FUNCTION__, 2);
 
     $delaySequence = $delaySequence

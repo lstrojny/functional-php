@@ -32,13 +32,9 @@ use Traversable;
  * @param callable $callback
  * @return mixed
  */
-function head($collection, $callback = null)
+function head($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-
-    if ($callback !== null) {
-        InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-    }
 
     return first($collection, $callback);
 }

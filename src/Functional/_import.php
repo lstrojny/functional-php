@@ -22,7 +22,7 @@
  */
 
 call_user_func(function() {
-    static $symbols = array(
+    static $symbols = [
         'Functional\\Exceptions\\InvalidArgumentException',
         'Functional\\Sequences\\LinearSequence',
         'Functional\\Sequences\\ExponentialSequence',
@@ -76,7 +76,7 @@ call_user_func(function() {
         'Functional\\sequence_constant',
         'Functional\\sequence_linear',
         'Functional\\sequence_exponential',
-    );
+    ];
     static $basePath = __DIR__;
 
     foreach ($symbols as $symbol) {

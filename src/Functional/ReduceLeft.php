@@ -31,14 +31,13 @@ use Traversable;
  * @param mixed $initial
  * @return array
  */
-function reduce_left($collection, $callback, $initial = null)
+function reduce_left($collection, callable $callback, $initial = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
     foreach ($collection as $index => $value) {
 
-        $initial = call_user_func($callback, $value, $index, $collection, $initial);
+        $initial = $callback($value, $index, $collection, $initial);
 
     }
 

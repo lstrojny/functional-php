@@ -36,8 +36,8 @@ function flatten($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $stack = array($collection);
-    $result = array();
+    $stack = [$collection];
+    $result = [];
 
     while (!empty($stack)) {
         $item = array_shift($stack);

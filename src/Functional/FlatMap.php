@@ -40,16 +40,15 @@ use Traversable;
  * @param callable $callback
  * @return array
  */
-function flat_map($collection, $callback)
+function flat_map($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $flattened = array();
+    $flattened = [];
 
     foreach ($collection as $index => $element) {
 
-        $result = call_user_func($callback, $element, $index, $collection);
+        $result = $callback($element, $index, $collection);
 
         if (is_array($result) || $result instanceof Traversable) {
 

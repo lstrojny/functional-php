@@ -147,7 +147,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     public static function assertValidArrayKey($key, $callee)
     {
-        $keyTypes = array('NULL', 'string', 'integer', 'double', 'boolean');
+        $keyTypes = ['NULL', 'string', 'integer', 'double', 'boolean'];
 
         $keyType = gettype($key);
 

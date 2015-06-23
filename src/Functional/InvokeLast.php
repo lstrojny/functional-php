@@ -34,7 +34,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param array $arguments
  * @return array
  */
-function invoke_last($collection, $methodName, array $arguments = array())
+function invoke_last($collection, $methodName, array $arguments = [])
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 2);
@@ -43,7 +43,7 @@ function invoke_last($collection, $methodName, array $arguments = array())
 
     foreach ($collection as $element) {
 
-        $callback = array($element, $methodName);
+        $callback = [$element, $methodName];
         if (is_callable($callback)) {
             $lastCallback = $callback;
         }
@@ -53,5 +53,5 @@ function invoke_last($collection, $methodName, array $arguments = array())
     	return null;
     }
 
-    return call_user_func_array($lastCallback, $arguments);
+    return $lastCallback(...$arguments);
 }

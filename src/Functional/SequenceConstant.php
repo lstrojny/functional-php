@@ -37,5 +37,5 @@ function sequence_constant($value)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($value, 0, __FUNCTION__, 1);
 
-    return new InfiniteIterator(new ArrayIterator(array($value)));
+    return new InfiniteIterator(new ArrayIterator([$value]));
 }

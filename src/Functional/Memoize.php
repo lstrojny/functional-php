@@ -27,22 +27,20 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
- * @param callable $callback Callable closure or function
+ * @param callable|null $callback Callable closure or function. Pass null to reset memory
  * @param array $arguments Arguments
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
  */
-function memoize($callback, array $arguments = array(), $key = null)
+function memoize(callable $callback = null, array $arguments = [], $key = null)
 {
-    static $storage = array();
+    static $storage = [];
 
     if ($callback === null) {
-        $storage = array();
+        $storage = [];
 
         return null;
     }
-
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 1);
 
     static $keyGenerator = null;
     if (!$keyGenerator) {
@@ -61,13 +59,13 @@ function memoize($callback, array $arguments = array(), $key = null)
     }
 
     if ($key === null) {
-        $key = $keyGenerator(array_merge(array($callback), $arguments));
+        $key = $keyGenerator(array_merge([$callback], $arguments));
     } else {
         $key = $keyGenerator($key);
     }
 
     if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
-        $storage[$key] = call_user_func_array($callback, $arguments);
+        $storage[$key] = $callback(...$arguments);
     }
 
     return $storage[$key];
