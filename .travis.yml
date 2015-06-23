@@ -7,5 +7,5 @@ php:
   - nightly
   - hhvm
 
-script:
-  - phpunit --debug
+before_script: composer install
+script: phpunit --debug
