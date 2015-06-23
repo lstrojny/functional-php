@@ -59,6 +59,14 @@ class FirstIndexOfTest extends AbstractTestCase
         $this->assertFalse(first_index_of($this->hashIterator, 'invalidValue'));
     }
 
+    public function testPassCallback()
+    {
+        $this->assertSame(
+            0,
+            first_index_of($this->array, function($element) {return $element;})
+        );
+    }
+
     public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\first_index_of() expects parameter 1 to be array or instance of Traversable');
