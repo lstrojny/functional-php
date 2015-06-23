@@ -12,41 +12,25 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
   - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.
 Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison is the default but can be changed
   - Calls 5.3 closures as well as usual callbacks
-  - C implementation for performance but a compatible userland implementation is provided if you can’t install PHP
-    extensions
   - All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
 
 [![Functional Comic](http://imgs.xkcd.com/comics/functional.png)](http://xkcd.com/1270/)
 
 ## Installation
 
-
-### Install native extension
-```bash
-cd functional-php/
-phphize
-./configure
-make
-sudo make install
-```
-
-
-### Use userland extension
-
-#### Using composer
+### Using composer
 
 Put the require statement for `functional-php` in your `composer.json` file and run `php composer.phar install`:
 
 ```json
 {
     "require": {
-        "lstrojny/functional-php": "*"
+        "lstrojny/functional-php": "~1.2"
     }
 }
 ```
 
-
-#### Manually
+### Manually
 
 Checkout functional-php and include the `_import.php`
 
@@ -405,66 +389,66 @@ F\sort($collection, function($user1, $user2) {
 
 ### Additional functions:
 
-`void Functional\each(array|Traversable $collection, callable $callback)`  
+`void Functional\each(array|Traversable $collection, callable $callback)`
 Applies a callback to each element
 
 
-`array Functional\map(array|Traversable $collection, callable $callback)`  
+`array Functional\map(array|Traversable $collection, callable $callback)`
 Applies a callback to each element in the collection and collects the return value
 
 
-`array Functional\flat_map(array|Traversable $collection, callable $callback)`  
+`array Functional\flat_map(array|Traversable $collection, callable $callback)`
 Applies a callback to each element in the collection and collects the return values flattening one level of nested arrays.
 
 
-`mixed Functional\first(array|Traversable $collection[, callable $callback])`  
-`mixed Functional\head(array|Traversable $collection[, callable $callback])`  
+`mixed Functional\first(array|Traversable $collection[, callable $callback])`
+`mixed Functional\head(array|Traversable $collection[, callable $callback])`
 Returns the first element of the collection where the callback returned true. If no callback is given, the first element
 is returned
 
 
-`mixed Functional\last(array|Traversable $collection[, callable $callback])`  
+`mixed Functional\last(array|Traversable $collection[, callable $callback])`
 Returns the last element of the collection where the callback returned true. If no callback is given, the last element
 is returned
 
 
-`mixed Functional\tail(array|Traversable $collection[, callable $callback])`  
+`mixed Functional\tail(array|Traversable $collection[, callable $callback])`
 Returns every element of the collection except the first one. Elements are optionally filtered by callback.
 
 
-`integer|float Functional\product(array|Traversable $collection, $initial = 1)`  
+`integer|float Functional\product(array|Traversable $collection, $initial = 1)`
 Calculates the product of all numeric elements, starting with `$initial`
 
 
-`integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`  
+`integer|float Functional\ratio(array|Traversable $collection, $initial = 1)`
 Calculates the ratio of all numeric elements, starting with `$initial`
 
 
-`integer|float Functional\sum(array|Traversable $collection, $initial = 0)`  
+`integer|float Functional\sum(array|Traversable $collection, $initial = 0)`
 Calculates the sum of all numeric elements, starting with `$initial`
 
 
-`integer|float Functional\difference(array|Traversable $collection, $initial = 0)`  
+`integer|float Functional\difference(array|Traversable $collection, $initial = 0)`
 Calculates the difference of all elements, starting with `$initial`
 
 
-`integer|float|null Functional\average(array|Traversable $collection)`  
+`integer|float|null Functional\average(array|Traversable $collection)`
 Calculates the average of all numeric elements
 
 
-`array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`  
+`array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`
 Returns a unified array based on the index value returned by the callback, use `$strict` to change comparison mode
 
 
-`mixed Functional\maximum(array|Traversable $collection)`  
+`mixed Functional\maximum(array|Traversable $collection)`
 Returns the highest element in the array or collection
 
 
-`mixed Functional\minimum(array|Traversable $collection)`  
+`mixed Functional\minimum(array|Traversable $collection)`
 Returns the lowest element in the array or collection
 
 
-`mixed Functional\memoize(callable $callback[, array $arguments = array()], [mixed $key = null]])`  
+`mixed Functional\memoize(callable $callback[, array $arguments = array()], [mixed $key = null]])`
 Returns and stores the result of the function call. Second call to the same function will return the same result without calling the function again
 
 
