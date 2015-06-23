@@ -24,6 +24,6 @@
         "files": ["src/Functional/_import.php"]
     },
     "extra": {
-        "branch-alias": { "dev-master": "1.0-dev" }
+        "branch-alias": { "dev-master": "1.2-dev" }
     }
 }
