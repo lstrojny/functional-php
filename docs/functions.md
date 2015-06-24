@@ -223,6 +223,19 @@ use function Functional\last_index_of;
 $index = last_index_of(['value', 'value'], 'value');
 ```
 
+### Functional\indexes_of()
+Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an empty array if no values were found.
+
+``array Functional\indexes_of(Traversable|array $collection, mixed|callable $value)``
+
+```php
+<?php
+use function Functional\indexes_of;
+
+// $indexes will be array(0, 2)
+$indexes = indexes_of(['value', 'value2', 'value'], 'value');
+```
+
 ### Functional\true() / Functional\false()
 Returns true or false if all elements in the collection are strictly true or false
 

@@ -22,6 +22,7 @@
 <phpunit
     backupGlobals="false"
     backupStaticAttributes="false"
+    bootstrap="vendor/autoload.php"
     convertWarningsToExceptions="true"
     convertNoticesToExceptions="true"
     beStrictAboutTestsThatDoNotTestAnything="true"
@@ -42,7 +43,7 @@
 
     <testsuites>
         <testsuite name="unit-tests">
-            <directory>tests/</directory>
+            <directory>tests/Functional/</directory>
         </testsuite>
     </testsuites>
 
