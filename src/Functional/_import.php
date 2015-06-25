@@ -61,6 +61,7 @@ call_user_func(function() {
         'Functional\\average',
         'Functional\\first_index_of',
         'Functional\\last_index_of',
+        'Functional\\indexes_of',
         'Functional\\true',
         'Functional\\false',
         'Functional\\truthy',
