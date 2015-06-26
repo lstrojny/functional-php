@@ -39,10 +39,6 @@ Checkout functional-php and include the `_import.php`
 include 'path/to/functional-php/src/Functional/_import.php';
 ```
 
-### Import functions
-Everytime you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on top of
-your PHP file or use `use function Functional\function_name`.
-
 ## Docs
 [Read the docs](docs/00-index.md)
 
