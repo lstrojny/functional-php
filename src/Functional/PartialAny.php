@@ -49,17 +49,32 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
-/** @return resource */
-function …()
-{
-    static $resource;
+if (defined('HHVM_VERSION')) {
+    /** @return resource */
+    function …()
+    {
+        static $resource;
 
-    if (!$resource) {
-        $resource = hash_init('gost');
+        if (!$resource) {
+            $resource = openssl_random_pseudo_bytes(128);
+        }
+
+        return $resource;
     }
+} else {
+    /** @return resource */
+    function …()
+    {
+        static $resource;
 
-    return $resource;
+        if (!$resource) {
+            $resource = hash_init('gost');
+        }
+
+        return $resource;
+    }
 }
+
 
 /** @return resource */
 function placeholder()
