@@ -72,10 +72,11 @@ class AbstractTestCase extends TestCase
     protected function expectArgumentError($message)
     {
         if (strpos($message, 'callable') !== false) {
-            $this->setExpectedException(
-                version_compare('7.0', PHP_VERSION) < 1 ? 'TypeError' : 'PHPUnit_Framework_Error',
-                $message
-            );
+            $expectedExceptionClass = version_compare('7.0', PHP_VERSION) < 1 ? 'TypeError' : 'PHPUnit_Framework_Error';
+            $expectedMessage = defined('HHVM_VERSION')
+                ? str_replace('must be callable', 'must be an instance of callable', $message)
+                : $message;
+            $this->setExpectedException($expectedExceptionClass, $expectedMessage);
         } else {
             $this->setExpectedException(InvalidArgumentException::class, $message);
         }
