@@ -43,6 +43,7 @@ class ExponentialSequence implements Iterator
     {
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);
+        InvalidArgumentException::assertIntegerLessThanOrEqual($percentage, 100, __METHOD__, 2);
 
         $this->start = $start;
         $this->percentage = $percentage;
