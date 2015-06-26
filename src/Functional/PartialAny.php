@@ -36,23 +36,17 @@ use Functional\Exceptions\InvalidArgumentException;
 function partial_any(callable $callback, ...$arguments)
 {
     return function (...$innerArguments) use ($callback, $arguments) {
-        $marker = placeholder();
+        $placeholder = …();
 
-        foreach ($arguments as $position => &$param) {
-            if ($param === $marker) {
+        foreach ($arguments as $position => &$argument) {
+            if ($argument === $placeholder) {
                 InvalidArgumentException::assertResolvablePlaceholder($innerArguments, $position);
-                $param = array_shift($innerArguments);
+                $argument = array_shift($innerArguments);
             }
         }
 
         return $callback(...$arguments);
     };
-}
-
-/** @return resource */
-function placeholder()
-{
-    return …();
 }
 
 /** @return resource */
@@ -65,6 +59,12 @@ function …()
     }
 
     return $resource;
+}
+
+/** @return resource */
+function placeholder()
+{
+    return …();
 }
 
 /** Define unicode ellipsis constant */
