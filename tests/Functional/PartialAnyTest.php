@@ -11,7 +11,7 @@ class PartialAnyTest extends AbstractPartialTestCase
 {
     public function testBindWithPlaceholder()
     {
-        $ratio = partial_any($this->ratio(), …, 10);
+        $ratio = partial_any($this->ratio(), …(), 10);
         $this->assertSame(1, $ratio(10));
         $this->assertSame(2, $ratio(20));
     }
@@ -19,7 +19,7 @@ class PartialAnyTest extends AbstractPartialTestCase
     public function testBindWithPlaceholder_Constant()
     {
         $context = hash_init('md2');
-        $hash = partial_any('hash_update', $context, …);
+        $hash = partial_any('hash_update', $context, …());
         $hash('oh hi');
         $this->assertSame('6f24cbf6005b9bfc0176abbbe309f0d0', hash_final($context));
     }
@@ -41,14 +41,18 @@ class PartialAnyTest extends AbstractPartialTestCase
 
     public function testNoFurtherArgumentsResolvedAfterPlaceholder()
     {
-        $firstNCharacters = partial_any('substr', …, 0, …);
+        $firstNCharacters = partial_any('substr', …(), 0, …());
         $this->assertSame('f', $firstNCharacters('foo', 1, 100), 'Third parameter should be ignored');
     }
 
     public function testAliasForUnicodePlaceholder()
     {
         $this->assertSame(…(), placeholder());
-        $this->assertSame(…, placeholder());
+
+        /* @see https://github.com/facebook/hhvm/issues/5548 */
+        if (!defined('HHVM_VERSION')) {
+            $this->assertSame(…, placeholder());
+        }
     }
 
     public function testStringConversion()

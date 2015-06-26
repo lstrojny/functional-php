@@ -49,6 +49,7 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
+/* @see https://github.com/facebook/hhvm/issues/5549 */
 if (defined('HHVM_VERSION')) {
     /** @return resource */
     function …()
