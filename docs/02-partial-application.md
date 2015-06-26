@@ -8,6 +8,8 @@
 
 # Partial application
 
+## Introduction
+
 Partial application is a concept where a higher-order function returns a new function by applying the passed arguments
 to the new function. Let’s have a look at the following simple function that takes two parameters and adds them:
 
@@ -30,6 +32,9 @@ $partiallyAppliedSubtractor = $subtractor(10);
 $partiallyAppliedSubtractor(20); // -> -10
 ```
 
+
+## partial_left() & partial_right()
+
 `Functional\partial_left()` and `Functional\partial_right` are shortcuts to create partially applied functions. Let’s revisit
 our example again, this time using `partial_left`:
 
@@ -48,6 +53,8 @@ use function Functional\partial_right;
 $partiallyAppliedSubtractor = partial_right($subtractor, 10);
 $partiallyAppliedSubtractor(20); // -> 10
 ```
+
+## partial_any()
 
 There is a third function in the family called `partial_any`. Unlike its siblings it doesn’t automatically merge but it
 only resolves placeholders that can either be indicated by calling `Functional\placeholder()`, `Functional\…()` or the
@@ -82,4 +89,31 @@ $elements = [
     'patrick',
 ];
 $selected = select($elements, partial_any('substr_count', …, 'jo'));
+```
+
+
+## partial_method()
+
+The fourth member of the partial application family is the `partial_method` function. It returns a function with a bound
+method call expecting the object that receives the method call as a first parameter. Let’s assume we want to filter a
+list of objects by a predicate that belongs to the object:
+
+```php
+use function Functional\select;
+use function Functional\partial_method;
+
+$users = [new User(), new User()];
+$registeredUsers = select($users, function (User $user) {
+    return $user->isRegistered();
+});
+```
+
+We can rewrite the above example like this:
+
+```php
+use function Functional\select;
+use function Functional\partial_method;
+
+$users = [new User(), new User()];
+$registeredUsers = select($users, partial_method('isRegistered'));
 ```
