@@ -22,6 +22,7 @@
  */
 namespace Functional\Tests;
 
+use ArrayIterator;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use function Functional\poll;
 
@@ -46,7 +47,7 @@ class PollTest extends AbstractTestCase
         $this->poller
             ->expects($this->once())
             ->method('poll')
-            ->with(0)
+            ->with(0, 0)
             ->willReturn(true);
 
         $this->assertTrue(poll([$this->poller, 'poll'], 1000));
@@ -57,12 +58,12 @@ class PollTest extends AbstractTestCase
         $this->poller
             ->expects($this->at(0))
             ->method('poll')
-            ->with(0)
+            ->with(0, 0)
             ->willReturn(false);
         $this->poller
             ->expects($this->at(1))
             ->method('poll')
-            ->with(1)
+            ->with(1, 0)
             ->willReturn('OH HAI');
 
         $this->assertSame('OH HAI', poll([$this->poller, 'poll'], 1000));
@@ -73,7 +74,7 @@ class PollTest extends AbstractTestCase
         $this->poller
             ->expects($this->at(0))
             ->method('poll')
-            ->with(0)
+            ->with(0, 0)
             ->willReturnCallback(
                 function() {
                     usleep(100);
@@ -82,6 +83,17 @@ class PollTest extends AbstractTestCase
             );
 
         $this->assertFalse(poll([$this->poller, 'poll'], 100));
+    }
+
+    public function testWithEmptyDelayCallsAtLeastOnce()
+    {
+        $this->poller
+            ->expects($this->at(0))
+            ->method('poll')
+            ->with(0, 0)
+            ->willReturn(true);
+
+        $this->assertTrue(poll([$this->poller, 'poll'], 0, new ArrayIterator([])));
     }
 
     public function testThrowsExceptionIfTimeoutCountNotAtLeast0()

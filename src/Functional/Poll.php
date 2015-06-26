@@ -22,6 +22,7 @@
  */
 namespace Functional;
 
+use AppendIterator;
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 use InfiniteIterator;
@@ -42,11 +43,16 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 
     $retry = 0;
 
-    $delaySequence = $delaySequence ? $delaySequence : new InfiniteIterator(new ArrayIterator([0]));
+    $delays = new AppendIterator();
+    if ($delaySequence) {
+        $delays->append(new InfiniteIterator($delaySequence));
+    }
+    $delays->append(new InfiniteIterator(new ArrayIterator([0])));
+
     $limit = microtime(true) + ($timeout / 100000);
 
-    foreach ($delaySequence as $delay) {
-        $value = call_user_func($callback, $retry, $delay);
+    foreach ($delays as $delay) {
+        $value = $callback($retry, $delay);
 
         if ($value) {
             return $value;

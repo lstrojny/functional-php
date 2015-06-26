@@ -22,8 +22,6 @@
  */
 namespace Functional;
 
-use Functional\Exceptions\InvalidArgumentException;
-
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *

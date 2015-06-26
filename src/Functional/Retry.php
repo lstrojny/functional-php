@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use AppendIterator;
+use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 use Exception;
 use InfiniteIterator;
@@ -42,15 +44,20 @@ function retry(callable $callback, $retries, Traversable $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($retries, 1, __FUNCTION__, 2);
 
-    $delaySequence = $delaySequence
-        ? new LimitIterator(new InfiniteIterator($delaySequence), 0, $retries)
-        : array_fill_keys(range(0, $retries), 0);
+    if ($delaySequence) {
+        $delays = new AppendIterator();
+        $delays->append(new InfiniteIterator($delaySequence));
+        $delays->append(new InfiniteIterator(new ArrayIterator([0])));
+        $delays = new LimitIterator($delays, $retries);
+    } else {
+        $delays = array_fill_keys(range(0, $retries), 0);
+    }
 
     $retry = 0;
-    foreach ($delaySequence as $delay) {
+    foreach ($delays as $delay) {
         try {
 
-            return call_user_func($callback, $retry, $delay);
+            return $callback($retry, $delay);
 
         } catch (Exception $e) {
 

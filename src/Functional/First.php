@@ -49,4 +49,6 @@ function first($collection, callable $callback = null)
         }
 
     }
+
+    return null;
 }

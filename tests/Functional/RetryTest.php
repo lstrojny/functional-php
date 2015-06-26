@@ -87,6 +87,23 @@ class RetryTest extends AbstractTestCase
         retry([$this->retryer, 'retry'], 2);
     }
 
+    public function testRetryWithEmptyDelaySequence()
+    {
+        $this->retryer
+            ->expects($this->at(0))
+            ->method('retry')
+            ->with(0, 0)
+            ->willThrowException(new Exception('first'));
+        $this->retryer
+            ->expects($this->at(1))
+            ->method('retry')
+            ->with(1, 0)
+            ->willThrowException(new Exception('second'));
+
+        $this->setExpectedException('Exception', 'second');
+        retry([$this->retryer, 'retry'], 2, new ArrayIterator([]));
+    }
+
     public function testThrowsExceptionIfRetryCountNotAtLeast1()
     {
         $this->expectArgumentError(
