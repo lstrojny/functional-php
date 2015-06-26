@@ -10,6 +10,7 @@
 
 Functional PHP comes with a set of invocation helpers that ease calling function or methods or accessing nested values.
 
+
 ## with()
 Invoke a callback on a value if the value is not null
 
@@ -35,6 +36,7 @@ use function Functional\invoke_if;
 $userId = invoke_if($user, 'getId', [], 0);
 ```
 
+
 ## invoke(), invoke_last(), invoke_first()
 
 ``array Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``  
@@ -59,6 +61,7 @@ use function Functional\pluck;
 $names = pluck($users, 'name');
 ```
 
+
 ## pick()
 Pick a single element from a collection of objects or an array by index.
 If no such index exists, return the default value.
@@ -75,6 +78,7 @@ pick($array, 'ten'); //return null;
 pick($array, 'ten', 10); //return 10;
 ```
 
+
 ## first_index_of()
 Returns the first index holding specified value in the collection. Returns false if value was not found
 
@@ -88,6 +92,7 @@ use function Functional\first_index_of;
 $index = first_index_of(['value', 'value'], 'value');
 ```
 
+
 ## last_index_of()
 Returns the last index holding specified value in the collection. Returns false if value was not found
 
@@ -100,6 +105,7 @@ use function Functional\last_index_of;
 // $index will be 1
 $index = last_index_of(['value', 'value'], 'value');
 ```
+
 
 ## indexes_of()
 Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an empty array if no values were found.

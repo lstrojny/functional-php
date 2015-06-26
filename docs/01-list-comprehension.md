@@ -8,6 +8,7 @@
 
 # Function overview
 
+
 ## every() & invoke()
 
 ``Functional\every(array|Traversable $collection, callable $callback)``  
@@ -140,6 +141,7 @@ falsy([false, false, 0, null]);
 use function Functional\truthy;falsy([false, 'str', null, false]);
 ```
 
+
 ## contains()
 Returns true if given collection contains given element. If third parameter is true, the comparison
 will be strict
@@ -160,7 +162,7 @@ contains(['0', '1', '2'], 2, false);
 ```
 
 
-## Functional\sort()
+## sort()
 Sorts a collection with a user-defined function, optionally preserving array keys
 
 ```php

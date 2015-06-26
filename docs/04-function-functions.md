@@ -10,6 +10,7 @@
 
 Function functions take a function and return a new, modified version of the function.
 
+
 ## retry()
 Retry a callback until the number of retries are reached or the callback does no longer throw an exception
 
@@ -26,6 +27,7 @@ retry(
     sequence_exponential(1, 100)
 );
 ```
+
 
 ## poll()
 Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
@@ -45,6 +47,7 @@ poll(
 ```
 
 You can pass any `Traversable` as a sequence for the delay but Functional comes with `Functional\sequence_constant()`, `Functional\sequence_linear()` and `Functional\sequence_exponential()`.
+
 
 ## Other
 

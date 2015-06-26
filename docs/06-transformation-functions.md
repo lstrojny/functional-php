@@ -8,6 +8,7 @@
  
 # Transformation functions
 
+
 ## partition()
 Splits a collection into two by callback. Truthy values come first
 
@@ -22,6 +23,7 @@ list($admins, $users) = partition($collection, function($user) {
 });
 ```
 
+
 ## group()
 Splits a collection into groups by the index returned by the callback
 
@@ -35,6 +37,7 @@ $groupedUser = group($collection, function($user) {
     return $user->getGroup()->getName();
 });
 ```
+
 
 ## zip()
 Recombines arrays by index and applies a callback optionally
@@ -58,6 +61,7 @@ zip(
 );
 ```
 
+
 ## flatten()
 Takes a nested combination of collections and returns their contents as a single, flat array. Does not preserve indexes.
 
@@ -70,6 +74,7 @@ use function Functional\flatten;
 $flattened = flatten([1, 2, 3, [1, 2, 3, 4], 5]);
 // [1, 2, 3, 1, 2, 3, 4, 5];
 ```
+
 
 ## reduce_left() & reduce_right()
 Applies a callback to each element in the collection and reduces the collection to a single scalar value.
@@ -95,7 +100,6 @@ $str = reduce_right([2, 3], function($value, $index, $collection, $reduction) {
     return $reduction . $value;
 }, 2);
 ```
-
 
 
 ## Other
