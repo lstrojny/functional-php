@@ -110,7 +110,10 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
-        if (!is_string($propertyName) && !is_integer($propertyName) && !is_float($propertyName) && !is_null($propertyName)) {
+        if (!is_string($propertyName) &&
+            !is_integer($propertyName) &&
+            !is_float($propertyName) &&
+            !is_null($propertyName)) {
             throw new static(
                 sprintf(
                     '%s() expects parameter %d to be a valid property name or array index, %s given',

@@ -26,7 +26,8 @@ use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
- * Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an empty array if no values were found.
+ * Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an
+ * empty array if no values were found.
  *
  * @param Traversable|array $collection
  * @param mixed|callable $value
