@@ -35,22 +35,22 @@ class EachTest extends AbstractTestCase
                          ->getMock();
 
 
-        $this->array = ['value0', 'value1', 'value2', 'value3'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value0', 'value1', 'value2', 'value3'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k0' => 'value0', 'k1' => 'value1', 'k2' => 'value2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
     public function testArray()
     {
-        $this->prepareCallback($this->array);
-        $this->assertNull(each($this->array, [$this->cb, 'call']));
+        $this->prepareCallback($this->list);
+        $this->assertNull(each($this->list, [$this->cb, 'call']));
     }
 
     public function testIterator()
     {
-        $this->prepareCallback($this->iterator);
-        $this->assertNull(each($this->iterator, [$this->cb, 'call']));
+        $this->prepareCallback($this->listIterator);
+        $this->assertNull(each($this->listIterator, [$this->cb, 'call']));
     }
 
     public function testHash()
@@ -68,13 +68,13 @@ class EachTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        each($this->array, [$this, 'exception']);
+        each($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        each($this->iterator, [$this, 'exception']);
+        each($this->listIterator, [$this, 'exception']);
     }
 
     public function prepareCallback($collection)
@@ -88,7 +88,7 @@ class EachTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\\each() must be callable");
-        each($this->array, 'undefinedFunction');
+        each($this->list, 'undefinedFunction');
     }
 
     public function testPassNoCollection()

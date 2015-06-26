@@ -40,8 +40,8 @@ class FirstTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp($this->getAliases());
-        $this->array = ['first', 'second', 'third'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['first', 'second', 'third'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->badArray = ['foo', 'bar', 'baz'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
@@ -56,8 +56,8 @@ class FirstTest extends AbstractTestCase
             return $v == 'second' && $k == 1;
         };
 
-        $this->assertSame('second', $functionName($this->array, $callback));
-        $this->assertSame('second', $functionName($this->iterator, $callback));
+        $this->assertSame('second', $functionName($this->list, $callback));
+        $this->assertSame('second', $functionName($this->listIterator, $callback));
         $this->assertNull($functionName($this->badArray, $callback));
         $this->assertNull($functionName($this->badIterator, $callback));
     }
@@ -67,10 +67,10 @@ class FirstTest extends AbstractTestCase
      */
     public function testWithoutCallback($functionName)
     {
-        $this->assertSame('first', $functionName($this->array));
-        $this->assertSame('first', $functionName($this->array, null));
-        $this->assertSame('first', $functionName($this->iterator));
-        $this->assertSame('first', $functionName($this->iterator, null));
+        $this->assertSame('first', $functionName($this->list));
+        $this->assertSame('first', $functionName($this->list, null));
+        $this->assertSame('first', $functionName($this->listIterator));
+        $this->assertSame('first', $functionName($this->listIterator, null));
         $this->assertSame('foo', $functionName($this->badArray));
         $this->assertSame('foo', $functionName($this->badArray, null));
         $this->assertSame('foo', $functionName($this->badIterator));
@@ -88,7 +88,7 @@ class FirstTest extends AbstractTestCase
                 $functionName
             )
         );
-        $functionName($this->array, 'undefinedFunction');
+        $functionName($this->list, 'undefinedFunction');
     }
 
     /**
@@ -97,7 +97,7 @@ class FirstTest extends AbstractTestCase
     public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->array, [$this, 'exception']);
+        $functionName($this->list, [$this, 'exception']);
     }
 
     /**
@@ -106,7 +106,7 @@ class FirstTest extends AbstractTestCase
     public function testExceptionIsThrownInCollection($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->iterator, [$this, 'exception']);
+        $functionName($this->listIterator, [$this, 'exception']);
     }
 
     /**

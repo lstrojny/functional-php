@@ -31,8 +31,8 @@ class LastTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['first', 'second', 'third', 'fourth'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['first', 'second', 'third', 'fourth'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->badArray = ['foo', 'bar', 'baz'];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
@@ -44,36 +44,36 @@ class LastTest extends AbstractTestCase
             return ($v == 'first' && $k == 0) || ($v == 'third' && $k == 2);
         };
 
-        $this->assertSame('third', last($this->array, $fn));
-        $this->assertSame('third', last($this->iterator, $fn));
+        $this->assertSame('third', last($this->list, $fn));
+        $this->assertSame('third', last($this->listIterator, $fn));
         $this->assertNull(last($this->badArray, $fn));
         $this->assertNull(last($this->badIterator, $fn));
     }
 
     public function testWithoutCallback()
     {
-        $this->assertSame('fourth', last($this->array));
-        $this->assertSame('fourth', last($this->array, null));
-        $this->assertSame('fourth', last($this->iterator));
-        $this->assertSame('fourth', last($this->iterator, null));
+        $this->assertSame('fourth', last($this->list));
+        $this->assertSame('fourth', last($this->list, null));
+        $this->assertSame('fourth', last($this->listIterator));
+        $this->assertSame('fourth', last($this->listIterator, null));
     }
 
     public function testPassNonCallable()
     {
         $this->expectArgumentError('Argument 2 passed to Functional\last() must be callable');
-        last($this->array, 'undefinedFunction');
+        last($this->list, 'undefinedFunction');
     }
 
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        last($this->array, [$this, 'exception']);
+        last($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInCollection()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        last($this->iterator, [$this, 'exception']);
+        last($this->listIterator, [$this, 'exception']);
     }
 
     public function testPassNoCollection()

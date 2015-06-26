@@ -30,6 +30,18 @@ use Traversable;
 
 class AbstractTestCase extends TestCase
 {
+    /** @var array */
+    protected $list;
+
+    /** @var Traversable */
+    protected $listIterator;
+
+    /** @var array */
+    protected $hash;
+
+    /** @var Traversable */
+    protected $hashIterator;
+
     private $functions = [];
 
     public function setUp()

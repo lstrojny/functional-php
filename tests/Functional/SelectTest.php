@@ -40,8 +40,8 @@ class SelectTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp($this->getAliases());
-        $this->array = ['value', 'wrong', 'value'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value', 'wrong', 'value'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -55,8 +55,8 @@ class SelectTest extends AbstractTestCase
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };
-        $this->assertSame(['value', 2 => 'value'], $functionName($this->array, $callback));
-        $this->assertSame(['value', 2 => 'value'], $functionName($this->iterator, $callback));
+        $this->assertSame(['value', 2 => 'value'], $functionName($this->list, $callback));
+        $this->assertSame(['value', 2 => 'value'], $functionName($this->listIterator, $callback));
         $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hash, $callback));
         $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hashIterator, $callback));
     }
@@ -72,7 +72,7 @@ class SelectTest extends AbstractTestCase
                 $functionName
             )
          );
-        $functionName($this->array, 'undefinedFunction');
+        $functionName($this->list, 'undefinedFunction');
     }
 
     /**
@@ -95,7 +95,7 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInArray($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->array, [$this, 'exception']);
+        $functionName($this->list, [$this, 'exception']);
     }
 
     /**
@@ -113,7 +113,7 @@ class SelectTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator($functionName)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $functionName($this->iterator, [$this, 'exception']);
+        $functionName($this->listIterator, [$this, 'exception']);
     }
 
     /**

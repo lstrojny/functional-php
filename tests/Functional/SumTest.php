@@ -24,9 +24,22 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use function Functional\sum;
+use Traversable;
 
 class SumTest extends AbstractTestCase
 {
+    /** @var array */
+    private $intArray;
+
+    /** @var Traversable */
+    private $intIterator;
+
+    /** @var array */
+    private $floatArray;
+
+    /** @var Traversable */
+    private $floatIterator;
+
     public function setUp()
     {
         parent::setUp();
@@ -57,6 +70,6 @@ class SumTest extends AbstractTestCase
     public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\sum() expects parameter 1 to be array or instance of Traversable');
-        sum('invalidCollection', 'strlen');
+        sum('invalidCollection');
     }
 }

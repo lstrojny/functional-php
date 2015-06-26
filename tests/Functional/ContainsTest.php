@@ -27,11 +27,11 @@ use function Functional\contains;
 
 class ContainsTest extends AbstractTestCase
 {
-    public function setUp()
+    /** @before */
+    public function createTestData()
     {
-        parent::setUp();
-        $this->array = ['value0', 'value1', 'value2', 2];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value0', 'value1', 'value2', 2];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 2];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -41,23 +41,23 @@ class ContainsTest extends AbstractTestCase
         $this->assertFalse(contains([], 'foo'));
         $this->assertFalse(contains(new ArrayIterator(), 'foo'));
 
-        $this->assertTrue(contains($this->array, 'value0'));
-        $this->assertTrue(contains($this->array, 'value1'));
-        $this->assertTrue(contains($this->array, 'value2'));
-        $this->assertTrue(contains($this->array, 2));
-        $this->assertFalse(contains($this->array, '2', true));
-        $this->assertFalse(contains($this->array, '2'));
-        $this->assertTrue(contains($this->array, '2', false));
-        $this->assertFalse(contains($this->array, 'value'));
+        $this->assertTrue(contains($this->list, 'value0'));
+        $this->assertTrue(contains($this->list, 'value1'));
+        $this->assertTrue(contains($this->list, 'value2'));
+        $this->assertTrue(contains($this->list, 2));
+        $this->assertFalse(contains($this->list, '2', true));
+        $this->assertFalse(contains($this->list, '2'));
+        $this->assertTrue(contains($this->list, '2', false));
+        $this->assertFalse(contains($this->list, 'value'));
 
-        $this->assertTrue(contains($this->iterator, 'value0'));
-        $this->assertTrue(contains($this->iterator, 'value1'));
-        $this->assertTrue(contains($this->iterator, 'value2'));
-        $this->assertTrue(contains($this->iterator, 2));
-        $this->assertFalse(contains($this->iterator, '2', true));
-        $this->assertFalse(contains($this->iterator, '2'));
-        $this->assertTrue(contains($this->iterator, '2', false));
-        $this->assertFalse(contains($this->iterator, 'value'));
+        $this->assertTrue(contains($this->listIterator, 'value0'));
+        $this->assertTrue(contains($this->listIterator, 'value1'));
+        $this->assertTrue(contains($this->listIterator, 'value2'));
+        $this->assertTrue(contains($this->listIterator, 2));
+        $this->assertFalse(contains($this->listIterator, '2', true));
+        $this->assertFalse(contains($this->listIterator, '2'));
+        $this->assertTrue(contains($this->listIterator, '2', false));
+        $this->assertFalse(contains($this->listIterator, 'value'));
 
         $this->assertTrue(contains($this->hash, 'val1'));
         $this->assertTrue(contains($this->hash, 'val2'));

@@ -32,8 +32,8 @@ class FlatMapTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['v1', 'v2', 'v3'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['v1', 'v2', 'v3'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -48,8 +48,8 @@ class FlatMapTest extends AbstractTestCase
             $nestedArray = str_split($v);
             return [$k, $v, $nestedArray]; // flat_map will flatten one level of nesting
         };
-        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->array, $fn));
-        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->iterator, $fn));
+        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->list, $fn));
+        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->listIterator, $fn));
         $this->assertEquals(['k1','v1', ['v','1'],'k2','v2', ['v','2']], flat_map($this->hash, $fn));
         $this->assertEquals(['k1','v1', ['v','1'],'k2','v2', ['v','2']], flat_map($this->hashIterator, $fn));
     }
@@ -63,6 +63,6 @@ class FlatMapTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\\flat_map() must be callable");
-        flat_map($this->array, 'undefinedFunction');
+        flat_map($this->list, 'undefinedFunction');
     }
 }

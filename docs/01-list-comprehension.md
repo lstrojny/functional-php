@@ -95,7 +95,7 @@ drop_last($users, $fn);
 ```
 
 
-### Functional\true() / Functional\false()
+## true() & false()
 Returns true or false if all elements in the collection are strictly true or false
 
 ``bool Functional\true(array|Traversable $collection)``   
@@ -188,7 +188,7 @@ sort($collection, function($user1, $user2) {
 ```
 
 
-### Additional functions:
+## Other:
 
 `void Functional\each(array|Traversable $collection, callable $callback)`   
 Applies a callback to each element

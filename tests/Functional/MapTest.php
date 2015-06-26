@@ -31,8 +31,8 @@ class MapTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['value', 'value'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value', 'value'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -43,8 +43,8 @@ class MapTest extends AbstractTestCase
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };
-        $this->assertSame(['0value', '1value'], map($this->array, $fn));
-        $this->assertSame(['0value', '1value'], map($this->iterator, $fn));
+        $this->assertSame(['0value', '1value'], map($this->list, $fn));
+        $this->assertSame(['0value', '1value'], map($this->listIterator, $fn));
         $this->assertSame(['k1' => 'k1val1', 'k2' => 'k2val2'], map($this->hash, $fn));
         $this->assertSame(['k1' => 'k1val1', 'k2' => 'k2val2'], map($this->hashIterator, $fn));
     }
@@ -52,7 +52,7 @@ class MapTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->array, [$this, 'exception']);
+        map($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
@@ -64,7 +64,7 @@ class MapTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        map($this->iterator, [$this, 'exception']);
+        map($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
@@ -82,6 +82,6 @@ class MapTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\map() must be callable");
-        map($this->array, 'undefinedFunction');
+        map($this->list, 'undefinedFunction');
     }
 }

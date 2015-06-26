@@ -31,8 +31,8 @@ class RejectTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['value', 'wrong', 'value'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value', 'wrong', 'value'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -43,8 +43,8 @@ class RejectTest extends AbstractTestCase
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'wrong' && strlen($k) > 0;
         };
-        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->array, $fn));
-        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->iterator, $fn));
+        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->list, $fn));
+        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->listIterator, $fn));
         $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hash, $fn));
         $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hashIterator, $fn));
     }
@@ -52,7 +52,7 @@ class RejectTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\\reject() must be callable");
-        reject($this->array, 'undefinedFunction');
+        reject($this->list, 'undefinedFunction');
     }
 
     public function testPassNoCollection()
@@ -64,7 +64,7 @@ class RejectTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->array, [$this, 'exception']);
+        reject($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
@@ -76,7 +76,7 @@ class RejectTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        reject($this->iterator, [$this, 'exception']);
+        reject($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()

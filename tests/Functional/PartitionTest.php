@@ -31,8 +31,8 @@ class PartitionTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['value1', 'value2', 'value3'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value1', 'value2', 'value3'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -43,8 +43,8 @@ class PartitionTest extends AbstractTestCase
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
         };
-        $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->array, $fn));
-        $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->iterator, $fn));
+        $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->list, $fn));
+        $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->listIterator, $fn));
         $this->assertSame([['k2' => 'val2'], ['k1' => 'val1', 'k3' => 'val3']], partition($this->hash, $fn));
         $this->assertSame([['k2' => 'val2'], ['k1' => 'val1', 'k3' => 'val3']], partition($this->hashIterator, $fn));
     }
@@ -52,7 +52,7 @@ class PartitionTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        partition($this->array, [$this, 'exception']);
+        partition($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
@@ -64,7 +64,7 @@ class PartitionTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        partition($this->iterator, [$this, 'exception']);
+        partition($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
@@ -82,6 +82,6 @@ class PartitionTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\partition() must be callable");
-        partition($this->array, 'undefinedFunction');
+        partition($this->list, 'undefinedFunction');
     }
 }

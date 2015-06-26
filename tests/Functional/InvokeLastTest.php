@@ -30,8 +30,8 @@ class InvokeLastTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = [null, null, $this];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = [null, null, $this];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->keyArray = ['k1' => null, 'k2' => $this];
         $this->keyIterator = new ArrayIterator(['k1' => null, 'k2' => $this]);
 
@@ -41,11 +41,11 @@ class InvokeLastTest extends AbstractTestCase
 
     public function testSimple()
     {
-        $this->assertSame('methodValue', invoke_last($this->array, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_last($this->iterator, 'method'));
-        $this->assertSame(null, invoke_last($this->array, 'undefinedMethod'));
-        $this->assertSame(null, invoke_last($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame([1, 2], invoke_last($this->array, 'returnArguments', [1, 2]));
+        $this->assertSame('methodValue', invoke_last($this->list, 'method', [1, 2]));
+        $this->assertSame('methodValue', invoke_last($this->listIterator, 'method'));
+        $this->assertSame(null, invoke_last($this->list, 'undefinedMethod'));
+        $this->assertSame(null, invoke_last($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertSame([1, 2], invoke_last($this->list, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_last($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
     }
@@ -65,13 +65,13 @@ class InvokeLastTest extends AbstractTestCase
     public function testPassNoPropertyName()
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 2 to be string');
-        invoke_last($this->array, new \stdClass());
+        invoke_last($this->list, new \stdClass());
     }
 
     public function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        invoke_last($this->array, 'exception');
+        invoke_last($this->list, 'exception');
     }
 
     public function method()

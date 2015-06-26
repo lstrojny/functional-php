@@ -32,8 +32,8 @@ class DropTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp('Functional\drop_first', 'Functional\drop_last');
-        $this->array = ['value1', 'value2', 'value3', 'value4'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value1', 'value2', 'value3', 'value4'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 'val4'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -45,10 +45,10 @@ class DropTest extends AbstractTestCase
             $return = is_int($k) ? ($k != 2) : ($v[3] != 3);
             return $return;
         };
-        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->array, $fn));
-        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->array, $fn));
-        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->iterator, $fn));
-        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->iterator, $fn));
+        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->list, $fn));
+        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->list, $fn));
+        $this->assertSame([2 => 'value3', 3 => 'value4'], drop_first($this->listIterator, $fn));
+        $this->assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->listIterator, $fn));
         $this->assertSame(['k3' => 'val3', 'k4' => 'val4'], drop_first($this->hash, $fn));
         $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], drop_last($this->hash, $fn));
         $this->assertSame(['k3' => 'val3', 'k4' => 'val4'], drop_first($this->hashIterator, $fn));
@@ -64,7 +64,7 @@ class DropTest extends AbstractTestCase
     public function testExceptionIsThrownInArray($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->array, [$this, 'exception']);
+        $fn($this->list, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
@@ -78,7 +78,7 @@ class DropTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator($fn)
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        $fn($this->iterator, [$this, 'exception']);
+        $fn($this->listIterator, [$this, 'exception']);
     }
 
     /** @dataProvider getFunctions */
@@ -99,6 +99,6 @@ class DropTest extends AbstractTestCase
     public function testPassNonCallable($fn)
     {
         $this->expectArgumentError(sprintf('Argument 2 passed to %s() must be callable', $fn));
-        $fn($this->array, 'undefinedFunction');
+        $fn($this->list, 'undefinedFunction');
     }
 }

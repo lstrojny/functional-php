@@ -11,8 +11,10 @@
 `mixed Functional\maximum(array|Traversable $collection)`  
 Returns the highest element in the array or collection
 
+
 `mixed Functional\minimum(array|Traversable $collection)`  
 Returns the lowest element in the array or collection
+
 
 `integer|float Functional\product(array|Traversable $collection, $initial = 1)`  
 Calculates the product of all numeric elements, starting with `$initial`

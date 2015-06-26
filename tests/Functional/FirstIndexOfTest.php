@@ -22,28 +22,20 @@
  */
 namespace Functional\Tests;
 
-use ArrayIterator;
 use function Functional\first_index_of;
 
 class FirstIndexOfTest extends AbstractTestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        $this->array = ['value1', 'value', 'value', 'value2'];
-        $this->iterator = new ArrayIterator($this->array);
-        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val1', 'k4' => 'val3'];
-        $this->hashIterator = new ArrayIterator($this->hash);
-    }
+    use IndexesTrait;
 
     public function test()
     {
-        $this->assertSame(0, first_index_of($this->array, 'value1'));
-        $this->assertSame(0, first_index_of($this->iterator, 'value1'));
-        $this->assertSame(1, first_index_of($this->array, 'value'));
-        $this->assertSame(1, first_index_of($this->iterator, 'value'));
-        $this->assertSame(3, first_index_of($this->array, 'value2'));
-        $this->assertSame(3, first_index_of($this->iterator, 'value2'));
+        $this->assertSame(0, first_index_of($this->list, 'value1'));
+        $this->assertSame(0, first_index_of($this->listIterator, 'value1'));
+        $this->assertSame(1, first_index_of($this->list, 'value'));
+        $this->assertSame(1, first_index_of($this->listIterator, 'value'));
+        $this->assertSame(3, first_index_of($this->list, 'value2'));
+        $this->assertSame(3, first_index_of($this->listIterator, 'value2'));
         $this->assertSame('k1', first_index_of($this->hash, 'val1'));
         $this->assertSame('k1', first_index_of($this->hashIterator, 'val1'));
         $this->assertSame('k2', first_index_of($this->hash, 'val2'));
@@ -54,8 +46,8 @@ class FirstIndexOfTest extends AbstractTestCase
 
     public function testIfValueCouldNotBeFoundFalseIsReturned()
     {
-        $this->assertFalse(first_index_of($this->array, 'invalidValue'));
-        $this->assertFalse(first_index_of($this->iterator, 'invalidValue'));
+        $this->assertFalse(first_index_of($this->list, 'invalidValue'));
+        $this->assertFalse(first_index_of($this->listIterator, 'invalidValue'));
         $this->assertFalse(first_index_of($this->hash, 'invalidValue'));
         $this->assertFalse(first_index_of($this->hashIterator, 'invalidValue'));
     }
@@ -64,7 +56,7 @@ class FirstIndexOfTest extends AbstractTestCase
     {
         $this->assertSame(
             0,
-            first_index_of($this->array, function($element) {return $element;})
+            first_index_of($this->list, function($element) {return $element;})
         );
     }
 

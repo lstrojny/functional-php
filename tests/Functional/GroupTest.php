@@ -31,8 +31,8 @@ class GroupTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['value1', 'value2', 'value3', 'value4'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value1', 'value2', 'value3', 'value4'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
@@ -43,8 +43,8 @@ class GroupTest extends AbstractTestCase
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
         };
-        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->array, $fn));
-        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->iterator, $fn));
+        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->list, $fn));
+        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->listIterator, $fn));
         $this->assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hash, $fn));
         $this->assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hashIterator, $fn));
     }
@@ -93,7 +93,7 @@ class GroupTest extends AbstractTestCase
     public function testExceptionIsThrownInArray()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        group($this->array, [$this, 'exception']);
+        group($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
@@ -105,7 +105,7 @@ class GroupTest extends AbstractTestCase
     public function testExceptionIsThrownInIterator()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        group($this->iterator, [$this, 'exception']);
+        group($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
@@ -123,6 +123,6 @@ class GroupTest extends AbstractTestCase
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\group() must be callable");
-        group($this->array, 'undefinedFunction');
+        group($this->list, 'undefinedFunction');
     }
 }

@@ -31,23 +31,23 @@ class ReduceTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp('Functional\reduce_right', 'Functional\reduce_left');
-        $this->array = ['one', 'two', 'three'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['one', 'two', 'three'];
+        $this->listIterator = new ArrayIterator($this->list);
     }
 
     public function testReducing()
     {
-        $this->currentCollection = $this->array;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->array, [$this, 'functionalCallback']));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->array, [$this, 'functionalCallback'], 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->array, [$this, 'functionalCallback']));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->array, [$this, 'functionalCallback'], 'default'));
+        $this->currentCollection = $this->list;
+        $this->assertSame('0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback']));
+        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback'], 'default'));
+        $this->assertSame('2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback']));
+        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback'], 'default'));
 
-        $this->currentCollection = $this->iterator;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->iterator, [$this, 'functionalCallback']));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->iterator, [$this, 'functionalCallback'], 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->iterator, [$this, 'functionalCallback']));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->iterator, [$this, 'functionalCallback'], 'default'));
+        $this->currentCollection = $this->listIterator;
+        $this->assertSame('0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback']));
+        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback'], 'default'));
+        $this->assertSame('2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback']));
+        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback'], 'default'));
 
         $this->assertSame('initial', reduce_left([], function(){}, 'initial'));
         $this->assertNull(reduce_left([], function(){}));
@@ -66,25 +66,25 @@ class ReduceTest extends AbstractTestCase
     public function testExceptionThrownInIteratorCallbackWhileReduceLeft()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 0');
-        reduce_left($this->iterator, [$this, 'exception']);
+        reduce_left($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionThrownInIteratorCallbackWhileReduceRight()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 2');
-        reduce_right($this->iterator, [$this, 'exception']);
+        reduce_right($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionThrownInArrayCallbackWhileReduceLeft()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 0');
-        reduce_left($this->array, [$this, 'exception']);
+        reduce_left($this->list, [$this, 'exception']);
     }
 
     public function testExceptionThrownInArrayCallbackWhileReduceRight()
     {
         $this->setExpectedException('DomainException', 'Callback exception: 2');
-        reduce_right($this->array, [$this, 'exception']);
+        reduce_right($this->list, [$this, 'exception']);
     }
 
     public function functionalCallback($value, $key, $collection, $returnValue)
@@ -109,7 +109,7 @@ class ReduceTest extends AbstractTestCase
     public function testPassNonCallableToReduceLeft()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\\reduce_left() must be callable");
-        reduce_left($this->array, 'undefinedFunction');
+        reduce_left($this->list, 'undefinedFunction');
     }
 
     public function testPassNoCollectionToReduceRight()
@@ -121,6 +121,6 @@ class ReduceTest extends AbstractTestCase
     public function testPassNonCallableToReduceRight()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\\reduce_right() must be callable");
-        reduce_right($this->array, 'undefinedFunction');
+        reduce_right($this->list, 'undefinedFunction');
     }
 }

@@ -31,8 +31,8 @@ class MinimumTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = [
             'k1' => 1,
             'k2' => '5.2',
@@ -49,8 +49,8 @@ class MinimumTest extends AbstractTestCase
 
     public function testExtractingMinimumValue()
     {
-        $this->assertEquals(1, minimum($this->array));
-        $this->assertEquals(1, minimum($this->iterator));
+        $this->assertEquals(1, minimum($this->list));
+        $this->assertEquals(1, minimum($this->listIterator));
         $this->assertEquals(-10, minimum($this->hash));
         $this->assertEquals(-10, minimum($this->hashIterator));
     }

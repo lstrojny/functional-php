@@ -31,8 +31,8 @@ class MaximumTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = [
             'k1' => 1,
             'k2' => '5.2',
@@ -48,8 +48,8 @@ class MaximumTest extends AbstractTestCase
 
     public function testExtractingMaximumValue()
     {
-        $this->assertEquals('5.2', maximum($this->array));
-        $this->assertEquals('5.2', maximum($this->iterator));
+        $this->assertEquals('5.2', maximum($this->list));
+        $this->assertEquals('5.2', maximum($this->listIterator));
         $this->assertEquals(10.2, maximum($this->hash));
         $this->assertEquals(10.2, maximum($this->hashIterator));
     }

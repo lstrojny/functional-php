@@ -32,8 +32,8 @@ class ZipTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = ['value', 'value'];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = ['value', 'value'];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }

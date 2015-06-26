@@ -30,8 +30,8 @@ class InvokeFirstTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->array = [$this, null, null];
-        $this->iterator = new ArrayIterator($this->array);
+        $this->list = [$this, null, null];
+        $this->listIterator = new ArrayIterator($this->list);
         $this->keyArray = ['k1' => $this, 'k2' => null];
         $this->keyIterator = new ArrayIterator(['k1' => $this, 'k2' => null]);
 
@@ -41,11 +41,11 @@ class InvokeFirstTest extends AbstractTestCase
 
     public function testSimple()
     {
-        $this->assertSame('methodValue', invoke_first($this->array, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_first($this->iterator, 'method'));
-        $this->assertSame(null, invoke_first($this->array, 'undefinedMethod'));
-        $this->assertSame(null, invoke_first($this->array, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame([1, 2], invoke_first($this->array, 'returnArguments', [1, 2]));
+        $this->assertSame('methodValue', invoke_first($this->list, 'method', [1, 2]));
+        $this->assertSame('methodValue', invoke_first($this->listIterator, 'method'));
+        $this->assertSame(null, invoke_first($this->list, 'undefinedMethod'));
+        $this->assertSame(null, invoke_first($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertSame([1, 2], invoke_first($this->list, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
     }
@@ -68,13 +68,13 @@ class InvokeFirstTest extends AbstractTestCase
     public function testPassNoPropertyName()
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 2 to be string');
-        invoke_first($this->array, new \stdClass());
+        invoke_first($this->list, new \stdClass());
     }
 
     public function testException()
     {
         $this->setExpectedException('DomainException', 'Callback exception');
-        invoke_first($this->array, 'exception');
+        invoke_first($this->list, 'exception');
     }
 
     public function method()
