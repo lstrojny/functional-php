@@ -257,6 +257,15 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    public static function assertResolvablePlaceholder(array $args, $position)
+    {
+        if (count($args) === 0) {
+            throw new static(
+                sprintf('Cannot resolve parameter placeholder at position %d. Parameter stack is empty.', $position)
+            );
+        }
+    }
+
     /**
      * @param $collection
      * @param string $className
