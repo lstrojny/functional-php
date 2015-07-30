@@ -22,8 +22,7 @@
  */
 namespace Functional\Tests;
 
-use ArrayIterator;
-use stdClass;
+use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use BadMethodCallException;
 use function Functional\memoize;
 
@@ -36,6 +35,7 @@ class MemoizeTest extends AbstractTestCase
 {
     private static $invocation = 0;
 
+    /** @var MockObject */
     private $callback;
 
     public static function invoke($name)
@@ -56,8 +56,8 @@ class MemoizeTest extends AbstractTestCase
     {
         parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')
-                               ->setMethods(['execute'])
-                               ->getMock();
+            ->setMethods(['execute'])
+            ->getMock();
 
         self::$invocation = 0;
     }
@@ -161,6 +161,25 @@ class MemoizeTest extends AbstractTestCase
         }
     }
 
+    public function testPassKeyGeneratorCallable()
+    {
+        $this->callback
+            ->expects($this->exactly(2))
+            ->method('execute');
+
+        $keyGenerator = function () {
+            static $index;
+            return ($index++ % 2) === 0;
+        };
+
+        memoize([$this->callback, 'execute'], $keyGenerator);
+        memoize([$this->callback, 'execute'], [], $keyGenerator);
+        memoize([$this->callback, 'execute'], [], $keyGenerator);
+        memoize([$this->callback, 'execute'], $keyGenerator);
+        memoize([$this->callback, 'execute'], $keyGenerator);
+        memoize([$this->callback, 'execute'], [], $keyGenerator);
+    }
+
     public function testResetByPassingNullAsCallable()
     {
         $this->callback
@@ -178,9 +197,7 @@ class MemoizeTest extends AbstractTestCase
 
     public function testPassNoCallable()
     {
-        $this->expectArgumentError(
-            "Argument 1 passed to Functional\memoize() must be callable"
-        );
+        $this->expectArgumentError('Argument 1 passed to Functional\memoize() must be callable');
         memoize('invalidFunction');
     }
 }

@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
@@ -30,7 +32,7 @@ namespace Functional;
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
  */
-function memoize(callable $callback = null, array $arguments = [], $key = null)
+function memoize(callable $callback = null, $arguments = [], $key = null)
 {
     static $storage = [];
 
@@ -38,6 +40,13 @@ function memoize(callable $callback = null, array $arguments = [], $key = null)
         $storage = [];
 
         return null;
+    }
+
+    if (is_callable($arguments)) {
+        $key = $arguments;
+        $arguments = [];
+    } else {
+        InvalidArgumentException::assertCollection($arguments, __FUNCTION__, 2);
     }
 
     static $keyGenerator = null;
@@ -58,6 +67,8 @@ function memoize(callable $callback = null, array $arguments = [], $key = null)
 
     if ($key === null) {
         $key = $keyGenerator(array_merge([$callback], $arguments));
+    } elseif (is_callable($key)) {
+        $key = $keyGenerator($key());
     } else {
         $key = $keyGenerator($key);
     }
