@@ -32,26 +32,62 @@ class FlatMapTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->list = ['v1', 'v2', 'v3'];
+        $this->list = ['a', ['b'], ['C'=>'c'], [['d']], null];
         $this->listIterator = new ArrayIterator($this->list);
-        $this->hash = ['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3'];
+        $this->hash = ['ka' => 'a', 'kb' => ['b'], 'kc' => ['C'=>'c'], 'kd' => [['d']], 'ke' => null, null];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function test()
+    public function testList()
     {
-        $fn = function($v, $k, $collection) {
-            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            if ($v === 'v3') {
-                return []; // flat_map will drop an empty array
+        $flat = flat_map(
+            ['a', ['b'], ['C'=>'c'], [['d']], null],
+            function($v, $k, $collection) {
+                InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+                return $v;
             }
-            $nestedArray = str_split($v);
-            return [$k, $v, $nestedArray]; // flat_map will flatten one level of nesting
-        };
-        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->list, $fn));
-        $this->assertEquals(['0','v1', ['v','1'],'1','v2', ['v','2']], flat_map($this->listIterator, $fn));
-        $this->assertEquals(['k1','v1', ['v','1'],'k2','v2', ['v','2']], flat_map($this->hash, $fn));
-        $this->assertEquals(['k1','v1', ['v','1'],'k2','v2', ['v','2']], flat_map($this->hashIterator, $fn));
+        );
+
+        $this->assertSame(['a','b','c',['d']], $flat);
+    }
+
+    public function testListIterator()
+    {
+        $flat = flat_map(
+            new ArrayIterator(['a', ['b'], ['C'=>'c'], [['d']], null]),
+            function($v, $k, $collection) {
+                InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+                return $v;
+            }
+        );
+
+        $this->assertSame(['a','b','c',['d']], $flat);
+    }
+
+    public function testHash()
+    {
+        $flat = flat_map(
+            ['ka' => 'a', 'kb' => ['b'], 'kc' => ['C'=>'c'], 'kd' => [['d']], 'ke' => null, null],
+            function($v, $k, $collection) {
+                InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+                return $v;
+            }
+        );
+
+        $this->assertSame(['a','b','c',['d']], $flat);
+    }
+
+    public function testHashIterator()
+    {
+        $flat = flat_map(
+            new ArrayIterator(['ka' => 'a', 'kb' => ['b'], 'kc' => ['C'=>'c'], 'kd' => [['d']], 'ke' => null, null]),
+            function($v, $k, $collection) {
+                InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+                return $v;
+            }
+        );
+
+        $this->assertSame(['a','b','c',['d']], $flat);
     }
 
     public function testPassNoCollection()

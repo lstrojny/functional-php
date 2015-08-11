@@ -56,7 +56,7 @@ function flat_map($collection, callable $callback)
                 $flattened[] = $item;
             }
 
-        } else {
+        } elseif ($result !== null) {
             $flattened[] = $result;
         }
     }
