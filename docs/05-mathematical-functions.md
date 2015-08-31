@@ -5,6 +5,7 @@
  - [Chapter 4: function functions](04-function-functions.md)
  - Chapter 5: mathematical functions
  - [Chapter 6: transformation functions](06-transformation-functions.md)
+ - [Chapter 7: miscellaneous](07-miscellaneous.md)
  
 # Mathematical functions
 
