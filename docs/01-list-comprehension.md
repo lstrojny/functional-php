@@ -139,7 +139,7 @@ truthy([true, 0, false]);
 // Returns true
 falsy([false, false, 0, null]);
 // Returns false
-use function Functional\truthy;falsy([false, 'str', null, false]);
+falsy([false, 'str', null, false]);
 ```
 
 
