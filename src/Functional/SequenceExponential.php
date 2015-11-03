@@ -23,15 +23,14 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Functional\Sequences\ExponentialSequence;
+use Traversable;
 
 /**
  * Returns an infinite, traversable sequence that exponentially grows by given percentage
  *
  * @param integer $start
  * @param integer $percentage Integer between 1 and 100
- * @return ExponentialSequence
- * @throws InvalidArgumentException
+ * @return Traversable
  */
 function sequence_exponential($start, $percentage)
 {
@@ -39,5 +38,16 @@ function sequence_exponential($start, $percentage)
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);
     InvalidArgumentException::assertIntegerLessThanOrEqual($percentage, 100, __METHOD__, 2);
 
-    return new ExponentialSequence($start, $percentage);
+    $generator = function () use ($start, $percentage) {
+        $times = 1;
+        $current = $start;
+        while (true) {
+            yield $current;
+
+            $current = (int) round(pow($start * (1 + $percentage / 100), $times));
+            $times++;
+        }
+    };
+
+    return $generator();
 }
