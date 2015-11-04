@@ -83,6 +83,9 @@ call_user_func(function() {
         'Functional\\partial_method',
         'Functional\\id',
         'Functional\\const_function',
+        'Functional\\compose',
+        'Functional\\and_then',
+        'Functional\\or_else',
     ];
     static $basePath = __DIR__;
 
