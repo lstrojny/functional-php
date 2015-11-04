@@ -23,7 +23,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Functional\Sequences\LinearSequence;
 use Traversable;
 
 /**
@@ -38,5 +37,14 @@ function sequence_linear($start, $amount)
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __FUNCTION__, 1);
     InvalidArgumentException::assertInteger($amount, __FUNCTION__, 2);
 
-    return new LinearSequence($start, $amount);
+    $generator = function () use ($start, $amount) {
+        $current = $start;
+        while (true) {
+            yield $current;
+
+            $current += $amount;
+        }
+    };
+
+    return $generator();
 }
