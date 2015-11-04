@@ -12,7 +12,7 @@
 ## Introduction
 
 Partial application is a concept where a higher-order function returns a new function by applying the passed arguments
-to the new function. Let’s have a look at the following simple function that takes two parameters and adds them:
+to the new function. Let’s have a look at the following simple function that takes two parameters and subtracts them:
 
 ```php
 $subtractor = function ($a, $b) {
