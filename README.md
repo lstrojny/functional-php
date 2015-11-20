@@ -9,7 +9,7 @@ performance differences  weren’t that huge compared to the maintenance cost it
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
 collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
 [Dojo’s array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
-[Underscore.js](http://documentcloud.github.com/underscore/)
+[Underscore.js](http://underscorejs.org/)
 
   - Works with arrays and everything implementing interface `Traversable`
   - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.
