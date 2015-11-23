@@ -46,7 +46,7 @@ if (some($users, function($user, $collectionKey, $collection) use($me) {return $
 
 ```php
 <?php
-use functional Functional\none;
+use function Functional\none;
 
 if (none($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     // Do something with a whole list of inactive users
