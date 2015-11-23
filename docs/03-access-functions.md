@@ -19,10 +19,15 @@ Invoke a callback on a value if the value is not null
 <?php
 use function Functional\with;
 
-with($value, function($value) {
+$retval = with($value, function($value) {
     $this->doSomethingWithValue($value);
+
+    return 'my_result';
 });
 ```
+
+`with()` returns whatever the callback returns. In the above example
+`$retval` would be `'my_result'`.
 
 ## invoke_if()
 
