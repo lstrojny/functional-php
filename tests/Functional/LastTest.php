@@ -28,6 +28,9 @@ use function Functional\last;
 
 class LastTest extends AbstractTestCase
 {
+    private $badArray;
+    private $badIterator;
+
     public function setUp()
     {
         parent::setUp();
@@ -46,8 +49,20 @@ class LastTest extends AbstractTestCase
 
         $this->assertSame('third', last($this->list, $fn));
         $this->assertSame('third', last($this->listIterator, $fn));
-        $this->assertNull(last($this->badArray, $fn));
-        $this->assertNull(last($this->badIterator, $fn));
+    }
+
+    /**
+     * @expectedException \Functional\Exceptions\NoSuchElementException
+     */
+    public function testEmptyArray() {
+        last(array());
+    }
+
+    /**
+     * @expectedException \Functional\Exceptions\NoSuchElementException
+     */
+    public function testEmptyTraversable() {
+        last(new ArrayIterator());
     }
 
     public function testWithoutCallback()

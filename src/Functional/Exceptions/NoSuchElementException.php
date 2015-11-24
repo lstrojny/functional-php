@@ -20,35 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
 
-use Functional\Exceptions\InvalidArgumentException;
-use Functional\Exceptions\NoSuchElementException;
-use Functional\Iterators\ReverseIterator;
-use Traversable;
+namespace Functional\Exceptions;
 
 /**
- * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
- * Callback arguments will be element, index, collection
- *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
- * @throws NoSuchElementException if the collection is empty
+ * Class NoSuchElementException
+ * @package Functional\Exceptions
  */
-function last($collection, callable $callback = null)
+class NoSuchElementException extends \RuntimeException
 {
-    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-
-    if (isset($callback)) {
-        return find(new ReverseIterator($collection), $callback);
-    }
-
-    $last = end($collection);
-
-    if (key($collection) === null) {
-        throw new NoSuchElementException("The collection is empty");
-    } else {
-        return $last;
-    }
 }

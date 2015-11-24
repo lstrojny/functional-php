@@ -23,6 +23,7 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
+use Functional\Exceptions\NoSuchElementException;
 use Traversable;
 
 /**
@@ -33,22 +34,19 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return mixed
+ * @throws NoSuchElementException if the collection is empty
  */
 function first($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    foreach ($collection as $index => $element) {
-
-        if ($callback === null) {
-            return $element;
-        }
-
-        if ($callback($element, $index, $collection)) {
-            return $element;
-        }
-
+    if (isset($callback)) {
+        return find($collection, $callback);
     }
 
-    return null;
+    foreach ($collection as $index => $element) {
+        return $element;
+    }
+
+    throw new NoSuchElementException("The collection is empty");
 }

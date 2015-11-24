@@ -27,16 +27,12 @@ use Functional\Exceptions\InvalidArgumentException;
 use function Functional\first;
 use function Functional\head;
 
-class FirstTest extends AbstractTestCase
+class FindTest extends AbstractTestCase
 {
-    private $badArray;
-    private $badIterator;
-
     public function getAliases()
     {
         return [
-            ['Functional\first'],
-            ['Functional\head'],
+            ['Functional\find']
         ];
     }
 
@@ -45,8 +41,6 @@ class FirstTest extends AbstractTestCase
         parent::setUp($this->getAliases());
         $this->list = ['first', 'second', 'third'];
         $this->listIterator = new ArrayIterator($this->list);
-        $this->badArray = ['foo', 'bar', 'baz'];
-        $this->badIterator = new ArrayIterator($this->badArray);
     }
 
     /**
@@ -54,7 +48,7 @@ class FirstTest extends AbstractTestCase
      */
     public function test($functionName)
     {
-        $callback = function($v, $k, $collection) {
+        $callback = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v == 'second' && $k == 1;
         };
@@ -69,7 +63,7 @@ class FirstTest extends AbstractTestCase
      */
     public function testEmptyArray($functionName)
     {
-        $functionName(array());
+        $functionName(array(), \Functional\const_function(true));
     }
 
     /**
@@ -78,22 +72,19 @@ class FirstTest extends AbstractTestCase
      */
     public function testEmptyTraversable($functionName)
     {
-        $functionName(new ArrayIterator());
+        $functionName(new ArrayIterator(), \Functional\const_function(true));
     }
+
+
 
     /**
      * @dataProvider getAliases
+     * @expectedException \Functional\Exceptions\NoSuchElementException
      */
-    public function testWithoutCallback($functionName)
+    public function testNoMatch($functionName)
     {
-        $this->assertSame('first', $functionName($this->list));
-        $this->assertSame('first', $functionName($this->list, null));
-        $this->assertSame('first', $functionName($this->listIterator));
-        $this->assertSame('first', $functionName($this->listIterator, null));
-        $this->assertSame('foo', $functionName($this->badArray));
-        $this->assertSame('foo', $functionName($this->badArray, null));
-        $this->assertSame('foo', $functionName($this->badIterator));
-        $this->assertSame('foo', $functionName($this->badIterator, null));
+        $functionName($this->list, \Functional\const_function(false));
+        $functionName($this->listIterator, \Functional\const_function(false));
     }
 
     /**
@@ -133,7 +124,8 @@ class FirstTest extends AbstractTestCase
      */
     public function testPassNoCollection($functionName)
     {
-        $this->expectArgumentError(sprintf('%s() expects parameter 1 to be array or instance of Traversable', $functionName));
+        $this->expectArgumentError(sprintf('%s() expects parameter 1 to be array or instance of Traversable',
+            $functionName));
         $functionName('invalidCollection', 'strlen');
     }
 }
