@@ -5,6 +5,7 @@
  - [Chapter 4: function functions](04-function-functions.md)
  - [Chapter 5: mathematical functions](05-mathematical-functions.md)
  - [Chapter 6: transformation functions](06-transformation-functions.md)
+ - [Chapter 7: miscellaneous](07-miscellaneous.md)
 
 # Access functions
 
@@ -18,10 +19,15 @@ Invoke a callback on a value if the value is not null
 <?php
 use function Functional\with;
 
-with($value, function($value) {
+$retval = with($value, function($value) {
     $this->doSomethingWithValue($value);
+
+    return 'my_result';
 });
 ```
+
+`with()` returns whatever the callback returns. In the above example
+`$retval` would be `'my_result'`.
 
 ## invoke_if()
 
@@ -42,10 +48,10 @@ $userId = invoke_if($user, 'getId', [], 0);
 ``array Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``  
 Invokes method `$methodName` on each object in the `$collection` and returns the results of the call
  
-``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``
- Invokes method `$methodName` on the first object in the `$collection` and returns the results of the call
+``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``  
+Invokes method `$methodName` on the first object in the `$collection` and returns the results of the call
  
-``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``
+``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``  
 Invokes method `$methodName` on the last object in the `$collection` and returns the results of the call
 
 
@@ -73,9 +79,9 @@ If no such index exists, return the default value.
 use function Functional\pick;
 
 $array = ['one' => 1, 'two' => 2, 'three' => 3];
-pick($array, 'one'); //return 1;
-pick($array, 'ten'); //return null;
-pick($array, 'ten', 10); //return 10;
+pick($array, 'one'); // -> 1
+pick($array, 'ten'); // -> null
+pick($array, 'ten', 10); // -> 10
 ```
 
 
@@ -110,7 +116,7 @@ $index = last_index_of(['value', 'value'], 'value');
 ## indexes_of()
 Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an empty array if no values were found.
 
-``array Functional\indexes_of(Traversable|array $collection, mixed|callable $value)``
+``array Functional\indexes_of(Traversable|array $collection, mixed|callable $value)``  
 
 ```php
 <?php
