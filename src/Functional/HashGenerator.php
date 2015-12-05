@@ -22,49 +22,25 @@
  */
 namespace Functional;
 
-use Functional\Exceptions\InvalidArgumentException;
-
 /**
- * Memoizes callbacks and returns their value instead of calling them
+ * Given an arbitrary PHP value transforms it in a plain string suitable to be
+ * used as a hash generator for the memoize family functions
  *
- * @param callable|null $callback Callable closure or function. Pass null to reset memory
- * @param array $arguments Arguments
- * @param array|string $key Optional memoize key to override the auto calculated hash
- * @return mixed
+ * @param mixed $value An arbitrary PHP value
+ *
+ * @return string
  */
-function memoize(callable $callback = null, $arguments = [], $key = null)
+function hash_generator($value)
 {
-    static $storage = [];
+    $type = gettype($value);
 
-    if ($callback === null) {
-        $storage = [];
-
-        return null;
-    }
-
-    if (is_callable($arguments)) {
-        $key = $arguments;
-        $arguments = [];
+    if ($type === 'array') {
+        $key = join(':', map($value, 'Functional\\hash_generator'));
+    } elseif ($type === 'object') {
+        $key = get_class($value) . ':' . spl_object_hash($value);
     } else {
-        InvalidArgumentException::assertCollection($arguments, __FUNCTION__, 2);
+        $key = (string) $value;
     }
 
-    static $keyGenerator = null;
-    if (!$keyGenerator) {
-        $keyGenerator = 'Functional\\hash_generator';
-    }
-
-    if ($key === null) {
-        $key = $keyGenerator(array_merge([$callback], $arguments));
-    } elseif (is_callable($key)) {
-        $key = $keyGenerator($key());
-    } else {
-        $key = $keyGenerator($key);
-    }
-
-    if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
-        $storage[$key] = $callback(...$arguments);
-    }
-
-    return $storage[$key];
+    return $key;
 }
