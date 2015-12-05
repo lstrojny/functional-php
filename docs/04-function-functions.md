@@ -48,6 +48,24 @@ poll(
 
 You can pass any `Traversable` as a sequence for the delay but Functional comes with `Functional\sequence_constant()`, `Functional\sequence_linear()` and `Functional\sequence_exponential()`.
 
+## memoize_func()
+
+Given a target ```callable```, ```memoize_func``` creates a new ```callable``` able to cache every invocation. Really useful for expensive function calls that should be performed potentially several times.
+
+```php
+use function Functional\memoize_func;
+
+// Caches preg_replace calls
+$preg_replace = memoize_func('preg_replace');
+
+// Caches select resultsets
+$select = memoize_func(function($selectClause, array $parameters = []) use ($pdo) {
+    $stmt = $pdo->prepare($selectClause);
+    $stmt->execute($parameters);
+    
+    return $stmt->fetchAll();
+});
+```
 
 ## Other
 
