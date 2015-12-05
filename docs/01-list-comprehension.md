@@ -5,6 +5,7 @@
  - [Chapter 4: function functions](04-function-functions.md)
  - [Chapter 5: mathematical functions](05-mathematical-functions.md)
  - [Chapter 6: transformation functions](06-transformation-functions.md)
+ - [Chapter 7: miscellaneous](07-miscellaneous.md)
 
 # Function overview
 
@@ -45,7 +46,7 @@ if (some($users, function($user, $collectionKey, $collection) use($me) {return $
 
 ```php
 <?php
-use functional Functional\none;
+use function Functional\none;
 
 if (none($users, function($user, $collectionKey, $collection) {return $user->isActive();})) {
     // Do something with a whole list of inactive users
@@ -138,7 +139,7 @@ truthy([true, 0, false]);
 // Returns true
 falsy([false, false, 0, null]);
 // Returns false
-use function Functional\truthy;falsy([false, 'str', null, false]);
+falsy([false, 'str', null, false]);
 ```
 
 

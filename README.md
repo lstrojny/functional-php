@@ -3,10 +3,13 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/lstrojny/functional-php?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://secure.travis-ci.org/lstrojny/functional-php.svg)](http://travis-ci.org/lstrojny/functional-php) [![Dependency Status](https://www.versioneye.com/user/projects/523ed780632bac1b1100c359/badge.png)](https://www.versioneye.com/user/projects/523ed780632bac1b1100c359) [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/lstrojny/functional-php.svg)](http://isitmaintained.com/project/lstrojny/functional-php "Average time to resolve an issue") [![Percentage of issues still open](http://isitmaintained.com/badge/open/lstrojny/functional-php.svg)](http://isitmaintained.com/project/lstrojny/functional-php "Percentage of issues still open") [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lstrojny/functional-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lstrojny/functional-php/?branch=master)
 
+*NOTE:* functional-php used to come with a C extension that implemented most of the functions natively. As the
+performance differences  weren’t that huge compared to the maintenance cost it has been removed.
+
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
 collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
 [Dojo’s array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
-[Underscore.js](http://documentcloud.github.com/underscore/)
+[Underscore.js](http://underscorejs.org/)
 
   - Works with arrays and everything implementing interface `Traversable`
   - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, than the callback.

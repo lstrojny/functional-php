@@ -5,6 +5,7 @@
  - Chapter 4: function functions
  - [Chapter 5: mathematical functions](05-mathematical-functions.md)
  - [Chapter 6: transformation functions](06-transformation-functions.md)
+ - [Chapter 7: miscellaneous](07-miscellaneous.md)
 
 # Function functions
 
@@ -47,6 +48,25 @@ poll(
 ```
 
 You can pass any `Traversable` as a sequence for the delay but Functional comes with `Functional\sequence_constant()`, `Functional\sequence_linear()` and `Functional\sequence_exponential()`.
+
+## capture()
+Return a new function that captures the return value of $callback in $result and returns the callbacks return value
+
+```php
+use function Functional\capture;
+
+$fn = capture(
+    function() {
+        return 'Hello world';
+    },
+    $result
+);
+
+$fn();
+
+var_dump($result); // 'Hello world'
+```
+
 
 ## memoize_func()
 
