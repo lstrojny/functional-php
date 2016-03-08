@@ -9,7 +9,7 @@
 
 # Function functions
 
-Function functions take a function and return a new, modified version of the function.
+Function functions take a function or functions and return a new, modified version of the function.
 
 
 ## retry()
@@ -65,6 +65,23 @@ $fn = capture(
 $fn();
 
 var_dump($result); // 'Hello world'
+```
+
+
+## compose()
+Return a new function that composes multiple functions into a single callable
+
+```php
+use function Functional\compose;
+
+$plus2 = function ($x) { return $x + 2; };
+$times4 = function ($x) { return $x * 4; };
+
+$composed = compose($plus2, $times4);
+
+$result = array_map($composed, array(1, 2, 5, 8));
+
+var_dump($result); // array(12, 16, 28, 40)
 ```
 
 

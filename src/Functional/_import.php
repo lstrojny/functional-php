@@ -84,6 +84,7 @@ call_user_func(function() {
         'Functional\\id',
         'Functional\\const_function',
         'Functional\\capture',
+        'Functional\\compose',
     ];
     static $basePath = __DIR__;
 

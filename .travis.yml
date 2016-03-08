@@ -5,6 +5,10 @@ php:
   - nightly
   - hhvm
 
+matrix:
+  allow_failures:
+    - php: hhvm
+
 before_script: composer install
 script: phpunit --debug
 after_script:
