@@ -24,8 +24,10 @@
 call_user_func(function() {
     static $symbols = [
         'Functional\\Exceptions\\InvalidArgumentException',
+        'Functional\\Exceptions\\NoSuchElementException',
         'Functional\\Sequences\\LinearSequence',
         'Functional\\Sequences\\ExponentialSequence',
+        'Functional\\Iterators\\ReverseIterator',
         'Functional\\every',
         'Functional\\some',
         'Functional\\difference',
@@ -33,6 +35,7 @@ call_user_func(function() {
         'Functional\\drop_last',
         'Functional\\each',
         'Functional\\first',
+        'Functional\\find',
         'Functional\\filter',
         'Functional\\flat_map',
         'Functional\\flatten',

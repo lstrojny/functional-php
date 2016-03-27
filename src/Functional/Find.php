@@ -24,31 +24,27 @@ namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
 use Functional\Exceptions\NoSuchElementException;
-use Functional\Iterators\ReverseIterator;
 use Traversable;
 
 /**
- * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
- * Callback arguments will be element, index, collection
+ * Find the first element in the given collection that satisfies the given predicate. The
+ * arguments to the predicate are element, index, collection.
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable $predicate
  * @return mixed
- * @throws NoSuchElementException if the collection is empty
+ * @throws NoSuchElementException if the no value in the collection satisfies the predicate
  */
-function last($collection, callable $callback = null)
+function find($collection, callable $predicate)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    InvalidArgumentException::assertCallback($predicate, __FUNCTION__, 2);
 
-    if (isset($callback)) {
-        return find(new ReverseIterator($collection), $callback);
+    foreach ($collection as $index => $element) {
+        if ($predicate($element, $index, $collection)) {
+            return $element;
+        }
     }
 
-    $last = end($collection);
-
-    if (key($collection) === null) {
-        throw new NoSuchElementException("The collection is empty");
-    } else {
-        return $last;
-    }
+    throw new NoSuchElementException("No element matched the condition");
 }

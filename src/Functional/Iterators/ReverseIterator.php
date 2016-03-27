@@ -20,35 +20,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
 
-use Functional\Exceptions\InvalidArgumentException;
-use Functional\Exceptions\NoSuchElementException;
-use Functional\Iterators\ReverseIterator;
+namespace Functional\Iterators;
+
+
+use Iterator;
 use Traversable;
 
-/**
- * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
- * Callback arguments will be element, index, collection
- *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
- * @throws NoSuchElementException if the collection is empty
- */
-function last($collection, callable $callback = null)
+class ReverseIterator implements Iterator
 {
-    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+    /**
+     * @var array|Traversable
+     */
+    private $collection;
 
-    if (isset($callback)) {
-        return find(new ReverseIterator($collection), $callback);
+    /**
+     * ReverseIterator constructor.
+     * @param array|Traversable $collection
+     */
+    public function __construct($collection)
+    {
+        $this->collection = $collection;
     }
 
-    $last = end($collection);
 
-    if (key($collection) === null) {
-        throw new NoSuchElementException("The collection is empty");
-    } else {
-        return $last;
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        return current($this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        return prev($this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function key()
+    {
+        return key($this->collection);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        return key($this->collection) !== null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        end($this->collection);
     }
 }
