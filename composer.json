@@ -21,6 +21,7 @@
         "phpunit/phpunit": "~5"
     },
     "autoload": {
+        "psr-4": {"Functional\\": "src/Functional"},
         "files": [
             "src/Functional/Average.php",
             "src/Functional/Capture.php",
@@ -32,7 +33,6 @@
             "src/Functional/DropLast.php",
             "src/Functional/Each.php",
             "src/Functional/Every.php",
-            "src/Functional/Exceptions/InvalidArgumentException.php",
             "src/Functional/False.php",
             "src/Functional/Falsy.php",
             "src/Functional/Filter.php",
