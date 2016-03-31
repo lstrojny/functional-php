@@ -73,8 +73,6 @@
             "src/Functional/SequenceConstant.php",
             "src/Functional/SequenceExponential.php",
             "src/Functional/SequenceLinear.php",
-            "src/Functional/Sequences/ExponentialSequence.php",
-            "src/Functional/Sequences/LinearSequence.php",
             "src/Functional/Some.php",
             "src/Functional/Sort.php",
             "src/Functional/Sum.php",
