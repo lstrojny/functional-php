@@ -10,15 +10,15 @@
 
 # Higher order comparison functions
 
-## comparator & object_hash_comparator
+## compare_on & compare_object_hash_on
 
-``callable compare_on(callable $comparison; callable $reducer = Functional\const_function)`` 
-Returns a comparator function that can be used with e.g. `usort()`, `array_udiff`, `array_uintersect` and so on. Takes a
+``callable compare_on(callable $comparison; callable $keyFunction = Functional\const_function)`` 
+Returns a compare function that can be used with e.g. `usort()`, `array_udiff`, `array_uintersect` and so on. Takes a
 comparison function as the first argument, pick e.g. `strcmp`, `strnatcmp` or `strnatcasecmp`. Second argument can be a
-reducer that is applied to both parameters passed to the comparator.
+key function that is applied to both parameters passed to the compare function.
 
-``callable compare_object_hash_on(callable $comparison = 'strnatcasecmp', callable $reducer = 'Functional\const_function')`` 
-Returns a comparator function that expects `$left` and `$right` to be an object and compares them using the value of
-`spl_object_hash`. First argument is the comparison function, pick e.g. `strcmp`, `strnatcmp` or `strnatcasecmp`. Takes
-a reducer as an optional argument that is invoked on both parameters passed to the comparator. It is just a shortcut
-to `comparator` as it composes the given reducer with `spl_object_hash()` reducer.
+``callable compare_object_hash_on(callable $comparison = 'strnatcasecmp', callable $keyFunction = 'Functional\const_function')`` 
+Returns a compare function function that expects `$left` and `$right` to be an object and compares them using the value
+of `spl_object_hash`. First argument is the comparison function, pick e.g. `strcmp`, `strnatcmp` or `strnatcasecmp`.
+Takes a key function as an optional argument that is invoked on both parameters passed to the compare function. It is
+just a shortcut to `compare_on` as it composes the given key function with `spl_object_hash()` as a key function.

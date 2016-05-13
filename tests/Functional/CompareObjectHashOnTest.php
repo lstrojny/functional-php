@@ -26,20 +26,20 @@ use function Functional\compare_object_hash_on;
 use function Functional\const_function;
 use stdClass;
 
-class CompareObjectHashOn extends AbstractTestCase
+class CompareObjectHashOnTest extends AbstractTestCase
 {
     public function testCompareValues()
     {
-        $comparator = compare_object_hash_on('strcmp');
+        $compare = compare_object_hash_on('strcmp');
 
-        $this->assertSame(0, $comparator($this, $this));
-        $this->assertNotSame(0, $comparator($this, new stdClass()));
+        $this->assertSame(0, $compare($this, $this));
+        $this->assertNotSame(0, $compare($this, new stdClass()));
     }
 
     public function testCompareWithReducer()
     {
-        $comparator = compare_object_hash_on('strcmp', const_function(new stdClass()));
+        $compare = compare_object_hash_on('strcmp', const_function(new stdClass()));
 
-        $this->assertSame(0, $comparator($this, new stdClass()));
+        $this->assertSame(0, $compare($this, new stdClass()));
     }
 }

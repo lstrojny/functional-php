@@ -28,15 +28,13 @@ use function Functional\compose;
  * Returns a comparison function that can be used with e.g. `usort()`
  *
  * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
- * @param callable $reducer A function that takes an argument and returns the value that should be compared
+ * @param callable $keyFunction A function that takes an argument and returns the value that should be compared
  * @return callable
  */
-function compare_object_hash_on(callable $comparison, callable $reducer = null)
+function compare_object_hash_on(callable $comparison, callable $keyFunction = null)
 {
-    $reducer = $reducer ? compose($reducer, 'spl_object_hash') : $reducer;
+    $keyFunction = $keyFunction ? compose($keyFunction, 'spl_object_hash') : 'spl_object_hash';
 
-    return static function ($left, $right) use ($comparison, $reducer) {
-        return $comparison($reducer($left), $reducer($right));
-    };
+    return compare_on($comparison, $keyFunction);
 }
 
