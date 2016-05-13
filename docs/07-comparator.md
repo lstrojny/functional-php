@@ -14,11 +14,11 @@
 
 ``callable compare_on(callable $comparison; callable $reducer = Functional\const_function)`` 
 Returns a comparator function that can be used with e.g. `usort()`, `array_udiff`, `array_uintersect` and so on. Takes a
-comparison function as the first argument, pick e.g. `strcmp` or `strnatcasecmp`. Second argument can be a reducer that
-is applied to both parameters passed to the comparator.
+comparison function as the first argument, pick e.g. `strcmp`, `strnatcmp` or `strnatcasecmp`. Second argument can be a
+reducer that is applied to both parameters passed to the comparator.
 
 ``callable compare_object_hash_on(callable $comparison = 'strnatcasecmp', callable $reducer = 'Functional\const_function')`` 
 Returns a comparator function that expects `$left` and `$right` to be an object and compares them using the value of
-`spl_object_hash`. First argument is the comparison function, pick e.g. `` or ``. Takes a reducer as an optional
-argument that is invoked on both parameters passed to the comparator. It is just a shortcut to `comparator` as it
-composes the given reducer with `spl_object_hash()` reducer.
+`spl_object_hash`. First argument is the comparison function, pick e.g. `strcmp`, `strnatcmp` or `strnatcasecmp`. Takes
+a reducer as an optional argument that is invoked on both parameters passed to the comparator. It is just a shortcut
+to `comparator` as it composes the given reducer with `spl_object_hash()` reducer.
