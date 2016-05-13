@@ -55,6 +55,11 @@ Invokes method `$methodName` on the first object in the `$collection` and return
 Invokes method `$methodName` on the last object in the `$collection` and returns the results of the call
 
 
+## invoker()
+
+``callable Functional\invoker(string $method[, array $methodArguments])``
+Returns a function that invokes method `$method` with arguments `$methodArguments` on the object
+
 ## pluck()
 Fetch a single property from a collection of objects or arrays.
 
