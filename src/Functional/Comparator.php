@@ -26,17 +26,20 @@ namespace Functional;
  * Returns a comparator function that can be used with e.g. `usort()`
  *
  * @param callable $reducer A function that takes an argument and returns the value that should be compared
+ * @param callable $comparison A function that compares the two values. Default is strnatcasecmp()
  * @return callable
  */
-function comparator(callable $reducer = null)
+function comparator(callable $reducer = null, callable $comparison = null)
 {
+    $comparison = $comparison ?: 'strnatcasecmp';
+
     if ($reducer === null) {
-        return static function ($left, $right) {
-            return strnatcasecmp($left, $right);
+        return static function ($left, $right) use ($comparison) {
+            return $comparison($left, $right);
         };
     }
 
-    return static function ($left, $right) use ($reducer) {
-        return strnatcasecmp($reducer($left), $reducer($right));
+    return static function ($left, $right) use ($reducer, $comparison) {
+        return $comparison($reducer($left), $reducer($right));
     };
 }

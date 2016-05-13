@@ -31,13 +31,14 @@ namespace Functional;
  * identity is guaranteed to be deterministic.
  *
  * @param callable|null $reducer
+ * @param callable|null $comparison
  * @return callable
  */
-function object_comparator(callable $reducer = null)
+function object_hash_comparator(callable $reducer = null, callable $comparison = null)
 {
     if ($reducer === null) {
-        return comparator('spl_object_hash');
+        return comparator('spl_object_hash', $comparison);
     }
 
-    return comparator(compose($reducer, 'spl_object_hash'));
+    return comparator(compose($reducer, 'spl_object_hash'), $comparison);
 }

@@ -22,15 +22,15 @@
  */
 namespace Functional\Tests;
 
-use function Functional\object_comparator;
+use function Functional\object_hash_comparator;
 use function Functional\const_function;
 use stdClass;
 
-class ObjectComparatorTest extends AbstractTestCase
+class ObjectHashComparatorTest extends AbstractTestCase
 {
     public function testCompareValues()
     {
-        $comparator = object_comparator();
+        $comparator = object_hash_comparator();
 
         $this->assertSame(0, $comparator($this, $this));
         $this->assertNotSame(0, $comparator($this, new stdClass()));
@@ -38,7 +38,7 @@ class ObjectComparatorTest extends AbstractTestCase
 
     public function testCompareWithReducer()
     {
-        $comparator = object_comparator(const_function(new stdClass()));
+        $comparator = object_hash_comparator(const_function(new stdClass()));
 
         $this->assertSame(0, $comparator($this, new stdClass()));
     }
