@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
+ * Copyright (C) 2011-2015 by Lars Strojny <lstrojny@php.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,21 @@
  */
 namespace Functional;
 
+use function Functional\compose;
 
 /**
- * Returns a comparator function that expects $left and $right to be an object and compares them using the value of
- * spl_object_hash.
+ * Returns a comparison function that can be used with e.g. `usort()`
  *
- * As spl_object_hash() uses the objects memory address the result of the comparison is strictly non-deterministic but
- * identity is guaranteed to be deterministic.
- *
- * @param callable|null $reducer
- * @param callable|null $comparison
+ * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
+ * @param callable $reducer A function that takes an argument and returns the value that should be compared
  * @return callable
  */
-function object_hash_comparator(callable $reducer = null, callable $comparison = null)
+function compare_object_hash_on(callable $comparison, callable $reducer = null)
 {
-    if ($reducer === null) {
-        return comparator('spl_object_hash', $comparison);
-    }
+    $reducer = $reducer ? compose($reducer, 'spl_object_hash') : $reducer;
 
-    return comparator(compose($reducer, 'spl_object_hash'), $comparison);
+    return static function ($left, $right) use ($comparison, $reducer) {
+        return $comparison($reducer($left), $reducer($right));
+    };
 }
+

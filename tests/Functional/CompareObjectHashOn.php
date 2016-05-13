@@ -20,26 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
-/**
- * Returns a comparator function that can be used with e.g. `usort()`
- *
- * @param callable $reducer A function that takes an argument and returns the value that should be compared
- * @param callable $comparison A function that compares the two values. Default is strnatcasecmp()
- * @return callable
- */
-function comparator(callable $reducer = null, callable $comparison = null)
+use function Functional\compare_object_hash_on;
+use function Functional\const_function;
+use stdClass;
+
+class CompareObjectHashOn extends AbstractTestCase
 {
-    $comparison = $comparison ?: 'strnatcasecmp';
+    public function testCompareValues()
+    {
+        $comparator = compare_object_hash_on('strcmp');
 
-    if ($reducer === null) {
-        return static function ($left, $right) use ($comparison) {
-            return $comparison($left, $right);
-        };
+        $this->assertSame(0, $comparator($this, $this));
+        $this->assertNotSame(0, $comparator($this, new stdClass()));
     }
 
-    return static function ($left, $right) use ($reducer, $comparison) {
-        return $comparison($reducer($left), $reducer($right));
-    };
+    public function testCompareWithReducer()
+    {
+        $comparator = compare_object_hash_on('strcmp', const_function(new stdClass()));
+
+        $this->assertSame(0, $comparator($this, new stdClass()));
+    }
 }

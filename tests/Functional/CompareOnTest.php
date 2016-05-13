@@ -22,14 +22,14 @@
  */
 namespace Functional\Tests;
 
-use function Functional\comparator;
+use function Functional\compare_on;
 use function Functional\const_function;
 
-class ComparatorTest extends AbstractTestCase
+class CompareOnTest extends AbstractTestCase
 {
     public function testCompareValues()
     {
-        $comparator = comparator();
+        $comparator = compare_on('strcmp');
 
         $this->assertSame(-1, $comparator(1, 2));
         $this->assertSame(0, $comparator(2, 2));
@@ -38,7 +38,7 @@ class ComparatorTest extends AbstractTestCase
 
     public function testCompareWithReducer()
     {
-        $comparator = comparator(const_function(1));
+        $comparator = compare_on('strcmp', const_function(1));
 
         $this->assertSame(0, $comparator(0, 1));
     }

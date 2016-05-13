@@ -20,26 +20,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional\Tests;
-
-use function Functional\object_hash_comparator;
-use function Functional\const_function;
-use stdClass;
-
-class ObjectHashComparatorTest extends AbstractTestCase
+namespace Functional;
+/**
+ * Returns a comparison function that can be used with e.g. `usort()`
+ *
+ * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
+ * @param callable $reducer A function that takes an argument and returns the value that should be compared
+ * @return callable
+ */
+function compare_on(callable $comparison, callable $reducer = null)
 {
-    public function testCompareValues()
-    {
-        $comparator = object_hash_comparator();
-
-        $this->assertSame(0, $comparator($this, $this));
-        $this->assertNotSame(0, $comparator($this, new stdClass()));
+    if ($reducer === null) {
+        return static function ($left, $right) use ($comparison) {
+            return $comparison($left, $right);
+        };
     }
 
-    public function testCompareWithReducer()
-    {
-        $comparator = object_hash_comparator(const_function(new stdClass()));
-
-        $this->assertSame(0, $comparator($this, new stdClass()));
-    }
+    return static function ($left, $right) use ($reducer, $comparison) {
+        return $comparison($reducer($left), $reducer($right));
+    };
 }
+

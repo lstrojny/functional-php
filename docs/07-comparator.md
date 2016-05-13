@@ -12,12 +12,13 @@
 
 ## comparator & object_hash_comparator
 
-``callable comparator(callable $reducer = Functional\id, callable $comparison = 'strnatcasecmp')`` 
-Returns a comparator function that can be used with e.g. `usort()`, `array_udiff`, `array_uintersect` and so on. Takes
-a reducer as an optional argument that is invoked on both parameters passed to the comparator. Second argument is the
-actual comparison function and defaults to `strnatcasecmp()`.
+``callable compare_on(callable $comparison; callable $reducer = Functional\const_function)`` 
+Returns a comparator function that can be used with e.g. `usort()`, `array_udiff`, `array_uintersect` and so on. Takes a
+comparison function as the first argument, pick e.g. `strcmp` or `strnatcasecmp`. Second argument can be a reducer that
+is applied to both parameters passed to the comparator.
 
-``callable object_hash_comparator(callable $reducer = Functional\id, callable $comparison = 'strnatcasecmp')`` 
+``callable compare_object_hash_on(callable $comparison = 'strnatcasecmp', callable $reducer = 'Functional\const_function')`` 
 Returns a comparator function that expects `$left` and `$right` to be an object and compares them using the value of
-`spl_object_hash`. Takes a reducer as an optional argument that is invoked on both parameters passed to the comparator.
-It is just a shortcut to `comparator` as it composes the given reducer with `spl_object_hash()` reducer.
+`spl_object_hash`. First argument is the comparison function, pick e.g. `` or ``. Takes a reducer as an optional
+argument that is invoked on both parameters passed to the comparator. It is just a shortcut to `comparator` as it
+composes the given reducer with `spl_object_hash()` reducer.
