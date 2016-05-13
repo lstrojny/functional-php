@@ -5,7 +5,8 @@
  - [Chapter 4: function functions](04-function-functions.md)
  - [Chapter 5: mathematical functions](05-mathematical-functions.md)
  - [Chapter 6: transformation functions](06-transformation-functions.md)
- - [Chapter 7: miscellaneous](07-miscellaneous.md)
+ - [Chapter 7: comparator](07-comparator.md)
+ - [Chapter 8: miscellaneous](08-miscellaneous.md)
 
 # Access functions
 
@@ -54,6 +55,11 @@ Invokes method `$methodName` on the first object in the `$collection` and return
 ``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``  
 Invokes method `$methodName` on the last object in the `$collection` and returns the results of the call
 
+
+## invoker()
+
+``callable Functional\invoker(string $method[, array $methodArguments])``
+Returns a function that invokes method `$method` with arguments `$methodArguments` on the object
 
 ## pluck()
 Fetch a single property from a collection of objects or arrays.

@@ -5,7 +5,8 @@
  - [Chapter 4: function functions](04-function-functions.md)
  - [Chapter 5: mathematical functions](05-mathematical-functions.md)
  - Chapter 6: transformation functions
- - [Chapter 7: miscellaneous](07-miscellaneous.md)
+ - [Chapter 7: comparator](07-comparator.md)
+ - [Chapter 8: miscellaneous](08-miscellaneous.md)
  
 # Transformation functions
 
