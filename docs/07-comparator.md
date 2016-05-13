@@ -8,7 +8,7 @@
  - Chapter 7: comparator
  - [Chapter 8: miscellaneous](08-miscellaneous.md)
 
-# Transformation functions
+# Higher order comparison functions
 
 ## comparator
 

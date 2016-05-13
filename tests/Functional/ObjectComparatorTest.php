@@ -40,6 +40,6 @@ class ObjectComparatorTest extends AbstractTestCase
     {
         $comparator = object_comparator(const_function(new stdClass()));
 
-        $this->assertSame(0, $comparator(0, 1));
+        $this->assertSame(0, $comparator($this, new stdClass()));
     }
 }
