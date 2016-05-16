@@ -633,17 +633,26 @@ Calculates the average of all numeric elements
 
 
 ## partition()
-Splits a collection into two by callback. Truthy values come first
+Splits a collection into two or more by callback(s). For each element,
+each partition is called in turn, until one returns a truthy value, or
+all have been called. Each element is placed in the partition for
+first callback it passes; if no callback succeeds, it is placed in the
+final partition.
 
-``array Functional\partition(array|Traversable $collection, callable $callback)``
+``array Functional\partition(array|Traversable $collection, callable $callback ...)``
 
 ```php
 <?php
 use function Functional\partition;
 
-list($admins, $users) = partition($collection, function($user) {
-    return $user->isAdmin();
-});
+list($admins, $guests, $users) = partition(
+    $collection,
+    function($user) {
+        return $user->isAdmin();
+    },
+    function($user) {
+        return $user->isGuest();
+    });
 ```
 
 
