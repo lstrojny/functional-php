@@ -43,7 +43,7 @@ include 'path/to/functional-php/src/Functional/_import.php';
 ```
 
 ## Docs
-[Read the docs](docs/00-index.md)
+[Read the docs](docs/functional-php.md)
 
 ## Running the test suite
 To run the test suite use `vendor/bin/phpunit tests/`
