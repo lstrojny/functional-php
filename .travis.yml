@@ -11,4 +11,4 @@ matrix:
     - php: hhvm
 
 before_script: composer install
-script: phpunit --debug
+script: vendor/bin/phpunit --debug
