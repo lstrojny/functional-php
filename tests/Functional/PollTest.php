@@ -39,7 +39,7 @@ class PollTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->poller = $this->getMock('Functional\Tests\Poller');
+        $this->poller = $this->createMock('Functional\Tests\Poller');
     }
 
     public function testPollReturnsTrue()

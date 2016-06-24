@@ -40,7 +40,7 @@ class RetryTest extends AbstractTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->retryer = $this->getMock('Functional\Tests\Retryer');
+        $this->retryer = $this->createMock('Functional\Tests\Retryer');
     }
 
     public function testTriedOnceIfItSucceeds()
