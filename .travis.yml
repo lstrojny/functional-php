@@ -12,6 +12,3 @@ matrix:
 
 before_script: composer install
 script: phpunit --debug
-after_script:
-  - if [[ "$COVERAGE" = true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-  - if [[ "$COVERAGE" = true ]]; then php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml; fi
