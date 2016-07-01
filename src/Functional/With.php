@@ -29,9 +29,10 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param mixed $value
  * @param callable $callback
+ * @param bool $invokeValue Set to false to not invoke $value if it is a callable. Will be removed in 2.0
  * @return mixed
  */
-function with($value, callable $callback)
+function with($value, callable $callback, $invokeValue = true)
 {
     InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
@@ -39,7 +40,9 @@ function with($value, callable $callback)
         return null;
     }
 
-    if (is_callable($value)) {
+    if ($invokeValue && is_callable($value)) {
+        trigger_error('Invoking the value is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+
         $value = $value();
     }
 

@@ -23,6 +23,7 @@
 namespace Functional\Tests;
 
 use function Functional\with;
+use PHPUnit_Framework_Error_Deprecated as DeprecatedError;
 
 class WithTest extends AbstractTestCase
 {
@@ -38,15 +39,17 @@ class WithTest extends AbstractTestCase
     public function testWithValue()
     {
         $this->assertSame(
-            'value',
-            with('value', function ($value) {
-                return $value;
+            2,
+            with(1, function ($value) {
+                return $value + 1;
             })
         );
     }
 
     public function testWithCallback()
     {
+        DeprecatedError::$enabled = false;
+
         $this->assertSame(
             'value',
             with(
@@ -58,6 +61,8 @@ class WithTest extends AbstractTestCase
                 }
             )
         );
+
+        DeprecatedError::$enabled = true;
     }
 
     public function testPassNonCallable()
