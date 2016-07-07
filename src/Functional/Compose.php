@@ -24,43 +24,23 @@ namespace Functional;
 
 use function Functional\id;
 
-/* @see https://github.com/facebook/hhvm/issues/4858 */
-if (defined('HHVM_VERSION')) {
-    /**
-     * Return a new function that composes all functions in $functions into a single callable
-     *
-     * @param callable[] $functions
-     * @return callable
-     */
-    function compose(...$functions)
-    {
-        return array_reduce(
-            $functions,
-            function ($carry, $item) {
-                return function ($x) use ($carry, $item) {
-                    return $item($carry($x));
-                };
-            },
-            'Functional\id'
-        );
-    }
-} else {
-    /**
-     * Return a new function that composes all functions in $functions into a single callable
-     *
-     * @param callable[] $functions
-     * @return callable
-     */
-    function compose(callable ...$functions)
-    {
-        return array_reduce(
-            $functions,
-            function ($carry, $item) {
-                return function ($x) use ($carry, $item) {
-                    return $item($carry($x));
-                };
-            },
-            'Functional\id'
-        );
-    }
+/**
+ * Return a new function that composes all functions in $functions into a single callable
+ *
+ * @param callable[] $functions
+ * @return callable
+ * @todo Add callable typehint when HHVM supports use of typehints with variadic arguments
+ * @see https://github.com/facebook/hhvm/issues/6954
+ */
+function compose(...$functions)
+{
+    return array_reduce(
+        $functions,
+        function ($carry, $item) {
+            return function ($x) use ($carry, $item) {
+                return $item($carry($x));
+            };
+        },
+        'Functional\id'
+    );
 }
