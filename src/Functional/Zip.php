@@ -55,7 +55,7 @@ function zip(...$args)
             $zipped = $callback(...$zipped);
         }
 
-        $result[] = $zipped;
+        $result[$index] = $zipped;
     }
 
     return $result;
