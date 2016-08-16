@@ -70,6 +70,7 @@
             "src/Functional/Ratio.php",
             "src/Functional/ReduceLeft.php",
             "src/Functional/ReduceRight.php",
+            "src/Functional/Reindex.php",
             "src/Functional/Reject.php",
             "src/Functional/Retry.php",
             "src/Functional/Select.php",
