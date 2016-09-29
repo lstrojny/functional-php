@@ -36,8 +36,8 @@ namespace Functional;
 function curry_n($count, callable $function)
 {
     $accumulator = function(array $arguments) use($count, $function, &$accumulator) {
-        return function($a) use($count, $function, $arguments, $accumulator) {
-            array_push($arguments, $a);
+        return function(...$newArguments) use($count, $function, $arguments, $accumulator) {
+            $arguments = array_merge($arguments, $newArguments);
 
             if($count <= count($arguments)) {
                 return $function(...$arguments);
