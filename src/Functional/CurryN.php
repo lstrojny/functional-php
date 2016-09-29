@@ -39,7 +39,7 @@ function curry_n($count, callable $function)
         return function($a) use($count, $function, $arguments, $accumulator) {
             array_push($arguments, $a);
 
-            if($count == count($arguments)) {
+            if($count <= count($arguments)) {
                 return $function(...$arguments);
             }
 
