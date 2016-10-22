@@ -81,6 +81,7 @@
             "src/Functional/Sort.php",
             "src/Functional/Sum.php",
             "src/Functional/Tail.php",
+            "src/Functional/TailRec.php",
             "src/Functional/True.php",
             "src/Functional/Truthy.php",
             "src/Functional/Unique.php",
