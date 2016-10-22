@@ -85,6 +85,7 @@
             "src/Functional/Sum.php",
             "src/Functional/SuppressError.php",
             "src/Functional/Tail.php",
+            "src/Functional/TailRec.php",
             "src/Functional/True.php",
             "src/Functional/Truthy.php",
             "src/Functional/Unique.php",
