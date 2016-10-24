@@ -24,18 +24,10 @@ namespace Functional\Tests;
 
 use function Functional\curry;
 
-class CurryTest extends AbstractTestCase
+class CurryTest extends CurryNTest
 {
-    public function testWithArgs()
+    protected function _getCurryiedCallable($callback, $params, $required)
     {
-        $add = function($a, $b) {
-            return $a + $b;
-        };
-        $addCurryied = curry($add);
-
-        $a = $addCurryied(10);
-        $this->assertTrue(is_callable($a));
-
-        $this->assertSame(15, $a(5));
+        return curry($callback, $required);
     }
 }

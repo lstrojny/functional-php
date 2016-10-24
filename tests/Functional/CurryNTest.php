@@ -23,22 +23,78 @@
 namespace Functional\Tests;
 
 use function Functional\curry_n;
+use DateTime;
+
+function add($a, $b, $c, $d) {
+    return $a + $b + $c + $d;
+}
+
+class Adder {
+    public static function static_add($a, $b, $c, $d)
+    {
+        return add($a, $b, $c, $d);
+    }
+
+    public function add($a, $b, $c, $d) {
+        return static::static_add($a, $b, $c, $d);
+    }
+
+    public function __invoke($a, $b, $c, $d)
+    {
+        return static::static_add($a, $b, $c, $d);
+    }
+}
 
 class CurryNTest extends AbstractPartialTestCase
 {
-    public function testWithArgs()
+
+    protected function _getCurryiedCallable($callback, $params, $required)
     {
-        $ratio = curry_n(4, $this->ratio());
+        return curry_n(count($params), $callback);
+    }
 
-        $a = $ratio(8);
-        $this->assertTrue(is_callable($a));
+    /**
+     * @dataProvider callbacks
+     */
+    public function testCallbackTypes($callback, $params, $expected, $required)
+    {
+        $curryied = $this->_getCurryiedCallable($callback, $params, $required);
 
-        $b = $a(2);
-        $this->assertTrue(is_callable($b));
+        $this->assertEquals($expected, call_user_func_array($curryied, $params));
 
-        $c = $b(2);
-        $this->assertTrue(is_callable($c));
+        $length = count($params);
+        for($i = 0; $i < $length; ++$i) {
+            $p = array_shift($params);
 
-        $this->assertSame(1, $c(2));
+            $curryied = $curryied($p);
+
+            if(count($params) > 0) {
+                $this->assertTrue(is_callable($curryied));
+                $this->assertEquals($expected, call_user_func_array($curryied, $params));
+            } else {
+                $this->assertEquals($expected, $curryied);
+            }
+        }
+    }
+
+    public function callbacks()
+    {
+        $dt = new DateTime();
+        $dt2 = clone $dt;
+
+        return [
+            ['Functional\Tests\add', [2, 4, 6, 8], 20, true],
+            [['Functional\Tests\Adder', 'static_add'], [2, 4, 6, 8], 20, true],
+            ['Functional\Tests\Adder::static_add', [2, 4, 6, 8], 20, true],
+            [new Adder(), [2, 4, 6, 8], 20, true],
+            [[new Adder(), 'add'], [2, 4, 6, 8], 20, true],
+            [[new Adder(), 'static_add'], [2, 4, 6, 8], 20, true],
+
+            ['number_format', [1.234, 2, ',', '\''], '1,23', false],
+            [['DateTime', 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true],
+            ['DateTime::createFromFormat', [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true],
+            [[new DateTime, 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true],
+            [[New DateTime, 'setTime'], [10, 10, 10], $dt2->setTime(10, 10, 10), false],
+        ];
     }
 }
