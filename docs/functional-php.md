@@ -397,7 +397,7 @@ $registeredUsers = select($users, partial_method('isRegistered'));
 
 # Currying
 
-Currying is similar to and often confused with partial application. But instead of bindind parameters to some value and returning a new function, a curryied function will take one parameter on each call and return a new function until all parameters are bound.
+Currying is similar to and often confused with partial application. But instead of binding parameters to some value and returning a new function, a curryied function will take one parameter on each call and return a new function until all parameters are bound.
 
 Currying can be seen as partially applying one parameter after the other.
 
@@ -419,7 +419,7 @@ The difference becomes more salient with functions taking more than two paramete
 use function Functional\curry;
 
 function add($a, $b, $c, $d) {
-	return $a + $b + $c + $d;
+    return $a + $b + $c + $d;
 }
 
 $curryedAdd = curry('add');
@@ -436,7 +436,7 @@ Since PHP allows for optional parameters, you can decide if you want to curry th
 use function Functional\curry;
 
 function add($a, $b, $c = 10) {
-	return $a + $b + $c;
+    return $a + $b + $c;
 }
 
 // Curry only required parameters, the default, $c will always be 10
@@ -452,7 +452,7 @@ Starting with PHP7 and the implementation of the ["Uniform variable syntax"](htt
 use function Functional\curry;
 
 function add($a, $b, $c, $d) {
-	return $a + $b + $c + $d;
+    return $a + $b + $c + $d;
 }
 
 $curryedAdd = curry('add');
@@ -467,7 +467,7 @@ $curryedAdd(10)(5)(27)(10); // -> 52
 use function Functional\curry;
 
 function add($a, $b, $c, $d) {
-	return $a + $b + $c + $d;
+    return $a + $b + $c + $d;
 }
 
 $curryedAdd = curry_n(2, 'add');
