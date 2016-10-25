@@ -26,7 +26,7 @@ use function Functional\curry;
 
 class CurryTest extends CurryNTest
 {
-    protected function _getCurryiedCallable($callback, $params, $required)
+    protected function getCurryiedCallable($callback, $params, $required)
     {
         return curry($callback, $required);
     }

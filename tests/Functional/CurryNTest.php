@@ -23,7 +23,6 @@
 namespace Functional\Tests;
 
 use function Functional\curry_n;
-use function Functional\id;
 use function Functional\invoker;
 
 use DateTime;
@@ -32,13 +31,15 @@ function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
 }
 
-class Adder {
+class Adder
+{
     public static function static_add($a, $b, $c, $d)
     {
         return add($a, $b, $c, $d);
     }
 
-    public function add($a, $b, $c, $d) {
+    public function add($a, $b, $c, $d)
+    {
         return static::static_add($a, $b, $c, $d);
     }
 
@@ -50,8 +51,7 @@ class Adder {
 
 class CurryNTest extends AbstractPartialTestCase
 {
-
-    protected function _getCurryiedCallable($callback, $params, $required)
+    protected function getCurryiedCallable($callback, $params, $required)
     {
         return curry_n(count($params), $callback);
     }
@@ -61,11 +61,11 @@ class CurryNTest extends AbstractPartialTestCase
      */
     public function testCallbackTypes($callback, $params, $expected, $required, $transformer = null)
     {
-        if(is_null($transformer)) {
+        if (is_null($transformer)) {
             $transformer = 'Functional\id';
         }
 
-        $curryied = $this->_getCurryiedCallable($callback, $params, $required);
+        $curryied = $this->getCurryiedCallable($callback, $params, $required);
 
         $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
 
@@ -75,7 +75,7 @@ class CurryNTest extends AbstractPartialTestCase
 
             $curryied = $curryied($p);
 
-            if(count($params) > 0) {
+            if (count($params) > 0) {
                 $this->assertTrue(is_callable($curryied));
                 $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
             } else {

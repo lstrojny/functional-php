@@ -37,7 +37,7 @@ function curry(callable $function, $required = true)
 {
     if (is_string($function) && strpos($function, '::', 1) !== false) {
         $reflection = new ReflectionMethod($function);
-    } elseif (is_array($function) && count($function) == 2) {
+    } elseif (is_array($function) && count($function) === 2) {
         $reflection = new ReflectionMethod($function[0], $function[1]);
     } elseif (is_object($function) && method_exists($function, '__invoke')) {
         $reflection = new ReflectionMethod($function, '__invoke');
