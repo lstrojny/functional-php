@@ -12,14 +12,14 @@
 function tailRec(callable $fn)
 {
     $underCall = false;
-    $pool = [];
-    return function (...$args) use (&$fn, &$underCall, &$pool) {
+    $queue = [];
+    return function (...$args) use (&$fn, &$underCall, &$queue) {
         $result = null;
-        $pool[] = $args;
+        $queue[] = $args;
         if (!$underCall) {
             $underCall = true;
-            while ($pool) {
-                $head = array_shift($pool);
+            while ($queue) {
+                $head = array_shift($queue);
                 $result = $fn(...$head);
             }
             $underCall = false;
