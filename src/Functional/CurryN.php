@@ -40,7 +40,7 @@ function curry_n($count, callable $function)
             $arguments = array_merge($arguments, $newArguments);
 
             if ($count <= count($arguments)) {
-                return $function(...$arguments);
+                return call_user_func_array($function, $arguments);
             }
 
             return $accumulator($arguments);
