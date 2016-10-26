@@ -24,6 +24,7 @@ namespace Functional;
 
 use ReflectionMethod;
 use ReflectionFunction;
+use Closure;
 
 /**
  * Return a curryied version of the given function. You can decide if you also
@@ -35,14 +36,18 @@ use ReflectionFunction;
  */
 function curry(callable $function, $required = true)
 {
-    if (is_string($function) && strpos($function, '::', 1) !== false) {
-        $reflection = new ReflectionMethod($function);
-    } elseif (is_array($function) && count($function) === 2) {
-        $reflection = new ReflectionMethod($function[0], $function[1]);
-    } elseif (is_object($function) && method_exists($function, '__invoke')) {
-        $reflection = new ReflectionMethod($function, '__invoke');
+    if(method_exists('\Closure','fromCallable')) {
+        $reflection = new ReflectionFunction(Closure::fromCallable($function));
     } else {
-        $reflection = new ReflectionFunction($function);
+        if (is_string($function) && strpos($function, '::', 1) !== false) {
+            $reflection = new ReflectionMethod($function);
+        } elseif (is_array($function) && count($function) === 2) {
+            $reflection = new ReflectionMethod($function[0], $function[1]);
+        } elseif (is_object($function) && method_exists($function, '__invoke')) {
+            $reflection = new ReflectionMethod($function, '__invoke');
+        } else {
+            $reflection = new ReflectionFunction($function);
+        }
     }
 
     $count = $required ?
