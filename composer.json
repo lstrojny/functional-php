@@ -30,6 +30,8 @@
             "src/Functional/CompareObjectHashOn.php",
             "src/Functional/Compose.php",
             "src/Functional/Contains.php",
+            "src/Functional/Curry.php",
+            "src/Functional/CurryN.php",
             "src/Functional/Difference.php",
             "src/Functional/DropFirst.php",
             "src/Functional/DropLast.php",

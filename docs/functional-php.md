@@ -23,6 +23,9 @@
   - [partial_left() & partial_right()](#partial_left--partial_right)
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
+- [Currying](#currying)
+  - [curry()](#curry)
+  - [curry_n()](#curry_n)
 - [Access functions](#access-functions)
   - [with()](#with)
   - [invoke_if()](#invoke_if)
@@ -391,6 +394,90 @@ use function Functional\partial_method;
 $users = [new User(), new User()];
 $registeredUsers = select($users, partial_method('isRegistered'));
 ```
+
+# Currying
+
+Currying is similar to and often confused with partial application. But instead of binding parameters to some value and returning a new function, a curryied function will take one parameter on each call and return a new function until all parameters are bound.
+
+Currying can be seen as partially applying one parameter after the other.
+
+## curry
+
+If we revisit the example used for partial application, the curryied version would be :
+
+```php
+use function Functional\curry;
+
+$curryedSubtractor = curry($subtractor);
+$subtractFrom10 = $curryedSubtractor(10)
+$subtractFrom10(20); // -> -10
+```
+
+The difference becomes more salient with functions taking more than two parameters :
+ 
+```php
+use function Functional\curry;
+
+function add($a, $b, $c, $d) {
+    return $a + $b + $c + $d;
+}
+
+$curryedAdd = curry('add');
+
+$add10 = $curryedAdd(10);
+$add15 = $add10(5);
+$add42 = $add15(27);
+$add42(10); // -> 52
+```
+
+Since PHP allows for optional parameters, you can decide if you want to curry them or not. The default is to not curry them.
+
+```php
+use function Functional\curry;
+
+function add($a, $b, $c = 10) {
+    return $a + $b + $c;
+}
+
+// Curry only required parameters, the default, $c will always be 10
+$curryedAdd = curry('add', true);
+
+// This time, 3 parameters will be curryied.
+$curryedAddWithOptional = curry('add', false);
+```
+
+Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simpliy the usage of curryied functions.
+
+```php
+use function Functional\curry;
+
+function add($a, $b, $c, $d) {
+    return $a + $b + $c + $d;
+}
+
+$curryedAdd = curry('add');
+$curryedAdd(10)(5)(27)(10); // -> 52
+```
+
+## curry_n
+
+`curry` uses reflection to determine the number of arguments, which can be slow depdening on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
+
+```php
+use function Functional\curry;
+
+function add($a, $b, $c, $d) {
+    return $a + $b + $c + $d;
+}
+
+$curryedAdd = curry_n(2, 'add');
+
+$add10 = $curryedAdd(10);
+$add15 = $add10(5);
+$add15(27, 10); // -> 52
+```
+
+Note that if you given a parameter bigger than the real number of parameters of your function, all extraneous parameters will simply be passed but ignored by the original function.
 
 # Access functions
 
