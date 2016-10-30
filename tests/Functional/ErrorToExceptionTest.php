@@ -22,6 +22,7 @@
  */
 namespace Functional\Tests;
 
+use ErrorException;
 use RuntimeException;
 use function Functional\error_to_exception;
 
@@ -31,32 +32,40 @@ class ErrorToExceptionTest extends AbstractTestCase
     {
         $fn = error_to_exception('strpos');
 
-        $this->expectException('ErrorException');
-        $this->expectExceptionMessage('strpos() expects parameter 1 to be string, array given');
-        $fn([], 0);
+        $errorLevel = error_reporting();
+        try {
+            $fn([], 0);
+            $this->fail('ErrorException expected');
+        } catch (ErrorException $e) {
+            $this->assertSame('strpos() expects parameter 1 to be string, array given', $e->getMessage());
+            $this->assertSame($errorLevel, error_reporting());
+        }
     }
 
     public function testFunctionIsWrapped()
     {
         $fn = error_to_exception('substr');
+
+        $errorLevel = error_reporting();
         $this->assertSame('f', $fn('foo', 0, 1));
+        $this->assertSame($errorLevel, error_reporting());
     }
 
     public function testExceptionsAreHandledTransparently()
     {
-        $e = new RuntimeException();
+        $expectedException = new RuntimeException();
         $fn = error_to_exception(
-            function () use ($e) {
-                throw $e;
+            function () use ($expectedException) {
+                throw $expectedException;
             }
         );
 
         $errorLevel = error_reporting();
-
         try {
             $fn();
             $this->fail('Exception expected');
         } catch (RuntimeException $e) {
+            $this->assertSame($expectedException, $e);
             $this->assertSame($errorLevel, error_reporting());
         }
     }
