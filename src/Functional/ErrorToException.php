@@ -34,19 +34,18 @@ use ErrorException;
 function error_to_exception(callable $callback)
 {
     return function (...$arguments) use ($callback) {
+        try {
+            error_clear_last();
+            $errorLevel = error_reporting(0);
 
-        error_clear_last();
-        $errorLevel = error_reporting(0);
+            return $callback(...$arguments);
+        } finally {
+            $error = error_get_last();
+            error_reporting($errorLevel);
 
-        $result = $callback(...$arguments);
-
-        $error = error_get_last();
-        error_reporting($errorLevel);
-
-        if ($error) {
-            throw new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+            if ($error) {
+                throw new ErrorException($error['message'], 0, $error['type'], $error['file'], $error['line']);
+            }
         }
-
-        return $result;
     };
 }

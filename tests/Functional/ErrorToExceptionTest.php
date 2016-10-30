@@ -51,7 +51,13 @@ class ErrorToExceptionTest extends AbstractTestCase
             }
         );
 
-        $this->expectException(RuntimeException::class);
-        $fn();
+        $errorLevel = error_reporting();
+
+        try {
+            $fn();
+            $this->fail('Exception expected');
+        } catch (RuntimeException $e) {
+            $this->assertSame($errorLevel, error_reporting());
+        }
     }
 }
