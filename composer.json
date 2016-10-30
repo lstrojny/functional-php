@@ -34,6 +34,7 @@
             "src/Functional/DropFirst.php",
             "src/Functional/DropLast.php",
             "src/Functional/Each.php",
+            "src/Functional/ErrorToException.php",
             "src/Functional/Every.php",
             "src/Functional/False.php",
             "src/Functional/Falsy.php",
