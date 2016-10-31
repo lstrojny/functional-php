@@ -38,11 +38,11 @@ function error_to_exception(callable $callback)
             $errorLevel = error_reporting(0);
             $error = null;
             set_error_handler(
-                function ($level, $message, $file, $line) use (&$error) {
+                static function ($level, $message, $file, $line) use (&$error) {
                     $error['level'] = $level;
                     $error['message'] = $message;
                     $error['file'] = $file;
-                    $error['line'] = $level;
+                    $error['line'] = $line;
                 }
             );
 
