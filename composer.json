@@ -80,6 +80,7 @@
             "src/Functional/Some.php",
             "src/Functional/Sort.php",
             "src/Functional/Sum.php",
+            "src/Functional/SuppressError.php",
             "src/Functional/Tail.php",
             "src/Functional/True.php",
             "src/Functional/Truthy.php",
