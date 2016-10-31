@@ -32,23 +32,17 @@ class ErrorToExceptionTest extends AbstractTestCase
     {
         $fn = error_to_exception('strpos');
 
-        $errorLevel = error_reporting();
-        try {
-            $fn([], 0);
-            $this->fail('ErrorException expected');
-        } catch (ErrorException $e) {
-            $this->assertSame('strpos() expects parameter 1 to be string, array given', $e->getMessage());
-            $this->assertSame($errorLevel, error_reporting());
-        }
+        $this->expectException(ErrorException::class);
+        $this->expectExceptionMessage('strpos() expects parameter 1 to be string, array given');
+
+        $fn([], 0);
     }
 
     public function testFunctionIsWrapped()
     {
         $fn = error_to_exception('substr');
 
-        $errorLevel = error_reporting();
         $this->assertSame('f', $fn('foo', 0, 1));
-        $this->assertSame($errorLevel, error_reporting());
     }
 
     public function testExceptionsAreHandledTransparently()
@@ -60,13 +54,30 @@ class ErrorToExceptionTest extends AbstractTestCase
             }
         );
 
-        $errorLevel = error_reporting();
+        $this->expectException(RuntimeException::class);
+
+        $fn();
+    }
+
+    public function testErrorHandlerNestingWorks()
+    {
+        $errorMessage = null;
+        set_error_handler(
+            static function($level, $message) use (&$errorMessage) {
+                $errorMessage = $message;
+            }
+        );
+
+        $fn = error_to_exception('strpos');
         try {
-            $fn();
-            $this->fail('Exception expected');
-        } catch (RuntimeException $e) {
-            $this->assertSame($expectedException, $e);
-            $this->assertSame($errorLevel, error_reporting());
+            $fn([], 0);
+            $this->fail('ErrorException expected');
+        } catch (ErrorException $e) {
+            $this->assertNull($errorMessage);
         }
+
+        strpos([], 0);
+        $this->assertSame('strpos() expects parameter 1 to be string, array given', $errorMessage);
+        restore_error_handler();
     }
 }

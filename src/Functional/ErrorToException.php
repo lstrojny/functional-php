@@ -35,25 +35,15 @@ function error_to_exception(callable $callback)
 {
     return function (...$arguments) use ($callback) {
         try {
-            $errorLevel = error_reporting(0);
-            $error = null;
             set_error_handler(
-                static function ($level, $message, $file, $line) use (&$error) {
-                    $error['level'] = $level;
-                    $error['message'] = $message;
-                    $error['file'] = $file;
-                    $error['line'] = $line;
+                static function ($level, $message, $file, $line) {
+                    throw new ErrorException($message, 0, $level, $file, $line);
                 }
             );
 
             return $callback(...$arguments);
         } finally {
-            error_reporting($errorLevel);
             restore_error_handler();
-
-            if ($error) {
-                throw new ErrorException($error['message'], 0, $error['level'], $error['file'], $error['line']);
-            }
         }
     };
 }
