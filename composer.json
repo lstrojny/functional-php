@@ -89,7 +89,8 @@
             "src/Functional/Truthy.php",
             "src/Functional/Unique.php",
             "src/Functional/With.php",
-            "src/Functional/Zip.php"
+            "src/Functional/Zip.php",
+            "src/Functional/ZipAll.php"
         ]
     },
     "autoload-dev": {
