@@ -58,7 +58,7 @@ class PickTest extends AbstractTestCase
 
     public function testInvalidCollectionShouldThrowException()
     {
-        $this->setExpectedException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
 
         pick(null, '');
     }

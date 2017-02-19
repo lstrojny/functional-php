@@ -22,74 +22,62 @@
  */
 namespace Functional\Exceptions;
 
-class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class InvalidArgumentExceptionTest extends TestCase
 {
     public function testCallbackExceptionWithUndefinedStaticMethod()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 1 to be a valid callback, method 'stdClass::method' not found or invalid method name"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 1 to be a valid callback, method 'stdClass::method' not found or invalid method name");
 
         InvalidArgumentException::assertCallback(['stdClass', 'method'], 'func', 1);
     }
 
     public function testCallbackExceptionWithUndefinedFunction()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 1 to be a valid callback, function 'undefinedFunction' not found or invalid function name"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 1 to be a valid callback, function 'undefinedFunction' not found or invalid function name");
 
         InvalidArgumentException::assertCallback('undefinedFunction', 'func', 1);
     }
 
     public function testCallbackExceptionWithUndefinedMethod()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 2 to be a valid callback, method 'stdClass->method' not found or invalid method name"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 2 to be a valid callback, method 'stdClass->method' not found or invalid method name");
 
         InvalidArgumentException::assertCallback([new \stdClass(), 'method'], 'func', 2);
     }
 
     public function testCallbackExceptionWithIncorrectArrayIndex()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 1 to be a valid callback, method 'stdClass->method' not found or invalid method name"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 1 to be a valid callback, method 'stdClass->method' not found or invalid method name");
 
         InvalidArgumentException::assertCallback([1 => new \stdClass(), 2 => 'method'], 'func', 1);
     }
 
     public function testCallbackExceptionWithObject()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expected parameter 1 to be a valid callback, no array, string, closure or functor given'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expected parameter 1 to be a valid callback, no array, string, closure or functor given');
 
         InvalidArgumentException::assertCallback(new \stdClass(), 'func', 1);
     }
 
     public function testExceptionIfStringIsPassedAsList()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 4 to be array or instance of Traversable"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 4 to be array or instance of Traversable");
 
         InvalidArgumentException::assertCollection('string', 'func', 4);
     }
 
     public function testExceptionIfObjectIsPassedAsList()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            "func() expects parameter 2 to be array or instance of Traversable"
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage("func() expects parameter 2 to be array or instance of Traversable");
 
         InvalidArgumentException::assertCollection(new \stdClass(), 'func', 2);
     }
@@ -104,28 +92,22 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAssertArrayAccessWithString()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 4 to be array or instance of ArrayAccess'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expects parameter 4 to be array or instance of ArrayAccess');
         InvalidArgumentException::assertArrayAccess('string', "func", 4);
     }
 
     public function testAssertArrayAccessWithStandardClass()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be array or instance of ArrayAccess'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expects parameter 2 to be array or instance of ArrayAccess');
         InvalidArgumentException::assertArrayAccess(new \stdClass(), "func", 2);
     }
 
     public function testExceptionIfInvalidMethodName()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'foo() expects parameter 2 to be string, object given'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('foo() expects parameter 2 to be string, object given');
         InvalidArgumentException::assertMethodName(new \stdClass(), "foo", 2);
     }
 
@@ -134,10 +116,8 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         InvalidArgumentException::assertPropertyName('property', 'func', 2);
         InvalidArgumentException::assertPropertyName(0, 'func', 2);
         InvalidArgumentException::assertPropertyName(0.2, 'func', 2);
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be a valid property name or array index, object given'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expects parameter 2 to be a valid property name or array index, object given');
         InvalidArgumentException::assertPropertyName(new \stdClass(), "func", 2);
     }
 
@@ -149,19 +129,15 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testExceptionIfNegativeIntegerInsteadOfPositiveInteger()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be positive integer, negative integer given'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expects parameter 2 to be positive integer, negative integer given');
         InvalidArgumentException::assertPositiveInteger(-1, 'func', 2);
     }
 
     public function testExceptionIfStringInsteadOfPositiveInteger()
     {
-        $this->setExpectedException(
-            'Functional\Exceptions\InvalidArgumentException',
-            'func() expects parameter 2 to be positive integer, string given'
-        );
+        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectExceptionMessage('func() expects parameter 2 to be positive integer, string given');
         InvalidArgumentException::assertPositiveInteger('str', 'func', 2);
     }
 }

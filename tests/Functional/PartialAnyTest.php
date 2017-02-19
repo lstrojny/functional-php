@@ -59,10 +59,9 @@ class PartialAnyTest extends AbstractPartialTestCase
     {
         $ratio = partial_any($this->ratio(), …(), 2);
 
-        $this->setExpectedException(
-            InvalidArgumentException::class,
-            'Cannot resolve parameter placeholder at position 0. Parameter stack is empty.'
-        );
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->expectExceptionMessage('Cannot resolve parameter placeholder at position 0. Parameter stack is empty.');
         $ratio();
     }
 }

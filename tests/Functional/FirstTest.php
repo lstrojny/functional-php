@@ -96,7 +96,8 @@ class FirstTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInArray($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->list, [$this, 'exception']);
     }
 
@@ -105,7 +106,8 @@ class FirstTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInCollection($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->listIterator, [$this, 'exception']);
     }
 

@@ -51,25 +51,29 @@ class MapTest extends AbstractTestCase
 
     public function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         map($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         map($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         map($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         map($this->hashIterator, [$this, 'exception']);
     }
 

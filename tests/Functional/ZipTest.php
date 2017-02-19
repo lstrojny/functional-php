@@ -152,7 +152,8 @@ class ZipTest extends AbstractTestCase
 
     public function testExceptionInCallback()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         zip([null], [$this, 'exception']);
     }
 }
