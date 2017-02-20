@@ -397,19 +397,19 @@ $registeredUsers = select($users, partial_method('isRegistered'));
 
 # Currying
 
-Currying is similar to and often confused with partial application. But instead of binding parameters to some value and returning a new function, a curryied function will take one parameter on each call and return a new function until all parameters are bound.
+Currying is similar to and often confused with partial application. But instead of binding parameters to some value and returning a new function, a curried function will take one parameter on each call and return a new function until all parameters are bound.
 
 Currying can be seen as partially applying one parameter after the other.
 
 ## curry
 
-If we revisit the example used for partial application, the curryied version would be :
+If we revisit the example used for partial application, the curried version would be :
 
 ```php
 use function Functional\curry;
 
-$curryedSubtractor = curry($subtractor);
-$subtractFrom10 = $curryedSubtractor(10)
+$curriedSubtractor = curry($subtractor);
+$subtractFrom10 = $curriedSubtractor(10)
 $subtractFrom10(20); // -> -10
 ```
 
@@ -422,9 +422,9 @@ function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
 }
 
-$curryedAdd = curry('add');
+$curriedAdd = curry('add');
 
-$add10 = $curryedAdd(10);
+$add10 = $curriedAdd(10);
 $add15 = $add10(5);
 $add42 = $add15(27);
 $add42(10); // -> 52
@@ -440,13 +440,13 @@ function add($a, $b, $c = 10) {
 }
 
 // Curry only required parameters, the default, $c will always be 10
-$curryedAdd = curry('add', true);
+$curriedAdd = curry('add', true);
 
-// This time, 3 parameters will be curryied.
-$curryedAddWithOptional = curry('add', false);
+// This time, 3 parameters will be curried.
+$curriedAddWithOptional = curry('add', false);
 ```
 
-Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simpliy the usage of curryied functions.
+Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simpliy the usage of curried functions.
 
 ```php
 use function Functional\curry;
@@ -455,8 +455,8 @@ function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
 }
 
-$curryedAdd = curry('add');
-$curryedAdd(10)(5)(27)(10); // -> 52
+$curriedAdd = curry('add');
+$curriedAdd(10)(5)(27)(10); // -> 52
 ```
 
 ## curry_n
@@ -470,9 +470,9 @@ function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
 }
 
-$curryedAdd = curry_n(2, 'add');
+$curriedAdd = curry_n(2, 'add');
 
-$add10 = $curryedAdd(10);
+$add10 = $curriedAdd(10);
 $add15 = $add10(5);
 $add15(27, 10); // -> 52
 ```
