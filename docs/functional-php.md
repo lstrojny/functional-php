@@ -46,7 +46,7 @@
 - [Transformation functions](#transformation-functions)
   - [partition()](#partition)
   - [group()](#group)
-  - [zip()](#zip)
+  - [zip() & zip_all()](#zip)
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [Other](#other-1)
@@ -226,7 +226,6 @@ contains(['0', '1', '2'], 2);
 // Returns true
 contains(['0', '1', '2'], 2, false);
 ```
-
 
 ## sort()
 Sorts a collection with a user-defined function, optionally preserving array keys
@@ -758,10 +757,12 @@ $groupedUser = group($collection, function($user) {
 ```
 
 
-## zip()
+## zip() & zip_all()
 Recombines arrays by index and applies a callback optionally
 
 ``array Functional\zip(array|Traversable $collection1[, array|Traversable ...[, callable $callback]])``
+
+``array Functional\zip_all(array|Traversable $collection1[, array|Traversable ...[, callable $callback]])``
 
 ```php
 <?php
@@ -780,6 +781,7 @@ zip(
 );
 ```
 
+``zip()`` uses the keys of the first input array. ``zip_all()`` uses all the keys present in the input arrays.
 
 ## flatten()
 Takes a nested combination of collections and returns their contents as a single, flat array. Does not preserve indexes.
