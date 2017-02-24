@@ -61,6 +61,7 @@
             "src/Functional/Memoize.php",
             "src/Functional/Minimum.php",
             "src/Functional/None.php",
+            "src/Functional/Not.php",
             "src/Functional/PartialAny.php",
             "src/Functional/PartialLeft.php",
             "src/Functional/PartialMethod.php",
