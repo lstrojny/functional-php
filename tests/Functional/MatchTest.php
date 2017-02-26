@@ -42,4 +42,14 @@ class MatchTest extends AbstractTestCase
         $this->assertEquals('is baz', $test('baz'));
         $this->assertEquals('default is qux', $test('qux'));
     }
+
+    public function testNothingMatch()
+    {
+        $test = match([
+            [equal('foo'), const_function('is foo')],
+            [equal('bar'), const_function('is bar')],
+        ]);
+
+        $this->assertNull($test('baz'));
+    }
 }
