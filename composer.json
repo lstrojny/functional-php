@@ -23,7 +23,6 @@
     "autoload": {
         "psr-4": {"Functional\\": "src/Functional"},
         "files": [
-            "src/Functional/Always.php",
             "src/Functional/Average.php",
             "src/Functional/Capture.php",
             "src/Functional/ConstFunction.php",
