@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2011-2016 by Gilles Crettenand <gilles@crettenand.info>
+ * Copyright (C) 2011-2016 by Lars Strojny <lstrojny@php.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Functional;
+namespace Functional\Tests;
 
-use Functional\const_function;
+use function Functional\match;
+use function Functional\equal;
+use function Functional\const_function;
 
-/**
- * Performs an operation checking for the given conditions
- *
- * @param array $conditions the conditions to check against
- *
- * @return callable|null the function that calls the callable of the first truthy condition
- */
-function cond(array $conditions)
+class MatchTest extends AbstractTestCase
 {
-    return function ($x) use ($conditions) {
-        foreach ($conditions as $condition) {
-            if ($condition[0]($x)) {
-                return $condition[1]($x);
-            }
-        }
+    public function testMatch()
+    {
+        $test = match([
+            [equal('foo'), const_function('is foo')],
+            [equal('bar'), const_function('is bar')],
+            [equal('baz'), const_function('is baz')],
+            [const_function(true), function ($x) { return 'default is '.$x; }],
+        ]);
 
-        return const_function(null);
-    };
+        $this->assertEquals('is foo', $test('foo'));
+        $this->assertEquals('is bar', $test('bar'));
+        $this->assertEquals('is baz', $test('baz'));
+        $this->assertEquals('default is qux', $test('qux'));
+    }
 }
