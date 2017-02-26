@@ -27,16 +27,16 @@ use Functional\always;
 /**
  * Performs an operation checking for the given conditions
  *
- * @param array $conds the conditions to check against
+ * @param array $conditions the conditions to check against
  *
  * @return callable|null the function that calls the callable of the first truthy condition
  */
-function cond(array $conds)
+function cond(array $conditions)
 {
-    return function ($x) use ($conds) {
-        foreach ($conds as $cond) {
-            if ($cond[0]($x)) {
-                return $cond[1]($x);
+    return function ($x) use ($conditions) {
+        foreach ($conditions as $condition) {
+            if ($condition[0]($x)) {
+                return $condition[1]($x);
             }
         }
 
