@@ -40,6 +40,6 @@ function match(array $conditions)
             }
         }
 
-        return const_function(null);
+        return null;
     };
 }
