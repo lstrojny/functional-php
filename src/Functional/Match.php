@@ -33,10 +33,10 @@ use Functional\const_function;
  */
 function match(array $conditions)
 {
-    return function ($x) use ($conditions) {
+    return function ($value) use ($conditions) {
         foreach ($conditions as $condition) {
-            if ($condition[0]($x)) {
-                return $condition[1]($x);
+            if ($condition[0]($value)) {
+                return $condition[1]($value);
             }
         }
 
