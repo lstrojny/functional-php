@@ -24,17 +24,17 @@ namespace Functional\Tests;
 
 use function Functional\cond;
 use function Functional\equal;
-use function Functional\always;
+use function Functional\const_function;
 
 class CondTest extends AbstractTestCase
 {
     public function testCond()
     {
         $test = cond([
-            [equal('foo'), always('is foo')],
-            [equal('bar'), always('is bar')],
-            [equal('baz'), always('is baz')],
-            [always(true), function ($x) { return 'default is '.$x; }],
+            [equal('foo'), const_function('is foo')],
+            [equal('bar'), const_function('is bar')],
+            [equal('baz'), const_function('is baz')],
+            [const_function(true), function ($x) { return 'default is '.$x; }],
         ]);
 
         $this->assertEquals('is foo', $test('foo'));

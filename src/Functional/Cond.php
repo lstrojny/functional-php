@@ -22,7 +22,7 @@
  */
 namespace Functional;
 
-use Functional\always;
+use Functional\const_function;
 
 /**
  * Performs an operation checking for the given conditions
@@ -40,6 +40,6 @@ function cond(array $conditions)
             }
         }
 
-        return always(null);
+        return const_function(null);
     };
 }
