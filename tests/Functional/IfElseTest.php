@@ -24,13 +24,13 @@ namespace Functional\Tests;
 
 use function Functional\if_else;
 use function Functional\equal;
-use function Functional\always;
+use function Functional\const_function;
 
 class IfElseTest extends AbstractTestCase
 {
     public function testIfElse()
     {
-        $if_foo = if_else(equal('foo'), always('bar'), always('baz'));
+        $if_foo = if_else(equal('foo'), const_function('bar'), const_function('baz'));
 
         $this->assertEquals('bar', $if_foo('foo'));
         $this->assertEquals('baz', $if_foo('qux'));
