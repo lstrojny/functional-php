@@ -25,15 +25,15 @@ namespace Functional;
 /**
  * Performs an if/else condition over a value using functions as statements
  *
- * @param callable $cond the condition function
- * @param callable $if   function to call if condition is true
+ * @param callable $if   the condition function
+ * @param callable $then function to call if condition is true
  * @param callable $else function to call if condition is false
  *
- * @return mixed the return value of the given $if or $else functions
+ * @return mixed the return value of the given $then or $else functions
  */
-function if_else(callable $cond, callable $if, callable $else)
+function if_else(callable $if, callable $then, callable $else)
 {
-    return function ($x) use ($cond, $if, $else) {
-        return $cond($x) ? $if($x) : $else($x);
+    return function ($value) use ($if, $then, $else) {
+        return $if($value) ? $then($value) : $else($value);
     };
 }
