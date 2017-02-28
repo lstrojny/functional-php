@@ -46,6 +46,7 @@
             "src/Functional/FlatMap.php",
             "src/Functional/Flatten.php",
             "src/Functional/GreaterThan.php",
+            "src/Functional/GreaterThanOrEqual.php",
             "src/Functional/Group.php",
             "src/Functional/Head.php",
             "src/Functional/Id.php",
