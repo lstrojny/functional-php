@@ -63,6 +63,7 @@
             "src/Functional/Minimum.php",
             "src/Functional/None.php",
             "src/Functional/NotEqual.php",
+            "src/Functional/NotIdentical.php",
             "src/Functional/PartialAny.php",
             "src/Functional/PartialLeft.php",
             "src/Functional/PartialMethod.php",
