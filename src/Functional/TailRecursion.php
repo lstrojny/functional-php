@@ -9,7 +9,7 @@
  * @param callable $fn
  * @return \Closure
  */
-function tailRec(callable $fn)
+function tailRecursion(callable $fn)
 {
     $underCall = false;
     $queue = [];
@@ -18,8 +18,7 @@ function tailRec(callable $fn)
         $queue[] = $args;
         if (!$underCall) {
             $underCall = true;
-            while ($queue) {
-                $head = array_shift($queue);
+            while ($head = array_shift($queue)) {
                 $result = $fn(...$head);
             }
             $underCall = false;
