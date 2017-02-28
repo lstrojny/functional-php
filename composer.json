@@ -59,6 +59,7 @@
             "src/Functional/Last.php",
             "src/Functional/LastIndexOf.php",
             "src/Functional/LessThan.php",
+            "src/Functional/LessThanOrEqual.php",
             "src/Functional/Map.php",
             "src/Functional/Maximum.php",
             "src/Functional/Memoize.php",
