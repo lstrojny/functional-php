@@ -48,6 +48,7 @@
             "src/Functional/Group.php",
             "src/Functional/Head.php",
             "src/Functional/Id.php",
+            "src/Functional/Identical.php",
             "src/Functional/IndexesOf.php",
             "src/Functional/Invoke.php",
             "src/Functional/InvokeFirst.php",
