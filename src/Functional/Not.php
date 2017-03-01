@@ -31,6 +31,6 @@ namespace Functional;
 function not(callable $function)
 {
     return function ($value) use ($function) {
-        return ! $function($value);
+        return !$function($value);
     };
 }
