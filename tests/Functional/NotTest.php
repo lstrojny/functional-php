@@ -22,17 +22,17 @@
  */
 namespace Functional\Tests;
 
-use function Functional\not_equal;
+use function Functional\greater_than as gt;
+use function Functional\identical;
+use function Functional\not;
 
-class NotEqualTest extends AbstractTestCase
+class NotTest extends AbstractTestCase
 {
-    public function testNotEqualComparison()
+    public function testNot()
     {
-        $fn = not_equal(2);
-
-        $this->assertFalse($fn(2));
-        $this->assertFalse($fn('2'));
-        $this->assertTrue($fn(3));
-        $this->assertTrue($fn('3'));
+        $this->assertTrue(not(gt(2))(2));
+        $this->assertFalse(not(gt(2))(3));
+        $this->assertTrue(not(identical(2))('2'));
+        $this->assertFalse(not(identical(2))(2));
     }
 }

@@ -23,14 +23,14 @@
 namespace Functional;
 
 /**
- * Returns true if $a is not equal to $b, or they are not of the same type.
+ * Logical negation of the given $function
  *
- * @param mixed $b
- * @return bool
+ * @param callable $function The function to run value against
+ * @return callable A negation version on the given $function
  */
-function not_identical($b)
+function not(callable $function)
 {
-    return function ($a) use ($b) {
-        return $a !== $b;
+    return function ($value) use ($function) {
+        return ! $function($value);
     };
 }
