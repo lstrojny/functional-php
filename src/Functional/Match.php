@@ -22,7 +22,9 @@
  */
 namespace Functional;
 
-use Functional\const_function;
+use function Functional\head;
+use function Functional\tail;
+use function Functional\if_else;
 
 /**
  * Performs an operation checking for the given conditions
@@ -34,12 +36,12 @@ use Functional\const_function;
 function match(array $conditions)
 {
     return function ($value) use ($conditions) {
-        foreach ($conditions as $condition) {
-            if ($condition[0]($value)) {
-                return $condition[1]($value);
-            }
+        if (empty($conditions)) {
+            return null;
         }
 
-        return null;
+        list($if, $then) = head($conditions);
+
+        return if_else($if, $then, match(tail($conditions)))($value);
     };
 }
