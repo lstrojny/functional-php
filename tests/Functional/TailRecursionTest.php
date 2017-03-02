@@ -8,7 +8,7 @@ class TailRecursionTest extends TestCase
 {
     public function testTailRecursion()
     {
-        $fact = tailRecursion(function ($n, $acc = 1) use (&$fact) {
+        $fact = tail_recursion(function ($n, $acc = 1) use (&$fact) {
             if ($n == 0) {
                 return $acc;
             }

@@ -9,7 +9,7 @@
  * @param callable $fn
  * @return \Closure
  */
-function tailRecursion(callable $fn)
+function tail_recursion(callable $fn)
 {
     $underCall = false;
     $queue = [];
