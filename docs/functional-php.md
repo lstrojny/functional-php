@@ -821,6 +821,14 @@ $str = reduce_right([2, 3], function($value, $index, $collection, $reduction) {
 ```
 
 
+## intersperse()
+
+Insert a given value between each element of a collection.
+
+```php
+intersperse(['a', 'b', 'c'], '-') === ['a', '-', 'b', '-', 'c']
+```
+
 ## Other
 
 `array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`

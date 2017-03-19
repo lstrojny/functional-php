@@ -52,6 +52,7 @@
             "src/Functional/Id.php",
             "src/Functional/Identical.php",
             "src/Functional/IndexesOf.php",
+            "src/Functional/Intersperse.php",
             "src/Functional/Invoke.php",
             "src/Functional/InvokeFirst.php",
             "src/Functional/InvokeIf.php",
