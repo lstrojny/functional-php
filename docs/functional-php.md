@@ -693,11 +693,11 @@ Return an new function that decorates given function with tail recursion optimiz
 use function Functional\tail_recursion;
 
 $sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
-    if ($from === $to) {
-        return $acc + $from;
+    if ($from > $to) {
+        return $acc;
     }
     return $sum_of_range($from + 1, $to, $acc + $from);
-});br
+});
 
 var_dump($sum_of_range(1, 10000)); // 50005000;
 ```

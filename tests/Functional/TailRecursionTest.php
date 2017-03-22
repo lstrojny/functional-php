@@ -22,8 +22,8 @@ class TailRecursionTest extends TestCase
     public function testTailRecursion2()
     {
         $sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
-            if ($from === $to) {
-                return $acc + $from;
+            if ($from > $to) {
+                return $acc;
             }
             return $sum_of_range($from + 1, $to, $acc + $from);
         });
