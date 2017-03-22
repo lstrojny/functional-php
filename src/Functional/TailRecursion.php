@@ -1,5 +1,7 @@
 <?php
 
+namespace Functional;
+
 /**
  * Decorates given function with tail recursion optimization.
  *
