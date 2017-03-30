@@ -45,6 +45,7 @@
             "src/Functional/FirstIndexOf.php",
             "src/Functional/FlatMap.php",
             "src/Functional/Flatten.php",
+            "src/Functional/Flip.php",
             "src/Functional/GreaterThan.php",
             "src/Functional/GreaterThanOrEqual.php",
             "src/Functional/Group.php",
