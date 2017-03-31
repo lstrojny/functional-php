@@ -41,6 +41,7 @@
   - [poll()](#poll)
   - [capture()](#capture)
   - [compose()](#compose)
+  - [tail_recursion()](#tail_recursion)
   - [Other](#other)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
@@ -678,6 +679,28 @@ $composed = compose($plus2, $times4);
 $result = array_map($composed, array(1, 2, 5, 8));
 
 var_dump($result); // array(12, 16, 28, 40)
+```
+
+
+
+## tail_recursion()
+Return an new function that decorates given function with tail recursion optimization using trampoline
+
+
+```php
+<?php
+
+use function Functional\tail_recursion;
+
+$sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
+    if ($from > $to) {
+        return $acc;
+    }
+    return $sum_of_range($from + 1, $to, $acc + $from);
+});
+
+var_dump($sum_of_range(1, 10000)); // 50005000;
+
 ```
 
 
