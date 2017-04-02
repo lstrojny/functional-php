@@ -34,8 +34,11 @@ Put the require statement for `functional-php` in your `composer.json` file and 
 ## Docs
 [Read the docs](docs/functional-php.md)
 
+## Installing dependencies
+To install all dependencies type `make install` or just `make`
+
 ## Running the test suite
-To run the test suite use `vendor/bin/phpunit tests/`
+To run the test suite type `make test`
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
