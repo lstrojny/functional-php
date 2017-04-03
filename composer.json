@@ -107,5 +107,9 @@
     },
     "extra": {
         "branch-alias": { "dev-master": "1.2-dev" }
+    },
+    "scripts": {
+        "tests": "phpunit",
+        "clear": "rm -rf vendor/"
     }
 }
