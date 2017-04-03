@@ -35,10 +35,10 @@ Put the require statement for `functional-php` in your `composer.json` file and 
 [Read the docs](docs/functional-php.md)
 
 ## Installing dependencies
-To install all dependencies type `make install` or just `make`
+To install all dependencies type `composer install`
 
 ## Running the test suite
-To run the test suite type `make test`
+To run the test suite type `composer run tests`
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php
