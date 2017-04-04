@@ -180,4 +180,22 @@ class WhereTest extends AbstractTestCase
             where($collection, [1 => 'value2'])
         );
     }
+
+    public function testMethodHasPrecedenceOverProperty()
+    {
+        $collection = [
+            new class()
+            {
+                public $isValid = false;
+
+                function isValid()
+                {
+                    return true;
+                }
+            },
+        ];
+
+        $this->assertCount(0, where($collection, ['isValid' => false]));
+        $this->assertCount(1, where($collection, ['isValid' => true]));
+    }
 }

@@ -24,12 +24,12 @@ function where($objects, array $propertyMap)
      */
     $readProperty = function($object, $property) {
         if (is_object($object)) {
-            if (property_exists($object, $property)) {
-                return $object->$property;
-            } elseif (method_exists($object, $property)) {
+            if (method_exists($object, $property)) {
                 return $object->{$property}();
+            } elseif (property_exists($object, $property)) {
+                return $object->$property;
             } else {
-                // could return false here as well, to allow optional properties (stdClass) or a mixed-type collection
+                // could return false here as well, to gracefully allow missing dynamic properties (stdClass) or a mixed-type collection
                 throw new \InvalidArgumentException(sprintf('Expected property or method %s in %s', $property, get_class($object)));
             }
         } elseif (is_array($object)) {
@@ -78,8 +78,7 @@ function where($objects, array $propertyMap)
     InvalidArgumentException::assertCollection($objects, __FUNCTION__, 1);
 
     $result = [];
-    foreach ($objects as $obj)
-    {
+    foreach ($objects as $obj) {
         if ($matches($obj, $propertyMap)) {
             $result[] = $obj;
         }
