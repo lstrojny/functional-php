@@ -25,8 +25,8 @@ namespace Functional;
 /**
  * Return a new function that negates the return value of $callback using the "logical not operator" (`!`).
  *
- * @param callable $callback
- * @return callable
+ * @param callable $function The function to run value against
+ * @return callable A negation version on the given $function
  */
 function not(callable $callback)
 {

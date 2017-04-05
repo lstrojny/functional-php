@@ -72,25 +72,29 @@ class SortTest extends AbstractTestCase
 
     public function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         F\sort($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         F\sort($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         F\sort($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         F\sort($this->hashIterator, [$this, 'exception']);
     }
 }

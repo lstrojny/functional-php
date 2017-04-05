@@ -63,7 +63,7 @@ class ZipTest extends AbstractTestCase
 
     public function testZippingHashes()
     {
-        $result = [[1, -1], [2, -2], [true, false]];
+        $result = ['foo' => [1, -1], 'bar' => [2, -2], 0 => [true, false]];
         $this->assertSame(
             $result,
             zip(
@@ -152,7 +152,8 @@ class ZipTest extends AbstractTestCase
 
     public function testExceptionInCallback()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         zip([null], [$this, 'exception']);
     }
 }

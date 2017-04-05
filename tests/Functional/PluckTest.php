@@ -230,25 +230,29 @@ class PluckTest extends AbstractTestCase
 
     public function testExceptionThrownInMagicIssetWhileIteratingArray()
     {
-        $this->setExpectedException('DomainException', '__isset exception: foobar');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('__isset exception: foobar');
         pluck($this->issetExceptionArray, 'foobar');
     }
 
     public function testExceptionThrownInMagicIssetWhileIteratingIterator()
     {
-        $this->setExpectedException('DomainException', '__isset exception: foobar');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('__isset exception: foobar');
         pluck($this->issetExceptionIterator, 'foobar');
     }
 
     public function testExceptionThrownInMagicGetWhileIteratingArray()
     {
-        $this->setExpectedException('DomainException', '__get exception: foobar');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('__get exception: foobar');
         pluck($this->getExceptionArray, 'foobar');
     }
 
     public function testExceptionThrownInMagicGetWhileIteratingIterator()
     {
-        $this->setExpectedException('DomainException', '__get exception: foobar');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('__get exception: foobar');
         pluck($this->getExceptionIterator, 'foobar');
     }
 

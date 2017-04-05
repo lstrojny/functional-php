@@ -22,6 +22,8 @@
  */
 namespace Functional\Tests;
 
+use function Functional\greater_than as gt;
+use function Functional\identical;
 use function Functional\not;
 
 class NotTest extends AbstractTestCase
@@ -42,5 +44,13 @@ class NotTest extends AbstractTestCase
 
         $this->assertTrue($fn(5, 5));
         $this->assertFalse($fn(4, 5));
+    }
+
+    public function testNot()
+    {
+        $this->assertTrue(not(gt(2))(2));
+        $this->assertFalse(not(gt(2))(3));
+        $this->assertTrue(not(identical(2))('2'));
+        $this->assertFalse(not(identical(2))(2));
     }
 }

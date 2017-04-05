@@ -83,7 +83,9 @@ class RetryTest extends AbstractTestCase
             ->with(1, 0)
             ->willThrowException(new Exception('second'));
 
-        $this->setExpectedException('Exception', 'second');
+        $this->expectException('Exception');
+
+        $this->expectExceptionMessage('second');
         retry([$this->retryer, 'retry'], 2);
     }
 
@@ -100,7 +102,9 @@ class RetryTest extends AbstractTestCase
             ->with(1, 0)
             ->willThrowException(new Exception('second'));
 
-        $this->setExpectedException('Exception', 'second');
+        $this->expectException('Exception');
+
+        $this->expectExceptionMessage('second');
         retry([$this->retryer, 'retry'], 2, new ArrayIterator([]));
     }
 
@@ -125,7 +129,9 @@ class RetryTest extends AbstractTestCase
             ->with(1, 0)
             ->willThrowException(new Exception('second'));
 
-        $this->setExpectedException('Exception', 'second');
+        $this->expectException('Exception');
+
+        $this->expectExceptionMessage('second');
         retry([$this->retryer, 'retry'], 2);
     }
 
@@ -152,7 +158,9 @@ class RetryTest extends AbstractTestCase
             ->with(3, 20)
             ->willThrowException(new Exception('four'));
 
-        $this->setExpectedException('Exception', 'four');
+        $this->expectException('Exception');
+
+        $this->expectExceptionMessage('four');
         retry([$this->retryer, 'retry'], 4, new ArrayIterator([1 => 10, 2 => 20]));
     }
 }

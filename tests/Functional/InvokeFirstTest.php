@@ -73,7 +73,8 @@ class InvokeFirstTest extends AbstractTestCase
 
     public function testException()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         invoke_first($this->list, 'exception');
     }
 

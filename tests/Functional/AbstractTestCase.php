@@ -24,7 +24,7 @@ namespace Functional\Tests;
 
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Functional as F;
 use Traversable;
 
@@ -76,9 +76,11 @@ class AbstractTestCase extends TestCase
             $expectedMessage = defined('HHVM_VERSION')
                 ? str_replace('must be callable', 'must be an instance of callable', $message)
                 : $message;
-            $this->setExpectedException($expectedExceptionClass, $expectedMessage);
+            $this->expectException($expectedExceptionClass);
+            $this->expectExceptionMessage($expectedMessage);
         } else {
-            $this->setExpectedException(InvalidArgumentException::class, $message);
+            $this->expectException(InvalidArgumentException::class);
+            $this->expectExceptionMessage($message);
         }
     }
 

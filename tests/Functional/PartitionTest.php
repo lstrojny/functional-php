@@ -49,27 +49,49 @@ class PartitionTest extends AbstractTestCase
         $this->assertSame([['k2' => 'val2'], ['k1' => 'val1', 'k3' => 'val3']], partition($this->hashIterator, $fn));
     }
 
+    public function testMultiFn()
+    {
+        $fn1 = function($v, $k, $collection) {
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            return is_int($k) ? ($k === 1) : ($v[3] === '2');
+        };
+
+        $fn2 = function($v, $k, $collection) {
+            InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+            return is_int($k) ? ($k === 2) : ($v[3] === '3');
+        };
+
+        $this->assertSame([[1 => 'value2'], [2 => 'value3'], [0 => 'value1']], partition($this->list, $fn1, $fn2));
+        $this->assertSame([[1 => 'value2'], [2 => 'value3'], [0 => 'value1']], partition($this->listIterator, $fn1, $fn2));
+        $this->assertSame([['k2' => 'val2'], ['k3' => 'val3'], ['k1' => 'val1']], partition($this->hash, $fn1, $fn2));
+        $this->assertSame([['k2' => 'val2'], ['k3' => 'val3'], ['k1' => 'val1']], partition($this->hashIterator, $fn1, $fn2));
+    }
+
     public function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         partition($this->list, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHash()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         partition($this->hash, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         partition($this->listIterator, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInHashIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         partition($this->hashIterator, [$this, 'exception']);
     }
 

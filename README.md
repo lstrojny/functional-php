@@ -19,9 +19,7 @@ Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison
 
 [![Functional Comic](http://imgs.xkcd.com/comics/functional.png)](http://xkcd.com/1270/)
 
-## Installation
-
-### Using composer
+## Installation with composer
 
 Put the require statement for `functional-php` in your `composer.json` file and run `php composer.phar install`:
 
@@ -33,20 +31,14 @@ Put the require statement for `functional-php` in your `composer.json` file and 
 }
 ```
 
-### Manually
-
-Checkout functional-php and include the `_import.php`
-
-```php
-<?php
-include 'path/to/functional-php/src/Functional/_import.php';
-```
-
 ## Docs
 [Read the docs](docs/functional-php.md)
 
+## Installing dependencies
+To install all dependencies type `composer install`
+
 ## Running the test suite
-To run the test suite use `vendor/bin/phpunit tests/`
+To run the test suite type `composer run tests`
 
 ## Mailing lists
  - General help and development list: http://groups.google.com/group/functional-php

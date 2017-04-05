@@ -94,7 +94,8 @@ class SelectTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInArray($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->list, [$this, 'exception']);
     }
 
@@ -103,7 +104,8 @@ class SelectTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInHash($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->hash, [$this, 'exception']);
     }
 
@@ -112,7 +114,8 @@ class SelectTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInIterator($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->listIterator, [$this, 'exception']);
     }
 
@@ -121,7 +124,8 @@ class SelectTest extends AbstractTestCase
      */
     public function testExceptionIsThrownInHashIterator($functionName)
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         $functionName($this->hashIterator, [$this, 'exception']);
     }
 }

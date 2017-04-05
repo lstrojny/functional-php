@@ -29,7 +29,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @param mixed $initial
- * @return array
+ * @return mixed
  */
 function reduce_left($collection, callable $callback, $initial = null)
 {

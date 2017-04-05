@@ -59,13 +59,15 @@ class NoneTest extends AbstractTestCase
 
     public function testExceptionIsThrownInArray()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         none($this->goodArray, [$this, 'exception']);
     }
 
     public function testExceptionIsThrownInIterator()
     {
-        $this->setExpectedException('DomainException', 'Callback exception');
+        $this->expectException('DomainException');
+        $this->expectExceptionMessage('Callback exception');
         none($this->goodIterator, [$this, 'exception']);
     }
 

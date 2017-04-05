@@ -23,7 +23,7 @@
 namespace Functional\Tests;
 
 use function Functional\with;
-use PHPUnit_Framework_Error_Deprecated as DeprecatedError;
+use PHPUnit\Framework\Error\Deprecated as DeprecatedError;
 
 class WithTest extends AbstractTestCase
 {
@@ -40,9 +40,12 @@ class WithTest extends AbstractTestCase
     {
         $this->assertSame(
             2,
-            with(1, function ($value) {
-                return $value + 1;
-            })
+            with(
+                1,
+                function ($value) {
+                    return $value + 1;
+                }
+            )
         );
     }
 
