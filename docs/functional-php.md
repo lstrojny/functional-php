@@ -42,6 +42,7 @@
   - [capture()](#capture)
   - [compose()](#compose)
   - [tail_recursion()](#tail_recursion)
+  - [flip()](#flip)
   - [Other](#other)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
@@ -61,8 +62,8 @@
 
 ### Import functions
 
-Whenever you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on 
-top of your PHP file or use `use function Functional\function_name`. The latter is used in the documentation is the 
+Whenever you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on
+top of your PHP file or use `use function Functional\function_name`. The latter is used in the documentation is the
 preferred way starting with PHP 5.6.
 
 ### Example
@@ -414,7 +415,7 @@ $subtractFrom10(20); // -> -10
 ```
 
 The difference becomes more salient with functions taking more than two parameters :
- 
+
 ```php
 use function Functional\curry;
 
@@ -702,7 +703,21 @@ var_dump($sum_of_range(1, 10000)); // 50005000;
 
 ```
 
+## flip
+Return a new function with the argument order flipped. This can be useful when currying  functions like `filter` to provide the data last.
 
+```php
+use function Functional\flip;
+use function Functional\curry;
+
+$filter = curry(flip('Functional\filter'));
+$get_even = $filter(function($number) {
+    return $number % 2 == 0;
+});
+
+var_dump($get_even([1, 2, 3, 4])); // [2, 4]
+
+```
 
 ## Other
 
