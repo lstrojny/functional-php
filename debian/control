@@ -1,0 +1,25 @@
+Source: functional-php
+Section: php
+Priority: optional
+Maintainer: Gilles Crettenand <gilles.meier@gmail.com>
+Build-Depends: debhelper (>= 9~), php5-dev, dh-php5
+Standards-Version: 3.9.6
+Homepage: https://github.com/lstrojny/functional-php
+
+Package: php5-functional
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${php:Depends}
+Description: Primitives for functional programming in PHP
+ A set of functional primitives for PHP, heavily inspired by Scala’s 
+ traversable collection, Dojo’s array functions and Underscore.js
+ .
+  * Works with arrays and everything implementing interface Traversable
+  * Consistent interface: for functions taking collections and callbacks,
+ first parameter is always the collection, than the callback. Callbacks
+ are always passed $value, $index, $collection. Strict comparison is the
+ default but can be changed
+  * Calls 5.3 closures as well as usual callbacks
+  * C implementation for performance but a compatible userland implementation
+ is provided if you can’t install PHP extensions
+  * All functions reside in namespace Functional to not raise conflicts with
+ any other extension or library
