@@ -46,11 +46,16 @@
             "src/Functional/FirstIndexOf.php",
             "src/Functional/FlatMap.php",
             "src/Functional/Flatten.php",
+            "src/Functional/Flip.php",
+            "src/Functional/GreaterThan.php",
+            "src/Functional/GreaterThanOrEqual.php",
             "src/Functional/Group.php",
             "src/Functional/Head.php",
             "src/Functional/Id.php",
             "src/Functional/IfElse.php",
+            "src/Functional/Identical.php",
             "src/Functional/IndexesOf.php",
+            "src/Functional/Intersperse.php",
             "src/Functional/Invoke.php",
             "src/Functional/InvokeFirst.php",
             "src/Functional/InvokeIf.php",
@@ -58,12 +63,16 @@
             "src/Functional/Invoker.php",
             "src/Functional/Last.php",
             "src/Functional/LastIndexOf.php",
+            "src/Functional/LessThan.php",
+            "src/Functional/LessThanOrEqual.php",
+            "src/Functional/LexicographicCompare.php",
             "src/Functional/Map.php",
             "src/Functional/Match.php",
             "src/Functional/Maximum.php",
             "src/Functional/Memoize.php",
             "src/Functional/Minimum.php",
             "src/Functional/None.php",
+            "src/Functional/Not.php",
             "src/Functional/PartialAny.php",
             "src/Functional/PartialLeft.php",
             "src/Functional/PartialMethod.php",
@@ -88,6 +97,7 @@
             "src/Functional/Sum.php",
             "src/Functional/SuppressError.php",
             "src/Functional/Tail.php",
+            "src/Functional/TailRecursion.php",
             "src/Functional/True.php",
             "src/Functional/Truthy.php",
             "src/Functional/Unique.php",
@@ -101,5 +111,9 @@
     },
     "extra": {
         "branch-alias": { "dev-master": "1.2-dev" }
+    },
+    "scripts": {
+        "tests": "phpunit",
+        "clear": "rm -rf vendor/"
     }
 }

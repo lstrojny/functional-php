@@ -41,12 +41,14 @@
   - [poll()](#poll)
   - [capture()](#capture)
   - [compose()](#compose)
+  - [tail_recursion()](#tail_recursion)
+  - [flip()](#flip)
   - [Other](#other)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
   - [partition()](#partition)
   - [group()](#group)
-  - [zip()](#zip)
+  - [zip() & zip_all()](#zip)
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [Other](#other-1)
@@ -60,8 +62,8 @@
 
 ### Import functions
 
-Whenever you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on 
-top of your PHP file or use `use function Functional\function_name`. The latter is used in the documentation is the 
+Whenever you want to work with Functional PHP and not reference the fully qualified name, add `use Functional as F;` on
+top of your PHP file or use `use function Functional\function_name`. The latter is used in the documentation is the
 preferred way starting with PHP 5.6.
 
 ### Example
@@ -226,7 +228,6 @@ contains(['0', '1', '2'], 2);
 // Returns true
 contains(['0', '1', '2'], 2, false);
 ```
-
 
 ## sort()
 Sorts a collection with a user-defined function, optionally preserving array keys
@@ -414,7 +415,7 @@ $subtractFrom10(20); // -> -10
 ```
 
 The difference becomes more salient with functions taking more than two parameters :
- 
+
 ```php
 use function Functional\curry;
 
@@ -682,6 +683,42 @@ var_dump($result); // array(12, 16, 28, 40)
 
 
 
+## tail_recursion()
+Return an new function that decorates given function with tail recursion optimization using trampoline
+
+
+```php
+<?php
+
+use function Functional\tail_recursion;
+
+$sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
+    if ($from > $to) {
+        return $acc;
+    }
+    return $sum_of_range($from + 1, $to, $acc + $from);
+});
+
+var_dump($sum_of_range(1, 10000)); // 50005000;
+
+```
+
+## flip
+Return a new function with the argument order flipped. This can be useful when currying  functions like `filter` to provide the data last.
+
+```php
+use function Functional\flip;
+use function Functional\curry;
+
+$filter = curry(flip('Functional\filter'));
+$get_even = $filter(function($number) {
+    return $number % 2 == 0;
+});
+
+var_dump($get_even([1, 2, 3, 4])); // [2, 4]
+
+```
+
 ## Other
 
 `mixed Functional\memoize(callable $callback[, array $arguments = []], [mixed $key = null]])`
@@ -758,10 +795,12 @@ $groupedUser = group($collection, function($user) {
 ```
 
 
-## zip()
+## zip() & zip_all()
 Recombines arrays by index and applies a callback optionally
 
 ``array Functional\zip(array|Traversable $collection1[, array|Traversable ...[, callable $callback]])``
+
+``array Functional\zip_all(array|Traversable $collection1[, array|Traversable ...[, callable $callback]])``
 
 ```php
 <?php
@@ -780,6 +819,7 @@ zip(
 );
 ```
 
+``zip()`` uses the keys of the first input array. ``zip_all()`` uses all the keys present in the input arrays.
 
 ## flatten()
 Takes a nested combination of collections and returns their contents as a single, flat array. Does not preserve indexes.
@@ -820,6 +860,14 @@ $str = reduce_right([2, 3], function($value, $index, $collection, $reduction) {
 }, 2);
 ```
 
+
+## intersperse()
+
+Insert a given value between each element of a collection.
+
+```php
+intersperse(['a', 'b', 'c'], '-') === ['a', '-', 'b', '-', 'c']
+```
 
 ## Other
 
