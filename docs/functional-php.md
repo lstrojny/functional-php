@@ -892,23 +892,20 @@ All three functions will be called with the given argument.
 ```php
 <?php
 
+use function Functional\greater_than;
 use function Functional\if_else;
 
-$isBiggerThan1 = function ($value) {
-  return $value > 1;
+$ifItIs = function ($value) {
+  return "Yes, {$value} is greater than 1";
 };
 
-$ifItIs = function ($value) {
-  return "Yes, {$value} is bigger than 1";
-}
-
 $ifItIsNot = function ($value) {
-  return "Nop, {$value} isn't bigger than 1";
-}
+  return "Nop, {$value} isn't greater than 1";
+};
 
-$message = if_else($isBiggerThan1, $ifItIs, $ifItIsNot);
+$message = if_else(greater_than(1), $ifItIs, $ifItIsNot);
 
-echo $message(2); // Yes, 2 is bigger than 1
+echo $message(2); // Yes, 2 is greater than 1
 ```
 
 ## match
