@@ -919,13 +919,8 @@ It stops on the first match and if none of the conditions matches, `null` is ret
 ```php
 <?php
 
+use function Functional\greater_than_or_equal;
 use function Functional\match;
-
-$above = function ($limit) {
-  return function ($value) use ($limit) {
-    return $value >= $limit;
-  };
-};
 
 $preschool = function ($age) {
   return "With {$age} you go to preschool";
@@ -940,9 +935,9 @@ $secondary = function ($age) {
 };
 
 $stage = match([
-  [$above(12), $secondary],
-  [$above(5), $primary],
-  [$above(4), $preschool],
+  [greater_than_or_equal(12), $secondary],
+  [greater_than_or_equal(5), $primary],
+  [greater_than_or_equal(4), $preschool],
 ]);
 
 echo $stage(4); // With 4 you go to preschool
