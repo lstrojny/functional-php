@@ -52,6 +52,9 @@
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [Other](#other-1)
+- [Conditional functions](#conditional-functions)
+  - [if_else()](#if_else)
+  - [match()](#match)
 - [Higher order comparison functions](#higher-order-comparison-functions)
   - [compare_on & compare_object_hash_on](#compare_on--compare_object_hash_on)
 - [Miscellaneous](#miscellaneous)
@@ -877,6 +880,70 @@ Returns a unified array based on the index value returned by the callback, use `
 
 `array Functional\flat_map(array|Traversable $collection, callable $callback)`
 Applies a callback to each element in the collection and collects the return values flattening one level of nested arrays.
+
+# Conditional functions
+
+## if_else
+
+``callable if_else(callable $if, callable $then, callable $else)``
+Returns a new function that will call `$then` if the return of `$if` is truthy, otherwise calls `$else`.
+All three functions will be called with the given argument.
+
+```php
+<?php
+
+use function Functional\greater_than;
+use function Functional\if_else;
+
+$ifItIs = function ($value) {
+  return "Yes, {$value} is greater than 1";
+};
+
+$ifItIsNot = function ($value) {
+  return "Nop, {$value} isn't greater than 1";
+};
+
+$message = if_else(greater_than(1), $ifItIs, $ifItIsNot);
+
+echo $message(2); // Yes, 2 is greater than 1
+```
+
+## match
+
+``callable match(array $conditions)``
+Returns a new function that behaves like a match operator.
+`$conditions` should be a bi-dimensional array with items following the given signature: `[callable $if, callable $then]`.
+`$if` is the predicate, that when returns a truthy value `$then` is called.
+It stops on the first match and if none of the conditions matches, `null` is returned.
+
+```php
+<?php
+
+use function Functional\greater_than_or_equal;
+use function Functional\match;
+
+$preschool = function ($age) {
+  return "With {$age} you go to preschool";
+};
+
+$primary = function ($age) {
+  return "With {$age} you go to primary school";
+};
+
+$secondary = function ($age) {
+  return "With {$age} you go to secondary school";
+};
+
+$stage = match([
+  [greater_than_or_equal(12), $secondary],
+  [greater_than_or_equal(5), $primary],
+  [greater_than_or_equal(4), $preschool],
+]);
+
+echo $stage(4); // With 4 you go to preschool
+echo $stage(5); // With 5 you go to primary school
+echo $stage(13); // With 13 you go to secondary school
+```
 
 # Higher order comparison functions
 
