@@ -22,6 +22,8 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\MatchException;
+
 use function Functional\head;
 use function Functional\tail;
 use function Functional\if_else;
@@ -35,6 +37,8 @@ use function Functional\if_else;
  */
 function match(array $conditions)
 {
+    MatchException::assert($conditions, __FUNCTION__);
+
     return function ($value) use ($conditions) {
         if (empty($conditions)) {
             return null;

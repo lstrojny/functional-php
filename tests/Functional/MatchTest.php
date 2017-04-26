@@ -52,4 +52,41 @@ class MatchTest extends AbstractTestCase
 
         $this->assertNull($test('baz'));
     }
+
+    public function testMatchConditionIsArray()
+    {
+        $this->expectArgumentError('Functional\match() expects condition at key 1 to be array, string given');
+
+        $callable = function () {};
+
+        $test = match([
+            [$callable, $callable],
+            '',
+        ]);
+    }
+
+    public function testMatchConditionLength()
+    {
+        $this->expectArgumentError('Functional\match() expects size of condition at key 1 to be greater than or equals to 2, 1 given');
+
+        $callable = function () {};
+
+        $test = match([
+            [$callable, $callable],
+            [''],
+        ]);
+    }
+
+    public function testMatchConditionCallables()
+    {
+        $this->expectException(\Functional\Exceptions\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Functional\match() expects first two items of condition at key 1 to be callables');
+
+        $callable = function () {};
+
+        $test = match([
+            [$callable, $callable],
+            [$callable, ''],
+        ]);
+    }
 }
