@@ -12,6 +12,7 @@
   - [some()](#some)
   - [none()](#none)
   - [reject() & select()](#reject--select)
+  - [where()](#where)
   - [drop_first() & drop_last()](#drop_first--drop_last)
   - [true() & false()](#true--false)
   - [truthy() & falsy()](#truthy--falsy)
@@ -144,6 +145,43 @@ $inactiveUsers = reject($users, $fn);
 
 Alias for `Functional\select()` is `Functional\filter()`
 
+## where()
+
+Returns the subset of the collection which match the given properties
+
+```php
+<?php
+use function Functional\where;
+
+$freds = where($users, ['name' => 'Fred']);
+```
+
+It works with methods as well:
+
+```php
+$freds = where($users, ['getName' => 'Fred']);
+```
+
+It works on nested objects:
+
+```php
+$berliners = where($users, [
+    'address' => [
+        'city' => 'Berlin'
+    ]
+);
+```
+
+Multiple properties can be matched for:
+
+```php
+    $freds = where($users, [
+        'name' => 'Fred',
+        'organization' => 'GitHub'
+    ]);
+```
+
+``where()`` works on collections of objects and arrays. 
 
 ## drop_first() & drop_last()
 
