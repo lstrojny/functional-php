@@ -966,7 +966,7 @@ just a shortcut to `compare_on` as it composes the given key function with `spl_
 # Miscellaneous
 
 ## concat()
-Concattinates zero or more strings
+Concatenates zero or more strings
 
 ```php
 <?php

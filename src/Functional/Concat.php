@@ -23,7 +23,7 @@
 namespace Functional;
 
 /**
- * Concattinates zero or more strings
+ * Concatenates zero or more strings
  *
  * @param string[] $functions
  * @return string
