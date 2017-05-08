@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2011-2016 by Gilles Crettenand <gilles@crettenand.info>
+ * Copyright (C) 2011-2017 by Gilles Crettenand <gilles@crettenand.info>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

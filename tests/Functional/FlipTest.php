@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2011-2016 by Ezinwa Okpoechi <brainmaestro@outlook.com>
+ * Copyright (C) 2011-2017 by Ezinwa Okpoechi <brainmaestro@outlook.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
