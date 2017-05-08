@@ -69,7 +69,7 @@ if (defined('HHVM_VERSION')) {
         static $resource;
 
         if (!$resource) {
-            $resource = hash_init('gost');
+            $resource = [hash_init('gost')];
         }
 
         return $resource;
