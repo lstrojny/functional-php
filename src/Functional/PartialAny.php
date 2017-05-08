@@ -49,31 +49,16 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
-/* @see https://github.com/facebook/hhvm/issues/5549 */
-if (defined('HHVM_VERSION')) {
-    /** @return resource */
-    function …()
-    {
-        static $resource;
+/** @return resource */
+function …()
+{
+    static $placeholder;
 
-        if (!$resource) {
-            $resource = openssl_random_pseudo_bytes(128);
-        }
-
-        return $resource;
+    if (!$placeholder) {
+        $placeholder = random_bytes(32);
     }
-} else {
-    /** @return resource */
-    function …()
-    {
-        static $resource;
 
-        if (!$resource) {
-            $resource = [hash_init('gost')];
-        }
-
-        return $resource;
-    }
+    return $placeholder;
 }
 
 
