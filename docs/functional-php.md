@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Contents**
 
-- [Functional PHP](#functional-php)
+  - [General](#general)
     - [Import functions](#import-functions)
     - [Example](#example)
 - [Function overview](#function-overview)
@@ -24,8 +24,8 @@
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
 - [Currying](#currying)
-  - [curry()](#curry)
-  - [curry_n()](#curry_n)
+  - [curry](#curry)
+  - [curry_n](#curry_n)
 - [Access functions](#access-functions)
   - [with()](#with)
   - [invoke_if()](#invoke_if)
@@ -42,19 +42,20 @@
   - [capture()](#capture)
   - [compose()](#compose)
   - [tail_recursion()](#tail_recursion)
-  - [flip()](#flip)
+  - [flip](#flip)
   - [Other](#other)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
   - [partition()](#partition)
   - [group()](#group)
-  - [zip() & zip_all()](#zip)
+  - [zip() & zip_all()](#zip--zip_all)
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
+  - [intersperse()](#intersperse)
   - [Other](#other-1)
 - [Conditional functions](#conditional-functions)
-  - [if_else()](#if_else)
-  - [match()](#match)
+  - [if_else](#if_else)
+  - [match](#match)
 - [Higher order comparison functions](#higher-order-comparison-functions)
   - [compare_on & compare_object_hash_on](#compare_on--compare_object_hash_on)
 - [Miscellaneous](#miscellaneous)
@@ -62,6 +63,8 @@
   - [id()](#id)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## General
 
 ### Import functions
 
@@ -962,6 +965,15 @@ just a shortcut to `compare_on` as it composes the given key function with `spl_
 
 # Miscellaneous
 
+## concat()
+Concattinates zero or more strings
+
+```php
+<?php
+use function Functional\concat;
+
+$fooBar = concat('foo', 'bar');
+```
 
 ## const_function()
 Returns new function, that will constantly return its first argument (constant function)
