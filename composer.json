@@ -28,6 +28,7 @@
             "src/Functional/ConstFunction.php",
             "src/Functional/CompareOn.php",
             "src/Functional/CompareObjectHashOn.php",
+            "src/Functional/Complement.php",
             "src/Functional/Compose.php",
             "src/Functional/Concat.php",
             "src/Functional/Contains.php",
