@@ -36,6 +36,7 @@
   - [first_index_of()](#first_index_of)
   - [last_index_of()](#last_index_of)
   - [indexes_of()](#indexes_of)
+  - [select_keys()](#select_keys)
 - [Function functions](#function-functions)
   - [retry()](#retry)
   - [poll()](#poll)
@@ -608,6 +609,19 @@ use function Functional\indexes_of;
 
 // $indexes will be array(0, 2)
 $indexes = indexes_of(['value', 'value2', 'value'], 'value');
+```
+
+## select_keys()
+
+Returns an array containing only those entries in the array/Traversable whose key is in the supplied keys.
+
+```php
+<?php
+
+use function Functional\select_keys;
+
+// $array will be ['foo' => 1, 'baz' => 3]
+$array = select_keys(['foo' => 1, 'bar' => 2', 'baz' => 3], ['foo', 'baz']);
 ```
 
 # Function functions
