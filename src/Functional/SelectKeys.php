@@ -22,17 +22,25 @@
  */
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
+
 /**
  * Select the specified keys from the array
  *
- * @param array $collection
+ * @param Traversable|array $collection
  * @param array $keys
  * @return array
  */
-function select_keys(array $collection, array $keys)
+function select_keys($collection, array $keys)
 {
-    return \array_intersect_key(
-        $collection,
-        \array_flip($keys)
-    );
+    InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+
+    if ($collection instanceof Traversable) {
+        $array = iterator_to_array($collection);
+    } else {
+        $array = $collection;
+    }
+
+    return \array_intersect_key($array, \array_flip($keys));
 }

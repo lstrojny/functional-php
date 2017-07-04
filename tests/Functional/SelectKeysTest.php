@@ -22,16 +22,34 @@
  */
 namespace Functional\Tests;
 
+use ArrayIterator;
 use function Functional\select_keys;
 
 class SelectKeysTest extends AbstractTestCase
 {
-    public function test()
+    public static function getData()
     {
-        $this->assertSame([], select_keys(['foo' => 1], []));
-        $this->assertSame([], select_keys(['foo' => 1], ['bar']));
-        $this->assertSame(['foo' => 1], select_keys(['foo' => 1], ['foo']));
-        $this->assertSame(['foo' => 1, 'bar' => 2], select_keys(['foo' => 1, 'bar' => 2], ['foo', 'bar']));
-        $this->assertSame([0 => 'a', 2 => 'c'], select_keys(['a', 'b', 'c'], [0, 2]));
+        return [
+            [[], ['foo' => 1], []],
+            [[], ['foo' => 1], ['bar']],
+            [['foo' => 1], ['foo' => 1], ['foo']],
+            [['foo' => 1, 'bar' => 2], ['foo' => 1, 'bar' => 2], ['foo', 'bar']],
+            [[0 => 'a', 2 => 'c'], ['a', 'b', 'c'], [0, 2]],
+        ];
+    }
+
+    /**
+     * @dataProvider getData
+     */
+    public function test(array $expected, array $input, array $keys)
+    {
+        $this->assertSame($expected, select_keys($input, $keys));
+        $this->assertSame($expected, select_keys(new ArrayIterator($input), $keys));
+    }
+
+    public function testPassNonArrayOrTraversable()
+    {
+        $this->expectArgumentError("Functional\select_keys() expects parameter 1 to be array or instance of Traversable");
+        select_keys(new \stdclass(), []);
     }
 }
