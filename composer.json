@@ -90,6 +90,7 @@
             "src/Functional/Reject.php",
             "src/Functional/Retry.php",
             "src/Functional/Select.php",
+            "src/Functional/SelectKeys.php",
             "src/Functional/SequenceConstant.php",
             "src/Functional/SequenceExponential.php",
             "src/Functional/SequenceLinear.php",
