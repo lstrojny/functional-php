@@ -35,7 +35,7 @@ use function Functional\id;
 function compose(...$functions)
 {
     return array_reduce(
-        $functions,
+        array_reverse($functions),
         function ($carry, $item) {
             return function ($x) use ($carry, $item) {
                 return $item($carry($x));
