@@ -148,6 +148,8 @@ $inactiveUsers = reject($users, $fn);
 
 Alias for `Functional\select()` is `Functional\filter()`
 
+**Note:** This may unexpectedly turn your indexed array into an associative array, [see here](https://github.com/lstrojny/functional-php/issues/39#issuecomment-48034617) if you always want to keep an indexed array.
+
 
 ## drop_first() & drop_last()
 
