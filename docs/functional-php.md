@@ -62,6 +62,7 @@
 - [Miscellaneous](#miscellaneous)
   - [const_function()](#const_function)
   - [id()](#id)
+  - [tap()](#tap)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1012,3 +1013,17 @@ use function Functional\id;
 
 1 === id(1);
 ```
+
+## tap()
+``mixed tap(mixed $value, callable $callback)``
+
+Call the given Closure with the given value, then return the value.
+
+```php
+<?php 
+use function Functional\tap;
+tap(User::create('John Doe'), function (User $user) {
+    UserService::sendWelcomeEmail($user);
+})->login();
+```
+
