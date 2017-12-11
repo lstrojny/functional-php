@@ -29,8 +29,8 @@ namespace Functional;
  * @param  callable $callback
  * @return mixed
  */
-function tap ($value, callable $callback) {
-	$callback($value);
+function tap($value, callable $callback) {
+    $callback($value);
 
-	return $value;
+    return $value;
 }

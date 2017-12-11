@@ -26,27 +26,27 @@ use function Functional\tap;
 
 class TapTest extends AbstractTestCase
 {
-	public function setUp()
-	{
-		parent::setUp();
-	}
+    public function setUp()
+    {
+        parent::setUp();
+    }
 
-	public function testPassNonCallable()
-	{
-		$this->expectArgumentError('Argument 2 passed to Functional\tap() must be callable');
-		tap('foo', 'undefinedFunction');
-	}
+    public function testPassNonCallable()
+    {
+        $this->expectArgumentError('Argument 2 passed to Functional\tap() must be callable');
+        tap('foo', 'undefinedFunction');
+    }
 
-	public function testTap()
-	{
-		$foo = new \stdClass();
-		$foo->bar = 'baz';
+    public function testTap()
+    {
+        $input = new \stdClass();
+        $input->property = 'foo';
 
-		$tapped = tap($foo, function ($o) {
-			$o->bar = 'qux';
-		});
+        $output = tap($input, function ($o) {
+            $o->property = 'bar';
+        });
 
-		self::assertSame($foo, $tapped);
-		self::assertSame('qux', $foo->bar);
-	}
+        self::assertSame($input, $output);
+        self::assertSame('bar', $input->property);
+    }
 }
