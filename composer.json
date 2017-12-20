@@ -98,6 +98,7 @@
             "src/Functional/Sort.php",
             "src/Functional/Sum.php",
             "src/Functional/SuppressError.php",
+            "src/Functional/Tap.php",
             "src/Functional/Tail.php",
             "src/Functional/TailRecursion.php",
             "src/Functional/True.php",
