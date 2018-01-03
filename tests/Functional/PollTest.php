@@ -66,7 +66,7 @@ class PollTest extends AbstractTestCase
             ->with(1, 0)
             ->willReturn('OH HAI');
 
-        $this->assertSame('OH HAI', poll([$this->poller, 'poll'], 1000));
+        $this->assertSame('OH HAI', poll([$this->poller, 'poll'], 2000));
     }
 
     public function testPollRetriesAndGivesUpAfterTimeout()
