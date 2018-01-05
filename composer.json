@@ -56,6 +56,7 @@
             "src/Functional/IfElse.php",
             "src/Functional/Identical.php",
             "src/Functional/IndexesOf.php",
+            "src/Functional/Init.php",
             "src/Functional/Intersperse.php",
             "src/Functional/Invoke.php",
             "src/Functional/InvokeFirst.php",
