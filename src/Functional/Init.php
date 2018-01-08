@@ -28,17 +28,13 @@ use Traversable;
  * Returns an array containing the elements of the list without its last element.
  *
  * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
+ * @return array
  */
 function init($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $init = [];
-    foreach ($collection as $index => $element) {
-        $init[$index] = $element;
-    }
+    $init = is_array($collection) ? $collection : iterator_to_array($collection);
     array_pop($init);
 
     return $init;
