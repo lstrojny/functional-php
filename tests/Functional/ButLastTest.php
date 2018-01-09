@@ -24,9 +24,9 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
-use function Functional\init;
+use function Functional\but_last;
 
-class InitTest extends AbstractTestCase
+class ButLastTest extends AbstractTestCase
 {
     public function setUp()
     {
@@ -37,14 +37,14 @@ class InitTest extends AbstractTestCase
 
     public function test()
     {
-        $this->assertSame([0 => 1, 1 => 2, 2 => 3], init($this->list));
-        $this->assertSame([0 => 1, 1 => 2, 2 => 3], init($this->listIterator));
-        $this->assertSame([], init([]));
+        $this->assertSame([0 => 1, 1 => 2, 2 => 3], but_last($this->list));
+        $this->assertSame([0 => 1, 1 => 2, 2 => 3], but_last($this->listIterator));
+        $this->assertSame([], but_last([]));
     }
 
     public function testPassNoCollection()
     {
-        $this->expectArgumentError('Functional\init() expects parameter 1 to be array or instance of Traversable');
-        init('invalidCollection');
+        $this->expectArgumentError('Functional\but_last() expects parameter 1 to be array or instance of Traversable');
+        but_last('invalidCollection');
     }
 }

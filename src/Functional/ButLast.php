@@ -30,12 +30,12 @@ use Traversable;
  * @param Traversable|array $collection
  * @return array
  */
-function init($collection)
+function but_last($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $init = is_array($collection) ? $collection : iterator_to_array($collection);
-    array_pop($init);
+    $butLast = is_array($collection) ? $collection : iterator_to_array($collection);
+    array_pop($butLast);
 
-    return $init;
+    return $butLast;
 }
