@@ -24,6 +24,7 @@
         "psr-4": {"Functional\\": "src/Functional"},
         "files": [
             "src/Functional/Average.php",
+            "src/Functional/ButLast.php",
             "src/Functional/Capture.php",
             "src/Functional/ConstFunction.php",
             "src/Functional/CompareOn.php",
