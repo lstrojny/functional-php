@@ -32,7 +32,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param string $methodName
  * @param array $arguments
- * @return array
+ * @return mixed
  */
 function invoke_first($collection, $methodName, array $arguments = [])
 {
