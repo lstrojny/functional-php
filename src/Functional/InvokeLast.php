@@ -32,7 +32,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param Traversable|array $collection
  * @param string $methodName
  * @param array $arguments
- * @return array
+ * @return mixed
  */
 function invoke_last($collection, $methodName, array $arguments = [])
 {
