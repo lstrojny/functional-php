@@ -24,8 +24,8 @@
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
 - [Currying](#currying)
-  - [curry](#curry)
-  - [curry_n](#curry_n)
+  - [curry()](#curry)
+  - [curry_n()](#curry_n)
 - [Access functions](#access-functions)
   - [with()](#with)
   - [invoke_if()](#invoke_if)
@@ -43,7 +43,7 @@
   - [capture()](#capture)
   - [compose()](#compose)
   - [tail_recursion()](#tail_recursion)
-  - [flip](#flip)
+  - [flip()](#flip)
   - [Other](#other)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
@@ -55,10 +55,10 @@
   - [intersperse()](#intersperse)
   - [Other](#other-1)
 - [Conditional functions](#conditional-functions)
-  - [if_else](#if_else)
-  - [match](#match)
+  - [if_else()](#if_else)
+  - [match()](#match)
 - [Higher order comparison functions](#higher-order-comparison-functions)
-  - [compare_on & compare_object_hash_on](#compare_on--compare_object_hash_on)
+  - [compare_on() & compare_object_hash_on()](#compare_on--compare_object_hash_on)
 - [Miscellaneous](#miscellaneous)
   - [const_function()](#const_function)
   - [id()](#id)
@@ -412,7 +412,7 @@ Currying is similar to and often confused with partial application. But instead 
 
 Currying can be seen as partially applying one parameter after the other.
 
-## curry
+## curry()
 
 If we revisit the example used for partial application, the curried version would be :
 
@@ -470,7 +470,7 @@ $curriedAdd = curry('add');
 $curriedAdd(10)(5)(27)(10); // -> 52
 ```
 
-## curry_n
+## curry_n()
 
 `curry` uses reflection to determine the number of arguments, which can be slow depdening on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
 
@@ -726,7 +726,7 @@ var_dump($sum_of_range(1, 10000)); // 50005000;
 
 ```
 
-## flip
+## flip()
 Return a new function with the argument order flipped. This can be useful when currying  functions like `filter` to provide the data last.
 
 ```php
@@ -903,7 +903,7 @@ Applies a callback to each element in the collection and collects the return val
 
 # Conditional functions
 
-## if_else
+## if_else()
 
 ``callable if_else(callable $if, callable $then, callable $else)``
 Returns a new function that will call `$then` if the return of `$if` is truthy, otherwise calls `$else`.
@@ -928,7 +928,7 @@ $message = if_else(greater_than(1), $ifItIs, $ifItIsNot);
 echo $message(2); // Yes, 2 is greater than 1
 ```
 
-## match
+## match()
 
 ``callable match(array $conditions)``
 Returns a new function that behaves like a match operator.
