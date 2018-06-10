@@ -270,6 +270,16 @@ final class Functional
     const partial_any = '\Functional\partial_any';
 
     /**
+     * @see \Functional\…
+     */
+    const … = '\Functional\…';
+
+    /**
+     * @see \Functional\placeholder
+     */
+    const placeholder = '\Functional\placeholder';
+
+    /**
      * @see \Functional\partial_left
      */
     const partial_left = '\Functional\partial_left';

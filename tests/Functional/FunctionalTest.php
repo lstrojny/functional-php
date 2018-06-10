@@ -19,4 +19,20 @@ class FunctionalTest extends TestCase
             $this->assertInternalType('callable', $function);
         }
     }
+
+    public function testShouldHaveDefinedConstantsForAllFunctions()
+    {
+        $functions = get_defined_functions(true);
+        $functionalFunctions = preg_grep('/functional\\\(?!tests)/', $functions['user']);
+        $expectedFunctions = array_map(function ($function) {
+            return str_replace('functional\\', '\\Functional\\', $function);
+        }, $functionalFunctions);
+
+        $functionalClass = new \ReflectionClass(Functional::class);
+        $constants = $functionalClass->getConstants();
+
+        foreach ($expectedFunctions as $function) {
+            $this->assertContains($function, $constants);
+        }
+    }
 }
