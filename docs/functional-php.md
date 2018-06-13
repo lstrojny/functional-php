@@ -725,6 +725,22 @@ var_dump($get_even([1, 2, 3, 4])); // [2, 4]
 
 ```
 
+## not
+Return a new function which takes the same arguments as the original function, but returns the logical negation of it's result.
+
+```php
+use function Functional\not;
+
+$is_even = function ($number) {
+    return $number % 2 == 0;
+};
+$is_odd = not($is_even);
+
+var_dump($is_odd(1)); // true
+var_dump($is_odd(2)); // false
+
+```
+
 ## Other
 
 `mixed Functional\memoize(callable $callback[, array $arguments = []], [mixed $key = null]])`
