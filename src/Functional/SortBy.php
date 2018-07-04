@@ -37,7 +37,7 @@ function sort_by($collection, callable $getProperty, $preserveKeys = false)
 {
     return sort(
         $collection,
-        function($left, $right, $collection) use ($functionName, $getProperty) {
+        function($left, $right, $collection) use ($getProperty) {
             return $getProperty($left, $collection) - $getProperty($right, $collection);
         },
         $preserveKeys
