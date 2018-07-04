@@ -385,6 +385,11 @@ final class Functional
     const sort = '\Functional\sort';
 
     /**
+     * @see \Functional\sort_by
+     */
+    const sort_by = '\Functional\sort_by';
+
+    /**
      * @see \Functional\sum
      */
     const sum = '\Functional\sum';
