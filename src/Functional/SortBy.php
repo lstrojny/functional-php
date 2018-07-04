@@ -35,7 +35,6 @@ use Traversable;
  */
 function sort_by($collection, callable $getProperty, $preserveKeys = false)
 {
-    $functionName = __FUNCTION__;
     return sort(
         $collection,
         function($left, $right, $collection) use ($functionName, $getProperty) {
