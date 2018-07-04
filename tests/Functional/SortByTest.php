@@ -26,7 +26,7 @@ namespace Functional\Tests;
 use ArrayIterator;
 use function Functional\sort_by;
 
-class SortyByTest extends AbstractTestCase
+class SortByTest extends AbstractTestCase
 {
     public function setUp()
     {
