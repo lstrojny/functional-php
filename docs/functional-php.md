@@ -17,6 +17,7 @@
   - [truthy() & falsy()](#truthy--falsy)
   - [contains()](#contains)
   - [sort()](#sort)
+  - [sort_by()](#sort_by)
   - [Other:](#other)
 - [Partial application](#partial-application)
   - [Introduction](#introduction)
@@ -264,6 +265,28 @@ sort($collection, function($user1, $user2) {
 
     return ($user1->getAge() < $user2->getAge()) ? -1 : 1;
 });
+```
+
+## sorty_by()
+Sorts a collection by a value of some function
+
+```php
+<?php
+use function Functional\sort_by;
+
+// Sorts a collection by the length of its elements
+sort_by(
+    ['bear', 'aardvark', 'cat'],
+    function($element, $collection) { 
+        return strlen($element);
+    }
+); // Returns ['cat', 'bear', 'aardvark']
+sort_by(
+    ['bear', 'aardvark', 'cat'],
+    function($element, $collection) { 
+        return -strlen($element);
+    }
+); // Returns ['aardvark', 'bear', 'cat']
 ```
 
 
