@@ -97,6 +97,7 @@
             "src/Functional/SequenceLinear.php",
             "src/Functional/Some.php",
             "src/Functional/Sort.php",
+            "src/Functional/SortBy.php",
             "src/Functional/Sum.php",
             "src/Functional/SuppressError.php",
             "src/Functional/Tap.php",
