@@ -268,7 +268,7 @@ sort($collection, function($user1, $user2) {
 ```
 
 ## sorty_by()
-Sorts a collection by a value of some function
+Sorts a collection by a value of some function, optionally preserving array keys
 
 ```php
 <?php
