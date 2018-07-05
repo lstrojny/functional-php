@@ -78,5 +78,4 @@ class SortByTest extends AbstractTestCase
             )
         );
     }
-
 }
