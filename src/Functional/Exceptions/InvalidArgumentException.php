@@ -96,7 +96,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                     '%s() expects parameter %d to be string, %s given',
                     $callee,
                     $parameterPosition,
-                    gettype($methodName)
+                    self::getType($methodName)
                 )
             );
         }
@@ -119,7 +119,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                     '%s() expects parameter %d to be a valid property name or array index, %s given',
                     $callee,
                     $parameterPosition,
-                    gettype($propertyName)
+                    self::getType($propertyName)
                 )
             );
         }
@@ -129,7 +129,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     {
         if ((string)(int)$value !== (string)$value || $value < 0) {
 
-            $type = gettype($value);
+            $type = self::getType($value);
             $type = $type === 'integer' ? 'negative integer' : $type;
 
             throw new static(
@@ -191,9 +191,10 @@ class InvalidArgumentException extends \InvalidArgumentException
         if (!is_bool($value)) {
             throw new static(
                 sprintf(
-                    '%s() expects parameter %d to be boolean',
+                    '%s() expects parameter %d to be boolean, %s given',
                     $callee,
-                    $parameterPosition
+                    $parameterPosition,
+                    self::getType($value)
                 )
             );
         }
@@ -210,9 +211,10 @@ class InvalidArgumentException extends \InvalidArgumentException
         if (!is_integer($value)) {
             throw new static(
                 sprintf(
-                    '%s() expects parameter %d to be integer',
+                    '%s() expects parameter %d to be integer, %s given',
                     $callee,
-                    $parameterPosition
+                    $parameterPosition,
+                    self::getType($value)
                 )
             );
         }
@@ -281,12 +283,18 @@ class InvalidArgumentException extends \InvalidArgumentException
         if (!is_array($collection) && !$collection instanceof $className) {
             throw new static(
                 sprintf(
-                    '%s() expects parameter %d to be array or instance of %s',
+                    '%s() expects parameter %d to be array or instance of %s, %s given',
                     $callee,
                     $parameterPosition,
-                    $className
+                    $className,
+                    self::getType($collection)
                 )
             );
         }
+    }
+
+    private static function getType($value)
+    {
+        return is_object($value) ? get_class($value) : gettype($value);
     }
 }
