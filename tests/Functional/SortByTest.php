@@ -74,4 +74,22 @@ class SortByTest extends AbstractTestCase
             )
         );
     }
+
+    public function testCollectionArgument()
+    {
+        $this->assertSame(
+            [
+                0 => 'aardvark',
+                1 => 'cat',
+                2 => 'bear',
+            ],
+            sort_by(
+                $this->list,
+                function($e, $key, $collection) {
+                    return strlen($collection[($key + 1) % count($collection)]);
+                },
+                false
+            )
+        );
+    }
 }
