@@ -35,17 +35,13 @@ class SortByTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['c' => 'cat', 'b' => 'bear', 'a' => 'aardvark'];
         $this->hashIterator = new ArrayIterator($this->hash);
-        $this->getProperty =
-            function($e, $_) {
-                return strlen($e);
-            };
     }
 
     public function testPreserveKeys()
     {
         $this->assertSame(
             [1 => 'cat', 0 => 'bear', 2 => 'aardvark'],
-            sort_by($this->list, $this->getProperty, true)
+            sort_by($this->list, function($e) { return strlen($e); },  true)
         );
     }
 
@@ -57,7 +53,7 @@ class SortByTest extends AbstractTestCase
                 1 => 'bear',
                 2 => 'aardvark'
             ],
-            sort_by($this->list, $this->getProperty, false)
+            sort_by($this->list, function($e) { return strlen($e); }, false)
         );
     }
 
@@ -72,7 +68,7 @@ class SortByTest extends AbstractTestCase
             sort_by(
                 $this->list,
                 function($e, $_) {
-                    return -$this->getProperty($e, $_);
+                    return -strlen($e);
                 },
                 false
             )
