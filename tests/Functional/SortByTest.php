@@ -55,7 +55,7 @@ class SortByTest extends AbstractTestCase
             [
                 0 => 'cat',
                 1 => 'bear',
-                2 => 'aadrvark'
+                2 => 'aardvark'
             ],
             sort_by($this->list, $this->getProperty, false)
         );
