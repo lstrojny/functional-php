@@ -79,14 +79,15 @@ class SortByTest extends AbstractTestCase
     {
         $this->assertSame(
             [
-                0 => 'aardvark',
-                1 => 'cat',
-                2 => 'bear',
+                0 => 'cat',
+                1 => 'bear',
+                2 => 'aardvark',
             ],
             sort_by(
                 $this->list,
                 function($e, $collection) {
-                    return strlen($collection[(array_search($e, $collection) + 1) % count($collection)]);
+                    $this->assertSame($collection, $this->list);
+                    return strlen($e);
                 },
                 false
             )
