@@ -85,8 +85,8 @@ class SortByTest extends AbstractTestCase
             ],
             sort_by(
                 $this->list,
-                function($e, $key, $collection) {
-                    return strlen($collection[($key + 1) % count($collection)]);
+                function($e, $collection) {
+                    return strlen($collection[(array_search($e, $collection) + 1) % count($collection)]);
                 },
                 false
             )
