@@ -205,6 +205,11 @@ final class Functional
     const invoker = '\Functional\invoker';
 
     /**
+     * @see \Functional\key
+     */
+    const key = '\Functional\key';
+
+    /**
      * @see \Functional\last
      */
     const last = '\Functional\last';

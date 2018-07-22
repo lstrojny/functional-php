@@ -63,6 +63,7 @@
             "src/Functional/InvokeIf.php",
             "src/Functional/InvokeLast.php",
             "src/Functional/Invoker.php",
+            "src/Functional/Key.php",
             "src/Functional/Last.php",
             "src/Functional/LastIndexOf.php",
             "src/Functional/LessThan.php",
