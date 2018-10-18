@@ -999,7 +999,7 @@ just a shortcut to `compare_on` as it composes the given key function with `spl_
 # Miscellaneous
 
 ## concat()
-Concatenates zero or more strings
+Concatenates zero or more strings.
 
 ```php
 <?php
@@ -1009,7 +1009,7 @@ $fooBar = concat('foo', 'bar');
 ```
 
 ## const_function()
-Returns new function, that will constantly return its first argument (constant function)
+Returns a new function that will constantly return its first argument.
 
 ```php
 <?php
@@ -1021,7 +1021,7 @@ $one(); // -> 1
 
 
 ## id()
-Proxy function, that do nothing, except returning its first argument
+Proxy function that does nothing except returning its first argument.
 
 ```php
 <?php
@@ -1033,7 +1033,7 @@ use function Functional\id;
 ## tap()
 ``mixed tap(mixed $value, callable $callback)``
 
-Call the given Closure with the given value, then return the value.
+Calls the given Closure with the given value, then returns the value.
 
 ```php
 <?php 
@@ -1043,3 +1043,14 @@ tap(User::create('John Doe'), function (User $user) {
 })->login();
 ```
 
+## repeat()
+
+Creates and returns a function that can be used to execute the given closure multiple times.
+
+```php
+<?php
+use function Functional\repeat;
+repeat(function () {
+    echo 'foo';
+})(3); // 'foofoofoo'
+``` 
