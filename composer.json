@@ -92,6 +92,7 @@
             "src/Functional/ReduceRight.php",
             "src/Functional/Reindex.php",
             "src/Functional/Reject.php",
+            "src/Functional/Repeat.php",
             "src/Functional/Retry.php",
             "src/Functional/Select.php",
             "src/Functional/SelectKeys.php",

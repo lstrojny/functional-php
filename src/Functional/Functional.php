@@ -350,6 +350,11 @@ final class Functional
     const reject = '\Functional\reject';
 
     /**
+     * @see \Functional\repeat
+     */
+    const repeat = '\Functional\repeat';
+
+    /**
      * @see \Functional\retry
      */
     const retry = '\Functional\retry';
