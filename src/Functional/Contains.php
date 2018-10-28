@@ -38,13 +38,7 @@ function contains($collection, $value, $strict = true)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    foreach ($collection as $element) {
+    $collection = \is_array($collection) ? $collection : \iterator_to_array($collection);
 
-        if ($value === $element || (!$strict && $value == $element)) {
-            return true;
-        }
-
-    }
-
-    return false;
+    return \in_array($value, $collection, $strict);
 }
