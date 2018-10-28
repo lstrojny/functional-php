@@ -37,9 +37,7 @@ function each($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    foreach ($collection as $index => $element) {
-
+    \array_walk($collection, function ($element, $index) use ($collection, $callback) {
         $callback($element, $index, $collection);
-
-    }
+    });
 }
