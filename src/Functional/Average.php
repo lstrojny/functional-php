@@ -35,21 +35,14 @@ function average($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $sum = null;
-    $divisor = 0;
+    $collection = \is_array($collection) ? $collection : \iterator_to_array($collection);
 
-    foreach ($collection as $element) {
+    $collection = \array_filter($collection, 'is_numeric');
+    $divisor = \count($collection);
 
-        if (is_numeric($element)) {
-            $sum += $element;
-            ++$divisor;
-        }
-
-    }
-
-    if ($sum === null) {
+    if ($divisor === 0) {
         return null;
     }
 
-    return $sum / $divisor;
+    return \array_sum($collection) / $divisor;
 }
