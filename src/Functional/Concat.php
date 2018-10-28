@@ -25,10 +25,10 @@ namespace Functional;
 /**
  * Concatenates zero or more strings
  *
- * @param string[] $functions
+ * @param string[] $strings
  * @return string
  */
 function concat(string ...$strings)
 {
-    return implode('', $strings);
+    return \implode('', $strings);
 }

@@ -44,9 +44,9 @@ function pluck($collection, $propertyName)
 
         $value = null;
 
-        if (is_object($element) && isset($element->{$propertyName})) {
+        if (\is_object($element) && isset($element->{$propertyName})) {
             $value = $element->{$propertyName};
-        } elseif ((is_array($element) || $element instanceof ArrayAccess) && isset($element[$propertyName])) {
+        } elseif ((\is_array($element) || $element instanceof ArrayAccess) && isset($element[$propertyName])) {
             $value = $element[$propertyName];
         }
 

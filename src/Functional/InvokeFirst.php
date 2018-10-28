@@ -42,7 +42,7 @@ function invoke_first($collection, $methodName, array $arguments = [])
     foreach ($collection as $element) {
 
         $callback = [$element, $methodName];
-        if (is_callable($callback)) {
+        if (\is_callable($callback)) {
             return $callback(...$arguments);
         }
     }

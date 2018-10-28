@@ -35,7 +35,7 @@ namespace Functional;
 function invoke_if($object, $methodName, array $methodArguments = [], $defaultValue = null)
 {
     $callback = [$object, $methodName];
-    if (is_callable($callback)) {
+    if (\is_callable($callback)) {
         return $callback(...$methodArguments);
     }
 

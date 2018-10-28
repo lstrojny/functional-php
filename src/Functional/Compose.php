@@ -22,8 +22,6 @@
  */
 namespace Functional;
 
-use function Functional\id;
-
 /**
  * Return a new function that composes all functions in $functions into a single callable
  *
@@ -34,7 +32,7 @@ use function Functional\id;
  */
 function compose(...$functions)
 {
-    return array_reduce(
+    return \array_reduce(
         $functions,
         function ($carry, $item) {
             return function ($x) use ($carry, $item) {

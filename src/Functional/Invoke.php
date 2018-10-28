@@ -46,7 +46,7 @@ function invoke($collection, $methodName, array $arguments = [])
         $value = null;
 
         $callback = [$element, $methodName];
-        if (is_callable($callback)) {
+        if (\is_callable($callback)) {
             $value = $callback(...$arguments);
         }
 

@@ -37,10 +37,10 @@ function curry_n($count, callable $function)
 {
     $accumulator = function (array $arguments) use ($count, $function, &$accumulator) {
         return function (...$newArguments) use ($count, $function, $arguments, $accumulator) {
-            $arguments = array_merge($arguments, $newArguments);
+            $arguments = \array_merge($arguments, $newArguments);
 
-            if ($count <= count($arguments)) {
-                return call_user_func_array($function, $arguments);
+            if ($count <= \count($arguments)) {
+                return \call_user_func_array($function, $arguments);
             }
 
             return $accumulator($arguments);

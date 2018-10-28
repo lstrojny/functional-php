@@ -35,7 +35,7 @@ function error_to_exception(callable $callback)
 {
     return function (...$arguments) use ($callback) {
         try {
-            set_error_handler(
+            \set_error_handler(
                 static function ($level, $message, $file, $line) {
                     throw new ErrorException($message, 0, $level, $file, $line);
                 }
@@ -43,7 +43,7 @@ function error_to_exception(callable $callback)
 
             return $callback(...$arguments);
         } finally {
-            restore_error_handler();
+            \restore_error_handler();
         }
     };
 }

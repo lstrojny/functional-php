@@ -42,7 +42,7 @@ function reduce_right($collection, callable $callback, $initial = null)
 
     }
 
-    while ((list($index, $value) = array_pop($data))) {
+    while ((list($index, $value) = \array_pop($data))) {
 
         $initial = $callback($value, $index, $collection, $initial);
 

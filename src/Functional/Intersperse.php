@@ -44,7 +44,7 @@ function intersperse($collection, $glue)
         $aggregation[] = $glue;
     }
 
-    array_pop($aggregation);
+    \array_pop($aggregation);
 
     return $aggregation;
 }
