@@ -36,14 +36,15 @@ function difference($collection, $initial = 0)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $result = $initial;
-    foreach ($collection as $value) {
+    $collection = \is_array($collection) ? $collection : \iterator_to_array($collection);
 
-        if (is_numeric($value)) {
-            $result -= $value;
-        }
+    $collection = \array_filter($collection, 'is_numeric');
 
+    if (\count($collection) === 0) {
+        return $initial;
     }
 
-    return $result;
+    return \array_reduce($collection, function ($curry, $item) {
+        return $curry - $item;
+    }, $initial);
 }
