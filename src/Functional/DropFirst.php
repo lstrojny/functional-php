@@ -36,21 +36,16 @@ function drop_first($collection, callable $callback)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $result = [];
+    $collection = \is_array($collection) ? $collection : \iterator_to_array($collection);
 
-    $drop = true;
-    foreach ($collection as $index => $element) {
+    $match = false;
+    return \array_filter($collection, function ($element, $index) use ($callback, $collection, &$match) {
 
-        if ($drop) {
-            if ($callback($element, $index, $collection)) {
-                continue;
-            }
-
-            $drop = false;
+        if ($match) {
+            return true;
         }
 
-        $result[$index] = $element;
-    }
-
-    return $result;
+        $match = !$callback($element, $index, $collection);
+        return $match;
+    }, ARRAY_FILTER_USE_BOTH);
 }

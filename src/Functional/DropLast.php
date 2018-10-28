@@ -37,17 +37,16 @@ function drop_last($collection, callable $callback)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
 
-    $result = [];
+    $collection = \is_array($collection) ? $collection : \iterator_to_array($collection);
 
-    $drop = false;
-    foreach ($collection as $index => $element) {
+    $match = false;
+    return \array_filter($collection, function ($element, $index) use ($callback, $collection, &$match) {
 
-        if (!$drop && !$callback($element, $index, $collection)) {
-            break;
+        if ($match) {
+            return false;
         }
 
-        $result[$index] = $element;
-    }
-
-    return $result;
+        $match = !$callback($element, $index, $collection);
+        return !$match;
+    }, ARRAY_FILTER_USE_BOTH);
 }
