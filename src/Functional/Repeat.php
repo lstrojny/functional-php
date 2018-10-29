@@ -37,7 +37,7 @@ function repeat(callable $callback) {
         InvalidArgumentException::assertPositiveInteger($times, __FUNCTION__, 1);
 
         for ($i = 0; $i < $times; $i++) {
-            call_user_func($callback);
+            $callback();
         }
     };
 }
