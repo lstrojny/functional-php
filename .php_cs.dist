@@ -1,0 +1,8 @@
+<?php
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        'native_function_invocation' => true,
+    ])
+    ->setFinder(PhpCsFixer\Finder::create()->exclude('tests')->in(__DIR__));
