@@ -8,14 +8,8 @@ php:
   - nightly
 
 matrix:
-  fast_finish: true
-  include:
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # Until the next stable image update after 2016-12-01
   allow_failures:
-    - php: hhvm
+    - php: nightly
 
 before_script: composer install
 script: vendor/bin/phpunit --debug
