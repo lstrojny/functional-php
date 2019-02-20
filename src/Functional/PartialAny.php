@@ -30,7 +30,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * Use Functional\…, Functional\…() or Functional\placeholder() as a placeholder
  *
  * @param callable $callback
- * @param array $arguments
+ * @param mixed ...$arguments
  * @return callable
  */
 function partial_any(callable $callback, ...$arguments)
