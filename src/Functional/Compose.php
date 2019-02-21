@@ -27,7 +27,7 @@ use function Functional\id;
 /**
  * Return a new function that composes all functions in $functions into a single callable
  *
- * @param callable[] $functions
+ * @param callable ...$functions
  * @return callable
  * @todo Add callable typehint when HHVM supports use of typehints with variadic arguments
  * @see https://github.com/facebook/hhvm/issues/6954
