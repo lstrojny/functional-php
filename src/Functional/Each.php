@@ -38,8 +38,6 @@ function each($collection, callable $callback)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $index => $element) {
-
         $callback($element, $index, $collection);
-
     }
 }

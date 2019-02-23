@@ -39,11 +39,9 @@ function contains($collection, $value, $strict = true)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $element) {
-
         if ($value === $element || (!$strict && $value == $element)) {
             return true;
         }
-
     }
 
     return false;

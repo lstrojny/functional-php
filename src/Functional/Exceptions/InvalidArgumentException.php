@@ -33,7 +33,6 @@ class InvalidArgumentException extends \InvalidArgumentException
     public static function assertCallback($callback, $callee, $parameterPosition)
     {
         if (!is_callable($callback)) {
-
             if (!is_array($callback) && !is_string($callback)) {
                 throw new static(
                     sprintf(
@@ -128,7 +127,6 @@ class InvalidArgumentException extends \InvalidArgumentException
     public static function assertPositiveInteger($value, $callee, $parameterPosition)
     {
         if ((string)(int)$value !== (string)$value || $value < 0) {
-
             $type = self::getType($value);
             $type = $type === 'integer' ? 'negative integer' : $type;
 
@@ -169,7 +167,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 
     public static function assertArrayKeyExists($collection, $key, $callee)
     {
-    	if (!isset($collection[$key])) {
+        if (!isset($collection[$key])) {
             throw new static(
                 sprintf(
                     '%s(): unknown key "%s"',
@@ -177,7 +175,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                     $key
                 )
             );
-    	}
+        }
     }
 
     /**

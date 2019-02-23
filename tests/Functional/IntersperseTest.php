@@ -53,7 +53,8 @@ class IntersperseTest extends AbstractTestCase
     {
         $this->expectArgumentError(
             'Functional\intersperse() expects parameter 1 to be array or '.
-            'instance of Traversable');
+            'instance of Traversable'
+        );
         intersperse('invalidCollection', '-');
     }
 }

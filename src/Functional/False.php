@@ -36,11 +36,9 @@ function false($collection)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $value) {
-
         if ($value !== false) {
             return false;
         }
-
     }
 
     return true;

@@ -52,8 +52,8 @@ class InvokeFirstTest extends AbstractTestCase
 
     public function testSkipNonCallables()
     {
-    	$this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
-    	$this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
+        $this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
+        $this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
         $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
         $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
         $this->assertSame([1, 2], invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', [1, 2]));

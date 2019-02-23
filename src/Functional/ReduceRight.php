@@ -37,15 +37,11 @@ function reduce_right($collection, callable $callback, $initial = null)
 
     $data = [];
     foreach ($collection as $index => $value) {
-
         $data[] = [$index, $value];
-
     }
 
     while ((list($index, $value) = array_pop($data))) {
-
         $initial = $callback($value, $index, $collection, $initial);
-
     }
 
     return $initial;

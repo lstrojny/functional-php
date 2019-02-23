@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 namespace Functional;
+
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 

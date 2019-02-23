@@ -56,15 +56,11 @@ function retry(callable $callback, $retries, Traversable $delaySequence = null)
     $retry = 0;
     foreach ($delays as $delay) {
         try {
-
             return $callback($retry, $delay);
-
         } catch (Exception $e) {
-
             if ($retry === $retries - 1) {
                 throw $e;
             }
-
         }
 
         if ($delay > 0) {

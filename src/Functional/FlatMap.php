@@ -47,15 +47,12 @@ function flat_map($collection, callable $callback)
     $flattened = [];
 
     foreach ($collection as $index => $element) {
-
         $result = $callback($element, $index, $collection);
 
         if (is_array($result) || $result instanceof Traversable) {
-
             foreach ($result as $item) {
                 $flattened[] = $item;
             }
-
         } elseif ($result !== null) {
             $flattened[] = $result;
         }

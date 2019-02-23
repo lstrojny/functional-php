@@ -38,11 +38,9 @@ function ratio($collection, $initial = 1)
 
     $result = $initial;
     foreach ($collection as $value) {
-
         if (is_numeric($value)) {
             $result /= $value;
         }
-
     }
 
     return $result;

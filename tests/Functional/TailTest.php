@@ -39,7 +39,7 @@ class TailTest extends AbstractTestCase
 
     public function test()
     {
-        $fn = function($v, $k, $collection) {
+        $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v > 2;
         };

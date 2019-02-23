@@ -42,7 +42,6 @@ function invoke($collection, $methodName, array $arguments = [])
     $aggregation = [];
 
     foreach ($collection as $index => $element) {
-
         $value = null;
 
         $callback = [$element, $methodName];

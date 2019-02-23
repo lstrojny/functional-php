@@ -56,7 +56,9 @@ class FirstIndexOfTest extends AbstractTestCase
     {
         $this->assertSame(
             0,
-            first_index_of($this->list, function($element) {return $element;})
+            first_index_of($this->list, function ($element) {
+                return $element;
+            })
         );
     }
 

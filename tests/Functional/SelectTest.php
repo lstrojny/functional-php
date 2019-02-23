@@ -51,7 +51,7 @@ class SelectTest extends AbstractTestCase
      */
     public function test($functionName)
     {
-        $callback = function($v, $k, $collection) {
+        $callback = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'value' && strlen($k) > 0;
         };

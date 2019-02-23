@@ -145,7 +145,6 @@ class PluckTest extends AbstractTestCase
 
     public function variate($array, $asObject)
     {
-
         if (!$asObject) {
             return [
                 [$array],

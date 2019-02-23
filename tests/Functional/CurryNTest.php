@@ -27,7 +27,8 @@ use function Functional\invoker;
 
 use DateTime;
 
-function add($a, $b, $c, $d) {
+function add($a, $b, $c, $d)
+{
     return $a + $b + $c + $d;
 }
 
@@ -70,7 +71,7 @@ class CurryNTest extends AbstractPartialTestCase
         $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
 
         $length = count($params);
-        for($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
             $p = array_shift($params);
 
             $curryied = $curryied($p);

@@ -63,7 +63,7 @@ class ErrorToExceptionTest extends AbstractTestCase
     {
         $errorMessage = null;
         set_error_handler(
-            static function($level, $message) use (&$errorMessage) {
+            static function ($level, $message) use (&$errorMessage) {
                 $errorMessage = $message;
             }
         );

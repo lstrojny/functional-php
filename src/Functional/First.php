@@ -39,7 +39,6 @@ function first($collection, callable $callback = null)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $index => $element) {
-
         if ($callback === null) {
             return $element;
         }
@@ -47,7 +46,6 @@ function first($collection, callable $callback = null)
         if ($callback($element, $index, $collection)) {
             return $element;
         }
-
     }
 
     return null;

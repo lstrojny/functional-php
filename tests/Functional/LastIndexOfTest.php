@@ -56,7 +56,9 @@ class LastIndexOfTest extends AbstractTestCase
     {
         $this->assertSame(
             3,
-            last_index_of($this->list, function($element) {return $element;})
+            last_index_of($this->list, function ($element) {
+                return $element;
+            })
         );
     }
 

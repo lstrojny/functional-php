@@ -41,7 +41,6 @@ function pluck($collection, $propertyName)
     $aggregation = [];
 
     foreach ($collection as $index => $element) {
-
         $value = null;
 
         if (is_object($element) && isset($element->{$propertyName})) {

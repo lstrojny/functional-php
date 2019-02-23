@@ -36,9 +36,7 @@ function reduce_left($collection, callable $callback, $initial = null)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $index => $value) {
-
         $initial = $callback($value, $index, $collection, $initial);
-
     }
 
     return $initial;
