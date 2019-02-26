@@ -45,7 +45,6 @@ class InvalidArgumentException extends \InvalidArgumentException
 
             $type = gettype($callback);
             switch ($type) {
-
                 case 'array':
                     $type = 'method';
                     $callback = array_values($callback);

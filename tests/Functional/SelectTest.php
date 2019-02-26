@@ -71,7 +71,7 @@ class SelectTest extends AbstractTestCase
                 "Argument 2 passed to %s() must be callable",
                 $functionName
             )
-         );
+        );
         $functionName($this->list, 'undefinedFunction');
     }
 
