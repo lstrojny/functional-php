@@ -30,7 +30,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * Use Functional\…, Functional\…() or Functional\placeholder() as a placeholder
  *
  * @param callable $callback
- * @param array $arguments
+ * @param mixed ...$arguments
  * @return callable
  */
 function partial_any(callable $callback, ...$arguments)
@@ -41,7 +41,7 @@ function partial_any(callable $callback, ...$arguments)
         foreach ($arguments as $position => &$argument) {
             if ($argument === $placeholder) {
                 InvalidArgumentException::assertResolvablePlaceholder($innerArguments, $position);
-                $argument = array_shift($innerArguments);
+                $argument = \array_shift($innerArguments);
             }
         }
 
@@ -55,7 +55,7 @@ function …()
     static $placeholder;
 
     if (!$placeholder) {
-        $placeholder = random_bytes(32);
+        $placeholder = \random_bytes(32);
     }
 
     return $placeholder;
@@ -70,5 +70,5 @@ function placeholder()
 
 // phpcs:disable
 /** Define unicode ellipsis constant */
-define('Functional\\…', …());
+\define('Functional\\…', …());
 // phpcs:enable

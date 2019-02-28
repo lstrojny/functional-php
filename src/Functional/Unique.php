@@ -46,7 +46,7 @@ function unique($collection, callable $callback = null, $strict = true)
             $index = $element;
         }
 
-        if (!in_array($index, $indexes, $strict)) {
+        if (!\in_array($index, $indexes, $strict)) {
             $aggregation[$key] = $element;
 
             $indexes[] = $index;

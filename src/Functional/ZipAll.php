@@ -38,8 +38,8 @@ function zip_all(...$args)
 {
     /** @var callable|null $callback */
     $callback = null;
-    if (is_callable(end($args))) {
-        $callback = array_pop($args);
+    if (\is_callable(\end($args))) {
+        $callback = \array_pop($args);
     }
 
     foreach ($args as $position => $arg) {
@@ -53,7 +53,7 @@ function zip_all(...$args)
         }
     }
 
-    $resultKeys = array_unique($resultKeys);
+    $resultKeys = \array_unique($resultKeys);
 
     $result = [];
 

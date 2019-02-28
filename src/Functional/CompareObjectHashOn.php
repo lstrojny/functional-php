@@ -22,8 +22,6 @@
  */
 namespace Functional;
 
-use function Functional\compose;
-
 /**
  * Returns a comparison function that can be used with e.g. `usort()`
  *

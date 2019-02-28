@@ -49,7 +49,7 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
     }
     $delays->append(new InfiniteIterator(new ArrayIterator([0])));
 
-    $limit = microtime(true) + ($timeout / 100000);
+    $limit = \microtime(true) + ($timeout / 100000);
 
     foreach ($delays as $delay) {
         $value = $callback($retry, $delay);
@@ -58,12 +58,12 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
             return $value;
         }
 
-        if (microtime(true) > $limit) {
+        if (\microtime(true) > $limit) {
             return false;
         }
 
         if ($delay > 0) {
-            usleep($delay);
+            \usleep($delay);
         }
 
         ++$retry;

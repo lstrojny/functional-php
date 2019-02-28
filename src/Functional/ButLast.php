@@ -35,8 +35,8 @@ function but_last($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $butLast = is_array($collection) ? $collection : iterator_to_array($collection);
-    array_pop($butLast);
+    $butLast = \is_array($collection) ? $collection : \iterator_to_array($collection);
+    \array_pop($butLast);
 
     return $butLast;
 }

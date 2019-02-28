@@ -38,7 +38,7 @@ function minimum($collection)
     $max = null;
 
     foreach ($collection as $index => $element) {
-        if (!is_numeric($element)) {
+        if (!\is_numeric($element)) {
             continue;
         }
 

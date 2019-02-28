@@ -1,7 +1,6 @@
 build/
 vendor/
 .php_cs.cache
-phpunit.xml
-phpcs.xml
 composer.lock
-
+phpcs.xml
+phpunit.xml
