@@ -51,7 +51,7 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
 
     static $keyGenerator = null;
     if (!$keyGenerator) {
-        $keyGenerator = function($value) use (&$keyGenerator) {
+        $keyGenerator = function ($value) use (&$keyGenerator) {
             $type = \gettype($value);
             if ($type === 'array') {
                 $key = \join(':', map($value, $keyGenerator));

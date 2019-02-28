@@ -1,18 +1,18 @@
 language: php
 sudo: false
+
 php:
   - 7.0
   - 7.1
   - 7.2
   - 7.3
   - nightly
-
 matrix:
   allow_failures:
     - php: nightly
 
-before_script: composer install
-
+before_script:
+  - composer install
 script:
-  - vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.dist
-  - vendor/bin/phpunit --debug
+  - composer tests
+  - composer coding-style

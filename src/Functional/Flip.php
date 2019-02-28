@@ -27,12 +27,12 @@ namespace Functional;
  *
  * If one argument is provided, it is passed to the function without change.
  *
- * @param callable $function the function you want to flip
+ * @param callable $callback the function you want to flip
  * @return callable a flipped version of the given function
  */
 function flip(callable $callback)
 {
-    return function() use ($callback) {
+    return function () use ($callback) {
         return $callback(...\array_reverse(\func_get_args()));
     };
 }

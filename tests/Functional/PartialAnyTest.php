@@ -16,7 +16,7 @@ class PartialAnyTest extends AbstractPartialTestCase
         $this->assertSame(2, $ratio(20));
     }
 
-    public function testBindWithPlaceholder_Constant()
+    public function testBindWithPlaceholderConstant()
     {
         $context = hash_init('md2');
         $hash = partial_any('hash_update', $context, …());

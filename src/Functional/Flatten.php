@@ -46,7 +46,6 @@ function flatten($collection)
             foreach ($item as $element) {
                 \array_unshift($stack, $element);
             }
-
         } else {
             \array_unshift($result, $item);
         }

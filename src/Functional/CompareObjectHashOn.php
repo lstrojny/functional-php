@@ -35,4 +35,3 @@ function compare_object_hash_on(callable $comparison, callable $keyFunction = nu
 
     return compare_on($comparison, $keyFunction);
 }
-

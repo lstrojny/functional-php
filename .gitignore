@@ -1,6 +1,6 @@
 build/
-/phpunit.xml
-/vendor
-composer.lock
-/.idea/
+vendor/
 .php_cs.cache
+composer.lock
+phpcs.xml
+phpunit.xml

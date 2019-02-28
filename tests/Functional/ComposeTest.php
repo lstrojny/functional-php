@@ -35,9 +35,15 @@ class ComposeTest extends AbstractTestCase
     {
         $input = range(0, 10);
 
-        $plus2 = function ($x) { return $x + 2; };
-        $times4 = function ($x) { return $x * 4; };
-        $square = function ($x) { return $x * $x; };
+        $plus2 = function ($x) {
+            return $x + 2;
+        };
+        $times4 = function ($x) {
+            return $x * 4;
+        };
+        $square = function ($x) {
+            return $x * $x;
+        };
 
         $composed = compose($plus2, $times4, $square);
 

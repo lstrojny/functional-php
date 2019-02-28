@@ -32,7 +32,7 @@ class ZipAllTest extends AbstractTestCase
         $this->assertSame([], zip_all());
         $this->assertSame([], zip_all([]));
         $this->assertSame([], zip_all([], [], []));
-        $this->assertSame([], zip_all([], [], function() {
+        $this->assertSame([], zip_all([], [], function () {
             throw new BadFunctionCallException('Should not be called');
         }));
     }

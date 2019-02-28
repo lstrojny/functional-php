@@ -44,7 +44,7 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator));
         $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash));
         $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator));
-        $fn = function($value, $key, $collection) {
+        $fn = function ($value, $key, $collection) {
             return $value;
         };
         $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, $fn));
@@ -55,12 +55,12 @@ class UniqueTest extends AbstractTestCase
 
     public function testUnifyingByClosure()
     {
-        $fn = function($value, $key, $collection) {
+        $fn = function ($value, $key, $collection) {
             return $key === 0 ? 'zero' : 'else';
         };
         $this->assertSame([0 => 'value1', 1 => 'value2'], unique($this->list, $fn));
         $this->assertSame([0 => 'value1', 1 => 'value2'], unique($this->listIterator, $fn));
-        $fn = function($value, $key, $collection) {
+        $fn = function ($value, $key, $collection) {
             return 0;
         };
         $this->assertSame(['k1' => 'val1'], unique($this->hash, $fn));
@@ -74,7 +74,7 @@ class UniqueTest extends AbstractTestCase
         $this->assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
         $this->assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator));
 
-        $fn = function($value, $key, $collection) {
+        $fn = function ($value, $key, $collection) {
             return $value;
         };
 

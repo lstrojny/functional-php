@@ -76,7 +76,7 @@ class PollTest extends AbstractTestCase
             ->method('poll')
             ->with(0, 0)
             ->willReturnCallback(
-                function() {
+                function () {
                     usleep(100);
                     return false;
                 }

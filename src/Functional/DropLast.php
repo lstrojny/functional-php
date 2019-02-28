@@ -40,7 +40,6 @@ function drop_last($collection, callable $callback)
     $result = [];
 
     foreach ($collection as $index => $element) {
-
         if (!$callback($element, $index, $collection)) {
             break;
         }

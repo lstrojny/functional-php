@@ -27,25 +27,26 @@ use function Functional\invoker;
 
 use DateTime;
 
-function add($a, $b, $c, $d) {
+function add($a, $b, $c, $d)
+{
     return $a + $b + $c + $d;
 }
 
 class Adder
 {
-    public static function static_add($a, $b, $c, $d)
+    public static function staticAdd($a, $b, $c, $d)
     {
         return add($a, $b, $c, $d);
     }
 
     public function add($a, $b, $c, $d)
     {
-        return static::static_add($a, $b, $c, $d);
+        return static::staticAdd($a, $b, $c, $d);
     }
 
     public function __invoke($a, $b, $c, $d)
     {
-        return static::static_add($a, $b, $c, $d);
+        return static::staticAdd($a, $b, $c, $d);
     }
 }
 
@@ -70,7 +71,7 @@ class CurryNTest extends AbstractPartialTestCase
         $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
 
         $length = count($params);
-        for($i = 0; $i < $length; ++$i) {
+        for ($i = 0; $i < $length; ++$i) {
             $p = array_shift($params);
 
             $curryied = $curryied($p);
@@ -93,11 +94,11 @@ class CurryNTest extends AbstractPartialTestCase
 
         return [
             ['Functional\Tests\add', [2, 4, 6, 8], 20, true],
-            [['Functional\Tests\Adder', 'static_add'], [2, 4, 6, 8], 20, true],
-            ['Functional\Tests\Adder::static_add', [2, 4, 6, 8], 20, true],
+            [['Functional\Tests\Adder', 'staticAdd'], [2, 4, 6, 8], 20, true],
+            ['Functional\Tests\Adder::staticAdd', [2, 4, 6, 8], 20, true],
             [new Adder(), [2, 4, 6, 8], 20, true],
             [[new Adder(), 'add'], [2, 4, 6, 8], 20, true],
-            [[new Adder(), 'static_add'], [2, 4, 6, 8], 20, true],
+            [[new Adder(), 'staticAdd'], [2, 4, 6, 8], 20, true],
 
             ['number_format', [1.234, 2, ',', '\''], '1,23', false],
             [['DateTime', 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true, $dateFormat],

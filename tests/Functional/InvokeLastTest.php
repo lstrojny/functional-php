@@ -52,8 +52,8 @@ class InvokeLastTest extends AbstractTestCase
 
     public function testSkipNonCallables()
     {
-    	$this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', [1, 2]));
-    	$this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
+        $this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', [1, 2]));
+        $this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
     }
 
     public function testPassNoCollection()

@@ -40,11 +40,9 @@ function reject($collection, callable $callback)
     $aggregation = [];
 
     foreach ($collection as $index => $element) {
-
         if (!$callback($element, $index, $collection)) {
             $aggregation[$index] = $element;
         }
-
     }
 
     return $aggregation;

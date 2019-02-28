@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 namespace Functional;
+
 /**
  * Returns a comparison function that can be used with e.g. `usort()`
  *
@@ -40,4 +41,3 @@ function compare_on(callable $comparison, callable $reducer = null)
         return $comparison($reducer($left), $reducer($right));
     };
 }
-

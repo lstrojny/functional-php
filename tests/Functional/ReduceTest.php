@@ -49,19 +49,31 @@ class ReduceTest extends AbstractTestCase
         $this->assertSame('2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback']));
         $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback'], 'default'));
 
-        $this->assertSame('initial', reduce_left([], function(){}, 'initial'));
-        $this->assertNull(reduce_left([], function(){}));
-        $this->assertNull(reduce_left([], function(){}, null));
-        $this->assertSame('initial', reduce_left(new ArrayIterator([]), function(){}, 'initial'));
-        $this->assertNull(reduce_left(new ArrayIterator([]), function(){}));
-        $this->assertNull(reduce_left(new ArrayIterator([]), function(){}, null));
-        $this->assertSame('initial', reduce_right([], function(){}, 'initial'));
-        $this->assertNull(reduce_right([], function(){}));
-        $this->assertNull(reduce_right([], function(){}, null));
-        $this->assertSame('initial', reduce_right(new ArrayIterator([]), function(){}, 'initial'));
-        $this->assertNull(reduce_right(new ArrayIterator([]), function(){}));
-        $this->assertNull(reduce_right(new ArrayIterator([]), function(){}, null));
-   }
+        $this->assertSame('initial', reduce_left([], function () {
+        }, 'initial'));
+        $this->assertNull(reduce_left([], function () {
+        }));
+        $this->assertNull(reduce_left([], function () {
+        }, null));
+        $this->assertSame('initial', reduce_left(new ArrayIterator([]), function () {
+        }, 'initial'));
+        $this->assertNull(reduce_left(new ArrayIterator([]), function () {
+        }));
+        $this->assertNull(reduce_left(new ArrayIterator([]), function () {
+        }, null));
+        $this->assertSame('initial', reduce_right([], function () {
+        }, 'initial'));
+        $this->assertNull(reduce_right([], function () {
+        }));
+        $this->assertNull(reduce_right([], function () {
+        }, null));
+        $this->assertSame('initial', reduce_right(new ArrayIterator([]), function () {
+        }, 'initial'));
+        $this->assertNull(reduce_right(new ArrayIterator([]), function () {
+        }));
+        $this->assertNull(reduce_right(new ArrayIterator([]), function () {
+        }, null));
+    }
 
     public function testExceptionThrownInIteratorCallbackWhileReduceLeft()
     {

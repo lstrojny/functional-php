@@ -38,11 +38,9 @@ function none($collection, callable $callback)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $index => $element) {
-
         if ($callback($element, $index, $collection)) {
             return false;
         }
-
     }
 
     return true;

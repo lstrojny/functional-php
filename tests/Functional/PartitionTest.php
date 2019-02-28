@@ -39,7 +39,7 @@ class PartitionTest extends AbstractTestCase
 
     public function test()
     {
-        $fn = function($v, $k, $collection) {
+        $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
         };
@@ -51,12 +51,12 @@ class PartitionTest extends AbstractTestCase
 
     public function testMultiFn()
     {
-        $fn1 = function($v, $k, $collection) {
+        $fn1 = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k === 1) : ($v[3] === '2');
         };
 
-        $fn2 = function($v, $k, $collection) {
+        $fn2 = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return is_int($k) ? ($k === 2) : ($v[3] === '3');
         };

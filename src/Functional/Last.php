@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 namespace Functional;
+
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
@@ -38,11 +39,9 @@ function last($collection, callable $callback = null)
 
     $match = null;
     foreach ($collection as $index => $element) {
-
         if ($callback === null || $callback($element, $index, $collection)) {
             $match = $element;
         }
-
     }
 
     return $match;

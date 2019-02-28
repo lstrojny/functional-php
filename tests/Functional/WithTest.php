@@ -30,7 +30,7 @@ class WithTest extends AbstractTestCase
     public function testWithNull()
     {
         $this->assertNull(
-            with(null, function() {
+            with(null, function () {
                 throw new \Exception('Should not be called');
             })
         );
@@ -56,7 +56,7 @@ class WithTest extends AbstractTestCase
         $this->assertSame(
             'value',
             with(
-                function() {
+                function () {
                     return 'value';
                 },
                 function ($value) {

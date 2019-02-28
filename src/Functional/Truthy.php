@@ -36,11 +36,9 @@ function truthy($collection)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     foreach ($collection as $value) {
-
         if (!$value) {
             return false;
         }
-
     }
 
     return true;

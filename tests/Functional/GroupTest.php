@@ -39,7 +39,7 @@ class GroupTest extends AbstractTestCase
 
     public function test()
     {
-        $fn = function($v, $k, $collection) {
+        $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
         };
@@ -53,7 +53,7 @@ class GroupTest extends AbstractTestCase
     {
         $array = ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'];
         $keyMap = [true, 1, -1, 2.1, 'str', null];
-        $fn = function($v, $k, $collection) use(&$keyMap) {
+        $fn = function ($v, $k, $collection) use (&$keyMap) {
             return $keyMap[$k];
         };
         $result = [
