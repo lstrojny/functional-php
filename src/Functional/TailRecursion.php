@@ -20,7 +20,7 @@ function tail_recursion(callable $fn): callable
         $queue[] = $args;
         if (!$underCall) {
             $underCall = true;
-            while ($head = array_shift($queue)) {
+            while ($head = \array_shift($queue)) {
                 $result = $fn(...$head);
             }
             $underCall = false;

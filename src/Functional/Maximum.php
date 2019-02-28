@@ -39,7 +39,7 @@ function maximum($collection)
 
     foreach ($collection as $element) {
 
-        if (!is_numeric($element)) {
+        if (!\is_numeric($element)) {
             continue;
         }
 

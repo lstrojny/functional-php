@@ -40,8 +40,8 @@ function with($value, callable $callback, $invokeValue = true)
         return null;
     }
 
-    if ($invokeValue && is_callable($value)) {
-        trigger_error('Invoking the value is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+    if ($invokeValue && \is_callable($value)) {
+        \trigger_error('Invoking the value is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
 
         $value = $value();
     }

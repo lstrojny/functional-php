@@ -37,7 +37,7 @@ function select_keys($collection, array $keys)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     if ($collection instanceof Traversable) {
-        $array = iterator_to_array($collection);
+        $array = \iterator_to_array($collection);
     } else {
         $array = $collection;
     }

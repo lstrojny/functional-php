@@ -42,7 +42,7 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
         return null;
     }
 
-    if (is_callable($arguments)) {
+    if (\is_callable($arguments)) {
         $key = $arguments;
         $arguments = [];
     } else {
@@ -52,11 +52,11 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
     static $keyGenerator = null;
     if (!$keyGenerator) {
         $keyGenerator = function($value) use (&$keyGenerator) {
-            $type = gettype($value);
+            $type = \gettype($value);
             if ($type === 'array') {
-                $key = join(':', map($value, $keyGenerator));
+                $key = \join(':', map($value, $keyGenerator));
             } elseif ($type === 'object') {
-                $key = get_class($value) . ':' . spl_object_hash($value);
+                $key = \get_class($value) . ':' . \spl_object_hash($value);
             } else {
                 $key = (string) $value;
             }
@@ -66,14 +66,14 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
     }
 
     if ($key === null) {
-        $key = $keyGenerator(array_merge([$callback], $arguments));
-    } elseif (is_callable($key)) {
+        $key = $keyGenerator(\array_merge([$callback], $arguments));
+    } elseif (\is_callable($key)) {
         $key = $keyGenerator($key());
     } else {
         $key = $keyGenerator($key);
     }
 
-    if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
+    if (!isset($storage[$key]) && !\array_key_exists($key, $storage)) {
         $storage[$key] = $callback(...$arguments);
     }
 

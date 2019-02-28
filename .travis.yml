@@ -12,4 +12,7 @@ matrix:
     - php: nightly
 
 before_script: composer install
-script: vendor/bin/phpunit --debug
+
+script:
+  - vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.dist
+  - vendor/bin/phpunit --debug
