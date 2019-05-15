@@ -11,43 +11,41 @@ collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/d
 [Dojo’s array functions](http://dojotoolkit.org/reference-guide/quickstart/arrays.html) and
 [Underscore.js](http://underscorejs.org/)
 
-  - Works with arrays and everything implementing interface `Traversable`
-  - Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, then the callback.
-Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison is the default but can be changed
-  - Calls 5.3 closures as well as usual callbacks
-  - All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
+- Works with arrays and everything implementing interface `Traversable`
+- Consistent interface: for functions taking collections and callbacks, first parameter is always the collection, then the callback.
+  Callbacks are always passed `$value`, `$index`, `$collection`. Strict comparison is the default but can be changed
+- Calls 5.3 closures as well as usual callbacks
+- All functions reside in namespace `Functional` to not raise conflicts with any other extension or library
 
 [![Functional Comic](http://imgs.xkcd.com/comics/functional.png)](http://xkcd.com/1270/)
 
-## Installation with composer
+## Installation
 
-Put the require statement for `functional-php` in your `composer.json` file and run `php composer.phar install`:
+Run the following command in your project root:
 
-```json
-{
-    "require": {
-        "lstrojny/functional-php": "~1.2"
-    }
-}
-```
+    composer require lstrojny/functional-php
 
 ## Docs
+
 [Read the docs](docs/functional-php.md)
 
-## Installing dependencies
-To install all dependencies type `composer install`
+## Contributing
 
-## Running the test suite
-To run the test suite type `composer run tests`
+1. Fork and `git clone` the project
+2. Install dependencies via `composer install`
+3. Run the tests via `composer run tests`
+4. Write code and create a PR
 
 ## Mailing lists
- - General help and development list: http://groups.google.com/group/functional-php
- - Commit list: http://groups.google.com/group/functional-php-commits
+
+- General help and development list: http://groups.google.com/group/functional-php
+- Commit list: http://groups.google.com/group/functional-php-commits
 
 ## Thank you
- - [Richard Quadling](https://github.com/RQuadling) and [Pierre Joye](https://github.com/pierrejoye) for Windows build
+
+- [Richard Quadling](https://github.com/RQuadling) and [Pierre Joye](https://github.com/pierrejoye) for Windows build
    help
- - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
- - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
+- [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
+- [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
- - The people behind [Travis CI](http://travis-ci.org/) for continuous integration
+- The people behind [Travis CI](http://travis-ci.org/) for continuous integration
