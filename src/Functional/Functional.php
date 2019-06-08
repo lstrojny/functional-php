@@ -300,6 +300,16 @@ final class Functional
     const partition = '\Functional\partition';
 
     /**
+     * @see \Functional\path
+     */
+    const path = '\Functional\path';
+
+    /**
+     * @see \Functional\path_or
+     */
+    const path_or = '\Functional\path_or';
+
+    /**
      * @see \Functional\pick
      */
     const pick = '\Functional\pick';
@@ -318,6 +328,21 @@ final class Functional
      * @see \Functional\product
      */
     const product = '\Functional\product';
+
+    /**
+     * @see \Functional\prop
+     */
+    const prop = '\Functional\prop';
+
+    /**
+     * @see \Functional\prop_or
+     */
+    const prop_or = '\Functional\prop_or';
+
+    /**
+     * @see \Functional\props
+     */
+    const props = '\Functional\props';
 
     /**
      * @see \Functional\ratio
