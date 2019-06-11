@@ -28,17 +28,17 @@ namespace Functional;
  * The results of each branching function are passed as arguments
  * to the converging function to produce the return value.
  *
- * @param callable $convergingFunction
- * @param callable[] $branchingFunctions
- * @return callable a flipped version of the given function
+ * @param callable $convergingFunction Will be invoked with the return values of all branching functions as its arguments
+ * @param callable[] $branchingFunctions A list of functions
+ * @return callable A flipped version of the given function
  */
 function converge($convergingFunction, array $branchingFunctions)
 {
     return function (...$values) use ($convergingFunction, $branchingFunctions) {
         $result = [];
 
-        foreach ($branchingFunctions as $f) {
-            $result[] = $f(...$values);
+        foreach ($branchingFunctions as $branchingFunction) {
+            $result[] = $branchingFunction(...$values);
         }
 
         return $convergingFunction(...$result);

@@ -43,7 +43,11 @@ class ConvergeTest extends AbstractTestCase
                 'strtolower',
             ]
         );
-        $this->assertEquals('FUNCTIONAL PROGRAMMINGfunctional programming', $strangeFunction('Functional Programming'));
+
+        $this->assertSame(
+            'FUNCTIONAL PROGRAMMINGfunctional programming',
+            $strangeFunction('Functional Programming')
+        );
     }
 }
 
