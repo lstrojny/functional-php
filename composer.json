@@ -34,6 +34,7 @@
             "src/Functional/Compose.php",
             "src/Functional/Concat.php",
             "src/Functional/Contains.php",
+            "src/Functional/Converge.php",
             "src/Functional/Curry.php",
             "src/Functional/CurryN.php",
             "src/Functional/Difference.php",

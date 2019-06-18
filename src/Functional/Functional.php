@@ -50,6 +50,11 @@ final class Functional
     const contains = '\Functional\contains';
 
     /**
+     * @see \Functional\converge
+     */
+    const converge = '\Functional\converge';
+
+    /**
      * @see \Functional\curry
      */
     const curry = '\Functional\curry';
