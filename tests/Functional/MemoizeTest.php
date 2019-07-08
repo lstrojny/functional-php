@@ -195,6 +195,20 @@ class MemoizeTest extends AbstractTestCase
         memoize([$this->callback, 'execute']);
     }
 
+    public function testUsingDifferentCallbackWithSameArgument()
+    {
+        $callbackHello = function(string $name): string {
+            return 'Hello ' . $name;
+        };
+
+        $callbackHey = function(string $name): string {
+            return 'Hello ' . $name;
+        };
+
+        $this->assertEquals('Hello john', memoize($callbackHello, ['john']));
+        $this->assertEquals('Hey john', memoize($callbackHey, ['john']));
+    }
+
     public function testPassNoCallable()
     {
         $this->expectArgumentError('Argument 1 passed to Functional\memoize() must be callable');
