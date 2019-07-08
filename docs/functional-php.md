@@ -53,6 +53,7 @@
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [intersperse()](#intersperse)
+  - [chunk_every()](#chunk_every)
   - [Other](#other-1)
 - [Conditional functions](#conditional-functions)
   - [if_else()](#if_else)
@@ -906,6 +907,15 @@ Insert a given value between each element of a collection.
 
 ```php
 intersperse(['a', 'b', 'c'], '-') === ['a', '-', 'b', '-', 'c']
+```
+
+
+## chunk_every()
+
+Chunks a collection by given size, step, and optionally discards the last incomplete chunk.
+
+```php
+chunk_every([1, 2, 3], 2) === [[1, 2], [2, 3], [3]]
 ```
 
 ## Other
