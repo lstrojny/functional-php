@@ -20,6 +20,11 @@ final class Functional
     const capture = '\Functional\capture';
 
     /**
+     * @see \Functional\chunk_every
+     */
+    const chunk_every = '\Functional\chunk_every';
+
+    /**
      * @see \Functional\compare_object_hash_on
      */
     const compare_object_hash_on = '\Functional\compare_object_hash_on';
