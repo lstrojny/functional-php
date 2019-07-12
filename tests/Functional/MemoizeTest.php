@@ -202,11 +202,13 @@ class MemoizeTest extends AbstractTestCase
         };
 
         $callbackHey = function(string $name): string {
-            return 'Hello ' . $name;
+            return 'Hey ' . $name;
         };
 
         $this->assertEquals('Hello john', memoize($callbackHello, ['john']));
         $this->assertEquals('Hey john', memoize($callbackHey, ['john']));
+        $this->assertEquals('Hello joe', memoize($callbackHello, ['joe']));
+        $this->assertEquals('Hey joe', memoize($callbackHey, ['joe']));
     }
 
     public function testPassNoCallable()
