@@ -35,17 +35,17 @@ function minimum($collection)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $max = null;
+    $min = null;
 
     foreach ($collection as $index => $element) {
         if (!\is_numeric($element)) {
             continue;
         }
 
-        if ($element < $max || $max === null) {
-            $max = $element;
+        if ($element < $min || $min === null) {
+            $min = $element;
         }
     }
 
-    return $max;
+    return $min;
 }
