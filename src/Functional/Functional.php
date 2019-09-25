@@ -410,6 +410,16 @@ final class Functional
     const tail_recursion = '\Functional\tail_recursion';
 
     /**
+     * @see \Functional\take
+     */
+    const take = '\Functional\take';
+
+    /**
+     * @see \Functional\take_right
+     */
+    const take_right = '\Functional\take_right';
+
+    /**
      * @see \Functional\tap
      */
     const tap = '\Functional\tap';

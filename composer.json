@@ -105,6 +105,8 @@
             "src/Functional/Tap.php",
             "src/Functional/Tail.php",
             "src/Functional/TailRecursion.php",
+            "src/Functional/Take.php",
+            "src/Functional/TakeRight.php",
             "src/Functional/True.php",
             "src/Functional/Truthy.php",
             "src/Functional/Unique.php",
