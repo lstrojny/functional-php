@@ -37,6 +37,8 @@
   - [last_index_of()](#last_index_of)
   - [indexes_of()](#indexes_of)
   - [select_keys()](#select_keys)
+  - [take_left()](#take_left)
+  - [take_right()](#take_right)
 - [Function functions](#function-functions)
   - [retry()](#retry)
   - [poll()](#poll)
