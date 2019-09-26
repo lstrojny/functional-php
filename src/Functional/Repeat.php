@@ -32,7 +32,8 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @return Closure
  */
-function repeat(callable $callback) {
+function repeat(callable $callback)
+{
     return function ($times) use ($callback) {
         InvalidArgumentException::assertPositiveInteger($times, __FUNCTION__, 1);
 

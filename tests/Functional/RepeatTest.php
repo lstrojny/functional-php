@@ -28,7 +28,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class Repeated
 {
-    public function foo() {}
+    public function foo()
+    {
+    }
 }
 
 class RepeatTest extends AbstractTestCase

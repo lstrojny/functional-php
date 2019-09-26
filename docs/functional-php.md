@@ -63,6 +63,7 @@
   - [const_function()](#const_function)
   - [id()](#id)
   - [tap()](#tap)
+  - [repeat()](#repeat)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
