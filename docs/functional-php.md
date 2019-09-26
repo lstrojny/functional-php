@@ -627,14 +627,14 @@ use function Functional\select_keys;
 $array = select_keys(['foo' => 1, 'bar' => 2', 'baz' => 3], ['foo', 'baz']);
 ```
 
-## take()
+## take_left()
 
 Creates a slice of `$collection` with `$count` elements taken from the beginning. If the collection has less than `$count` elements, the whole collection will be returned as an array.
 
-``array Functional\take(Traversable|array $collection, int $count)``
+``array Functional\take_left(Traversable|array $collection, int $count)``
 
 ```php
-Functional\take([1, 2, 3], 2); // [1, 2]
+Functional\take_left([1, 2, 3], 2); // [1, 2]
 ```
 
 ## take_right()

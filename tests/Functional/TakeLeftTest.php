@@ -24,9 +24,9 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use function Functional\each;
-use function Functional\take;
+use function Functional\take_left;
 
-class TakeTest extends AbstractTestCase
+class TakeLeftTest extends AbstractTestCase
 {
     public function setUp()
     {
@@ -39,15 +39,15 @@ class TakeTest extends AbstractTestCase
     public function test()
     {
         each([$this->list, $this->listIterator], function ($list) {
-            $this->assertSame(['foo'], take($list, 1));
-            $this->assertSame(['foo', 'bar'], take($list, 2));
-            $this->assertSame(['foo', 'bar', 'baz', 'qux'], take($list, 10));
-            $this->assertSame([], take($list, 0));
+            $this->assertSame(['foo'], take_left($list, 1));
+            $this->assertSame(['foo', 'bar'], take_left($list, 2));
+            $this->assertSame(['foo', 'bar', 'baz', 'qux'], take_left($list, 10));
+            $this->assertSame([], take_left($list, 0));
 
             $this->expectExceptionMessage(
-                'Functional\take() expects parameter 2 to be positive integer, negative integer given'
+                'Functional\take_left() expects parameter 2 to be positive integer, negative integer given'
             );
-            take($list, -1);
+            take_left($list, -1);
         });
     }
 }
