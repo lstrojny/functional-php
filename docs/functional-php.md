@@ -17,7 +17,7 @@
   - [truthy() & falsy()](#truthy--falsy)
   - [contains()](#contains)
   - [sort()](#sort)
-  - [Other:](#other)
+  - [Other](#other)
 - [Partial application](#partial-application)
   - [Introduction](#introduction)
   - [partial_left() & partial_right()](#partial_left--partial_right)
@@ -37,6 +37,8 @@
   - [last_index_of()](#last_index_of)
   - [indexes_of()](#indexes_of)
   - [select_keys()](#select_keys)
+  - [take_left()](#take_left)
+  - [take_right()](#take_right)
 - [Function functions](#function-functions)
   - [retry()](#retry)
   - [poll()](#poll)
@@ -267,7 +269,7 @@ sort($collection, function($user1, $user2) {
 ```
 
 
-## Other:
+## Other
 
 `void Functional\each(array|Traversable $collection, callable $callback)`
 Applies a callback to each element
@@ -625,6 +627,29 @@ use function Functional\select_keys;
 
 // $array will be ['foo' => 1, 'baz' => 3]
 $array = select_keys(['foo' => 1, 'bar' => 2', 'baz' => 3], ['foo', 'baz']);
+```
+
+## take_left()
+
+Creates a slice of `$collection` with `$count` elements taken from the beginning. If the collection has less than `$count` elements, the whole collection will be returned as an array.
+
+``array Functional\take_left(Traversable|array $collection, int $count)``
+
+```php
+Functional\take_left([1, 2, 3], 2); // [1, 2]
+```
+
+## take_right()
+
+Creates a slice of `$collection` with `$count` elements taken from the end. If the collection has less than `$count` elements, the whole collection will be returned as an array.
+
+This function will reorder and reset the integer array indices by default. This behaviour can be changed by setting `$preserveKeys` to `true`. String keys are always preserved, regardless of this parameter.
+
+``array Functional\take_right(Traversable|array $collection, int $count, bool $preserveKeys = false)``
+
+```php
+Functional\take_right([1, 2, 3], 2); // [2, 3]
+Functional\take_right(['a', 'b', 'c'], 2, true); // [1 => 'b', 2 => 'c']
 ```
 
 # Function functions
