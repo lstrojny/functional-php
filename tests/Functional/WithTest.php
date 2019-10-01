@@ -73,4 +73,18 @@ class WithTest extends AbstractTestCase
         $this->expectArgumentError("Argument 2 passed to Functional\with() must be callable");
         with(null, 'undefinedFunction');
     }
+
+    public function testDefaultValue()
+    {
+        $this->assertSame(
+            'foo',
+            with(
+                null,
+                function () {
+                },
+                true,
+                'foo'
+            )
+        );
+    }
 }
