@@ -55,6 +55,11 @@ final class Functional
     const converge = '\Functional\converge';
 
     /**
+     * @see \Functional\create_assoc
+     */
+    const create_assoc = '\Functional\create_assoc';
+
+    /**
      * @see \Functional\curry
      */
     const curry = '\Functional\curry';
@@ -168,6 +173,11 @@ final class Functional
      * @see \Functional\identical
      */
     const identical = '\Functional\identical';
+
+    /**
+     * @see \Functional\is_unary
+     */
+    const is_unary = '\Functional\is_unary';
 
     /**
      * @see \Functional\if_else
