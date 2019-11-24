@@ -1,4 +1,5 @@
 <?php
+
 namespace Functional\Tests;
 
 use function Functional\partial_method;

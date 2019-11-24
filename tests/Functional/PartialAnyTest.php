@@ -1,10 +1,13 @@
 <?php
+
 namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
+
 use function Functional\partial_any;
 use function Functional\placeholder;
 use function Functional\…;
+
 use const Functional\…;
 
 class PartialAnyTest extends AbstractPartialTestCase

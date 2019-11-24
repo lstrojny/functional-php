@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Gilles Crettenand <gilles@crettenand.info>
  *
@@ -20,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional;
 
 use ReflectionMethod;

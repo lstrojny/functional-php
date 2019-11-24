@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use ArrayIterator;
+
 use function Functional\invoke_last;
 
 class InvokeLastTest extends AbstractTestCase

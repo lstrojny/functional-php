@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
