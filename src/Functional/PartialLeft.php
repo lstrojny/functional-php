@@ -28,7 +28,7 @@ namespace Functional;
  * Use Functional\…, Functional\…() or Functional\placeholder() as a placeholder
  *
  * @param callable $callback
- * @param array $arguments
+ * @param array ...$arguments
  * @return callable
  */
 function partial_left(callable $callback, ...$arguments)

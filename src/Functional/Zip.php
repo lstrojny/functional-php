@@ -28,7 +28,7 @@ use Traversable;
 /**
  * Recombines arrays by index and applies a callback optionally
  *
- * @param $args array|Traversable $collection One or more callbacks
+ * @param array|Traversable ...$args One or more callbacks
  * @return array
  */
 function zip(...$args)

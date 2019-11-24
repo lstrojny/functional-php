@@ -29,7 +29,7 @@ use Traversable;
  * Drop all elements from a collection after callback returns true
  *
  * @param Traversable|array $collection
- * @param callable|integer $callback
+ * @param callable $callback
  * @return array
  */
 function drop_last($collection, callable $callback)
