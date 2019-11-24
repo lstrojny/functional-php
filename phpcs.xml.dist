@@ -4,13 +4,13 @@
          xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
     <description>Functional PHP coding style configuration</description>
 
-    <file>src</file>
-    <file>tests</file>
+    <file>src/</file>
+    <file>tests/</file>
 
-    <arg name="colors"/>
-    <arg value="n"/>
+    <arg name="colors" />
+    <arg value="n" />
 
-    <rule ref="PSR2" />
+    <rule ref="PSR12" />
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
         <exclude-pattern>tests/*</exclude-pattern>
