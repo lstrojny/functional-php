@@ -56,11 +56,12 @@ class CreateAssocTest extends AbstractTestCase
           'targetA' => [ 4 => 1, 5 => 2, 6 => 3 ],
           'targetB' => [ 5 => 2 ]
         ];
-
+        // phpcs:disable
         $tameme = new class extends \ArrayObject {};
-
+        // phpcs:enable
+        $_irrelevant = null;
         $actual = create_assoc([
-          'targetA' => function ($member, $input = null, $tameme) {
+          'targetA' => function ($member, $_irrelevant, $tameme) {
               $build = \array_reduce($member, function ($accum, $num) {
                   $accum[$num + 3] = $num;
                   return $accum;
@@ -70,14 +71,14 @@ class CreateAssocTest extends AbstractTestCase
               return $build;
           },
           'targetB' => function ($member, $input, $tameme) {
-              $prev = $tameme['prev'];
-              $build = [];
-              foreach($prev as $key => $val) {
-                  if($key % 2 !== 0) {
-                      $build[$key] = $val;
-                  }
-              }
-              return $build;
+            $prev = $tameme['prev'];
+            $build = [];
+            foreach ($prev as $key => $val) {
+                if ($key % 2 !== 0) {
+                    $build[$key] = $val;
+                }
+            }
+            return $build;
           }
         ], $tameme)($input);
 
@@ -99,9 +100,9 @@ class CreateAssocTest extends AbstractTestCase
           'utilLen' => 6,
           'package' => [ 'tzkmx/unfold' => $input ]
         ];
-
+        // phpcs:disable
         $tameme = new class extends \ArrayObject {};
-
+        // phpcs:enable
         $actual = hashMapper([
           'vendor' => [ '...', create_assoc([
             'vendorName' => 'strval',
