@@ -310,6 +310,11 @@ final class Functional
     const pick = '\Functional\pick';
 
     /**
+     * @see \Functional\pipe
+     */
+    const pipe = '\Functional\pipe';
+
+    /**
      * @see \Functional\pluck
      */
     const pluck = '\Functional\pluck';
