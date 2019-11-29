@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use ArrayIterator;
+
 use function Functional\intersperse;
 
 class IntersperseTest extends AbstractTestCase
@@ -52,7 +55,7 @@ class IntersperseTest extends AbstractTestCase
     public function testPassNoCollection()
     {
         $this->expectArgumentError(
-            'Functional\intersperse() expects parameter 1 to be array or '.
+            'Functional\intersperse() expects parameter 1 to be array or ' .
             'instance of Traversable'
         );
         intersperse('invalidCollection', '-');

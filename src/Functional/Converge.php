@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2019 by Sergei Kolesnikov <win0err@gmail.com>
  *
@@ -20,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional;
 
 /**

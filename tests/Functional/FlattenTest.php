@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by David Soria Parra <dsp@php.net>
  *
@@ -20,10 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use ArrayIterator;
 use stdClass;
+
 use function Functional\flatten;
 
 class FlattenTest extends AbstractTestCase

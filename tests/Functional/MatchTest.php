@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use function Functional\match;
@@ -35,7 +37,7 @@ class MatchTest extends AbstractTestCase
             [equal('bar'), const_function('is bar')],
             [equal('baz'), const_function('is baz')],
             [const_function(true), function ($x) {
-                return 'default is '.$x;
+                return 'default is ' . $x;
             }],
         ]);
 

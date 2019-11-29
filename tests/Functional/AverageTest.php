@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,12 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
-use ArrayIterator;
 use stdClass;
-use function Functional\average;
+use ArrayIterator;
 use Traversable;
+
+use function Functional\average;
 
 class AverageTest extends AbstractTestCase
 {

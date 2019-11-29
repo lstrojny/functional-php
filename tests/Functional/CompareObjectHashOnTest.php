@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
+
+use stdClass;
 
 use function Functional\compare_object_hash_on;
 use function Functional\const_function;
-use stdClass;
 
 class CompareObjectHashOnTest extends AbstractTestCase
 {

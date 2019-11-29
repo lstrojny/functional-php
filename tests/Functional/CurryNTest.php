@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Gilles Crettenand <gilles@crettenand.info>
  *
@@ -20,12 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
+
+use DateTime;
 
 use function Functional\curry_n;
 use function Functional\invoker;
-
-use DateTime;
 
 function add($a, $b, $c, $d)
 {
@@ -103,8 +105,8 @@ class CurryNTest extends AbstractPartialTestCase
             ['number_format', [1.234, 2, ',', '\''], '1,23', false],
             [['DateTime', 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true, $dateFormat],
             ['DateTime::createFromFormat', [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true, $dateFormat],
-            [[new DateTime, 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true, $dateFormat],
-            [[new DateTime, 'setTime'], [10, 10], $dt2->setTime(10, 10), true, $dateFormat],
+            [[new DateTime(), 'createFromFormat'], [DateTime::ATOM, $dt->format(DateTime::ATOM)], $dt, true, $dateFormat],
+            [[new DateTime(), 'setTime'], [10, 10], $dt2->setTime(10, 10), true, $dateFormat],
         ];
     }
 }

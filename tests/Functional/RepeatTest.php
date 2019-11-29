@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,11 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
-use function Functional\repeat;
 use PHPUnit\Framework\MockObject\MockObject;
+
+use function Functional\repeat;
 
 class Repeated
 {

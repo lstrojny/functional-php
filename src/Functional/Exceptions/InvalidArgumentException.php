@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
@@ -20,6 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Exceptions;
 
 class InvalidArgumentException extends \InvalidArgumentException
@@ -108,10 +110,12 @@ class InvalidArgumentException extends \InvalidArgumentException
      */
     public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
-        if (!\is_string($propertyName) &&
+        if (
+            !\is_string($propertyName) &&
             !\is_int($propertyName) &&
             !\is_float($propertyName) &&
-            !\is_null($propertyName)) {
+            !\is_null($propertyName)
+        ) {
             throw new static(
                 \sprintf(
                     '%s() expects parameter %d to be a valid property name or array index, %s given',
