@@ -28,7 +28,7 @@ namespace Functional;
  * Returns true if $a is strictly less than $b.
  *
  * @param mixed $b
- * @return bool
+ * @return \Closure(mixed)
  */
 function less_than($b)
 {

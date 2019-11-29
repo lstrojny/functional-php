@@ -29,7 +29,7 @@ namespace Functional;
  * $a is respectively less than, equal to, or greater than $b.
  *
  * @param mixed $b
- * @return bool
+ * @return \Closure(mixed)
  */
 function lexicographic_compare($b)
 {

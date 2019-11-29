@@ -27,7 +27,7 @@ namespace Functional;
 /**
  * Concatenates zero or more strings
  *
- * @param string[] $strings
+ * @param string[] ...$strings
  * @return string
  */
 function concat(string ...$strings)

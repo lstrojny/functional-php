@@ -44,6 +44,7 @@ function partition($collection, callable ...$callbacks)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
+    $partition = 0;
     $partitions = \array_fill(0, \count($callbacks) + 1, []);
 
     foreach ($collection as $index => $element) {

@@ -5,8 +5,8 @@ namespace Functional;
 /**
  * Decorates given function with tail recursion optimization.
  *
- * I took solution here https://gist.github.com/beberlei/4145442
- * but reworked it and make without classes.
+ * I took the solution from here https://gist.github.com/beberlei/4145442
+ * but reworked it and made without classes.
  *
  * @param callable $fn
  * @return callable

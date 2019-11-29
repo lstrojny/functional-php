@@ -27,7 +27,7 @@ namespace Functional\Exceptions;
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * @param callable $callback
+     * @param mixed $callback
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
@@ -103,7 +103,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param string|int|float|null $propertyName
+     * @param mixed $propertyName
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
@@ -202,7 +202,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param boolean $value
+     * @param mixed $value
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
@@ -273,7 +273,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param $collection
+     * @param mixed $collection
      * @param string $className
      * @param string $callee
      * @param integer $parameterPosition

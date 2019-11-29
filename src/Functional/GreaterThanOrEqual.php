@@ -28,7 +28,7 @@ namespace Functional;
  * Returns true if $a is greater than or equal to $b.
  *
  * @param mixed $b
- * @return bool
+ * @return \Closure(mixed)
  */
 function greater_than_or_equal($b)
 {

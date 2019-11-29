@@ -39,6 +39,7 @@ use Closure;
 function curry(callable $function, $required = true)
 {
     if (\method_exists('Closure', 'fromCallable')) {
+        // Closure::fromCallable was introduced in PHP 7.1
         $reflection = new ReflectionFunction(Closure::fromCallable($function));
     } else {
         if (\is_string($function) && \strpos($function, '::', 1) !== false) {
