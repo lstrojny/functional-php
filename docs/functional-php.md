@@ -37,6 +37,7 @@
   - [last_index_of()](#last_index_of)
   - [indexes_of()](#indexes_of)
   - [select_keys()](#select_keys)
+  - [omit_keys()](#omit_keys)
   - [take_left()](#take_left)
   - [take_right()](#take_right)
 - [Function functions](#function-functions)
@@ -627,7 +628,20 @@ Returns an array containing only those entries in the array/Traversable whose ke
 use function Functional\select_keys;
 
 // $array will be ['foo' => 1, 'baz' => 3]
-$array = select_keys(['foo' => 1, 'bar' => 2', 'baz' => 3], ['foo', 'baz']);
+$array = select_keys(['foo' => 1, 'bar' => 2, 'baz' => 3], ['foo', 'baz']);
+```
+
+## omit_keys()
+
+Returns an array containing only those entries in the array/Traversable whose key is not in the supplied keys.
+
+```php
+<?php
+
+use function Functional\omit_keys;
+
+// $array will be ['bar' => 2]
+$array = omit_keys(['foo' => 1, 'bar' => 2, 'baz' => 3], ['foo', 'baz']);
 ```
 
 ## take_left()
