@@ -278,6 +278,11 @@ final class Functional
     const not = '\Functional\not';
 
     /**
+     * @see \Functional\omit_keys
+     */
+    const omit_keys = '\Functional\omit_keys';
+
+    /**
      * @see \Functional\partial_any
      */
     const partial_any = '\Functional\partial_any';
