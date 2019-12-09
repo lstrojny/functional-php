@@ -500,7 +500,9 @@ Functional PHP comes with a set of invocation helpers that ease calling function
 
 
 ## with()
-Invoke a callback on a value if the value is not null
+Invoke a callback on a value if the value is not null.
+
+``Function\with(mixed $value, callable $callback, bool $invokeValue = true, mixed $default = null): mixed``
 
 ```php
 <?php
@@ -515,6 +517,8 @@ $retval = with($value, function($value) {
 
 `with()` returns whatever the callback returns. In the above example
 `$retval` would be `'my_result'`.
+
+If the value of `$value` is `null`, `with()` will return `$default` which defaults to be `null`.
 
 ## invoke_if()
 
