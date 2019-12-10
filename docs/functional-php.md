@@ -474,6 +474,8 @@ $curriedAdd = curry('add');
 $curriedAdd(10)(5)(27)(10); // -> 52
 ```
 
+_Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
+
 ## curry_n()
 
 `curry` uses reflection to determine the number of arguments, which can be slow depdening on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
@@ -771,7 +773,7 @@ var_dump($sum_of_range(1, 10000)); // 50005000;
 ```
 
 ## flip()
-Return a new function with the argument order flipped. This can be useful when currying  functions like `filter` to provide the data last.
+Return a new function with the argument order flipped. This can be useful when currying functions like `filter` to provide the data last.
 
 ```php
 use function Functional\flip;
@@ -785,6 +787,8 @@ $get_even = $filter(function($number) {
 var_dump($get_even([1, 2, 3, 4])); // [2, 4]
 
 ```
+
+_Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
 
 ## not
 Return a new function which takes the same arguments as the original function, but returns the logical negation of it's result.
