@@ -23,6 +23,7 @@
   - [partial_left() & partial_right()](#partial_left--partial_right)
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
+  - [converge()](#converge)
 - [Currying](#currying)
   - [curry()](#curry)
   - [curry_n()](#curry_n)
@@ -409,6 +410,32 @@ use function Functional\partial_method;
 $users = [new User(), new User()];
 $registeredUsers = select($users, partial_method('isRegistered'));
 ```
+
+## converge()
+
+``callable Functional\converge(callable $convergingFunction, callable[] branchingFunctions)``
+
+`converge` accepts a converging function and a list of branching functions and returns a new function.
+
+The returned function takes a variable number of arguments.
+
+The _converging function_ should take the same number of arguments as there are branching functions.
+
+Each _branching function_ should take the same number of arguments as the number of arguments passed in to the returned function.
+
+```php
+use function Functional\converge;
+
+function div($dividend, $divisor) {
+    return $dividend / $divisor;
+}
+
+$average = converge('div', ['array_sum', 'count']);
+$average([1, 2, 3, 4]); // -> 2.5
+```
+
+The returned function, in the above example it is named `$average`, passes each of its arguments to each branching function. `$average` then takes the return values of all the branching functions and passes each one as an argument to the converging function. The return value of the converging function is the return value of `$average`.
+
 
 # Currying
 
