@@ -488,7 +488,7 @@ $curriedAdd = curry('add', true);
 $curriedAddWithOptional = curry('add', false);
 ```
 
-Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simpliy the usage of curried functions.
+Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simplify the usage of curried functions.
 
 ```php
 use function Functional\curry;
@@ -503,10 +503,10 @@ $curriedAdd(10)(5)(27)(10); // -> 52
 
 ## curry_n()
 
-`curry` uses reflection to determine the number of arguments, which can be slow depdening on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
+`curry` uses reflection to determine the number of arguments, which can be slow depending on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
 
 ```php
-use function Functional\curry;
+use function Functional\curry_n;
 
 function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
