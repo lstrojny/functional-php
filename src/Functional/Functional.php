@@ -273,6 +273,11 @@ final class Functional
     const none = '\Functional\none';
 
     /**
+     * @see \Functional\noop
+     */
+    const noop = '\Functional\noop';
+
+    /**
      * @see \Functional\not
      */
     const not = '\Functional\not';

@@ -67,6 +67,7 @@
   - [id()](#id)
   - [tap()](#tap)
   - [repeat()](#repeat)
+  - [noop()](#noop)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1063,7 +1064,6 @@ $one = const_function(1);
 $one(); // -> 1
 ```
 
-
 ## id()
 Proxy function that does nothing except returning its first argument.
 
@@ -1098,3 +1098,9 @@ repeat(function () {
     echo 'foo';
 })(3); // 'foofoofoo'
 ``` 
+
+## noop()
+
+A no-operation function, i.e. a function that does nothing.
+
+``void Functional\noop()``
