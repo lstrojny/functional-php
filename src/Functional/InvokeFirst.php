@@ -14,12 +14,13 @@ use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
- * Calls the method named by $methodName on first value in the collection. Any extra arguments passed to invoke will be
- * forwarded on to the method invocation.
+ * Calls the method named by $methodName on first object in the collection containing a callable method named
+ * $methodName. Any extra arguments passed to invoke will be forwarded on to the method invocation.
  *
  * @param Traversable|array $collection
  * @param string $methodName
  * @param array $arguments
+ *
  * @return mixed
  */
 function invoke_first($collection, $methodName, array $arguments = [])

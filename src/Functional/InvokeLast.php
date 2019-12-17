@@ -14,8 +14,8 @@ use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**
- * Calls the method named by $methodName on last value in the collection. Any extra arguments passed to invoke will be
- * forwarded on to the method invocation.
+ * Calls the method named by $methodName on last object in the collection containing a callable method named
+ * $methodName. Any extra arguments passed to invoke will be forwarded on to the method invocation.
  *
  * @param Traversable|array $collection
  * @param string $methodName
