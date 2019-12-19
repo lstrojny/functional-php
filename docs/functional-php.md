@@ -570,10 +570,10 @@ $userId = invoke_if($user, 'getId', [], 0);
 Invokes method `$methodName` on each object in the `$collection` and returns the results of the call
 
 ``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the first object in the `$collection` and returns the results of the call
+Invokes method `$methodName` on the first object in the `$collection` containing a callable method named `$methodName` and returns the results of the call
 
 ``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the last object in the `$collection` and returns the results of the call
+Invokes method `$methodName` on the last object in the `$collection` containing a callable method named `$methodName` and returns the results of the call
 
 
 ## invoker()
