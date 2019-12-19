@@ -17,7 +17,7 @@ use Traversable;
  * Returns the average of all numeric values in the array or null if no numeric value was found
  *
  * @param Traversable|array $collection
- * @return null|float|int
+ * @return numeric|null
  */
 function average($collection)
 {
@@ -28,7 +28,7 @@ function average($collection)
 
     foreach ($collection as $element) {
         if (\is_numeric($element)) {
-            $sum += $element;
+            $sum = ($sum === null) ? $element : $sum + $element;
             ++$divisor;
         }
     }

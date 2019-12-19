@@ -17,8 +17,8 @@ use Traversable;
  * Takes a collection and returns the difference of all elements
  *
  * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
+ * @param numeric $initial
+ * @return numeric
  */
 function difference($collection, $initial = 0)
 {

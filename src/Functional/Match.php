@@ -21,7 +21,7 @@ use function Functional\if_else;
  *
  * @param array $conditions the conditions to check against
  *
- * @return callable|null the function that calls the callable of the first truthy condition
+ * @return callable the function that calls the callable of the first truthy condition
  */
 function match(array $conditions)
 {
