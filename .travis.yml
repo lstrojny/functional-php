@@ -18,3 +18,4 @@ install:
 script:
   - composer tests
   - composer coding-style
+  - composer types

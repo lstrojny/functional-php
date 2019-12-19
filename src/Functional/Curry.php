@@ -24,8 +24,10 @@ use Closure;
  */
 function curry(callable $function, $required = true)
 {
+    /** @psalm-suppress ArgumentTypeCoercion */
     if (\method_exists('Closure', 'fromCallable')) {
         // Closure::fromCallable was introduced in PHP 7.1
+        /** @psalm-suppress InvalidArgument */
         $reflection = new ReflectionFunction(Closure::fromCallable($function));
     } else {
         if (\is_string($function) && \strpos($function, '::', 1) !== false) {
@@ -35,6 +37,7 @@ function curry(callable $function, $required = true)
         } elseif (\is_object($function) && \method_exists($function, '__invoke')) {
             $reflection = new ReflectionMethod($function, '__invoke');
         } else {
+            /** @psalm-suppress InvalidArgument */
             $reflection = new ReflectionFunction($function);
         }
     }

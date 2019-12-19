@@ -33,6 +33,7 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 
     $delays = new AppendIterator();
     if ($delaySequence) {
+        /** @psalm-suppress ArgumentTypeCoercion */
         $delays->append(new InfiniteIterator($delaySequence));
     }
     $delays->append(new InfiniteIterator(new ArrayIterator([0])));

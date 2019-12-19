@@ -13,7 +13,7 @@ namespace Functional;
 /**
  * Concatenates zero or more strings
  *
- * @param string[] ...$strings
+ * @param array<array-key, string> $strings
  * @return string
  */
 function concat(string ...$strings)
