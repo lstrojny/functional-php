@@ -14,12 +14,13 @@ namespace Functional;
  * Returns an integer less than, equal to, or greater than zero when
  * $a is respectively less than, equal to, or greater than $b.
  *
- * @param mixed $b
- * @return \Closure(mixed)
+ * @template V
+ * @param V $b
+ * @return callable(V): int
  */
-function lexicographic_compare($b)
+function lexicographic_compare($b): callable
 {
-    return function ($a) use ($b) {
+    return static function ($a) use ($b): int {
         return $a <=> $b;
     };
 }

@@ -11,14 +11,15 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the last index holding specified value in the collection. Returns false if value was not found
  *
- * @param Traversable|array $collection
- * @param mixed $value
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param V|callable(V, K, iterable<K, V>): bool $value
+ * @return K|false
  */
 function last_index_of($collection, $value)
 {

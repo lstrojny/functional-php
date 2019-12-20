@@ -24,10 +24,9 @@ class LinearSequence implements Iterator
     /** @var integer */
     private $value;
 
-    public function __construct($start, $amount)
+    public function __construct(int $start, int $amount)
     {
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __METHOD__, 1);
-        InvalidArgumentException::assertInteger($amount, __METHOD__, 2);
 
         $this->start = $start;
         $this->amount = $amount;

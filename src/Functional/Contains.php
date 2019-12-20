@@ -17,8 +17,9 @@ use Traversable;
  * Returns true if the collection contains the given value. If the third parameter is
  * true values will be compared in strict mode
  *
- * @param Traversable|array $collection
- * @param mixed $value
+ * @template TLookup
+ * @param iterable<array-key, TLookup> $collection
+ * @param TLookup $value
  * @param bool $strict
  * @return bool
  */

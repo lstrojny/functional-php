@@ -10,7 +10,6 @@
 
 namespace Functional;
 
-use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**

@@ -39,12 +39,4 @@ class SequenceLinearTest extends AbstractTestCase
         );
         sequence_linear(-1, 1);
     }
-
-    public function testAmountArgumentMustBeInteger()
-    {
-        $this->expectArgumentError(
-            'Functional\sequence_linear() expects parameter 2 to be integer'
-        );
-        sequence_linear(0, 1.1);
-    }
 }

@@ -17,11 +17,13 @@ use Traversable;
  * Returns the elements in list without the elements that the truthy test (callback) passes. The opposite of
  * Functional\select(). Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
- * @param callable|null $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return array<K, V>
  */
-function reject($collection, callable $callback = null)
+function reject($collection, callable $callback = null): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

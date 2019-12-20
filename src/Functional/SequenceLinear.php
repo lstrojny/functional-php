@@ -21,10 +21,9 @@ use Traversable;
  * @param integer $amount
  * @return Traversable
  */
-function sequence_linear($start, $amount)
+function sequence_linear(int $start, int $amount)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __FUNCTION__, 1);
-    InvalidArgumentException::assertInteger($amount, __FUNCTION__, 2);
 
     return new LinearSequence($start, $amount);
 }

@@ -16,11 +16,13 @@ use Traversable;
 /**
  * Drop all elements from a collection until callback returns false
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return array<K, V>
  */
-function drop_first($collection, callable $callback)
+function drop_first($collection, callable $callback): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

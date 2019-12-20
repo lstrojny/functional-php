@@ -12,20 +12,24 @@ namespace Functional;
 
 use ErrorException;
 
-use function Functional\const_function;
-
 /**
  * Takes a function and returns a new function that wraps the callback and suppresses the PHP error
  *
- * @param callable $callback
- * @throws ErrorException Throws exception if PHP error happened
- * @return mixed
+ * @template TArg
+ * @template TReturn
+ * @param callable(...TArg): TReturn $callback
+ * @return callable(...TArg): TReturn
  */
-function suppress_error(callable $callback)
+function suppress_error(callable $callback): callable
 {
-    return function (...$arguments) use ($callback) {
+    return
+    /**
+     * @param TArg $arguments
+     * @return TReturn
+     */
+    static function (...$arguments) use ($callback) {
         try {
-            \set_error_handler(const_function(null));
+            \set_error_handler(static function () {});
 
             return $callback(...$arguments);
         } finally {

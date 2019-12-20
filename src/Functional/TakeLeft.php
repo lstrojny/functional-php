@@ -17,12 +17,13 @@ use Traversable;
  * Creates a slice of $collection with $count elements taken from the beginning. If the collection has less than $count
  * elements, the whole collection will be returned as an array.
  *
- * @param Traversable|array $collection
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
  * @param int $count
- *
- * @return array
+ * @return array<K, V>
  */
-function take_left($collection, $count)
+function take_left($collection, int $count): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertPositiveInteger($count, __FUNCTION__, 2);

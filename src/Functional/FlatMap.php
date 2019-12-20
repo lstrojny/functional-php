@@ -24,11 +24,15 @@ use Traversable;
  * then flat_map(collection, callback) will return [1,2,3,[4]]
  * while flatten(map(collection, callback)) will return [1,2,3,4]
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template TMapped
+ * @template TMappedOrIterable of TMapped|iterable
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): TMappedOrIterable $callback
+ * @return list<TMapped>
  */
-function flat_map($collection, callable $callback)
+function flat_map($collection, callable $callback): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

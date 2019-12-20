@@ -17,8 +17,12 @@ use Traversable;
  * Takes a nested combination of collections and returns their contents as a single, flat array.
  * Does not preserve indexes.
  *
- * @param Traversable|array $collection
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template VFlat of scalar|object
+ * @fixme express "object but not traversable"
+ * @param iterable<K, V> $collection
+ * @return list<VFlat>
  */
 function flatten($collection)
 {

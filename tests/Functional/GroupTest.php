@@ -57,9 +57,9 @@ class GroupTest extends AbstractTestCase
 
 
         $invalidTypes = [
-                          'resource' => stream_context_create(),
-                          'object'   => new \stdClass(),
-                          'array'    => []
+            'resource' => stream_context_create(),
+            'stdClass' => new \stdClass(),
+            'array' => [],
         ];
 
         foreach ($invalidTypes as $type => $value) {
@@ -70,7 +70,7 @@ class GroupTest extends AbstractTestCase
             } catch (\Exception $e) {
                 $this->assertSame(
                     sprintf(
-                        'Functional\group(): callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
+                        'Functional\group() expects return value to be a valid array key, "%s" given. Expected "boolean" or "NULL", "string", "integer", "double"',
                         $type
                     ),
                     $e->getMessage()

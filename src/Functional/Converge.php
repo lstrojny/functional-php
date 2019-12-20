@@ -20,9 +20,9 @@ namespace Functional;
  * @param callable[] $branchingFunctions A list of functions
  * @return callable A flipped version of the given function
  */
-function converge($convergingFunction, array $branchingFunctions)
+function converge($convergingFunction, array $branchingFunctions): callable
 {
-    return function (...$values) use ($convergingFunction, $branchingFunctions) {
+    return static function (...$values) use ($convergingFunction, $branchingFunctions) {
         $result = [];
 
         foreach ($branchingFunctions as $branchingFunction) {

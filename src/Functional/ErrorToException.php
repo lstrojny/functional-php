@@ -15,16 +15,23 @@ use ErrorException;
 /**
  * Takes a function and returns a new function that wraps the callback and rethrows PHP errors as exception
  *
- * @param callable $callback
- * @throws ErrorException Throws exception if PHP error happened
- * @return mixed
+ * @template TArg
+ * @template TReturn
+ * @param callable(...TArg): TReturn $callback
+ * @return callable(...TArg): TReturn
  */
-function error_to_exception(callable $callback)
+function error_to_exception(callable $callback): callable
 {
-    return function (...$arguments) use ($callback) {
+    return
+    /**
+     * @param TArg $arguments
+     * @throws ErrorException Throws exception if PHP error happened
+     * @return TReturn
+     */
+    static function (...$arguments) use ($callback) {
         try {
             \set_error_handler(
-                static function ($level, $message, $file, $line) {
+                static function (int $level, string $message, string $file = '', int $line = 0): bool {
                     throw new ErrorException($message, 0, $level, $file, $line);
                 }
             );

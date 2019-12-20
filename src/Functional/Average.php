@@ -11,12 +11,11 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the average of all numeric values in the array or null if no numeric value was found
  *
- * @param Traversable|array $collection
+ * @param iterable<array-key, numeric|mixed> $collection
  * @return numeric|null
  */
 function average($collection)

@@ -16,11 +16,14 @@ use Traversable;
 /**
  * Groups a collection by index returned by callback.
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @param K of array-key
+ * @param TGroup of array-key
+ * @param V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): TGroup $callback
+ * @return array<TGroup, array<K, V>>
  */
-function group($collection, callable $callback)
+function group($collection, callable $callback): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

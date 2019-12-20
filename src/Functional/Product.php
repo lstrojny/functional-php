@@ -11,12 +11,11 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Takes a collection and returns the product of all elements
  *
- * @param Traversable|array $collection
+ * @param iterable<array-key, numeric|mixed> $collection
  * @param numeric $initial
  * @return numeric
  */

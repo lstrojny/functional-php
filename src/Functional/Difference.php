@@ -16,7 +16,7 @@ use Traversable;
 /**
  * Takes a collection and returns the difference of all elements
  *
- * @param Traversable|array $collection
+ * @param iterable<array-key, numeric|mixed> $collection
  * @param numeric $initial
  * @return numeric
  */

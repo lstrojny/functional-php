@@ -11,12 +11,11 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the minimum value of a collection
  *
- * @param Traversable|array $collection
+ * @param iterable<array-key, numeric|mixed> $collection
  * @return numeric|null
  */
 function minimum($collection)

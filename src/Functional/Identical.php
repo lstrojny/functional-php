@@ -13,12 +13,13 @@ namespace Functional;
 /**
  * Returns true if $a is equal to $b, and they are of the same type.
  *
- * @param mixed $b
- * @return callable
+ * @template V
+ * @param V $b
+ * @return callable(V): bool
  */
-function identical($b)
+function identical($b): callable
 {
-    return function ($a) use ($b) {
+    return static function ($a) use ($b): bool {
         return $a === $b;
     };
 }

@@ -17,9 +17,11 @@ use Traversable;
  * Looks through each element in the collection, returning the last one that passes a truthy test (callback).
  * Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return V|null
  */
 function last($collection, callable $callback = null)
 {

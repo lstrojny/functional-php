@@ -16,16 +16,19 @@ namespace Functional;
  * I took the solution from here https://gist.github.com/beberlei/4145442
  * but reworked it and made without classes.
  *
- * @param callable $fn
- * @return callable
+ * @template TArg
+ * @template TReturn
+ * @param callable(...TArg): TReturn $fn
+ * @return callable(...TArg): TReturn
  */
 function tail_recursion(callable $fn): callable
 {
     $underCall = false;
     $queue = [];
-    return function (...$args) use (&$fn, &$underCall, &$queue) {
+    return static function (...$args) use (&$fn, &$underCall, &$queue) {
         $result = null;
         $queue[] = $args;
+
         if (!$underCall) {
             $underCall = true;
             while ($head = \array_shift($queue)) {
@@ -33,6 +36,7 @@ function tail_recursion(callable $fn): callable
             }
             $underCall = false;
         }
+
         return $result;
     };
 }

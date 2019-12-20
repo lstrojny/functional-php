@@ -19,13 +19,13 @@ use Traversable;
 /**
  * Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
  *
- * @param callable $callback
+ * @param callable(int, int): bool $callback Callback receives retry count and delay and returns true on success
  * @param integer $timeout Timeout in microseconds
- * @param Traversable|null $delaySequence Default: no delay between calls
+ * @param iterable<numeric> $delaySequence Default: no delay between calls
  * @throws InvalidArgumentException
- * @return boolean
+ * @return mixed|false Truthy value on success, false on timeout
  */
-function poll(callable $callback, $timeout, Traversable $delaySequence = null)
+function poll(callable $callback, int $timeout, iterable $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 
@@ -34,7 +34,11 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
     $delays = new AppendIterator();
     if ($delaySequence) {
         /** @psalm-suppress ArgumentTypeCoercion */
-        $delays->append(new InfiniteIterator($delaySequence));
+        $delays->append(
+            new InfiniteIterator(
+                $delaySequence instanceof Traversable ? $delaySequence: new ArrayIterator($delaySequence)
+            )
+        );
     }
     $delays->append(new InfiniteIterator(new ArrayIterator([0])));
 
@@ -57,4 +61,7 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 
         ++$retry;
     }
+
+    // Never reached because of InfiniteIterator
+    return false;
 }

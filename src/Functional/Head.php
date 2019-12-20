@@ -16,13 +16,19 @@ use Traversable;
 /**
  * Alias for Functional\first
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return V|null
  */
 function head($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
+    /**
+     * @psalm-suppress InvalidScalarArgument
+     * @fixme report bug
+     */
     return first($collection, $callback);
 }

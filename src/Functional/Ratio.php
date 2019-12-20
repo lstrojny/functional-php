@@ -11,14 +11,13 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Takes a collection and returns the quotient of all elements
  *
- * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
+ * @param iterable<array-key, numeric|mixed> $collection
+ * @param numeric $initial
+ * @return numeric
  */
 function ratio($collection, $initial = 1)
 {

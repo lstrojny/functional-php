@@ -10,6 +10,11 @@
 
 namespace Functional;
 
+/**
+ * @psalm-mutation-free
+ * @psalm-external-mutation-free
+ * @psalm-immutable
+ */
 final class Functional
 {
 

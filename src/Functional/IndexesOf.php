@@ -17,11 +17,13 @@ use Traversable;
  * Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an
  * empty array if no values were found.
  *
- * @param Traversable|array $collection
- * @param mixed|callable $value
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param V|callable(V, K, iterable<K, V>): bool $value
+ * @return list<K>
  */
-function indexes_of($collection, $value)
+function indexes_of($collection, $value): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

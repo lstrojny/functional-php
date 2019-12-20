@@ -17,11 +17,13 @@ use Traversable;
  * Returns true if some of the elements in the collection pass the callback truthy test. Short-circuits and stops
  * traversing the collection if a truthy element is found. Callback arguments will be value, index, collection
  *
- * @param Traversable|array $collection
- * @param callable|null $callback
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
  * @return bool
  */
-function some($collection, callable $callback = null)
+function some($collection, callable $callback = null): bool
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

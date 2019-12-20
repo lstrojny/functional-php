@@ -15,12 +15,14 @@ namespace Functional;
  *
  * If one argument is provided, it is passed to the function without change.
  *
- * @param callable $callback the function you want to flip
- * @return callable a flipped version of the given function
+ * @template TArg
+ * @template TReturn
+ * @param callable(...TArg): TReturn $callback the function you want to flip
+ * @return callable(...TArg): TReturn a flipped version of the given function
  */
-function flip(callable $callback)
+function flip(callable $callback): callable
 {
-    return function () use ($callback) {
-        return $callback(...\array_reverse(\func_get_args()));
+    return static function (...$args) use ($callback) {
+        return $callback(...\array_reverse($args));
     };
 }

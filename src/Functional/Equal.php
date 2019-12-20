@@ -14,12 +14,13 @@ namespace Functional;
  * Performs an equal comparison
  *
  * @param mixed $b the value to compare to
- *
- * @return callable the function to perform the comparison
+ * @return callable(mixed): bool the function to perform the comparison
  */
-function equal($b)
+function equal($b): callable
 {
-    return function ($a) use ($b) {
+    return
+    /** @param mixed $a */
+    static function ($a) use ($b): bool {
         return $a == $b;
     };
 }

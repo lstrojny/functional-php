@@ -11,15 +11,15 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Insert a given value between each element of a collection.
  * Indices are not preserved.
  *
- * @param Traversable|array $collection
- * @param mixed $glue
- * @return array
+ * @template V
+ * @param iterable<array-key, V> $collection
+ * @param V $glue
+ * @return list<V>
  */
 function intersperse($collection, $glue)
 {
