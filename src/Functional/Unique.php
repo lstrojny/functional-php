@@ -16,8 +16,17 @@ use Traversable;
 /**
  * Returns an array of unique elements
  *
+ * @psalm-pure
+ *
+ * @template TKey as array-key
+ * @template TValue
+ *
+ * @psalm-param iterable<TKey, TValue> $collection
+ * @psalm-param null|callable(TValue, TKey, iterable<TKey, TValue>):mixed $callback
+ * @psalm-return array<TKey, TValue>
+ *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param null|callable $callback
  * @param bool $strict
  * @return array
  */

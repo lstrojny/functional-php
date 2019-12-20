@@ -19,6 +19,8 @@ use Traversable;
  * When the input collections are different lengths the resulting collections
  * will all have the length which is required to fit all the keys
  *
+ * @psalm-pure
+ *
  * @param array|Traversable ...$args One or more callbacks
  * @return array
  */

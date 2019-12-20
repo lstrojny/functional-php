@@ -13,6 +13,8 @@ namespace Functional\Exceptions;
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
+     * @psalm-pure
+     *
      * @param mixed $callback
      * @param string $callee
      * @param integer $parameterPosition
@@ -64,16 +66,25 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertCollection($collection, $callee, $parameterPosition)
     {
         self::assertCollectionAlike($collection, 'Traversable', $callee, $parameterPosition);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertArrayAccess($collection, $callee, $parameterPosition)
     {
         self::assertCollectionAlike($collection, 'ArrayAccess', $callee, $parameterPosition);
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertMethodName($methodName, $callee, $parameterPosition)
     {
         if (!\is_string($methodName)) {
@@ -89,6 +100,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param mixed $propertyName
      * @param string $callee
      * @param integer $parameterPosition
@@ -113,6 +126,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertPositiveInteger($value, $callee, $parameterPosition)
     {
         if ((string)(int)$value !== (string)$value || $value < 0) {
@@ -131,6 +147,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param mixed $key
      * @param string $callee
      * @throws InvalidArgumentException
@@ -154,6 +172,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertArrayKeyExists($collection, $key, $callee)
     {
         if (!isset($collection[$key])) {
@@ -168,6 +189,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param boolean $value
      * @param string $callee
      * @param integer $parameterPosition
@@ -188,6 +211,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param mixed $value
      * @param string $callee
      * @param integer $parameterPosition
@@ -208,6 +233,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param integer $value
      * @param integer $limit
      * @param string $callee
@@ -229,6 +256,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param integer $value
      * @param integer $limit
      * @param string $callee
@@ -249,6 +278,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     public static function assertResolvablePlaceholder(array $args, $position)
     {
         if (\count($args) === 0) {
@@ -259,6 +291,8 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
+     * @psalm-pure
+     *
      * @param mixed $collection
      * @param string $className
      * @param string $callee
@@ -280,6 +314,9 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    /**
+     * @psalm-pure
+     */
     private static function getType($value)
     {
         return \is_object($value) ? \get_class($value) : \gettype($value);
