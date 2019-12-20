@@ -16,6 +16,8 @@ use Traversable;
 /**
  * Recombines arrays by index and applies a callback optionally
  *
+ * @psalm-pure
+ *
  * @param array|Traversable ...$args One or more callbacks
  * @return array
  */

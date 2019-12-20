@@ -15,6 +15,18 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Invoke a callback on a value if the value is not null
  *
+ * @psalm-pure
+ *
+ * @template I as null|mixed
+ * @template D
+ * @template R
+ *
+ * @psalm-param I $value
+ * @psalm-param callable(I):R $callback
+ * @psalm-param bool $invokeValue
+ * @psalm-param null|D $default
+ * @psalm-return R|D|null
+ *
  * @param mixed $value
  * @param callable $callback
  * @param bool $invokeValue Set to false to not invoke $value if it is a callable. Will be removed in 2.0
@@ -30,6 +42,7 @@ function with($value, callable $callback, $invokeValue = true, $default = null)
     }
 
     if ($invokeValue && \is_callable($value)) {
+        /** @psalm-suppress ImpureFunctionCall */
         \trigger_error('Invoking the value is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
 
         $value = $value();
