@@ -17,6 +17,7 @@ namespace Functional;
  * @template TResult of mixed
  * @param callable(...TArg): TResult $callback
  * @param-out TResult $result
+ * @param TResult $result
  * @return callable(...TArg): TResult
  */
 function capture(callable $callback, &$result)

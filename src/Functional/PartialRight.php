@@ -13,13 +13,21 @@ namespace Functional;
 /**
  * Return a new function with the arguments partially applied starting from the right
  *
- * @param callable $callback
- * @param array ...$arguments
- * @return callable
+ * @template TArg1
+ * @template TArg2
+ * @template TReturn
+ * @param callable(...TArg1, ...TArg2): TReturn $callback
+ * @param TArg2 $arguments
+ * @return callable(...TArg1): TReturn
  */
-function partial_right(callable $callback, ...$arguments)
+function partial_right(callable $callback, ...$arguments): callable
 {
-    return function (...$innerArguments) use ($callback, $arguments) {
+    return
+    /**
+     * @param TArg1 $innerArguments
+     */
+    static function (...$innerArguments) use ($callback, $arguments) {
+        /** @var TArg2 $arguments */
         return $callback(...\array_merge($innerArguments, $arguments));
     };
 }

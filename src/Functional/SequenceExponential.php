@@ -16,12 +16,12 @@ use Functional\Sequences\ExponentialSequence;
 /**
  * Returns an infinite, traversable sequence that exponentially grows by given percentage
  *
- * @param integer $start
- * @param integer $percentage Integer between 1 and 100
- * @return ExponentialSequence
+ * @param int $start
+ * @param int $percentage Integer between 1 and 100
+ * @return iterable<int>
  * @throws InvalidArgumentException
  */
-function sequence_exponential($start, $percentage)
+function sequence_exponential(int $start, int $percentage): iterable
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);

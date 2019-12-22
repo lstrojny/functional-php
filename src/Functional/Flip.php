@@ -22,7 +22,12 @@ namespace Functional;
  */
 function flip(callable $callback): callable
 {
-    return static function (...$args) use ($callback) {
+    return
+    /**
+     * @param TArg $args
+     * @return TReturn
+     */
+    static function (...$args) use ($callback) {
         return $callback(...\array_reverse($args));
     };
 }

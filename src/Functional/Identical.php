@@ -19,7 +19,11 @@ namespace Functional;
  */
 function identical($b): callable
 {
-    return static function ($a) use ($b): bool {
+    return
+    /**
+     * @param V $a
+     */
+    static function ($a) use ($b): bool {
         return $a === $b;
     };
 }

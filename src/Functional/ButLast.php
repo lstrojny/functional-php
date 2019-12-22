@@ -18,7 +18,7 @@ use Traversable;
  *
  * @template TKey of array-key
  * @template TValue of mixed
- * @param iterable<TKey,TValue> $collection
+ * @param iterable<TKey, TValue> $collection
  * @return array<TKey, TValue>
  */
 function but_last($collection)

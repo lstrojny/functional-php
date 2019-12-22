@@ -16,9 +16,11 @@ use Traversable;
 /**
  * Returns an array with the specified keys omitted from the array
  *
- * @param Traversable|array $collection
- * @param array $keys
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param list<K> $keys
+ * @return array<K, V>
  */
 function omit_keys($collection, array $keys)
 {
@@ -30,5 +32,8 @@ function omit_keys($collection, array $keys)
         $array = $collection;
     }
 
-    return \array_diff_key($array, \array_flip($keys));
+    /** @var array<K, V> $list */
+    $list = \array_diff_key($array, \array_flip($keys));
+
+    return $list;
 }

@@ -13,21 +13,34 @@ namespace Functional\Sequences;
 use Functional\Exceptions\InvalidArgumentException;
 use Iterator;
 
+/**
+ * @psalm-external-mutation-free
+ */
 class ExponentialSequence implements Iterator
 {
-    /** @var integer */
+    /**
+     * @psalm-readonly
+     * @var integer
+     */
     private $start;
 
-    /** @var integer */
+    /**
+     * @var integer
+     * @psalm-readonly
+     */
     private $percentage;
 
-    /** @var integer */
-    private $value;
+    /**
+     * @var integer
+     */
+    private $value = 0;
 
-    /** @var integer */
-    private $times;
+    /**
+     * @var integer
+     */
+    private $times = 0;
 
-    public function __construct($start, $percentage)
+    public function __construct(int $start, int $percentage)
     {
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($percentage, 1, __METHOD__, 2);
@@ -37,23 +50,34 @@ class ExponentialSequence implements Iterator
         $this->percentage = $percentage;
     }
 
-    public function current()
+    /**
+     * @psalm-mutation-free
+     */
+    public function current(): int
     {
         return $this->value;
     }
 
     public function next()
     {
-        $this->value = (int) \round(\pow($this->start * (1 + $this->percentage / 100), $this->times));
+        $this->value = (int) \round(($this->start * (1 + $this->percentage / 100)) ** $this->times);
         $this->times++;
     }
 
+    /**
+     * @psalm-pure
+     * @psalm-mutation-free
+     */
     public function key()
     {
         return null;
     }
 
-    public function valid()
+    /**
+     * @psalm-pure
+     * @psalm-mutation-free
+     */
+    public function valid(): bool
     {
         return true;
     }

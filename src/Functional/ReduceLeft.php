@@ -14,10 +14,13 @@ use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
- * @param Traversable|array $collection
- * @param callable $callback
- * @param mixed $initial
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @template R
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>, R): R $callback
+ * @param R $initial
+ * @return R
  */
 function reduce_left($collection, callable $callback, $initial = null)
 {

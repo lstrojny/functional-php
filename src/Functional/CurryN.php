@@ -17,18 +17,32 @@ namespace Functional;
  * If you give a smaller number you will have an error when calling the given function. If
  * you give a higher number, arguments will simply be ignored.
  *
+ * @template TArg
+ * @template TReturn
+ * @psalm-type _FunctionToCurry = callable(...TArg): TReturn
+ * @psalm-type _CurriedFunction = callable(...TArg): FunctionToCurry|CurriedFunction
  * @param int $count number of arguments you want to curry
- * @param callable $function the function you want to curry
- * @return callable a curryied version of the given function
+ * @param FunctionToCurry $function the function you want to curry
+ * @return CurriedFunction|FunctionToCurry a curryied version of the given function
+ * @return callable
  */
-function curry_n($count, callable $function)
+function curry_n($count, callable $function): callable
 {
-    $accumulator = function (array $arguments) use ($count, $function, &$accumulator) {
-        return function (...$newArguments) use ($count, $function, $arguments, $accumulator) {
+    /**
+     * @param list<TArg> $arguments
+     * @return CurriedFunction
+     */
+    $accumulator = static function (array $arguments) use ($count, $function, &$accumulator): callable {
+        return
+            /**
+             * @psalm-param TArg $newArguments
+             * @psalm-return CurriedFunction|FunctionToCurry
+             */
+        static function (...$newArguments) use ($count, $function, $arguments, $accumulator) {
             $arguments = \array_merge($arguments, $newArguments);
 
             if ($count <= \count($arguments)) {
-                return \call_user_func_array($function, $arguments);
+                return $function(...$arguments);
             }
 
             return $accumulator($arguments);

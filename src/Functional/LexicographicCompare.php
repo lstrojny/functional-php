@@ -20,7 +20,11 @@ namespace Functional;
  */
 function lexicographic_compare($b): callable
 {
-    return static function ($a) use ($b): int {
+    return
+    /**
+     * @param V $a
+     */
+    static function ($a) use ($b): int {
         return $a <=> $b;
     };
 }

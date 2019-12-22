@@ -18,11 +18,16 @@ use Closure;
  * Return a curryied version of the given function. You can decide if you also
  * want to curry optional parameters or not.
  *
- * @param callable $function the function to curry
+ * @template TArg
+ * @template TReturn
+ * @psalm-type FunctionToCurry = callable(...TArg): TReturn
+ * @psalm-type CurriedFunction = callable(...TArg): FunctionToCurry|CurriedFunction
+ * @psalm FunctionToCurry $function the function you want to curry
  * @param bool $required curry optional parameters ?
- * @return callable a curryied version of the given function
+ * @return CurriedFunction|FunctionToCurry a curryied version of the given function
+ * @return callable
  */
-function curry(callable $function, $required = true)
+function curry(callable $function, bool $required = true): callable
 {
     /** @psalm-suppress ArgumentTypeCoercion */
     if (\method_exists('Closure', 'fromCallable')) {

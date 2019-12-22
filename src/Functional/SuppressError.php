@@ -29,7 +29,8 @@ function suppress_error(callable $callback): callable
      */
     static function (...$arguments) use ($callback) {
         try {
-            \set_error_handler(static function () {});
+            \set_error_handler(static function() {
+            });
 
             return $callback(...$arguments);
         } finally {

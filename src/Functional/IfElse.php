@@ -22,7 +22,11 @@ namespace Functional;
  */
 function if_else(callable $if, callable $then, callable $else): callable
 {
-    return static function ($value) use ($if, $then, $else) {
+    return
+    /**
+     * @param V $value
+     */
+    static function ($value) use ($if, $then, $else) {
         return $if($value) ? $then($value) : $else($value);
     };
 }

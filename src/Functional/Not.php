@@ -19,7 +19,11 @@ namespace Functional;
  */
 function not(callable $function): callable
 {
-    return static function ($value) use ($function): bool {
+    return
+    /**
+     * @param V $value
+     */
+    static function ($value) use ($function): bool {
         return !$function($value);
     };
 }

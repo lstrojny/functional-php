@@ -13,15 +13,14 @@ namespace Functional;
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 use InfiniteIterator;
-use Traversable;
 
 /**
  * Returns an infinite, traversable sequence of constant values
  *
  * @param integer $value
- * @return Traversable
+ * @return iterable<int>
  */
-function sequence_constant($value)
+function sequence_constant(int $value): iterable
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($value, 0, __FUNCTION__, 1);
 

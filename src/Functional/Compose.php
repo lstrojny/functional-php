@@ -15,15 +15,22 @@ namespace Functional;
  *
  * @param callable ...$functions
  * @return callable
- * @todo Add callable typehint when HHVM supports use of typehints with variadic arguments
- * @see https://github.com/facebook/hhvm/issues/6954
  */
-function compose(...$functions)
+function compose(callable ...$functions): callable
 {
     return \array_reduce(
         $functions,
-        function ($carry, $item) {
-            return function ($x) use ($carry, $item) {
+        /**
+         * @param mixed $carry
+         * @param mixed $item
+         */
+        static function ($carry, $item) {
+            return
+            /**
+             * @param mixed $x
+             * @return mixed
+             */
+            static function ($x) use ($carry, $item) {
                 return $item($carry($x));
             };
         },

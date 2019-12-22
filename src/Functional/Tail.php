@@ -11,17 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns all items from $collection except first element (head). Preserves $collection keys.
  * Takes an optional callback for filtering the collection.
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return array<K, V>
  */
-function tail($collection, callable $callback = null)
+function tail($collection, callable $callback = null): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

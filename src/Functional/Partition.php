@@ -22,11 +22,13 @@ use Traversable;
  * Elements are not re-ordered and have the same index they had in the
  * original array.
  *
- * @param Traversable|array $collection
- * @param callable ...$callbacks
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callbacks
+ * @return array<int, array<K, V>>
  */
-function partition($collection, callable ...$callbacks)
+function partition($collection, callable ...$callbacks): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

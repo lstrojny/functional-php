@@ -15,8 +15,7 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Returns true if all elements of the collection are strictly true
  *
- * @template V of bool
- * @param iterable<array-key, V> $collection
+ * @param iterable<array-key, bool> $collection
  * @return bool
  */
 function true($collection): bool

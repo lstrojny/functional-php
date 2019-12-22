@@ -19,15 +19,20 @@ use function Functional\if_else;
 /**
  * Performs an operation checking for the given conditions
  *
- * @param array $conditions the conditions to check against
- *
- * @return callable the function that calls the callable of the first truthy condition
+ * @template V
+ * @template TReturn
+ * @param array<array<callable(V): bool, callable(V): TReturn>> $conditions the conditions to check against
+ * @return callable(V): TReturn the function that calls the callable of the first truthy condition
  */
-function match(array $conditions)
+function match(array $conditions): callable
 {
     MatchException::assert($conditions, __FUNCTION__);
 
-    return function ($value) use ($conditions) {
+    return
+    /**
+     * @param V $value
+     */
+    static function ($value) use ($conditions) {
         if (empty($conditions)) {
             return null;
         }

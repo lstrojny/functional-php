@@ -25,7 +25,7 @@ use Traversable;
  * @param int $count
  * @return array<K, V>
  */
-function take_right($collection, $count, $preserveKeys = false)
+function take_right($collection, $count, bool $preserveKeys = false)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
     InvalidArgumentException::assertPositiveInteger($count, __FUNCTION__, 2);

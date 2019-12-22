@@ -35,10 +35,17 @@ function sort($collection, callable $callback, bool $preserveKeys = false): arra
 
     $fn = $preserveKeys ? 'uasort' : 'usort';
 
-    $fn($array, static function ($left, $right) use ($callback, $collection) {
-        /** @var iterable<K, V> $collection */
-        return $callback($left, $right, $collection);
-    });
+    $fn(
+        $array,
+        /**
+         * @param V $left
+         * @param V $right
+         */
+        static function ($left, $right) use ($callback, $collection) {
+            /** @var iterable<K, V> $collection */
+            return $callback($left, $right, $collection);
+        }
+    );
 
     return $array;
 }
