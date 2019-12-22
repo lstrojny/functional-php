@@ -19,24 +19,22 @@ namespace Functional;
  *
  * @template TArg
  * @template TReturn
- * @psalm-type _FunctionToCurry = callable(...TArg): TReturn
- * @psalm-type _CurriedFunction = callable(...TArg): FunctionToCurry|CurriedFunction
  * @param int $count number of arguments you want to curry
- * @param FunctionToCurry $function the function you want to curry
- * @return CurriedFunction|FunctionToCurry a curryied version of the given function
+ * @param callable(...TArg): TReturn $function the function you want to curry
+ * @return callable(...TArg): callable a curryied version of the given function
  * @return callable
  */
 function curry_n($count, callable $function): callable
 {
     /**
      * @param list<TArg> $arguments
-     * @return CurriedFunction
+     * @return callable(...TArg): callable
      */
     $accumulator = static function (array $arguments) use ($count, $function, &$accumulator): callable {
         return
             /**
              * @psalm-param TArg $newArguments
-             * @psalm-return CurriedFunction|FunctionToCurry
+             * @psalm-return callable(...TArg): callable
              */
         static function (...$newArguments) use ($count, $function, $arguments, $accumulator) {
             $arguments = \array_merge($arguments, $newArguments);
