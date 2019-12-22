@@ -17,6 +17,7 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param iterable<array-key, bool> $collection
  * @return bool
+ * @psalm-pure
  */
 function true($collection): bool
 {

@@ -23,6 +23,7 @@ use Traversable;
  * @fixme express "object but not traversable"
  * @param iterable<K, V> $collection
  * @return list<VFlat>
+ * @psalm-pure
  */
 function flatten($collection)
 {

@@ -20,6 +20,7 @@ use Functional\Sequences\ExponentialSequence;
  * @param int $percentage Integer between 1 and 100
  * @return iterable<int>
  * @throws InvalidArgumentException
+ * @psalm-pure
  */
 function sequence_exponential(int $start, int $percentage): iterable
 {

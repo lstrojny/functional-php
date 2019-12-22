@@ -19,6 +19,7 @@ namespace Functional;
  * @param-out TResult $result
  * @param TResult $result
  * @return callable(...TArg): TResult
+ * @psalm-pure
  */
 function capture(callable $callback, &$result)
 {

@@ -21,6 +21,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): bool $callback
  * @return bool
+ * @psalm-pure
  */
 function none($collection, callable $callback = null): bool
 {

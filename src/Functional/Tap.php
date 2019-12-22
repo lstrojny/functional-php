@@ -17,6 +17,7 @@ namespace Functional;
  * @param V $value
  * @param callable(V): void $callback
  * @return V
+ * @psalm-pure
  */
 function tap($value, callable $callback)
 {

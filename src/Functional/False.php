@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if all elements of the collection are strictly false
@@ -19,6 +18,7 @@ use Traversable;
  * @template V of bool
  * @param iterable<array-key, V> $collection
  * @return bool
+ * @psalm-pure
  */
 function false($collection): bool
 {

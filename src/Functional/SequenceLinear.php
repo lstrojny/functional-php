@@ -19,6 +19,7 @@ use Functional\Sequences\LinearSequence;
  * @param int $start
  * @param int $amount
  * @return iterable<int>
+ * @psalm-pure
  */
 function sequence_linear(int $start, int $amount): iterable
 {

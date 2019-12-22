@@ -19,6 +19,7 @@ use Traversable;
  * @template V of mixed
  * @param iterable<array-key, V> $collection
  * @return bool
+ * @psalm-pure
  */
 function truthy($collection): bool
 {

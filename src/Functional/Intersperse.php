@@ -20,6 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<array-key, V> $collection
  * @param V $glue
  * @return list<V>
+ * @psalm-pure
  */
 function intersperse($collection, $glue)
 {

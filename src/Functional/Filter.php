@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Alias of Functional\select()
@@ -21,6 +20,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): bool $callback
  * @return array<K, V>
+ * @psalm-pure
  */
 function filter($collection, callable $callback): array
 {

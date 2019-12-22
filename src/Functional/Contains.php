@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if the collection contains the given value. If the third parameter is
@@ -22,6 +21,7 @@ use Traversable;
  * @param TLookup $value
  * @param bool $strict
  * @return bool
+ * @psalm-pure
  */
 function contains($collection, $value, $strict = true)
 {

@@ -21,6 +21,7 @@ use Traversable;
  * @param callable(V, K, iterable<K, V>, R): R $callback
  * @param R $initial
  * @return R
+ * @psalm-pure
  */
 function reduce_left($collection, callable $callback, $initial = null)
 {

@@ -22,6 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): TMapped $callback
  * @return array<K, TMapped>
+ * @psalm-pure
  */
 function map($collection, callable $callback): array
 {

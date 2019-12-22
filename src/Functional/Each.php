@@ -21,6 +21,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): void $callback
  * @return void
+ * @psalm-pure
  */
 function each($collection, callable $callback)
 {

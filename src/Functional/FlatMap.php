@@ -31,6 +31,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): TMappedOrIterable $callback
  * @return list<TMapped>
+ * @psalm-pure
  */
 function flat_map($collection, callable $callback): array
 {

@@ -24,6 +24,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param int $count
  * @return array<K, V>
+ * @psalm-pure
  */
 function take_right($collection, $count, bool $preserveKeys = false)
 {

@@ -22,6 +22,7 @@ use Traversable;
  * @param callable(V, V, iterable<K, V>): int $callback
  * @param bool $preserveKeys
  * @return list<V>|array<K, V>
+ * @psalm-pure
  */
 function sort($collection, callable $callback, bool $preserveKeys = false): array
 {

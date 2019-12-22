@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Looks through each element in the collection, returning the first one that passes a truthy test (callback). The
@@ -23,6 +22,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): bool $callback
  * @return V|null
+ * @psalm-pure
  */
 function first($collection, callable $callback = null)
 {

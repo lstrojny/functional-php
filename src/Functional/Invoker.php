@@ -18,6 +18,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param string $methodName
  * @param array $arguments
  * @return callable(object): mixed
+ * @psalm-pure
  */
 function invoker($methodName, array $arguments = [])
 {

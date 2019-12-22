@@ -23,6 +23,7 @@ namespace Functional;
  * @param callable(...TBranchReturn): TConvergeReturn $convergingFunction Will be invoked with the return values of all branching functions as its arguments
  * @param list<TConvergeFn> $branchingFunctions A list of functions
  * @return callable(...TArg): TConvergeReturn
+ * @psalm-pure
  */
 function converge($convergingFunction, array $branchingFunctions): callable
 {

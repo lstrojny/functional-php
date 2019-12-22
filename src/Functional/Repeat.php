@@ -18,6 +18,7 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param callable(): void $callback
  * @return callable(int): void
+ * @psalm-pure
  */
 function repeat(callable $callback): callable
 {

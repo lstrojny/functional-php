@@ -22,6 +22,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert iterable $collection
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertCollection($collection, $callee, int $parameterPosition = 0)
     {
@@ -35,6 +36,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert array|ArrayAccess $collection
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertArrayAccess($collection, string $callee, int $parameterPosition = 0)
     {
@@ -48,6 +50,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert string $methodName
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertMethodName($methodName, string $callee, int $parameterPosition = 0)
     {
@@ -69,6 +72,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert int $value
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertPositiveInteger($value, string $callee, int $parameterPosition = 0)
     {
@@ -93,6 +97,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert array-key $methodName
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertValidArrayKey($key, $callee, int $parameterPosition = 0)
     {
@@ -121,6 +126,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert int $value
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertIntegerGreaterThanOrEqual($value, $limit, string $callee, int $parameterPosition = 0)
     {
@@ -143,6 +149,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @psalm-assert int $value
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertIntegerLessThanOrEqual($value, int $limit, string $callee, int $parameterPosition = 0)
     {
@@ -162,6 +169,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param int $position
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     public static function assertResolvablePlaceholder(array $args, int $position)
     {
@@ -179,6 +187,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param int $parameterPosition
      * @throws InvalidArgumentException
      * @return void
+     * @psalm-pure
      */
     private static function assertCollectionAlike($collection, $className, string $callee, int $parameterPosition = 0)
     {
@@ -197,6 +206,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     /**
      * @param mixed $value
      * @return class-string|string
+     * @psalm-pure
      */
     private static function getType($value): string
     {
@@ -207,6 +217,7 @@ class InvalidArgumentException extends \InvalidArgumentException
      * @param callable-string $callee
      * @param int $parameterPosition
      * @return string
+     * @psalm-pure
      */
     private static function getErrorMessage(string $callee, int $parameterPosition): string
     {

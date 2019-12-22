@@ -22,6 +22,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param V|callable(V, K, iterable<K, V>): bool $value
  * @return list<K>
+ * @psalm-pure
  */
 function indexes_of($collection, $value): array
 {

@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if every value in the collection passes the callback truthy test. Opposite of Functional\none().
@@ -22,6 +21,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): bool $callback
  * @return bool
+ * @psalm-pure
  */
 function every($collection, callable $callback = null): bool
 {

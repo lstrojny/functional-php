@@ -23,6 +23,7 @@ use function Functional\if_else;
  * @template TReturn
  * @param array<array<callable(V): bool, callable(V): TReturn>> $conditions the conditions to check against
  * @return callable(V): TReturn the function that calls the callable of the first truthy condition
+ * @psalm-pure
  */
 function match(array $conditions): callable
 {

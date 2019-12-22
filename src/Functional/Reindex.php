@@ -23,6 +23,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): K2 $callback
  * @return array<K2, V>
+ * @psalm-pure
  */
 function reindex($collection, callable $callback): array
 {

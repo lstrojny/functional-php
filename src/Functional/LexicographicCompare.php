@@ -17,6 +17,7 @@ namespace Functional;
  * @template V
  * @param V $b
  * @return callable(V): int
+ * @psalm-pure
  */
 function lexicographic_compare($b): callable
 {

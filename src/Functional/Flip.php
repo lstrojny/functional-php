@@ -19,6 +19,7 @@ namespace Functional;
  * @template TReturn
  * @param callable(...TArg): TReturn $callback the function you want to flip
  * @return callable(...TArg): TReturn a flipped version of the given function
+ * @psalm-pure
  */
 function flip(callable $callback): callable
 {

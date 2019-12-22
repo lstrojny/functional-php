@@ -17,6 +17,7 @@ class MatchException extends InvalidArgumentException
      * @param callable-string $callee
      * @throw MatchException
      * @return void
+     * @psalm-pure
      */
     public static function assert(array $conditions, $callee)
     {
@@ -34,6 +35,7 @@ class MatchException extends InvalidArgumentException
      * @psalm-assert array $condition
      * @throw MatchException
      * @return void
+     * @psalm-pure
      */
     private static function assertArray($key, $condition, $callee)
     {
@@ -55,6 +57,7 @@ class MatchException extends InvalidArgumentException
      * @param callable-string $callee
      * @throw MatchException
      * @return void
+     * @psalm-pure
      */
     private static function assertLength($key, $condition, $callee)
     {
@@ -76,6 +79,7 @@ class MatchException extends InvalidArgumentException
      * @param callable-string $callee
      * @throw MatchException
      * @return void
+     * @psalm-pure
      */
     private static function assertCallables($key, $condition, $callee)
     {

@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable(TVal): TCompVal $reducer A function that takes an argument and returns the value that should be compared
  * @return callable(TVal, TVal): int
  * @fixme file psalm issue for "Argument 1 expects empty, … provided" (when not passing a reducer)
+ * @psalm-pure
  */
 function compare_on(callable $comparison, callable $reducer = null): callable
 {

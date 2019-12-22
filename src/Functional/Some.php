@@ -22,6 +22,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): bool $callback
  * @return bool
+ * @psalm-pure
  */
 function some($collection, callable $callback = null): bool
 {

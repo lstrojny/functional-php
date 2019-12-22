@@ -28,6 +28,7 @@ namespace Functional;
  * A no-operation function.
  *
  * @return void|null|mixed
+ * @psalm-pure
  */
 function noop()
 {

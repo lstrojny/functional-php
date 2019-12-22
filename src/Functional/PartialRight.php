@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable(...TArg1, ...TArg2): TReturn $callback
  * @param TArg2 $arguments
  * @return callable(...TArg1): TReturn
+ * @psalm-pure
  */
 function partial_right(callable $callback, ...$arguments): callable
 {

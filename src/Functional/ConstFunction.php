@@ -16,6 +16,7 @@ namespace Functional;
  * @template T
  * @param T $value
  * @return callable(): T
+ * @psalm-pure
  */
 function const_function($value)
 {

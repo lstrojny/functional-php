@@ -19,6 +19,7 @@ use InfiniteIterator;
  *
  * @param integer $value
  * @return iterable<int>
+ * @psalm-pure
  */
 function sequence_constant(int $value): iterable
 {

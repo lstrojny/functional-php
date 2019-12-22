@@ -20,10 +20,11 @@ use Closure;
  *
  * @template TArg
  * @template TReturn
- * @param callable(...TArg): TReturn $function the function you want to curry
+ * @param callable(...TArg): TReturn $function the function you want to curryg
  * @param bool $required curry optional parameters ?
  * @return callable(...TArg): callable a curryied version of the given function
  * @return callable
+ * @psalm-pure
  */
 function curry(callable $function, bool $required = true): callable
 {

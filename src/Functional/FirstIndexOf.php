@@ -20,6 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K, V> $collection
  * @param V|callable(V, K, iterable<K, V>): bool $value
  * @return K|false
+ * @psalm-pure
  */
 function first_index_of($collection, $value)
 {

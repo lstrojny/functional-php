@@ -16,6 +16,7 @@ namespace Functional;
  * @template T
  * @param T $value
  * @return T
+ * @psalm-pure
  */
 function id($value)
 {

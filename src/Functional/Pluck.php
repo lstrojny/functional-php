@@ -19,6 +19,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<array-key, object|array> $collection
  * @param array-key $propertyName
  * @return array<array-key, mixed>
+ * @psalm-pure
  */
 function pluck($collection, $propertyName)
 {

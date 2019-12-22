@@ -25,6 +25,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param TDefault $default
  * @param callable(TCollection, TIndex): bool $callback Custom function to check if index exists, default function is "isset"
  * @return TCollection[TIndex]|TDefault
+ * @psalm-pure
  */
 function pick($collection, $index, $default = null, callable $callback = null)
 {

@@ -21,6 +21,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param list<K> $keys
  * @return array<K, V>
+ * @psalm-pure
  */
 function omit_keys($collection, array $keys)
 {

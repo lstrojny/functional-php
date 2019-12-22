@@ -20,6 +20,7 @@ namespace Functional;
  * @template TReturn
  * @param callable(...TArg): TReturn $fn
  * @return callable(...TArg): TReturn
+ * @psalm-pure
  */
 function tail_recursion(callable $fn): callable
 {

@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable(V): TReturn $then function to call if condition is true
  * @param callable(V): TReturn $else function to call if condition is false
  * @return callable(V): TReturn the return value of the given $then or $else functions
+ * @psalm-pure
  */
 function if_else(callable $if, callable $then, callable $else): callable
 {

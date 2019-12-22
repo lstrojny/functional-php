@@ -23,6 +23,7 @@ namespace Functional;
  * @param callable(...TArg): TReturn $function the function you want to curry
  * @return callable(...TArg): callable a curryied version of the given function
  * @return callable
+ * @psalm-pure
  */
 function curry_n($count, callable $function): callable
 {

@@ -16,6 +16,7 @@ namespace Functional;
  * @template V of numeric
  * @param V $b
  * @return callable(V): bool
+ * @psalm-pure
  */
 function less_than($b): callable
 {

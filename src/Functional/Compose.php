@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param callable ...$functions
  * @return callable
+ * @psalm-pure
  */
 function compose(callable ...$functions): callable
 {

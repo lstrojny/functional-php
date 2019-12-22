@@ -22,6 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param string $methodName
  * @param array $arguments
  * @return mixed
+ * @psalm-pure
  */
 function invoke_first($collection, $methodName, array $arguments = [])
 {

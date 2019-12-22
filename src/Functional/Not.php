@@ -16,6 +16,7 @@ namespace Functional;
  * @template V
  * @param callable(V): bool $function The function to run value against
  * @return callable(V): bool A negation version on the given $function
+ * @psalm-pure
  */
 function not(callable $function): callable
 {

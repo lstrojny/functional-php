@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable(TCompVal, TCompVal): int $comparison A function that compares the two values. Pick e.g. `strcmp()` or `strnatcasecmp()`
  * @param callable(TObjIn): TObjOut $keyFunction A function that takes an argument and returns the value that should be compared
  * @return callable(TObjIn, TObjIn): int
+ * @psalm-pure
  */
 function compare_object_hash_on(callable $comparison, callable $keyFunction = null)
 {

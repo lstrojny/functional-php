@@ -22,6 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param callable(V, K, iterable<K, V>): I $callback
  * @param bool $strict
  * @return array<K, V>
+ * @psalm-pure
  */
 function unique($collection, callable $callback = null, bool $strict = true): array
 {

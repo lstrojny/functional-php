@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param mixed $b the value to compare to
  * @return callable(mixed): bool the function to perform the comparison
+ * @psalm-pure
  */
 function equal($b): callable
 {

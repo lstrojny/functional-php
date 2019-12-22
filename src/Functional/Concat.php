@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param string $strings
  * @return string
+ * @psalm-pure
  */
 function concat(string ...$strings)
 {

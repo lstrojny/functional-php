@@ -16,6 +16,7 @@ namespace Functional;
  * @template V of numeric
  * @param V $b
  * @return callable(V): bool
+ * @psalm-pure
  */
 function greater_than_or_equal($b): callable
 {

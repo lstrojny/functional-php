@@ -22,6 +22,7 @@ use Traversable;
  * @param iterable<K, V> $collection
  * @param callable(V, K, iterable<K, V>): TGroup $callback
  * @return array<TGroup, array<K, V>>
+ * @psalm-pure
  */
 function group($collection, callable $callback): array
 {

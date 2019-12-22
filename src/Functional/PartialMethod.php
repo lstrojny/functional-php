@@ -19,6 +19,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param array $arguments
  * @param mixed $defaultValue
  * @return callable(object): mixed
+ * @psalm-pure
  */
 function partial_method(string $methodName, array $arguments = [], $defaultValue = null): callable
 {

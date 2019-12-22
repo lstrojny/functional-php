@@ -23,6 +23,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param callable(...TArgsOrPlaceholder, ...TArgs): TReturn $callback
  * @param TArgsOrPlaceholder $arguments
  * @return callable(...TArgs): TReturn
+ * @psalm-pure
  */
 function partial_any(callable $callback, ...$arguments): callable
 {
@@ -44,8 +45,10 @@ function partial_any(callable $callback, ...$arguments): callable
     };
 }
 
+/** @psalm-pure */
 function …(): string
 {
+    /** @psalm-suppress ImpureStaticVariable */
     static $placeholder;
 
     if (!$placeholder) {
@@ -55,7 +58,7 @@ function …(): string
     return $placeholder;
 }
 
-
+/** @psalm-pure */
 function placeholder(): string
 {
     return …();

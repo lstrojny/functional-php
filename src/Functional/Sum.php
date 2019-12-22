@@ -18,6 +18,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<array-key, numeric|mixed> $collection
  * @param numeric $initial
  * @return numeric
+ * @psalm-pure
  */
 function sum($collection, $initial = 0)
 {

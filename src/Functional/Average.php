@@ -17,6 +17,7 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param iterable<array-key, numeric|mixed> $collection
  * @return numeric|null
+ * @psalm-pure
  */
 function average($collection)
 {
