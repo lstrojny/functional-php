@@ -30,7 +30,8 @@
 - [Access functions](#access-functions)
   - [with()](#with)
   - [invoke_if()](#invoke_if)
-  - [invoke(), invoke_last(), invoke_first()](#invoke-invoke_last-invoke_first)
+  - [invoke()](#invoke)
+  - [invoke_first() & invoke_last()](#invoke_first--invoke_last)
   - [invoker()](#invoker)
   - [pluck()](#pluck)
   - [pick()](#pick)
@@ -564,22 +565,62 @@ $userId = invoke_if($user, 'getId', [], 0);
 ```
 
 
-## invoke(), invoke_last(), invoke_first()
+
+## invoke()
+
+Invokes method `$methodName` on each object in the `$collection` and returns the results of the call.
 
 ``array Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on each object in the `$collection` and returns the results of the call
+
+```php
+<?php
+use function Functional\invoke;
+
+// calls addAttendee($user) on each object in $meetings array
+invoke($meetings, 'addAttendee', $user); 
+```
+
+## invoke_first() & invoke_last()
+
+Invokes method `$methodName` on the first or last object in the `$collection` containing a callable method named `$methodName` and returns the results of the call.
 
 ``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the first object in the `$collection` containing a callable method named `$methodName` and returns the results of the call
 
 ``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the last object in the `$collection` containing a callable method named `$methodName` and returns the results of the call
 
+```php
+<?php
+use function Functional\invoke_first;
+use function Functional\invoke_last;
+
+$meetings = [
+    new MandatoryEvent(),
+    new MandatoryEvent(),
+    new OptionalEvent(),
+    new MandatoryEvent(),
+    new OptionalEvent(),
+    new MandatoryEvent(),
+]; 
+// assuming only OptionalEvents can be delayed/changed...
+
+invoke_first($meetings, 'delayEvent', [30]); // calls delayEvent(30) on $meetings[2]
+
+invoke_last($meetings, 'changeRoom', ['Room 3']); // calls changeRoom('Room 3') on $meetings[4]
+```
 
 ## invoker()
+Returns a function that invokes method `$method` with arguments `$methodArguments` on the object.
 
 ``callable Functional\invoker(string $method[, array $methodArguments])``
-Returns a function that invokes method `$method` with arguments `$methodArguments` on the object
+
+```php
+<?php
+use function Functional\invoker;
+
+$setLocationToMunich = invoker('updateLocation', ['Munich', 'Germany']);
+
+$setLocationToMunich($user); // calls $user->updateLocation('Munich', 'Germany') 
+```
 
 ## pluck()
 Fetch a single property from a collection of objects or arrays.
