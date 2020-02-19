@@ -38,7 +38,7 @@ class RatioTest extends AbstractTestCase
     /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
-        $this->assertEquals(0.333, ratio($collection), '', 0.001);
+        $this->assertEqualsWithDelta(0.333, ratio($collection), '', 0.001);
     }
 
     public function testPassNoCollection()

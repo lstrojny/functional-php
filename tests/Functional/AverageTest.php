@@ -68,7 +68,7 @@ class AverageTest extends AbstractTestCase
         $this->assertSame(5, average($this->list));
         $this->assertSame(5, average($this->listIterator));
 
-        $this->assertEquals(0.833333333, average($this->hash2), '', 0.001);
+        $this->assertEqualsWithDelta(0.833333333, average($this->hash2), '', 0.001);
         $this->assertEquals(0.833333333, average($this->hashIterator2), '', 0.001);
         $this->assertEquals(0.833333333, average($this->list2), '', 0.001);
         $this->assertEquals(0.833333333, average($this->listIterator2), '', 0.001);
