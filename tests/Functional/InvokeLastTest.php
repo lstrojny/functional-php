@@ -16,7 +16,7 @@ use function Functional\invoke_last;
 
 class InvokeLastTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [null, null, $this];

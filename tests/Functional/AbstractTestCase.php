@@ -32,7 +32,7 @@ class AbstractTestCase extends TestCase
 
     private $functions = [];
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->functions = F\flatten(
             (array) (

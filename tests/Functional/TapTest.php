@@ -14,7 +14,7 @@ use function Functional\tap;
 
 class TapTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }

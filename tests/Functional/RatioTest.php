@@ -16,7 +16,7 @@ use function Functional\ratio;
 
 class RatioTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->intArray = [1 => 1, 2, "foo" => 3, 4];

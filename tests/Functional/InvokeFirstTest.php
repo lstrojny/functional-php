@@ -16,7 +16,7 @@ use function Functional\invoke_first;
 
 class InvokeFirstTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [$this, null, null];

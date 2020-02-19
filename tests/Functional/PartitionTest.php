@@ -17,7 +17,7 @@ use function Functional\partition;
 
 class PartitionTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['value1', 'value2', 'value3'];

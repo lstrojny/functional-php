@@ -16,7 +16,7 @@ use function Functional\each;
 
 class EachTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->cb = $this->getMockBuilder('cb')
