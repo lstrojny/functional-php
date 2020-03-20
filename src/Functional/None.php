@@ -18,12 +18,16 @@ use Traversable;
  * Callback arguments will be element, index, collection.
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable|null $callback
  * @return bool
  */
-function none($collection, callable $callback)
+function none($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+
+    if ($callback === null) {
+        $callback = '\Functional\id';
+    }
 
     foreach ($collection as $index => $element) {
         if ($callback($element, $index, $collection)) {

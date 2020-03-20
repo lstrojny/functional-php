@@ -44,6 +44,15 @@ class RejectTest extends AbstractTestCase
         reject($this->list, 'undefinedFunction');
     }
 
+    public function testPassNoCallable()
+    {
+        $this->assertSame([], reject($this->list));
+        $this->assertSame([], reject($this->listIterator));
+        $this->assertSame([], reject($this->hash));
+        $this->assertSame([], reject($this->hashIterator));
+        $this->assertSame([1 => false], reject([true, false, true]));
+    }
+
     public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\reject() expects parameter 1 to be array or instance of Traversable');

@@ -64,6 +64,15 @@ class SelectTest extends AbstractTestCase
         $functionName($this->list, 'undefinedFunction');
     }
 
+    public function testPassNoCallable()
+    {
+        $this->assertSame(['value', 'wrong', 'value'], select($this->list));
+        $this->assertSame(['value', 'wrong', 'value'], select($this->listIterator));
+        $this->assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hash));
+        $this->assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hashIterator));
+        $this->assertSame([0 => true, 2 => true], select([true, false, true]));
+    }
+
     /**
      * @dataProvider getAliases
      */

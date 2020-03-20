@@ -107,6 +107,7 @@ if (every($users, function($user, $collectionKey, $collection) {return $user->is
 }
 ```
 
+The default value for $callback is `id()`.
 
 ## some()
 
@@ -121,6 +122,7 @@ if (some($users, function($user, $collectionKey, $collection) use($me) {return $
 }
 ```
 
+The default value for $callback is `id()`.
 
 ## none()
 
@@ -135,6 +137,7 @@ if (none($users, function($user, $collectionKey, $collection) {return $user->isA
 }
 ```
 
+The default value for $callback is `id()`.
 
 ## reject() & select()
 
@@ -153,6 +156,8 @@ $fn = function($user, $collectionKey, $collection) {
 $activeUsers = select($users, $fn);
 $inactiveUsers = reject($users, $fn);
 ```
+
+For both functions, array keys are preserved and the default value for $callback is `id()`.  
 
 Alias for `Functional\select()` is `Functional\filter()`
 
