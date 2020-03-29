@@ -40,6 +40,14 @@ class SomeTest extends AbstractTestCase
         some($this->goodArray, 'undefinedFunction');
     }
 
+    public function testPassNoCallable()
+    {
+        $this->assertTrue(some($this->goodArray));
+        $this->assertTrue(some($this->goodIterator));
+        $this->assertTrue(some($this->badArray));
+        $this->assertTrue(some($this->badIterator));
+    }
+
     public function testPassNoCollection()
     {
         $this->expectArgumentError('Functional\some() expects parameter 1 to be array or instance of Traversable');

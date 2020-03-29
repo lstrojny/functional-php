@@ -46,6 +46,14 @@ class EveryTest extends AbstractTestCase
         every('invalidCollection', 'strlen');
     }
 
+    public function testPassNoCallable()
+    {
+        $this->assertTrue(every($this->goodArray));
+        $this->assertTrue(every($this->goodIterator));
+        $this->assertTrue(every($this->badArray));
+        $this->assertTrue(every($this->badIterator));
+    }
+
     public function testExceptionIsThrownInArray()
     {
         $this->expectException('DomainException');

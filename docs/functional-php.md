@@ -94,7 +94,7 @@ map(range(0, 100), function($v) {return $v + 1;});
 
 ## every() & invoke()
 
-``Functional\every(array|Traversable $collection, callable $callback)``
+``Functional\every(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -107,10 +107,11 @@ if (every($users, function($user, $collectionKey, $collection) {return $user->is
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `every` will return true if every value in the collection is truthy.
 
 ## some()
 
-``bool Functional\some(array|Traversable $collection, callable $callback)``
+``bool Functional\some(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -121,6 +122,7 @@ if (some($users, function($user, $collectionKey, $collection) use($me) {return $
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `some` will return true if at least one value in the collection is truthy.
 
 ## none()
 
@@ -135,12 +137,13 @@ if (none($users, function($user, $collectionKey, $collection) {return $user->isA
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `none` will return true if every value in the collection is falsey.
 
 ## reject() & select()
 
-``array Functional\select(array|Traversable $collection, callable $callback)``
+``array Functional\select(array|Traversable $collection, callable $callback = null)``
 
-``array Functional\reject(array|Traversable $collection, callable $callback)``
+``array Functional\reject(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -153,6 +156,10 @@ $fn = function($user, $collectionKey, $collection) {
 $activeUsers = select($users, $fn);
 $inactiveUsers = reject($users, $fn);
 ```
+
+For both functions array keys are preserved.
+
+For both functions if a value for $callback is not provided then the `id()` function is used. For `select`, this means that only the truthy values in the collection will be returned. For `reject`, this means that only the falsey values in the collection will be returned.
 
 Alias for `Functional\select()` is `Functional\filter()`
 

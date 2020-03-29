@@ -18,12 +18,16 @@ use Traversable;
  * traversing the collection if a truthy element is found. Callback arguments will be value, index, collection
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable|null $callback
  * @return bool
  */
-function some($collection, callable $callback)
+function some($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
+
+    if ($callback === null) {
+        $callback = '\Functional\id';
+    }
 
     foreach ($collection as $index => $element) {
         if ($callback($element, $index, $collection)) {

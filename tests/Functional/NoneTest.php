@@ -46,6 +46,14 @@ class NoneTest extends AbstractTestCase
         none($this->goodArray, 'undefinedFunction');
     }
 
+    public function testPassNoCallable()
+    {
+        $this->assertFalse(none($this->goodArray));
+        $this->assertFalse(none($this->goodIterator));
+        $this->assertFalse(none($this->badArray));
+        $this->assertFalse(none($this->badIterator));
+    }
+
     public function testExceptionIsThrownInArray()
     {
         $this->expectException('DomainException');
