@@ -280,6 +280,16 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    private static function assertNonZeroInteger($value, $callee) {
+        if (!\is_int($value) || $value == 0) {
+            throw new static(
+                \sprintf(
+                    '%s expected parameter %d to be non-zero', $callee, $value
+                )
+            );
+        }
+    }
+
     private static function getType($value)
     {
         return \is_object($value) ? \get_class($value) : \gettype($value);

@@ -12,6 +12,12 @@ namespace Functional;
 
 final class Functional
 {
+
+    /**
+     * @see \Function\ary
+     */
+    const ary = '\Functional\ary';
+
     /**
      * @see \Functional\average
      */
