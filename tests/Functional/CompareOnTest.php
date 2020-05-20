@@ -19,9 +19,9 @@ class CompareOnTest extends AbstractTestCase
     {
         $comparator = compare_on('strcmp');
 
-        $this->assertSame(-1, $comparator(1, 2));
-        $this->assertSame(0, $comparator(2, 2));
-        $this->assertSame(1, $comparator(20, 10));
+        $this->assertSame(-1, $comparator('a', 'b'));
+        $this->assertSame(0, $comparator('a', 'a'));
+        $this->assertSame(1, $comparator('b', 'a'));
     }
 
     public function testCompareWithReducer()

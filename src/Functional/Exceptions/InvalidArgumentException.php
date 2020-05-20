@@ -43,7 +43,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                         $sep = '->';
                     }
 
-                    $callback = \implode($callback, $sep);
+                    $callback = \implode($sep, $callback);
                     break;
 
                 default:
