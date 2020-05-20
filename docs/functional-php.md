@@ -356,6 +356,26 @@ $partiallyAppliedSubtractor = partial_right($subtractor, 10);
 $partiallyAppliedSubtractor(20); // -> 10
 ```
 
+## ary()
+
+`Functional\ary` (as in arity) takes a `callable` and a count and calls the `callable` with 
+that many arguments using `take_left` if positive, or `take_right` if negative. 
+Throws if passed 0.
+
+For example:
+
+```php
+use function Functional\ary;
+use function Functional\map;
+
+# This fails because map calls it's callable with the element, 
+# index and the whole collection
+# map($array, 'ucfirst');
+
+# Using `ary`
+map($array, ary('ucfirst', 1')); # Passes only the first argument to `ucfirst`
+```
+
 ## partial_any()
 
 There is a third function in the family called `partial_any`. Unlike its siblings it doesn’t automatically merge but it
