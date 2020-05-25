@@ -38,25 +38,6 @@ class WithTest extends AbstractTestCase
         );
     }
 
-    public function testWithCallback()
-    {
-        DeprecatedError::$enabled = false;
-
-        $this->assertSame(
-            'value',
-            with(
-                function () {
-                    return 'value';
-                },
-                function ($value) {
-                    return $value;
-                }
-            )
-        );
-
-        DeprecatedError::$enabled = true;
-    }
-
     public function testPassNonCallable()
     {
         $this->expectArgumentError("Argument 2 passed to Functional\with() must be callable");
@@ -71,7 +52,7 @@ class WithTest extends AbstractTestCase
                 null,
                 function () {
                 },
-                true,
+                false,
                 'foo'
             )
         );
