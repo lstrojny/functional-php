@@ -17,10 +17,14 @@ class AryTest extends AbstractTestCase
 
     public function test()
     {
-        $this->assertSame(5, ary(function ($a = 0, $b = 0) { return $a + $b; }, 1)(5));
-        $this->assertSame(5, ary(function ($a = 0, $b = 0, $c = 0) { return $a + $b + $c; }, 1)(5));
-        $this->assertSame(6, ary(function ($a = 0, $b = 0, $c = 0) { return $a + $b + $c; }, -1)(6));
-        $this->assertSame(7, ary(function ($a = 0, $b = 0, $c = 0) { return $a + $b + $c; }, 2)(5, 2));
-        $this->assertNull(ary(function ($a = 0, $b = 0) { return $a + $b; }, 0)(5));
+        $f = function ($a = 0, $b = 0, $c = 0) {
+            return $a + $b + $c;
+        };
+
+        $this->assertSame(5, ary($f, 1)(5));
+        $this->assertSame(5, ary($f, 1)(5));
+        $this->assertSame(6, ary($f, -1)(6));
+        $this->assertSame(7, ary($f, 2)(5, 2));
+        $this->assertNull(ary($f, 0)(5));
     }
 }
