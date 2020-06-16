@@ -10,8 +10,9 @@
 
 namespace Functional\Tests;
 
-use function Functional\ary;
 use Functional\Exceptions\InvalidArgumentException;
+
+use function Functional\ary;
 
 class AryTest extends AbstractTestCase
 {
