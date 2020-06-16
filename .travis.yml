@@ -5,13 +5,16 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
   - nightly
+
 matrix:
   allow_failures:
     - php: nightly
 
 install:
   - composer install
+
 script:
   - composer tests
   - composer coding-style
