@@ -1,6 +1,6 @@
 # Functional PHP: Functional primitives for PHP
 
-[![Build Status](https://secure.travis-ci.com/lstrojny/functional-php.svg)](http://travis-ci.com/lstrojny/functional-php)
+[![Build Status](https://travis-ci.com/lstrojny/functional-php.svg?branch=master)](http://travis-ci.com/lstrojny/functional-php)
 
 *NOTE:* functional-php used to come with a C extension that implemented most of the functions natively. As the
 performance differences  weren’t that huge compared to the maintenance cost it has been removed.
