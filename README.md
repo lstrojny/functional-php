@@ -1,6 +1,6 @@
 # Functional PHP: Functional primitives for PHP
 
-[![Build Status](https://secure.travis-ci.org/lstrojny/functional-php.svg)](http://travis-ci.org/lstrojny/functional-php)
+[![Build Status](https://secure.travis-ci.com/lstrojny/functional-php.svg)](http://travis-ci.com/lstrojny/functional-php)
 
 *NOTE:* functional-php used to come with a C extension that implemented most of the functions natively. As the
 performance differences  weren’t that huge compared to the maintenance cost it has been removed.
@@ -47,4 +47,4 @@ Run the following command in your project root:
 - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
 - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
-- The people behind [Travis CI](http://travis-ci.org/) for continuous integration
+- The people behind [Travis CI](http://travis-ci.com/) for continuous integration
