@@ -24,7 +24,7 @@ class FunctionalTest extends TestCase
         $functions = $functionalClass->getConstants();
 
         foreach ($functions as $function) {
-            $this->assertInternalType('callable', $function);
+            $this->assertIsCallable($function);
         }
     }
 

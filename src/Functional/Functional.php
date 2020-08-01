@@ -19,7 +19,7 @@ final class Functional
 {
 
     /**
-     * @see \Function\ary
+     * @see \Functional\ary
      */
     const ary = '\Functional\ary';
 
@@ -337,6 +337,11 @@ final class Functional
      * @see \Functional\pick
      */
     const pick = '\Functional\pick';
+
+    /**
+     * @see \Functional\pipe
+     */
+    const pipe = '\Functional\pipe';
 
     /**
      * @see \Functional\pluck
