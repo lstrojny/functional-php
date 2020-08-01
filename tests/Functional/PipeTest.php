@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
+ * Copyright (C) 2019, 2020 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,12 +22,11 @@
  */
 namespace Functional\Tests;
 
-use Apantle\FunPHP\Test\CustomClosure;
+use Functional\Exceptions\InvalidArgumentException;
 use function Functional\pipe;
 
 class PipeTest extends AbstractTestCase
 {
-    /** @group tzkmx */
     public function testPipeFunction()
     {
         $mockFirst = $this->getClosureMock(1, ['o', 'n', 'e'], 'one');
@@ -41,6 +40,38 @@ class PipeTest extends AbstractTestCase
         )('o', 'n', 'e');
 
         $this->assertEquals('one, two, three', $result);
+    }
+
+    public function testShouldNotAcceptSingleFunction()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('You should pass at least 2 functions or functors to build a pipe');
+        pipe('strval')();
+    }
+
+    public function testExceptionNotCallable($maybeFun1, $maybeFun2, $expectedException)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedException);
+        pipe($maybeFun1, $maybeFun2)();
+    }
+
+    public function notQuiteFunctionsProvider()
+    {
+        return [
+          [
+            'strval',
+            '__not',
+            'pipe() expects parameter 2 to be a valid callback, ' .
+            'function \'__not\' not found or invalid function name'
+          ],
+          [
+            'runabout',
+            'intval',
+            'pipe() expects parameter 1 to be a valid callback, ' .
+            'function \'runabout\' not found or invalid function name'
+          ]
+        ];
     }
 
     private function getClosureMock(

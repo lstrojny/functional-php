@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2019, 2020 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
  *
@@ -20,26 +21,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional;
 
+use Functional\Exceptions\InvalidArgumentException;
+
 /**
- * Provides a callable that applies the functions passed as arguments from left
- * to right, first function is able to admit several arguments at once
+ * Provides a functor that applies the functions passed at construction
+ * from left to right, first function is able to admit several arguments
+ * at once.
+ *
  * @link https://github.com/lstrojny/functional-php/issues/141
  * @param callable[] ...$functions functions to be composed
  * @return callable
  */
 function pipe(...$functions): callable
 {
-    return function () use ($functions) {
+    return new Pipe($functions);
+}
+
+class Pipe
+{
+    /** @var callable[] */
+    protected $callables;
+
+    protected $carry;
+
+    protected $pipeLength = 0;
+
+    public function __construct(array $functions)
+    {
+        $this->pipeLength = count($functions);
+        if ($this->pipeLength < 2) {
+            throw new InvalidArgumentException(
+                'You should pass at least 2 functions or functors to build a pipe'
+            );
+        }
+        foreach ($functions as $index => $callable) {
+            InvalidArgumentException::assertCallback($callable, 'pipe', $index + 1);
+            $this->callables[] = $callable;
+        }
+    }
+
+    public function __invoke()
+    {
         $funArgs = \func_get_args();
-        $entryFunction = \array_shift($functions);
-        return \array_reduce(
-            $functions,
-            function ($prev, $currentFun) {
-                return \call_user_func($currentFun, $prev);
-            },
-            \call_user_func_array($entryFunction, $funArgs)
-        );
-    };
+        $this->carry = \call_user_func_array($this->callables[0], $funArgs);
+
+        for ($index = 1; $index < $this->pipeLength; $index++) {
+            $this->carry = \call_user_func(
+                $this->callables[$index],
+                $this->carry
+            );
+        }
+
+        return $this->carry;
+    }
 }
