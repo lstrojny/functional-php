@@ -14,23 +14,21 @@ use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
 /**
+ * Returns an array with the specified keys omitted from the array
+ *
  * @param Traversable|array $collection
- * @param callable $callback
- * @param mixed $initial
- * @return mixed
+ * @param array $keys
+ * @return array
  */
-function reduce_right($collection, callable $callback, $initial = null)
+function omit_keys($collection, array $keys)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    $data = [];
-    foreach ($collection as $index => $value) {
-        $data[] = [$index, $value];
+    if ($collection instanceof Traversable) {
+        $array = \iterator_to_array($collection);
+    } else {
+        $array = $collection;
     }
 
-    while ((list($index, $value) = \array_pop($data))) {
-        $initial = $callback($value, $index, $collection, $initial);
-    }
-
-    return $initial;
+    return \array_diff_key($array, \array_flip($keys));
 }

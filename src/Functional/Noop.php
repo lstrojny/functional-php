@@ -1,4 +1,6 @@
-<!--
+<?php
+
+/**
  * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,40 +20,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- -->
-<phpunit
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    bootstrap="vendor/autoload.php"
-    convertWarningsToExceptions="true"
-    convertNoticesToExceptions="true"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutOutputDuringTests="true"
-    verbose="true"
-    colors="true">
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/Functional</directory>
-        </whitelist>
-    </filter>
+ */
 
-    <testsuites>
-        <testsuite name="unit-tests">
-            <directory>tests/Functional/</directory>
-        </testsuite>
-    </testsuites>
+namespace Functional;
 
-    <logging>
-        <log type="coverage-html" target="build/coverage"
-             lowUpperBound="35" highLowerBound="70"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="junit" target="build/logs/junit.xml"/>
-    </logging>
-
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <ini name="date.timezone" value="UTC"/>
-        <ini name="display_errors" value="on"/>
-    </php>
-
-</phpunit>
+/**
+ * A no-operation function.
+ */
+function noop()
+{
+}

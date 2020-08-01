@@ -1,9 +1,23 @@
 <?php
 
+/**
+ * @package   Functional-php
+ * @author    Lars Strojny <lstrojny@php.net>
+ * @copyright 2011-2017 Lars Strojny
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/lstrojny/functional-php
+ */
+
 namespace Functional;
 
 final class Functional
 {
+
+    /**
+     * @see \Function\ary
+     */
+    const ary = '\Functional\ary';
+
     /**
      * @see \Functional\average
      */
@@ -265,9 +279,19 @@ final class Functional
     const none = '\Functional\none';
 
     /**
+     * @see \Functional\noop
+     */
+    const noop = '\Functional\noop';
+
+    /**
      * @see \Functional\not
      */
     const not = '\Functional\not';
+
+    /**
+     * @see \Functional\omit_keys
+     */
+    const omit_keys = '\Functional\omit_keys';
 
     /**
      * @see \Functional\partial_any

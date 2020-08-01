@@ -23,13 +23,15 @@
   - [partial_left() & partial_right()](#partial_left--partial_right)
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
+  - [converge()](#converge)
 - [Currying](#currying)
   - [curry()](#curry)
   - [curry_n()](#curry_n)
 - [Access functions](#access-functions)
   - [with()](#with)
   - [invoke_if()](#invoke_if)
-  - [invoke(), invoke_last(), invoke_first()](#invoke-invoke_last-invoke_first)
+  - [invoke()](#invoke)
+  - [invoke_first() & invoke_last()](#invoke_first--invoke_last)
   - [invoker()](#invoker)
   - [pluck()](#pluck)
   - [pick()](#pick)
@@ -37,6 +39,7 @@
   - [last_index_of()](#last_index_of)
   - [indexes_of()](#indexes_of)
   - [select_keys()](#select_keys)
+  - [omit_keys()](#omit_keys)
   - [take_left()](#take_left)
   - [take_right()](#take_right)
 - [Function functions](#function-functions)
@@ -66,6 +69,7 @@
   - [id()](#id)
   - [tap()](#tap)
   - [repeat()](#repeat)
+  - [noop()](#noop)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -90,7 +94,7 @@ map(range(0, 100), function($v) {return $v + 1;});
 
 ## every() & invoke()
 
-``Functional\every(array|Traversable $collection, callable $callback)``
+``Functional\every(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -103,10 +107,11 @@ if (every($users, function($user, $collectionKey, $collection) {return $user->is
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `every` will return true if every value in the collection is truthy.
 
 ## some()
 
-``bool Functional\some(array|Traversable $collection, callable $callback)``
+``bool Functional\some(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -117,6 +122,7 @@ if (some($users, function($user, $collectionKey, $collection) use($me) {return $
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `some` will return true if at least one value in the collection is truthy.
 
 ## none()
 
@@ -131,12 +137,13 @@ if (none($users, function($user, $collectionKey, $collection) {return $user->isA
 }
 ```
 
+If `$callback` is not provided then the `id()` function is used and `none` will return true if every value in the collection is falsey.
 
 ## reject() & select()
 
-``array Functional\select(array|Traversable $collection, callable $callback)``
+``array Functional\select(array|Traversable $collection, callable $callback = null)``
 
-``array Functional\reject(array|Traversable $collection, callable $callback)``
+``array Functional\reject(array|Traversable $collection, callable $callback = null)``
 
 ```php
 <?php
@@ -149,6 +156,10 @@ $fn = function($user, $collectionKey, $collection) {
 $activeUsers = select($users, $fn);
 $inactiveUsers = reject($users, $fn);
 ```
+
+For both functions array keys are preserved.
+
+For both functions if a value for $callback is not provided then the `id()` function is used. For `select`, this means that only the truthy values in the collection will be returned. For `reject`, this means that only the falsey values in the collection will be returned.
 
 Alias for `Functional\select()` is `Functional\filter()`
 
@@ -345,6 +356,26 @@ $partiallyAppliedSubtractor = partial_right($subtractor, 10);
 $partiallyAppliedSubtractor(20); // -> 10
 ```
 
+## ary()
+
+`Functional\ary` (as in arity) takes a `callable` and a count and calls the `callable` with 
+that many arguments using `take_left` if positive, or `take_right` if negative. 
+Throws if passed 0.
+
+For example:
+
+```php
+use function Functional\ary;
+use function Functional\map;
+
+# This fails because map calls it's callable with the element, 
+# index and the whole collection
+# map($array, 'ucfirst');
+
+# Using `ary`
+map($array, ary('ucfirst', 1')); # Passes only the first argument to `ucfirst`
+```
+
 ## partial_any()
 
 There is a third function in the family called `partial_any`. Unlike its siblings it doesn’t automatically merge but it
@@ -409,6 +440,32 @@ $users = [new User(), new User()];
 $registeredUsers = select($users, partial_method('isRegistered'));
 ```
 
+## converge()
+
+``callable Functional\converge(callable $convergingFunction, callable[] branchingFunctions)``
+
+`converge` accepts a converging function and a list of branching functions and returns a new function.
+
+The returned function takes a variable number of arguments.
+
+The _converging function_ should take the same number of arguments as there are branching functions.
+
+Each _branching function_ should take the same number of arguments as the number of arguments passed in to the returned function.
+
+```php
+use function Functional\converge;
+
+function div($dividend, $divisor) {
+    return $dividend / $divisor;
+}
+
+$average = converge('div', ['array_sum', 'count']);
+$average([1, 2, 3, 4]); // -> 2.5
+```
+
+The returned function, in the above example it is named `$average`, passes each of its arguments to each branching function. `$average` then takes the return values of all the branching functions and passes each one as an argument to the converging function. The return value of the converging function is the return value of `$average`.
+
+
 # Currying
 
 Currying is similar to and often confused with partial application. But instead of binding parameters to some value and returning a new function, a curried function will take one parameter on each call and return a new function until all parameters are bound.
@@ -460,7 +517,7 @@ $curriedAdd = curry('add', true);
 $curriedAddWithOptional = curry('add', false);
 ```
 
-Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simpliy the usage of curried functions.
+Starting with PHP7 and the implementation of the ["Uniform variable syntax"](https://wiki.php.net/rfc/uniform_variable_syntax), you can greatly simplify the usage of curried functions.
 
 ```php
 use function Functional\curry;
@@ -473,12 +530,14 @@ $curriedAdd = curry('add');
 $curriedAdd(10)(5)(27)(10); // -> 52
 ```
 
+_Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
+
 ## curry_n()
 
-`curry` uses reflection to determine the number of arguments, which can be slow depdening on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
+`curry` uses reflection to determine the number of arguments, which can be slow depending on your requirements. Also, you might want to curry only the first parameters, or your function expects a variable number of parameters. In all cases, you can use `curry_n` instead.
 
 ```php
-use function Functional\curry;
+use function Functional\curry_n;
 
 function add($a, $b, $c, $d) {
     return $a + $b + $c + $d;
@@ -499,7 +558,9 @@ Functional PHP comes with a set of invocation helpers that ease calling function
 
 
 ## with()
-Invoke a callback on a value if the value is not null
+Invoke a callback on a value if the value is not null.
+
+``Function\with(mixed $value, callable $callback, bool $invokeValue = true, mixed $default = null): mixed``
 
 ```php
 <?php
@@ -515,6 +576,8 @@ $retval = with($value, function($value) {
 `with()` returns whatever the callback returns. In the above example
 `$retval` would be `'my_result'`.
 
+If the value of `$value` is `null`, `with()` will return `$default` which defaults to be `null`.
+
 ## invoke_if()
 
 ``mixed Functional\invoke_if(mixed $object, string $methodName[, array $methodArguments, mixed $defaultValue])``
@@ -529,22 +592,62 @@ $userId = invoke_if($user, 'getId', [], 0);
 ```
 
 
-## invoke(), invoke_last(), invoke_first()
+
+## invoke()
+
+Invokes method `$methodName` on each object in the `$collection` and returns the results of the call.
 
 ``array Functional\invoke(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on each object in the `$collection` and returns the results of the call
+
+```php
+<?php
+use function Functional\invoke;
+
+// calls addAttendee($user) on each object in $meetings array
+invoke($meetings, 'addAttendee', $user); 
+```
+
+## invoke_first() & invoke_last()
+
+Invokes method `$methodName` on the first or last object in the `$collection` containing a callable method named `$methodName` and returns the results of the call.
 
 ``mixed Functional\invoke_first(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the first object in the `$collection` and returns the results of the call
 
 ``mixed Functional\invoke_last(array|Traversable $collection, string $methodName[, array $methodArguments])``
-Invokes method `$methodName` on the last object in the `$collection` and returns the results of the call
 
+```php
+<?php
+use function Functional\invoke_first;
+use function Functional\invoke_last;
+
+$meetings = [
+    new MandatoryEvent(),
+    new MandatoryEvent(),
+    new OptionalEvent(),
+    new MandatoryEvent(),
+    new OptionalEvent(),
+    new MandatoryEvent(),
+]; 
+// assuming only OptionalEvents can be delayed/changed...
+
+invoke_first($meetings, 'delayEvent', [30]); // calls delayEvent(30) on $meetings[2]
+
+invoke_last($meetings, 'changeRoom', ['Room 3']); // calls changeRoom('Room 3') on $meetings[4]
+```
 
 ## invoker()
+Returns a function that invokes method `$method` with arguments `$methodArguments` on the object.
 
 ``callable Functional\invoker(string $method[, array $methodArguments])``
-Returns a function that invokes method `$method` with arguments `$methodArguments` on the object
+
+```php
+<?php
+use function Functional\invoker;
+
+$setLocationToMunich = invoker('updateLocation', ['Munich', 'Germany']);
+
+$setLocationToMunich($user); // calls $user->updateLocation('Munich', 'Germany') 
+```
 
 ## pluck()
 Fetch a single property from a collection of objects or arrays.
@@ -627,7 +730,20 @@ Returns an array containing only those entries in the array/Traversable whose ke
 use function Functional\select_keys;
 
 // $array will be ['foo' => 1, 'baz' => 3]
-$array = select_keys(['foo' => 1, 'bar' => 2', 'baz' => 3], ['foo', 'baz']);
+$array = select_keys(['foo' => 1, 'bar' => 2, 'baz' => 3], ['foo', 'baz']);
+```
+
+## omit_keys()
+
+Returns an array containing only those entries in the array/Traversable whose key is not in the supplied keys.
+
+```php
+<?php
+
+use function Functional\omit_keys;
+
+// $array will be ['bar' => 2]
+$array = omit_keys(['foo' => 1, 'bar' => 2, 'baz' => 3], ['foo', 'baz']);
 ```
 
 ## take_left()
@@ -753,7 +869,7 @@ var_dump($sum_of_range(1, 10000)); // 50005000;
 ```
 
 ## flip()
-Return a new function with the argument order flipped. This can be useful when currying  functions like `filter` to provide the data last.
+Return a new function with the argument order flipped. This can be useful when currying functions like `filter` to provide the data last.
 
 ```php
 use function Functional\flip;
@@ -767,6 +883,8 @@ $get_even = $filter(function($number) {
 var_dump($get_even([1, 2, 3, 4])); // [2, 4]
 
 ```
+
+_Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
 
 ## not
 Return a new function which takes the same arguments as the original function, but returns the logical negation of it's result.
@@ -1045,7 +1163,6 @@ $one = const_function(1);
 $one(); // -> 1
 ```
 
-
 ## id()
 Proxy function that does nothing except returning its first argument.
 
@@ -1080,3 +1197,9 @@ repeat(function () {
     echo 'foo';
 })(3); // 'foofoofoo'
 ``` 
+
+## noop()
+
+A no-operation function, i.e. a function that does nothing.
+
+``void Functional\noop()``

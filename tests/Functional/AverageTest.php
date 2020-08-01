@@ -1,31 +1,20 @@
 <?php
+
 /**
- * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the 'Software'), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * @package   Functional-php
+ * @author    Lars Strojny <lstrojny@php.net>
+ * @copyright 2011-2017 Lars Strojny
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/lstrojny/functional-php
  */
+
 namespace Functional\Tests;
 
-use ArrayIterator;
 use stdClass;
-use function Functional\average;
+use ArrayIterator;
 use Traversable;
+
+use function Functional\average;
 
 class AverageTest extends AbstractTestCase
 {
@@ -79,10 +68,10 @@ class AverageTest extends AbstractTestCase
         $this->assertSame(5, average($this->list));
         $this->assertSame(5, average($this->listIterator));
 
-        $this->assertEquals(0.833333333, average($this->hash2), null, 0.001);
-        $this->assertEquals(0.833333333, average($this->hashIterator2), null, 0.001);
-        $this->assertEquals(0.833333333, average($this->list2), null, 0.001);
-        $this->assertEquals(0.833333333, average($this->listIterator2), null, 0.001);
+        $this->assertEquals(0.833333333, average($this->hash2), '', 0.001);
+        $this->assertEquals(0.833333333, average($this->hashIterator2), '', 0.001);
+        $this->assertEquals(0.833333333, average($this->list2), '', 0.001);
+        $this->assertEquals(0.833333333, average($this->listIterator2), '', 0.001);
 
         $this->assertNull(average($this->hash3));
         $this->assertNull(average($this->hashIterator3));

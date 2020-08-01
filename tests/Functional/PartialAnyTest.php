@@ -1,10 +1,21 @@
 <?php
+
+/**
+ * @package   Functional-php
+ * @author    Lars Strojny <lstrojny@php.net>
+ * @copyright 2011-2017 Lars Strojny
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/lstrojny/functional-php
+ */
+
 namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
+
 use function Functional\partial_any;
 use function Functional\placeholder;
 use function Functional\…;
+
 use const Functional\…;
 
 class PartialAnyTest extends AbstractPartialTestCase

@@ -1,31 +1,19 @@
 <?php
+
 /**
- * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * @package   Functional-php
+ * @author    Lars Strojny <lstrojny@php.net>
+ * @copyright 2011-2017 Lars Strojny
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      https://github.com/lstrojny/functional-php
  */
+
 namespace Functional\Exceptions;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**
-     * @param callable $callback
+     * @param mixed $callback
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
@@ -55,7 +43,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                         $sep = '->';
                     }
 
-                    $callback = \implode($callback, $sep);
+                    $callback = \implode($sep, $callback);
                     break;
 
                 default:
@@ -101,17 +89,19 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param string|int|float|null $propertyName
+     * @param mixed $propertyName
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
      */
     public static function assertPropertyName($propertyName, $callee, $parameterPosition)
     {
-        if (!\is_string($propertyName) &&
+        if (
+            !\is_string($propertyName) &&
             !\is_int($propertyName) &&
             !\is_float($propertyName) &&
-            !\is_null($propertyName)) {
+            !\is_null($propertyName)
+        ) {
             throw new static(
                 \sprintf(
                     '%s() expects parameter %d to be a valid property name or array index, %s given',
@@ -198,7 +188,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param boolean $value
+     * @param mixed $value
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException
@@ -269,7 +259,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     }
 
     /**
-     * @param $collection
+     * @param mixed $collection
      * @param string $className
      * @param string $callee
      * @param integer $parameterPosition
@@ -287,6 +277,13 @@ class InvalidArgumentException extends \InvalidArgumentException
                     self::getType($collection)
                 )
             );
+        }
+    }
+
+    public static function assertNonZeroInteger($value, $callee)
+    {
+        if (!\is_int($value) || $value == 0) {
+            throw new static(\sprintf('%s expected parameter %d to be non-zero', $callee, $value));
         }
     }
 
