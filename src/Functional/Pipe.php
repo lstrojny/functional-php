@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2019 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
+ * Copyright (C) 2019, 2020 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,14 +32,14 @@ namespace Functional;
 function pipe(...$functions): callable
 {
     return function () use ($functions) {
-        $fun_args = \func_get_args();
+        $funArgs = \func_get_args();
         $entryFunction = \array_shift($functions);
         return \array_reduce(
             $functions,
-            function ($prev, $current_fun) {
-                return \call_user_func($current_fun, $prev);
+            function ($prev, $currentFun) {
+                return \call_user_func($currentFun, $prev);
             },
-            \call_user_func_array($entryFunction, $fun_args)
+            \call_user_func_array($entryFunction, $funArgs)
         );
     };
 }

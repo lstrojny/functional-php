@@ -22,30 +22,45 @@
  */
 namespace Functional\Tests;
 
+use Apantle\FunPHP\Test\CustomClosure;
 use function Functional\pipe;
 
 class PipeTest extends AbstractTestCase
 {
+    /** @group tzkmx */
     public function testPipeFunction()
     {
-        $closure1 = $this->prophesize(CustomTestClosure::class);
-        $closure1->__invoke('o', 'n', 'e')->willReturn('one');
-        $closure2 = $this->prophesize(CustomTestClosure::class);
-        $closure2->__invoke('one')->willReturn('one, two');
-        $closure3 = $this->prophesize(CustomTestClosure::class);
-        $closure3->__invoke('one, two')->willReturn('one, two, three');
+        $mockFirst = $this->getClosureMock(1, ['o', 'n', 'e'], 'one');
+        $mockSecond = $this->getClosureMock(1, ['one'], 'one, two');
+        $mockThird = $this->getClosureMock(1, ['one, two'], 'one, two, three');
 
         $result = pipe(
-            $closure1->reveal(),
-            $closure2->reveal(),
-            $closure3->reveal()
+            $mockFirst,
+            $mockSecond,
+            $mockThird
         )('o', 'n', 'e');
 
         $this->assertEquals('one, two, three', $result);
+    }
 
-        $closure1->checkProphecyMethodsPredictions();
-        $closure2->checkProphecyMethodsPredictions();
-        $closure3->checkProphecyMethodsPredictions();
+    private function getClosureMock(
+        int $invocations,
+        array $expectedArguments,
+        $mustReturnValue
+    ) {
+        $mock = $this->getMockBuilder(CustomTestClosure::class)
+          ->getMock();
+
+        $argsArray = [];
+        for ($index = 0; $index < count($expectedArguments); $index++) {
+            $argsArray[] = $this->equalTo($expectedArguments[$index]);
+        }
+
+        $mock->expects($this->exactly($invocations))
+            ->method('__invoke')
+            ->withConsecutive($argsArray)
+            ->willReturn($mustReturnValue);
+        return $mock;
     }
 }
 
