@@ -51,7 +51,7 @@ class Pipe
 
     public function __construct(array $functions)
     {
-        $this->pipeLength = count($functions);
+        $this->pipeLength = \count($functions);
         if ($this->pipeLength < 2) {
             throw new InvalidArgumentException(
                 'You should pass at least 2 functions or functors to build a pipe'
