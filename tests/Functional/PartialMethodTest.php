@@ -44,12 +44,6 @@ class PartialMethodTest extends AbstractPartialTestCase
         $this->assertSame('defaultValue', $method('non-object'));
     }
 
-    public function testWithInvalidMethodName()
-    {
-        $this->expectArgumentError('Functional\partial_method() expects parameter 1 to be string, integer given');
-        partial_method(1);
-    }
-
     public function execute($arg1 = null, $arg2 = null)
     {
         return $arg1 ? $arg1 . ' ' . $arg2 : 'default';

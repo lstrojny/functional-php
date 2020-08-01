@@ -16,11 +16,14 @@ use Traversable;
 /**
  * Select the specified keys from the array
  *
- * @param Traversable|array $collection
- * @param array $keys
- * @return array
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param list<K> $keys
+ * @return array<K, V>
+ * @psalm-pure
  */
-function select_keys($collection, array $keys)
+function select_keys($collection, array $keys): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
@@ -30,5 +33,8 @@ function select_keys($collection, array $keys)
         $array = $collection;
     }
 
-    return \array_intersect_key($array, \array_flip($keys));
+    /** @var array<K, V> $list */
+    $list = \array_intersect_key($array, \array_flip($keys));
+
+    return $list;
 }

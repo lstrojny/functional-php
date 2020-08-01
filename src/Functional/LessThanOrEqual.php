@@ -13,12 +13,18 @@ namespace Functional;
 /**
  * Returns true if $a is less than or equal to $b.
  *
- * @param mixed $b
- * @return \Closure(mixed)
+ * @template V of numeric
+ * @param V $b
+ * @return callable(V): bool
+ * @psalm-pure
  */
-function less_than_or_equal($b)
+function less_than_or_equal($b): callable
 {
-    return function ($a) use ($b) {
+    return
+    /**
+     * @param V $a
+     */
+    static function ($a) use ($b): bool {
         return $a <= $b;
     };
 }

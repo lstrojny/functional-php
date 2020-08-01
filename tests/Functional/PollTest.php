@@ -11,7 +11,7 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 
 use function Functional\poll;
 

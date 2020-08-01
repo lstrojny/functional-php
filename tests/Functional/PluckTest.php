@@ -212,7 +212,7 @@ class PluckTest extends AbstractTestCase
 
     public function testPassNoPropertyName()
     {
-        $this->expectArgumentError('Functional\pluck() expects parameter 2 to be a valid property name or array index, stdClass given');
+        $this->expectArgumentError('Functional\pluck() expects parameter 2 to be a valid array key, "stdClass" given. Expected "boolean" or "NULL", "string", "integer", "double"');
         pluck($this->propertyExistsSomewhere, new \stdClass());
     }
 

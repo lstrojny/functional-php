@@ -13,8 +13,9 @@ namespace Functional;
 /**
  * Concatenates zero or more strings
  *
- * @param string[] ...$strings
+ * @param string $strings
  * @return string
+ * @psalm-pure
  */
 function concat(string ...$strings)
 {

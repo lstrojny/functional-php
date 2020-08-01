@@ -11,15 +11,15 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if all elements of the collection are strictly true
  *
- * @param Traversable|array $collection
+ * @param iterable<array-key, bool> $collection
  * @return bool
+ * @psalm-pure
  */
-function true($collection)
+function true($collection): bool
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

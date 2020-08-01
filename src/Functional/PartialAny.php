@@ -17,13 +17,21 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * Use Functional\…, Functional\…() or Functional\placeholder() as a placeholder
  *
- * @param callable $callback
- * @param mixed ...$arguments
- * @return callable
+ * @template TArgs
+ * @template TArgsOrPlaceholder
+ * @template TReturn
+ * @param callable(...TArgsOrPlaceholder, ...TArgs): TReturn $callback
+ * @param TArgsOrPlaceholder $arguments
+ * @return callable(...TArgs): TReturn
+ * @psalm-pure
  */
-function partial_any(callable $callback, ...$arguments)
+function partial_any(callable $callback, ...$arguments): callable
 {
-    return function (...$innerArguments) use ($callback, $arguments) {
+    return
+    /**
+     * @param TArgs $innerArguments
+     */
+    static function (...$innerArguments) use ($callback, $arguments) {
         $placeholder = …();
 
         foreach ($arguments as $position => &$argument) {
@@ -37,9 +45,10 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
-/** @return resource */
-function …()
+/** @psalm-pure */
+function …(): string
 {
+    /** @psalm-suppress ImpureStaticVariable */
     static $placeholder;
 
     if (!$placeholder) {
@@ -49,9 +58,8 @@ function …()
     return $placeholder;
 }
 
-
-/** @return resource */
-function placeholder()
+/** @psalm-pure */
+function placeholder(): string
 {
     return …();
 }

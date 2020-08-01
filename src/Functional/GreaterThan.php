@@ -13,12 +13,18 @@ namespace Functional;
 /**
  * Returns true if $a is strictly greater than $b.
  *
- * @param mixed $b
- * @return \Closure(mixed)
+ * @template V of numeric
+ * @param V $b
+ * @return callable(V): bool
+ * @psalm-pure
  */
-function greater_than($b)
+function greater_than($b): callable
 {
-    return function ($a) use ($b) {
+    return
+    /**
+     * @param V $a
+     */
+    static function ($a) use ($b): bool {
         return $a > $b;
     };
 }

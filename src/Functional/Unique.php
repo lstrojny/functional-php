@@ -11,17 +11,20 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns an array of unique elements
  *
- * @param Traversable|array $collection
- * @param callable $callback
+ * @template K of array-key
+ * @template V
+ * @template I
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): I $callback
  * @param bool $strict
- * @return array
+ * @return array<K, V>
+ * @psalm-pure
  */
-function unique($collection, callable $callback = null, $strict = true)
+function unique($collection, callable $callback = null, bool $strict = true): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

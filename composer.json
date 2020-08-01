@@ -15,7 +15,8 @@
         }
     ],
     "require": {
-        "php": "~7"
+        "php": "~7",
+        "vimeo/psalm": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~7",
@@ -125,6 +126,7 @@
     },
     "scripts": {
         "tests": "vendor/bin/phpunit",
+        "types": "vendor/bin/psalm",
         "coding-style": "vendor/bin/phpcs && vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.dist",
         "clear": "rm -rf vendor/"
     }

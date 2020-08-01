@@ -16,15 +16,17 @@ use Traversable;
 /**
  * Sorts a collection with a user-defined function, optionally preserving array keys
  *
- * @param Traversable|array $collection
- * @param callable $callback
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, V, iterable<K, V>): int $callback
  * @param bool $preserveKeys
- * @return array
+ * @return list<V>|array<K, V>
+ * @psalm-pure
  */
-function sort($collection, callable $callback, $preserveKeys = false)
+function sort($collection, callable $callback, bool $preserveKeys = false): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
-    InvalidArgumentException::assertBoolean($preserveKeys, __FUNCTION__, 3);
 
     if ($collection instanceof Traversable) {
         $array = \iterator_to_array($collection);
@@ -34,9 +36,17 @@ function sort($collection, callable $callback, $preserveKeys = false)
 
     $fn = $preserveKeys ? 'uasort' : 'usort';
 
-    $fn($array, function ($left, $right) use ($callback, $collection) {
-        return $callback($left, $right, $collection);
-    });
+    $fn(
+        $array,
+        /**
+         * @param V $left
+         * @param V $right
+         */
+        static function ($left, $right) use ($callback, $collection) {
+            /** @var iterable<K, V> $collection */
+            return $callback($left, $right, $collection);
+        }
+    );
 
     return $array;
 }

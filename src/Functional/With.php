@@ -23,8 +23,6 @@ use Functional\Exceptions\InvalidArgumentException;
  */
 function with($value, callable $callback, $invokeValue = true, $default = null)
 {
-    InvalidArgumentException::assertCallback($callback, __FUNCTION__, 2);
-
     if ($value === null) {
         return $default;
     }

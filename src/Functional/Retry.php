@@ -34,6 +34,7 @@ function retry(callable $callback, $retries, Traversable $delaySequence = null)
 
     if ($delaySequence) {
         $delays = new AppendIterator();
+        /** @psalm-suppress ArgumentTypeCoercion */
         $delays->append(new InfiniteIterator($delaySequence));
         $delays->append(new InfiniteIterator(new ArrayIterator([0])));
         $delays = new LimitIterator($delays, $retries);

@@ -16,10 +16,11 @@ use Traversable;
 /**
  * Returns true if all elements of the collection evaluate to false
  *
- * @param Traversable|array $collection
+ * @template V of mixed
+ * @param iterable<array-key, V> $collection
  * @return bool
  */
-function falsy($collection)
+function falsy($collection): bool
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

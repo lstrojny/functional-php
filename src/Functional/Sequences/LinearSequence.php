@@ -13,27 +13,38 @@ namespace Functional\Sequences;
 use Functional\Exceptions\InvalidArgumentException;
 use Iterator;
 
+/**
+ * @psalm-external-mutation-free
+ */
 class LinearSequence implements Iterator
 {
-    /** @var integer */
+    /**
+     * @psalm-readonly
+     * @var integer
+     */
     private $start;
 
-    /** @var integer */
+    /**
+     * @psalm-readonly
+     * @var integer
+     */
     private $amount;
 
     /** @var integer */
-    private $value;
+    private $value = 0;
 
-    public function __construct($start, $amount)
+    public function __construct(int $start, int $amount)
     {
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __METHOD__, 1);
-        InvalidArgumentException::assertInteger($amount, __METHOD__, 2);
 
         $this->start = $start;
         $this->amount = $amount;
     }
 
-    public function current()
+    /**
+     * @psalm-mutation-free
+     */
+    public function current(): int
     {
         return $this->value;
     }
@@ -43,12 +54,20 @@ class LinearSequence implements Iterator
         $this->value += $this->amount;
     }
 
+    /**
+     * @psalm-pure
+     * @psalm-mutation-free
+     */
     public function key()
     {
-        return 0;
+        return null;
     }
 
-    public function valid()
+    /**
+     * @psalm-pure
+     * @psalm-mutation-free
+     */
+    public function valid(): bool
     {
         return true;
     }

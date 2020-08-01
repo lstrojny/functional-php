@@ -13,12 +13,14 @@ namespace Functional;
 /**
  * Wrap value within a function, which will return it, without any modifications.
  *
- * @param mixed $value
- * @return callable
+ * @template T
+ * @param T $value
+ * @return callable(): T
+ * @psalm-pure
  */
 function const_function($value)
 {
-    return function () use ($value) {
+    return static function () use ($value) {
         return $value;
     };
 }

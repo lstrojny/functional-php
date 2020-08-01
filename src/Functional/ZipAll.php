@@ -27,6 +27,7 @@ function zip_all(...$args)
     /** @var callable|null $callback */
     $callback = null;
     if (\is_callable(\end($args))) {
+        /** @var callable $callback */
         $callback = \array_pop($args);
     }
 

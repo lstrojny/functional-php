@@ -15,10 +15,12 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
- * @param callable|null $callback Callable closure or function. Pass null to reset memory
- * @param array $arguments Arguments
+ * @template TArgs
+ * @template TReturn
+ * @param callable(...TArgs): TReturn|null $callback Callable closure or function. Pass null to reset memory
+ * @param TArgs|callable(): string $arguments Arguments
  * @param array|string $key Optional memoize key to override the auto calculated hash
- * @return mixed
+ * @return TReturn
  */
 function memoize(callable $callback = null, $arguments = [], $key = null)
 {
@@ -39,7 +41,9 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
 
     static $keyGenerator = null;
     if (!$keyGenerator) {
-        $keyGenerator = function ($value) use (&$keyGenerator) {
+
+        /** @psalm-suppress MissingClosureParamType */
+        $keyGenerator = static function ($value) use (&$keyGenerator): string {
             $type = \gettype($value);
             if ($type === 'array') {
                 $key = \join(':', map($value, $keyGenerator));
@@ -54,6 +58,7 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
     }
 
     if ($key === null) {
+        /** @var list<TArgs> $arguments */
         $key = $keyGenerator(\array_merge([$callback], $arguments));
     } elseif (\is_callable($key)) {
         $key = $keyGenerator($key());
@@ -62,6 +67,7 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
     }
 
     if (!isset($storage[$key]) && !\array_key_exists($key, $storage)) {
+        /** @var list<TArgs> $arguments */
         $storage[$key] = $callback(...$arguments);
     }
 

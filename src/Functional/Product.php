@@ -11,14 +11,14 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Takes a collection and returns the product of all elements
  *
- * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
+ * @param iterable<array-key, numeric|mixed> $collection
+ * @param numeric $initial
+ * @return numeric
+ * @psalm-pure
  */
 function product($collection, $initial = 1)
 {

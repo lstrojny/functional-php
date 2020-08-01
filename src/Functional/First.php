@@ -11,16 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Looks through each element in the collection, returning the first one that passes a truthy test (callback). The
  * function returns as soon as it finds an acceptable element, and doesn't traverse the entire collection. Callback
  * arguments will be element, index, collection
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>): bool $callback
+ * @return V|null
+ * @psalm-pure
  */
 function first($collection, callable $callback = null)
 {

@@ -19,12 +19,12 @@ class TailRecursionTest extends TestCase
     public function testTailRecursion1()
     {
         $fact = tail_recursion(function ($n, $acc = 1) use (&$fact) {
-            if ($n == 0) {
+            if ($n === 0) {
                 return $acc;
             }
             return $fact($n - 1, $acc * $n);
         });
-        $this->assertEquals(3628800, $fact(10));
+        $this->assertEquals(INF, $fact(100000));
     }
 
     public function testTailRecursion2()

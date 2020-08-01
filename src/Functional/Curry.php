@@ -18,14 +18,20 @@ use Closure;
  * Return a curryied version of the given function. You can decide if you also
  * want to curry optional parameters or not.
  *
- * @param callable $function the function to curry
+ * @template TArg
+ * @template TReturn
+ * @param callable(...TArg): TReturn $function the function you want to curryg
  * @param bool $required curry optional parameters ?
- * @return callable a curryied version of the given function
+ * @return callable(...TArg): callable a curryied version of the given function
+ * @return callable
+ * @psalm-pure
  */
-function curry(callable $function, $required = true)
+function curry(callable $function, bool $required = true): callable
 {
+    /** @psalm-suppress ArgumentTypeCoercion */
     if (\method_exists('Closure', 'fromCallable')) {
         // Closure::fromCallable was introduced in PHP 7.1
+        /** @psalm-suppress InvalidArgument */
         $reflection = new ReflectionFunction(Closure::fromCallable($function));
     } else {
         if (\is_string($function) && \strpos($function, '::', 1) !== false) {
@@ -35,6 +41,7 @@ function curry(callable $function, $required = true)
         } elseif (\is_object($function) && \method_exists($function, '__invoke')) {
             $reflection = new ReflectionMethod($function, '__invoke');
         } else {
+            /** @psalm-suppress InvalidArgument */
             $reflection = new ReflectionFunction($function);
         }
     }

@@ -12,6 +12,13 @@ namespace Functional\Exceptions;
 
 class MatchException extends InvalidArgumentException
 {
+    /**
+     * @param array $conditions
+     * @param callable-string $callee
+     * @throw MatchException
+     * @return void
+     * @psalm-pure
+     */
     public static function assert(array $conditions, $callee)
     {
         foreach ($conditions as $key => $condition) {
@@ -21,10 +28,19 @@ class MatchException extends InvalidArgumentException
         }
     }
 
+    /**
+     * @param array-key $key
+     * @param mixed $condition
+     * @param callable-string $callee
+     * @psalm-assert array $condition
+     * @throw MatchException
+     * @return void
+     * @psalm-pure
+     */
     private static function assertArray($key, $condition, $callee)
     {
         if (!\is_array($condition)) {
-            throw new static(
+            throw new self(
                 \sprintf(
                     '%s() expects condition at key %d to be array, %s given',
                     $callee,
@@ -35,10 +51,18 @@ class MatchException extends InvalidArgumentException
         }
     }
 
+    /**
+     * @param array-key $key
+     * @param array $condition
+     * @param callable-string $callee
+     * @throw MatchException
+     * @return void
+     * @psalm-pure
+     */
     private static function assertLength($key, $condition, $callee)
     {
         if (\count($condition) < 2) {
-            throw new static(
+            throw new self(
                 \sprintf(
                     '%s() expects size of condition at key %d to be greater than or equals to 2, %d given',
                     $callee,
@@ -49,10 +73,18 @@ class MatchException extends InvalidArgumentException
         }
     }
 
+    /**
+     * @param array-key $key
+     * @param array $condition
+     * @param callable-string $callee
+     * @throw MatchException
+     * @return void
+     * @psalm-pure
+     */
     private static function assertCallables($key, $condition, $callee)
     {
         if (!\is_callable($condition[0]) || !\is_callable($condition[1])) {
-            throw new static(
+            throw new self(
                 \sprintf(
                     '%s() expects first two items of condition at key %d to be callables',
                     $callee,

@@ -12,19 +12,18 @@ namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
 use Functional\Sequences\LinearSequence;
-use Traversable;
 
 /**
  * Returns an infinite, traversable sequence that linearly grows by given amount
  *
- * @param integer $start
- * @param integer $amount
- * @return Traversable
+ * @param int $start
+ * @param int $amount
+ * @return iterable<int>
+ * @psalm-pure
  */
-function sequence_linear($start, $amount)
+function sequence_linear(int $start, int $amount): iterable
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 0, __FUNCTION__, 1);
-    InvalidArgumentException::assertInteger($amount, __FUNCTION__, 2);
 
     return new LinearSequence($start, $amount);
 }

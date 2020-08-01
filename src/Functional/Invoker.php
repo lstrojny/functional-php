@@ -10,7 +10,6 @@
 
 namespace Functional;
 
-use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**
@@ -18,13 +17,19 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param string $methodName
  * @param array $arguments
- * @return callable
+ * @return callable(object): mixed
+ * @psalm-pure
  */
 function invoker($methodName, array $arguments = [])
 {
     InvalidArgumentException::assertMethodName($methodName, __FUNCTION__, 1);
 
-    return static function ($object) use ($methodName, $arguments) {
+    return
+    /**
+     * @param object $object
+     * @return mixed
+     */
+    static function ($object) use ($methodName, $arguments) {
         return $object->{$methodName}(...$arguments);
     };
 }

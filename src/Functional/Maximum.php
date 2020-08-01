@@ -11,13 +11,13 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the maximum value of a collection
  *
- * @param Traversable|array $collection
- * @return integer|float
+ * @param iterable<array-key, numeric|mixed> $collection
+ * @return numeric|null
+ * @psalm-pure
  */
 function maximum($collection)
 {
