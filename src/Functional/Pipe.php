@@ -32,21 +32,26 @@ use Functional\Exceptions\InvalidArgumentException;
  * at once.
  *
  * @link https://github.com/lstrojny/functional-php/issues/141
- * @param callable[] ...$functions functions to be composed
- * @return callable
+ * @psalm-param callable[] ...$functions functions to be composed
+ * @return Pipe functor object applying the functions given in order.
  */
 function pipe(...$functions): callable
 {
     return new Pipe($functions);
 }
 
+/**
+ * Functor composed of functions passed in constructor.
+ */
 class Pipe
 {
-    /** @var callable[] */
+    /** @var callable[] $callables array of functions to apply */
     protected $callables;
 
+    /** @var mixed|null */
     protected $carry;
 
+    /** @var int */
     protected $pipeLength = 0;
 
     public function __construct(array $functions)
@@ -57,8 +62,18 @@ class Pipe
                 'You should pass at least 2 functions or functors to build a pipe'
             );
         }
-        foreach ($functions as $index => $callable) {
-            InvalidArgumentException::assertCallback($callable, 'pipe', $index + 1);
+        $this->callables = [];
+        for ($index = 0; $index < $this->pipeLength; $index++) {
+            $callable = $functions[$index];
+            if (!\is_callable($callable, false)) {
+                throw new InvalidArgumentException(
+                    \sprintf(
+                        "pipe() expects parameter %d to be a valid callback, function '%s' not found or invalid function name",
+                        ($index + 1),
+                        $callable
+                    )
+                );
+            }
             $this->callables[] = $callable;
         }
     }

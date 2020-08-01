@@ -32,6 +32,24 @@ class PipeTest extends AbstractTestCase
 {
     public function testPipeFunction()
     {
+        $expected = '512';
+
+        $actual = pipe(
+            'hexdec', // "FF" === 255
+            function (int $n) {
+                return $n + 1; // -> 256
+            },
+            function (int $n) {
+                return $n * 2; // -> 512
+            },
+            'strval' // -> '512'
+        )('FF');
+
+        $this->assertSame($expected, $actual);
+    }
+
+    public function testPipeFunctionCallMocks()
+    {
         $mockFirst = $this->getClosureMock(1, ['o', 'n', 'e'], 'one');
         $mockSecond = $this->getClosureMock(1, ['one'], 'one, two');
         $mockThird = $this->getClosureMock(1, ['one, two'], 'one, two, three');
