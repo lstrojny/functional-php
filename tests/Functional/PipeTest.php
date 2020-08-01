@@ -49,6 +49,7 @@ class PipeTest extends AbstractTestCase
         pipe('strval')();
     }
 
+    /** @dataProvider notQuiteFunctionsProvider */
     public function testExceptionNotCallable($maybeFun1, $maybeFun2, $expectedException)
     {
         $this->expectException(InvalidArgumentException::class);
