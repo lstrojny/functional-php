@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (C) 2019, 2020 by Jesus Franco Martinez <tezcatl@fedoraproject.org>
  *
@@ -20,9 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
+
 use function Functional\pipe;
 
 class PipeTest extends AbstractTestCase
