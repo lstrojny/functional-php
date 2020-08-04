@@ -23,7 +23,7 @@ use function Functional\if_else;
  *
  * @return callable|null the function that calls the callable of the first truthy condition
  */
-function match(array $conditions)
+function matched(array $conditions)
 {
     MatchException::assert($conditions, __FUNCTION__);
 
@@ -34,6 +34,6 @@ function match(array $conditions)
 
         list($if, $then) = head($conditions);
 
-        return if_else($if, $then, match(tail($conditions)))($value);
+        return if_else($if, $then, matched(tail($conditions)))($value);
     };
 }
