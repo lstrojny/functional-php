@@ -254,9 +254,15 @@ final class Functional
     const map = '\Functional\map';
 
     /**
-     * @see \Functional\match
+     * @see \Functional\matching
+     * @deprecated
      */
     const match = '\Functional\match';
+
+    /**
+     * @see \Functional\matching
+     */
+    const matching = '\Functional\matching';
 
     /**
      * @see \Functional\maximum

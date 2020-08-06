@@ -16,6 +16,8 @@ use function Functional\head;
 use function Functional\tail;
 use function Functional\if_else;
 
+use const PHP_VERSION_ID;
+
 /**
  * Performs an operation checking for the given conditions
  *
@@ -23,7 +25,7 @@ use function Functional\if_else;
  *
  * @return callable|null the function that calls the callable of the first truthy condition
  */
-function match(array $conditions)
+function matching(array $conditions)
 {
     MatchException::assert($conditions, __FUNCTION__);
 
@@ -34,6 +36,19 @@ function match(array $conditions)
 
         list($if, $then) = head($conditions);
 
-        return if_else($if, $then, match(tail($conditions)))($value);
+        return if_else($if, $then, matching(tail($conditions)))($value);
     };
+}
+
+
+if (PHP_VERSION_ID < 80000) {
+    eval(<<<'ALIAS'
+namespace Functional;
+
+function match(array $conditions) {
+    trigger_error('Functional\match() is will be unavailable with PHP 8. Use Functional\matching() instead', E_USER_DEPRECATED);
+    return matching($conditions);
+}
+ALIAS
+    );
 }
