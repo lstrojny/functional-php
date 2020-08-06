@@ -73,7 +73,7 @@
             "src/Functional/LessThanOrEqual.php",
             "src/Functional/LexicographicCompare.php",
             "src/Functional/Map.php",
-            "src/Functional/Match.php",
+            "src/Functional/Matching.php",
             "src/Functional/Maximum.php",
             "src/Functional/Memoize.php",
             "src/Functional/Minimum.php",
