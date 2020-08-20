@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use BadMethodCallException;
 use RuntimeException;
+
 use function Functional\memoize;
 
 function testfunc()
