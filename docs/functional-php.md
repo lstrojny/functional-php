@@ -58,6 +58,7 @@
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [intersperse()](#intersperse)
+  - [key()](#key)
   - [Other](#other-1)
 - [Conditional functions](#conditional-functions)
   - [if_else()](#if_else)
