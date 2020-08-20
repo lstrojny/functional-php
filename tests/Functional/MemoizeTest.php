@@ -12,7 +12,7 @@ namespace Functional\Tests;
 
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use BadMethodCallException;
-
+use RuntimeException;
 use function Functional\memoize;
 
 function testfunc()
@@ -188,5 +188,63 @@ class MemoizeTest extends AbstractTestCase
     {
         $this->expectArgumentError('Argument 1 passed to Functional\memoize() must be callable');
         memoize('invalidFunction');
+    }
+
+    public function testSplObjectHashCollisions()
+    {
+        self::assertSame(0, memoize(self::createFn(0, 1)));
+        self::assertSame(1, memoize(self::createFn(1, 1)));
+        self::assertSame(2, memoize(self::createFn(2, 1)));
+    }
+
+    private static function createFn(int $id, int $number): callable
+    {
+        return new class ($id, $number) {
+            private $id;
+            private $expectedInvocations;
+            private $actualInvocations = 0;
+
+            public function __construct(int $id, int $expectedInvocations)
+            {
+                $this->id = $id;
+                $this->expectedInvocations = $expectedInvocations;
+            }
+
+            public function getId(): int
+            {
+                return $this->id;
+            }
+
+            public function __invoke(): int
+            {
+                $this->actualInvocations++;
+                if ($this->actualInvocations > $this->expectedInvocations) {
+                    throw new RuntimeException(
+                        sprintf(
+                            'ID %d: Expected %d invocations, got %d',
+                            $this->id,
+                            $this->expectedInvocations,
+                            $this->actualInvocations
+                        )
+                    );
+                }
+
+                return $this->id;
+            }
+
+            public function __destruct()
+            {
+                if ($this->actualInvocations !== $this->expectedInvocations) {
+                    throw new RuntimeException(
+                        sprintf(
+                            'ID %d: Expected %d invocations, got %d',
+                            $this->id,
+                            $this->expectedInvocations,
+                            $this->actualInvocations
+                        )
+                    );
+                }
+            }
+        };
     }
 }
