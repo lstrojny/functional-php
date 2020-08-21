@@ -475,6 +475,11 @@ final class Functional
     const unique = '\Functional\unique';
 
     /**
+     * @see \Functional\value_to_key
+     */
+    const value_to_key = '\Functional\value_to_key';
+
+    /**
      * @see \Functional\with
      */
     const with = '\Functional\with';

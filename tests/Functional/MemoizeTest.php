@@ -124,7 +124,6 @@ class MemoizeTest extends AbstractTestCase
 
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:CUSTOM:KEY'));
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:CUSTOM:KEY'), 'Result already memoized');
-        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], ['MY', 'CUSTOM', 'KEY']), 'Result already memoized');
 
         $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'));
         $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
@@ -149,25 +148,6 @@ class MemoizeTest extends AbstractTestCase
             $this->fail('Expected failure');
         } catch (BadMethodCallException $e) {
         }
-    }
-
-    public function testPassKeyGeneratorCallable()
-    {
-        $this->callback
-            ->expects($this->exactly(2))
-            ->method('execute');
-
-        $keyGenerator = function () {
-            static $index;
-            return ($index++ % 2) === 0;
-        };
-
-        memoize([$this->callback, 'execute'], $keyGenerator);
-        memoize([$this->callback, 'execute'], [], $keyGenerator);
-        memoize([$this->callback, 'execute'], [], $keyGenerator);
-        memoize([$this->callback, 'execute'], $keyGenerator);
-        memoize([$this->callback, 'execute'], $keyGenerator);
-        memoize([$this->callback, 'execute'], [], $keyGenerator);
     }
 
     public function testResetByPassingNullAsCallable()
