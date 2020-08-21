@@ -24,6 +24,7 @@ use WeakReference;
 function memoize(callable $callback = null, $arguments = [], $key = null)
 {
     static $storage = [];
+    /** @var object[]|WeakReference[] $objectRefs */
     static $objectRefs = [];
 
     if ($callback === null) {
@@ -57,8 +58,6 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
                      * object gets out of scope, the weak ref will no longer return the object, that’s how we know we
                      * have a collision and increment a version in the collisions array.
                      */
-                    /** @var WeakReference[] $objectRefs */
-                    static $objectRefs = [];
                     /** @var int[] $collisions */
                     static $collisions = [];
 
