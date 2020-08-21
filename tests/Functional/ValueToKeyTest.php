@@ -23,6 +23,7 @@ use function preg_match;
 use function random_bytes;
 use function stream_context_create;
 
+use const NAN;
 use const PHP_VERSION_ID;
 
 class ValueToKeyTest extends AbstractTestCase
@@ -39,6 +40,7 @@ class ValueToKeyTest extends AbstractTestCase
             'null string' => [['null'], '[i:0;~s:4:"null";]'],
             'string' => [['string'], '[i:0;~s:6:"string";]'],
             'integers' => [[12, 123], '[i:0;~i:12;:i:1;~i:123;]'],
+            'funky integers' => [[INF, NAN], '[i:0;~d:INF;:i:1;~d:NAN;]'],
             'integer & float' => [[12, 123.10], '[i:0;~i:12;:i:1;~d:123.1;]'],
             'array of string' => [[['foo', 'bar']], '[i:0;~[i:0;~s:3:"foo";:i:1;~s:3:"bar";]]'],
             'nested array of strings (1)' => [
