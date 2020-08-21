@@ -117,7 +117,7 @@ class ValueToKeyTest extends AbstractTestCase
         );
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('stdClass'), $key1, $key2Matches),
+            preg_match(self::createObjectRefRegex('stdClass'), $key2, $key2Matches),
             'Can extract object hash from key2'
         );
 
@@ -126,7 +126,7 @@ class ValueToKeyTest extends AbstractTestCase
             self::assertSame('[i:0;~stdClass:' . $key1Matches['hash'] . ':0]', $key1, 'Object versions do not match');
             self::assertSame('[i:0;~stdClass:' . $key1Matches['hash'] . ':1]', $key2, 'Object versions do not match');
         } else {
-            self::assertNotSame($key1Matches['hash'], $key2Matches['hash'], 'Object hashes don’t match');
+            self::assertNotSame($key1Matches['hash'], $key2Matches['hash'], 'Object hashes should not match');
         }
     }
 
@@ -143,7 +143,7 @@ class ValueToKeyTest extends AbstractTestCase
         );
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('ArrayObject'), $key1, $key2Matches),
+            preg_match(self::createObjectRefRegex('ArrayObject'), $key2, $key2Matches),
             'Can extract object hash from key2'
         );
 

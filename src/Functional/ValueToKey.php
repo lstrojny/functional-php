@@ -56,7 +56,7 @@ function value_to_key(...$any)
                  * scope and mess with the object hashes
                  */
                 $objectReferences[$hash] = $value;
-                $key = \get_class($value) . ':' . \spl_object_hash($value);
+                $key = \get_class($value) . ':' . $hash;
             }
             return $key;
         };

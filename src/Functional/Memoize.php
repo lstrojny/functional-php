@@ -10,6 +10,8 @@
 
 namespace Functional;
 
+use const E_USER_DEPRECATED;
+
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
@@ -18,7 +20,7 @@ namespace Functional;
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
  */
-function memoize(callable $callback = null, array $arguments = [], $key = null)
+function memoize(callable $callback = null, $arguments = [], $key = null)
 {
     static $storage = [];
     if ($callback === null) {
@@ -27,10 +29,16 @@ function memoize(callable $callback = null, array $arguments = [], $key = null)
         return null;
     }
 
+    if (\is_callable($key)) {
+        \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+        $key = $key();
+    } elseif (\is_callable($arguments)) {
+        \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+        $key = $arguments();
+    }
+
     if ($key === null) {
         $key = value_to_key(\array_merge([$callback], $arguments));
-    } elseif (\is_callable($key)) {
-        $key = value_to_key($key());
     } else {
         $key = value_to_key($key);
     }
