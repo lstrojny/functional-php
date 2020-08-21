@@ -47,7 +47,16 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
                 $key = \implode(':', map($value, $keyGenerator));
             } elseif ($type === 'object') {
                 $hash = \spl_object_hash($value);
+                /**
+                 * spl_object_hash() will return the same hash twice in a single request if an object goes out of scope
+                 * and is destructed.
+                 */
                 if (PHP_VERSION_ID >= 70400) {
+                    /**
+                     * For PHP >=7.4, we keep a weak reference to the relevant object that we use for hashing. Once the
+                     * object gets out of scope, the weak ref will no longer return the object, that’s how we know we
+                     * have a collision and increment a version in the collisions array.
+                     */
                     /** @var WeakReference[] $objectRefs */
                     static $objectRefs = [];
                     /** @var int[] $collisions */
@@ -64,8 +73,10 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
 
                     $key = \get_class($value) . ':' . $hash . ':' . ($collisions[$hash] ?? 0);
                 } else {
-                    // For PHP < 7.4 we keep a static reference to the object so that cannot accidentally go out of
-                    // scope and mess with the object hashes
+                    /**
+                     * For PHP < 7.4 we keep a static reference to the object so that cannot accidentally go out of
+                     * scope and mess with the object hashes
+                     */
                     $objectRefs[$hash] = $value;
                     $key = \get_class($value) . ':' . \spl_object_hash($value);
                 }
