@@ -904,7 +904,7 @@ var_dump($is_odd(2)); // false
 
 ## Other
 
-`mixed Functional\memoize(callable $callback[, array $arguments = []], [mixed $key = null]])`
+`mixed Functional\memoize(callable $callback[, array $arguments = []], [string|array $key = null]])`
 Returns and stores the result of the function call. Second call to the same function will return the same result without calling the function again
 
 # Mathematical functions
