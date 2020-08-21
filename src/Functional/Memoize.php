@@ -10,10 +10,6 @@
 
 namespace Functional;
 
-use Functional\Exceptions\InvalidArgumentException;
-use WeakReference;
-use function is_callable;
-
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *

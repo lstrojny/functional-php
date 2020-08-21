@@ -77,7 +77,7 @@ function value_to_key(...$any)
                     'Resource type cannot be used as part of a memoization key. Please pass a custom key instead'
                 );
             } else {
-                $ref = serialize($value);
+                $ref = \serialize($value);
             }
 
             return ($key !== null ? ($valueToRef($key) . '~') : '') . $ref;

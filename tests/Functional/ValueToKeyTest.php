@@ -14,6 +14,7 @@ use ArrayObject;
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Constraint\Constraint;
 use stdClass;
+
 use function Functional\ary;
 use function Functional\filter;
 use function Functional\pluck;
@@ -21,6 +22,7 @@ use function Functional\value_to_key;
 use function preg_match;
 use function random_bytes;
 use function stream_context_create;
+
 use const PHP_VERSION_ID;
 
 class ValueToKeyTest extends AbstractTestCase
@@ -66,7 +68,7 @@ class ValueToKeyTest extends AbstractTestCase
     public function testValueToRefOnSimpleTypes(array $input, $constraint)
     {
         $ref = value_to_key(...$input);
-        self::assertThat($ref, $constraint instanceof Constraint ? $constraint: self::identicalTo($constraint));
+        self::assertThat($ref, $constraint instanceof Constraint ? $constraint : self::identicalTo($constraint));
 
         $hash[$ref] = 'value';
         self::assertSame('value', $hash[$ref], 'Ref can be used as an array key');
