@@ -21,6 +21,7 @@
 - [Partial application](#partial-application)
   - [Introduction](#introduction)
   - [partial_left() & partial_right()](#partial_left--partial_right)
+  - [ary()](#ary)
   - [partial_any()](#partial_any)
   - [partial_method()](#partial_method)
   - [converge()](#converge)
@@ -49,7 +50,8 @@
   - [compose()](#compose)
   - [tail_recursion()](#tail_recursion)
   - [flip()](#flip)
-  - [Other](#other)
+  - [not](#not)
+  - [Other](#other-1)
 - [Mathematical functions](#mathematical-functions)
 - [Transformation functions](#transformation-functions)
   - [partition()](#partition)
@@ -58,13 +60,14 @@
   - [flatten()](#flatten)
   - [reduce_left() & reduce_right()](#reduce_left--reduce_right)
   - [intersperse()](#intersperse)
-  - [Other](#other-1)
+  - [Other](#other-2)
 - [Conditional functions](#conditional-functions)
   - [if_else()](#if_else)
   - [match()](#match)
 - [Higher order comparison functions](#higher-order-comparison-functions)
-  - [compare_on() & compare_object_hash_on()](#compare_on--compare_object_hash_on)
+  - [compare_on & compare_object_hash_on](#compare_on--compare_object_hash_on)
 - [Miscellaneous](#miscellaneous)
+  - [concat()](#concat)
   - [const_function()](#const_function)
   - [id()](#id)
   - [tap()](#tap)
@@ -904,8 +907,11 @@ var_dump($is_odd(2)); // false
 
 ## Other
 
-`mixed Functional\memoize(callable $callback[, array $arguments = []], [mixed $key = null]])`
+`mixed Functional\memoize(callable $callback[, array $arguments = []], [string|array $key = null]])`
 Returns and stores the result of the function call. Second call to the same function will return the same result without calling the function again
+
+`string value_to_key(...$values)`
+Builds an array key out of any values, correctly handling object identity and traversables. Resources are not supported
 
 # Mathematical functions
 
