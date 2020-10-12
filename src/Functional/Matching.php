@@ -29,7 +29,7 @@ function matching(array $conditions)
 {
     MatchException::assert($conditions, __FUNCTION__);
 
-    return function ($value) use ($conditions) {
+    return static function ($value) use ($conditions) {
         if (empty($conditions)) {
             return null;
         }
@@ -41,7 +41,7 @@ function matching(array $conditions)
 }
 
 
-if (PHP_VERSION_ID < 80000) {
+if (PHP_VERSION_ID < 80000 && !function_exists('Functional\match')) {
     eval(<<<'ALIAS'
 namespace Functional;
 
