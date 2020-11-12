@@ -20,9 +20,9 @@ class IntersperseTest extends AbstractTestCase
     {
         $array = ['a', 'b', 'c'];
         $traversable = new ArrayIterator($array);
-        
+
         $expected = ['a', '-', 'b', '-', 'c'];
-        
+
         $this->assertSame($expected, intersperse($array, '-'));
         $this->assertSame($expected, intersperse($traversable, '-'));
     }
@@ -32,12 +32,12 @@ class IntersperseTest extends AbstractTestCase
         $this->assertSame([], intersperse([], '-'));
         $this->assertSame([], intersperse(new ArrayIterator([]), '-'));
     }
-    
+
     public function testIntersperseWithArray()
     {
         $this->assertSame(['a', ['-'], 'b'], intersperse(['a', 'b'], ['-']));
     }
-    
+
     public function testPassNoCollection()
     {
         $this->expectArgumentError(
