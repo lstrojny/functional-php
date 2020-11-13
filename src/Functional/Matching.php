@@ -41,7 +41,7 @@ function matching(array $conditions)
 }
 
 
-if (PHP_VERSION_ID < 80000 && !function_exists('Functional\match')) {
+if (PHP_VERSION_ID < 80000 && !\function_exists('Functional\match')) {
     eval(<<<'ALIAS'
 namespace Functional;
 
