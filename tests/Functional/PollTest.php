@@ -25,7 +25,7 @@ class PollTest extends AbstractTestCase
     /** @var MockObject */
     private $poller;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->poller = $this->createMock('Functional\Tests\Poller');

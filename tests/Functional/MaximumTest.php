@@ -17,7 +17,7 @@ use function Functional\maximum;
 
 class MaximumTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];

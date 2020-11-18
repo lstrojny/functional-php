@@ -18,7 +18,7 @@ class PickTest extends AbstractTestCase
 {
     private $array_1;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->array_1 = [
@@ -35,8 +35,7 @@ class PickTest extends AbstractTestCase
     public function test()
     {
         $this->assertSame('2', pick($this->array_1, 'two'));
-        $this->assertSame(
-            null,
+        $this->assertNull(
             pick($this->array_1, 'non-existing-index'),
             'Non-existing index, should return null'
         );
@@ -89,7 +88,7 @@ class PickTest extends AbstractTestCase
         $this->assertSame(':)', pick($this->array_1, 'non-existing-index', ':)'));
         $this->assertSame(':)', pick($this->array_1, 'zero-index', ':)', $customCallback));
         $this->assertSame('0', pick($this->array_1, 'zero-string-index', ':)', $customCallback));
-        $this->assertSame(false, pick($this->array_1, 'false-index', ':)', $customCallback));
+        $this->assertFalse(pick($this->array_1, 'false-index', ':)', $customCallback));
     }
 
     public function testArrayAccess()

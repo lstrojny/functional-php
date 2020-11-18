@@ -16,7 +16,7 @@ use function Functional\invoke_last;
 
 class InvokeLastTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [null, null, $this];
@@ -32,8 +32,8 @@ class InvokeLastTest extends AbstractTestCase
     {
         $this->assertSame('methodValue', invoke_last($this->list, 'method', [1, 2]));
         $this->assertSame('methodValue', invoke_last($this->listIterator, 'method'));
-        $this->assertSame(null, invoke_last($this->list, 'undefinedMethod'));
-        $this->assertSame(null, invoke_last($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertNull(invoke_last($this->list, 'undefinedMethod'));
+        $this->assertNull(invoke_last($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
         $this->assertSame([1, 2], invoke_last($this->list, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_last($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));

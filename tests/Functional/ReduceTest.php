@@ -17,7 +17,7 @@ use function Functional\reduce_right;
 
 class ReduceTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp('Functional\reduce_right', 'Functional\reduce_left');
         $this->list = ['one', 'two', 'three'];

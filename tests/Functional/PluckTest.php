@@ -89,7 +89,7 @@ class PluckCaller
 
 class PluckTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->propertyExistsEverywhereArray = [(object)['property' => 1], (object)['property' => 2]];

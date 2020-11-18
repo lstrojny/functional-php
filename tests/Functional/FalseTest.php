@@ -15,7 +15,7 @@ use Functional as F;
 
 class FalseTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->trueArray = [false, false, false, false];

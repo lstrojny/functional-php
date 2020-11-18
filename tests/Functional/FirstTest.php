@@ -26,7 +26,7 @@ class FirstTest extends AbstractTestCase
         ];
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp($this->getAliases());
         $this->list = ['first', 'second', 'third'];

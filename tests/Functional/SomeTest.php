@@ -17,7 +17,7 @@ use function Functional\some;
 
 class SomeTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->goodArray = ['value', 'wrong'];

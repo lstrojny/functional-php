@@ -18,7 +18,7 @@ use function Functional\sort;
 
 class SortTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['cat', 'bear', 'aardvark'];

@@ -16,7 +16,7 @@ use function Functional\invoke_first;
 
 class InvokeFirstTest extends AbstractTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [$this, null, null];
@@ -32,8 +32,8 @@ class InvokeFirstTest extends AbstractTestCase
     {
         $this->assertSame('methodValue', invoke_first($this->list, 'method', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->listIterator, 'method'));
-        $this->assertSame(null, invoke_first($this->list, 'undefinedMethod'));
-        $this->assertSame(null, invoke_first($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertNull(invoke_first($this->list, 'undefinedMethod'));
+        $this->assertNull(invoke_first($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
         $this->assertSame([1, 2], invoke_first($this->list, 'returnArguments', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
         $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
@@ -43,8 +43,8 @@ class InvokeFirstTest extends AbstractTestCase
     {
         $this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
         $this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
-        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
-        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        $this->assertNull(invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
+        $this->assertNull(invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
         $this->assertSame([1, 2], invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', [1, 2]));
     }
 
