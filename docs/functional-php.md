@@ -114,7 +114,7 @@ If `$callback` is not provided then the `id()` function is used and `every` will
 ```php
 use function Functional\some;
 
-$myFriends = some($users, fn ($user, $key, $collection) => $user->isFriendOf($me));
+$iHaveAtLeastOneFriend = some($users, fn ($user, $key, $collection) => $user->isFriendOf($me));
 ```
 
 If `$callback` is not provided then the `id()` function is used and `some` will return true if at least one value in the collection is truthy.
