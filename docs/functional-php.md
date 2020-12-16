@@ -754,9 +754,7 @@ Return a new function that captures the return value of $callback in $result and
 use function Functional\capture;
 
 $fn = capture(fn () => 'Hello world', $result);
-
 $fn();
-
 var_dump($result); // 'Hello world'
 ```
 
@@ -771,10 +769,7 @@ $plus2 = fn ($x) => $x + 2;
 $times4 = fn ($x) => $x * 4;
 
 $composed = compose($plus2, $times4);
-
-$result = array_map($composed, [1, 2, 5, 8]);
-
-var_dump($result); // [12, 16, 28, 40]
+array_map($composed, [1, 2, 5, 8]); // [12, 16, 28, 40]
 ```
 
 
@@ -794,7 +789,7 @@ $sumOfRange = tail_recursion(function ($from, $to, $acc = 0) use (&$sumOfRange) 
     return $sumOfRange($from + 1, $to, $acc + $from);
 });
 
-var_dump($sumOfRange(1, 10000)); // 50005000;
+$sumOfRange(1, 10000); // 50005000;
 ```
 
 ## flip()
@@ -806,9 +801,7 @@ use function Functional\curry;
 
 $filter = curry(flip('Functional\filter'));
 $getEven = $filter(fn ($number) => $number % 2 === 0);
-
-var_dump($getEven([1, 2, 3, 4])); // [2, 4]
-
+$getEven([1, 2, 3, 4]); // [2, 4]
 ```
 
 _Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
@@ -821,10 +814,8 @@ use function Functional\not;
 
 $isEven = fn ($number) => $number % 2 === 0;
 $isOdd = not($isEven);
-
-var_dump($isOdd(1)); // true
-var_dump($isOdd(2)); // false
-
+$isOdd(1); // true
+$isOdd(2); // false
 ```
 
 ## Other
