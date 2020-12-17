@@ -33,6 +33,9 @@ jobs:
               with:
                   composer-options: --prefer-dist
 
+            - name: info
+              run: php --info
+
             - name: Run Tests
               run: composer tests
 
