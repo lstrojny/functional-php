@@ -59,13 +59,8 @@ class AbstractTestCase extends TestCase
 
     protected function expectArgumentError($message)
     {
-        if (strpos($message, 'callable') !== false) {
-            $this->expectException(TypeError::class);
-            $this->expectExceptionMessage($message);
-        } else {
-            $this->expectException(InvalidArgumentException::class);
-            $this->expectExceptionMessage($message);
-        }
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($message);
     }
 
     protected function expectCallableArgumentError($fn, $position, $actualType = 'string')
