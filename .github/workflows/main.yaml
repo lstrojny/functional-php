@@ -5,14 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0', '8.1']
+        php-version: [7.3, 7.4, 8.0, 8.1]
+        include:
+          - php-version: 8.0
+            env:
+              PHP_CS_FIXER_IGNORE_ENV: 1
+          - php-version: 8.1
+            env:
+              PHP_CS_FIXER_IGNORE_ENV: 1
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php-version }}
           tools: composer:v2
           coverage: xdebug
       - name: Install dependencies
