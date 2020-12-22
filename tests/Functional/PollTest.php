@@ -12,6 +12,7 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use PHPUnit\Framework\MockObject\MockObject;
+
 use function Functional\poll;
 
 interface Poller
