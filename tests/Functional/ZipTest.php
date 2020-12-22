@@ -18,7 +18,7 @@ use function Functional\zip;
 
 class ZipTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = ['value', 'value'];

@@ -17,7 +17,7 @@ use function Functional\tail;
 
 class TailTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = [1, 2, 3, 4];

@@ -17,7 +17,7 @@ use function Functional\every;
 
 class EveryTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->goodArray = ['value', 'value', 'value'];

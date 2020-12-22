@@ -17,7 +17,7 @@ use function Functional\none;
 
 class NoneTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->goodArray = ['value', 'value', 'value'];

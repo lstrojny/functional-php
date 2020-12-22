@@ -102,9 +102,9 @@ class MatchingTest extends AbstractTestCase
             self::markTestSkipped('Only works with PHP <8.0');
         }
 
-        $this->expectException(
-            Deprecated::class,
-            'Functional\match() is deprecated as it is incompatible with PHP 8. Use Functional\matching() instead'
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage(
+            'Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead'
         );
         match([]);
     }

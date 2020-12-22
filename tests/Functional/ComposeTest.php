@@ -14,7 +14,7 @@ use function Functional\compose;
 
 class ComposeTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

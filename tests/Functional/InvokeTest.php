@@ -16,7 +16,7 @@ use function Functional\invoke;
 
 class InvokeTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = [$this, $this, $this];

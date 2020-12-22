@@ -16,7 +16,7 @@ use function Functional\ratio;
 
 class RatioTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->intArray = [1 => 1, 2, "foo" => 3, 4];
@@ -31,14 +31,14 @@ class RatioTest extends AbstractTestCase
         $this->assertSame(1, ratio(new ArrayIterator([1])));
         $this->assertSame(1, ratio($this->intArray, 24));
         $this->assertSame(1, ratio($this->intIterator, 24));
-        $this->assertEquals(-1, ratio($this->floatArray, -1.65), '', 0.01);
-        $this->assertEquals(-1, ratio($this->floatIterator, -1.65), '', 0.01);
+        $this->assertEqualsWithDelta(-1, ratio($this->floatArray, -1.65), 0.01);
+        $this->assertEqualsWithDelta(-1, ratio($this->floatIterator, -1.65), 0.01);
     }
 
     /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
     public function testElementsOfWrongTypeAreIgnored($collection)
     {
-        $this->assertEquals(0.333, ratio($collection), '', 0.001);
+        $this->assertEqualsWithDelta(0.333, ratio($collection), 0.001);
     }
 
     public function testPassNoCollection()

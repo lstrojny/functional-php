@@ -12,11 +12,17 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use function Functional\each;
 
 class EachTest extends AbstractTestCase
 {
-    public function setUp()
+    /**
+     * @var MockObject
+     */
+    private $cb;
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->cb = $this->getMockBuilder('cb')
@@ -68,12 +74,16 @@ class EachTest extends AbstractTestCase
         each($this->listIterator, [$this, 'exception']);
     }
 
-    public function prepareCallback($collection)
+    private function prepareCallback($collection)
     {
-        $i = 0;
+        $args = [];
+
         foreach ($collection as $key => $value) {
-            $this->cb->expects($this->at($i++))->method('call')->with($value, $key, $collection);
+            $args[] = [$value, $key, $collection];
         }
+
+        $this->cb->method('call')
+            ->withConsecutive(...$args);
     }
 
     public function testPassNonCallable()

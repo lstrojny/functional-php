@@ -16,7 +16,7 @@ use function Functional\falsy;
 
 class FalsyTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->trueArray = [false, null, false, false, 0];

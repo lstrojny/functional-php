@@ -27,7 +27,7 @@ class RepeatTest extends AbstractTestCase
     /** @var Repeated|MockObject */
     private $repeated;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->repeated = $this->createMock(Repeated::class);

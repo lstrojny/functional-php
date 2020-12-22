@@ -14,7 +14,7 @@ use function Functional\concat;
 
 class ConcatTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

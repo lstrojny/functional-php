@@ -2,8 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab8e4616-874e-490b-9e55-0d64d9a62ffa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/functional-php.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/functional-php.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/AbstractTestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/AbstractTestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/AverageTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/AverageTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ButLastTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ButLastTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ComposeTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ComposeTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ConcatTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ConcatTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/DifferenceTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/DifferenceTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/DropTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/DropTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/EachTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/EachTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/EveryTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/EveryTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FalseTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FalseTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FalsyTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FalsyTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FirstTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FirstTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FlatMapTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FlatMapTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FlattenTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FlattenTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/FunctionalTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/FunctionalTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/GroupTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/GroupTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/InvokeFirstTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/InvokeFirstTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/InvokeLastTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/InvokeLastTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/InvokeTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/InvokeTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/LastTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/LastTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/MapTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/MapTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/MatchingTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/MatchingTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/MaximumTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/MaximumTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/MemoizeTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/MemoizeTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/MinimumTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/MinimumTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/NoneTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/NoneTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/PartitionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/PartitionTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/PickTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/PickTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/PluckTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/PluckTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/PollTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/PollTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ProductTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ProductTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/RatioTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/RatioTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ReduceTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ReduceTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ReindexTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ReindexTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/RejectTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/RejectTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/RepeatTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/RepeatTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/RetryTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/RetryTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/SelectTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/SelectTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/SomeTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/SomeTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/SortTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/SortTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/SumTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/SumTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TailTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TailTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TakeLeftTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TakeLeftTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TakeRightTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TakeRightTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TapTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TapTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TrueTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TrueTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/TruthyTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/TruthyTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/UniqueTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/UniqueTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Functional/ZipTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Functional/ZipTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +114,6 @@
       <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
-      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
       <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
@@ -73,6 +125,13 @@
       <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
       <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
     </include_path>
   </component>
   <component name="ProjectId" id="1m0IW64FqAoEHnZEQlKDuPcZI7R" />
@@ -84,13 +143,23 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="PHPUnit.FunctionalTest.testAllDefinedConstantsAreValidCallables">
+    <configuration name="FunctionalTest.testAllDefinedConstantsAreValidCallables" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Functional\Tests\FunctionalTest" file="$PROJECT_DIR$/tests/Functional/FunctionalTest.php" method="testAllDefinedConstantsAreValidCallables" scope="Method" />
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml.dist" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.FunctionalTest.testAllDefinedConstantsAreValidCallables" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -100,7 +169,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608624110697</updated>
-      <workItem from="1608624112275" duration="635000" />
+      <workItem from="1608624112275" duration="3356000" />
     </task>
     <servers />
   </component>
@@ -117,5 +186,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

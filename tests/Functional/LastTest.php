@@ -17,7 +17,7 @@ use function Functional\last;
 
 class LastTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = ['first', 'second', 'third', 'fourth'];

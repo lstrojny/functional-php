@@ -17,7 +17,7 @@ use function Functional\reindex;
 
 class ReindexTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = ['value', 'value'];
