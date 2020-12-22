@@ -110,6 +110,6 @@ class AbstractTestCase extends TestCase
             )
         );
 
-        return 'Functional\\'.$function;
+        return 'Functional\\' . $function;
     }
 }
