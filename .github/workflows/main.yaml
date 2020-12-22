@@ -6,13 +6,6 @@ jobs:
     strategy:
       matrix:
         php-version: [7.3, 7.4, 8.0, 8.1]
-        include:
-          - php-version: 8.0
-            env:
-              PHP_CS_FIXER_IGNORE_ENV: 1
-          - php-version: 8.1
-            env:
-              PHP_CS_FIXER_IGNORE_ENV: 1
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
@@ -26,6 +19,8 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-scripts --no-progress
       - name: Run code style checker
         run: composer coding-style
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
       - name: Run tests
         run: composer test
 
