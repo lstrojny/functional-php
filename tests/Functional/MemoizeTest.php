@@ -10,8 +10,8 @@
 
 namespace Functional\Tests;
 
-use PHPUnit_Framework_MockObject_MockObject as MockObject;
 use BadMethodCallException;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 use function Functional\memoize;
@@ -42,7 +42,7 @@ class MemoizeTest extends AbstractTestCase
         return 'STATIC METHOD VALUE' . self::invoke(__METHOD__);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')
@@ -91,16 +91,9 @@ class MemoizeTest extends AbstractTestCase
     public function testMemoizeWithArguments()
     {
         $this->callback
-            ->expects($this->at(0))
             ->method('execute')
-            ->with('FOO', 'BAR')
-            ->will($this->returnValue('FOO BAR'));
-
-        $this->callback
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with('BAR', 'BAZ')
-            ->will($this->returnValue('BAR BAZ'));
+            ->withConsecutive(['FOO', 'BAR'], ['BAR', 'BAZ'])
+            ->willReturnOnConsecutiveCalls('FOO BAR', 'BAR BAZ');
 
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
@@ -111,16 +104,9 @@ class MemoizeTest extends AbstractTestCase
     public function testMemoizeWithCustomKey()
     {
         $this->callback
-            ->expects($this->at(0))
             ->method('execute')
-            ->with('FOO', 'BAR')
-            ->will($this->returnValue('FOO BAR'));
-
-        $this->callback
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with('BAR', 'BAZ')
-            ->will($this->returnValue('BAR BAZ'));
+            ->withConsecutive(['FOO', 'BAR'], ['BAR', 'BAZ'])
+            ->willReturnOnConsecutiveCalls('FOO BAR', 'BAR BAZ');
 
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:CUSTOM:KEY'));
         $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:CUSTOM:KEY'), 'Result already memoized');

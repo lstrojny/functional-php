@@ -16,7 +16,7 @@ use function Functional\truthy;
 
 class TruthyTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->trueArray = [true, true, 'foo', true, true, 1];

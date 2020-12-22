@@ -32,16 +32,15 @@ class AbstractTestCase extends TestCase
 
     private $functions = [];
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->functions = F\flatten(
             (array) (
-                func_num_args() > 0
-               ? func_get_arg(0)
-               : $this->getFunctionName()
+            func_num_args() > 0
+                ? func_get_arg(0)
+                : $this->getFunctionName()
             )
         );
-
 
         foreach ($this->functions as $function) {
             if (!function_exists($function)) {
@@ -111,6 +110,6 @@ class AbstractTestCase extends TestCase
             )
         );
 
-        return 'Functional\\' . $function;
+        return 'Functional\\'.$function;
     }
 }

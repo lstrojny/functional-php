@@ -16,7 +16,7 @@ use function Functional\product;
 
 class ProductTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->intArray = [1 => 1, 2, "foo" => 3, 4];

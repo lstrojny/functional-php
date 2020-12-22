@@ -17,7 +17,7 @@ use function Functional\take_right;
 
 class TakeRightTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

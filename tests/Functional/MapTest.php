@@ -17,7 +17,7 @@ use function Functional\map;
 
 class MapTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = ['value', 'value'];
