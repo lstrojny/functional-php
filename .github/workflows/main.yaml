@@ -6,7 +6,7 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        php-version: [7.3, 7.4, 8.0, 8.1]
+        php-version: [7.3, 7.4, 8.0]
         experimental: [false]
         include:
           - php-version: 8.1
