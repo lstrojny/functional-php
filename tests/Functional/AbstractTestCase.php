@@ -10,7 +10,6 @@
 
 namespace Functional\Tests;
 
-use a;
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
