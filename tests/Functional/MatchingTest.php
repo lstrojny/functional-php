@@ -10,10 +10,9 @@
 
 namespace Functional\Tests;
 
-use PHPUnit\Framework\Error\Deprecated;
+use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\matching;
-use function Functional\match;
 use function Functional\equal;
 use function Functional\const_function;
 
@@ -83,7 +82,7 @@ class MatchingTest extends AbstractTestCase
 
     public function testMatchingConditionCallables()
     {
-        $this->expectException(\Functional\Exceptions\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'Functional\matching() expects first two items of condition at key 1 to be callables'
         );
@@ -106,6 +105,7 @@ class MatchingTest extends AbstractTestCase
         $this->expectDeprecationMessage(
             'Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead'
         );
-        match([]);
+
+        call_user_func('Functional\match', []);
     }
 }
