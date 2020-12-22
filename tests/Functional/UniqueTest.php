@@ -117,7 +117,7 @@ class UniqueTest extends AbstractTestCase
 
     public function testPassNonCallableUndefinedFunction()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\unique() must be callable");
+        $this->expectCallableArgumentError('Functional\unique', 2);
         unique($this->list, 'undefinedFunction');
     }
 }

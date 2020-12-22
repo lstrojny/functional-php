@@ -53,7 +53,7 @@ class TailTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Argument 2 passed to Functional\tail() must be callable');
+        $this->expectCallableArgumentError('Functional\tail', 2);
         tail($this->list, 'undefinedFunction');
     }
 

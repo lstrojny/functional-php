@@ -36,7 +36,7 @@ class EveryTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\every() must be callable");
+        $this->expectCallableArgumentError('Functional\every', 2);
         every($this->goodArray, 'undefinedFunction');
     }
 

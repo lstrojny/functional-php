@@ -153,7 +153,7 @@ class MemoizeTest extends AbstractTestCase
 
     public function testPassNoCallable()
     {
-        $this->expectArgumentError('Argument 1 passed to Functional\memoize() must be callable');
+        $this->expectCallableArgumentError('Functional\memoize', 1);
         memoize('invalidFunction');
     }
 

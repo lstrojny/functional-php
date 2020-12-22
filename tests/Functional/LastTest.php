@@ -49,7 +49,7 @@ class LastTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Argument 2 passed to Functional\last() must be callable');
+        $this->expectCallableArgumentError('Functional\last', 2);
         last($this->list, 'undefinedFunction');
     }
 

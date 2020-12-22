@@ -4,3 +4,5 @@ vendor/
 composer.lock
 phpcs.xml
 phpunit.xml
+.idea/
+.phpunit.result.cache

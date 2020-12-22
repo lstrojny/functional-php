@@ -86,7 +86,7 @@ class FlatMapTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\flat_map() must be callable");
+        $this->expectCallableArgumentError('Functional\flat_map', 2);
         flat_map($this->list, 'undefinedFunction');
     }
 }
