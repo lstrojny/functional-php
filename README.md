@@ -1,9 +1,9 @@
 # Functional PHP: Functional primitives for PHP
 
-[![Build Status](https://travis-ci.com/lstrojny/functional-php.svg?branch=master)](http://travis-ci.com/lstrojny/functional-php)
+[![Build Status](https://github.com/lstrojny/functional-php/workflows/main/badge.svg)](https://github.com/lstrojny/functional-php/actions)
 
 *NOTE:* functional-php used to come with a C extension that implemented most of the functions natively. As the
-performance differences  weren’t that huge compared to the maintenance cost it has been removed.
+performance differences weren’t that huge compared to the maintenance cost it has been removed.
 
 A set of functional primitives for PHP, heavily inspired by [Scala’s traversable
 collection](http://www.scala-lang.org/archives/downloads/distrib/files/nightly/docs/library/scala/collection/Traversable.html),
@@ -47,4 +47,3 @@ Run the following command in your project root:
 - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
 - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
-- The people behind [Travis CI](http://travis-ci.com/) for continuous integration

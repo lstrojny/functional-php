@@ -1,0 +1,24 @@
+name: main
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: composer:v2
+          coverage: xdebug
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-scripts --no-progress
+      - name: Run code style checker
+        run: composer coding-style
+      - name: Run tests
+        run: composer test
+
