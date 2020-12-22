@@ -3,9 +3,14 @@ on: [push]
 jobs:
   run:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         php-version: [7.3, 7.4, 8.0, 8.1]
+        experimental: [false]
+        include:
+          - php-version: 8.1
+            experimental: true
       fail-fast: false
     steps:
       - uses: actions/checkout@v1
