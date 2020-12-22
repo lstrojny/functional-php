@@ -42,7 +42,7 @@ class NoneTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\none() must be callable");
+        $this->expectCallableArgumentError('Functional\none', 2);
         none($this->goodArray, 'undefinedFunction');
     }
 

@@ -21,7 +21,7 @@ class TapTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Argument 2 passed to Functional\tap() must be callable');
+        $this->expectCallableArgumentError('Functional\tap', 2);
         tap('foo', 'undefinedFunction');
     }
 

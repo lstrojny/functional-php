@@ -10,11 +10,13 @@
 
 namespace Functional\Tests;
 
+use a;
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Functional as F;
 use Traversable;
+use TypeError;
 
 class AbstractTestCase extends TestCase
 {
@@ -59,15 +61,32 @@ class AbstractTestCase extends TestCase
     protected function expectArgumentError($message)
     {
         if (strpos($message, 'callable') !== false) {
-            $expectedExceptionClass = version_compare('7.0', PHP_VERSION) < 1 ? 'TypeError' : 'PHPUnit_Framework_Error';
-            $expectedMessage = defined('HHVM_VERSION')
-                ? str_replace('must be callable', 'must be an instance of callable', $message)
-                : $message;
-            $this->expectException($expectedExceptionClass);
-            $this->expectExceptionMessage($expectedMessage);
+            $this->expectException(TypeError::class);
+
+            # Functional\pick(): Argument #4 ($callback) must be of type ?callable, string given, called in /home/runner/work/functional-php/functional-php/tests/Functional/PickTest.php on line 58
+            # Argument 4 passed to Functional\pick() must be callable
+            $this->expectExceptionMessage($message);
         } else {
             $this->expectException(InvalidArgumentException::class);
             $this->expectExceptionMessage($message);
+        }
+    }
+
+    protected function expectCallableArgumentError($fn, $position, $actualType = 'string')
+    {
+        $this->expectException(TypeError::class);
+
+        if (PHP_VERSION_ID < 80000) {
+            $this->expectExceptionMessage(sprintf('Argument %d passed to %s() must be callable', $position, $fn));
+        } else {
+            $this->expectExceptionMessageMatches(
+                sprintf(
+                    '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
+                    preg_quote($fn),
+                    $position,
+                    $actualType
+                )
+            );
         }
     }
 

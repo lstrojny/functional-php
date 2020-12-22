@@ -74,7 +74,7 @@ class MapTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\map() must be callable");
+        $this->expectCallableArgumentError('Functional\map', 2);
         map($this->list, 'undefinedFunction');
     }
 }

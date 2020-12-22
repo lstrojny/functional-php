@@ -36,7 +36,7 @@ class SomeTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\some() must be callable");
+        $this->expectCallableArgumentError('Functional\some', 2);
         some($this->goodArray, 'undefinedFunction');
     }
 

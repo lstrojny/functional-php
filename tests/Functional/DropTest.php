@@ -91,7 +91,7 @@ class DropTest extends AbstractTestCase
     /** @dataProvider getFunctions */
     public function testPassNonCallable($fn)
     {
-        $this->expectArgumentError(sprintf('Argument 2 passed to %s() must be callable', $fn));
+        $this->expectCallableArgumentError($fn, 2);
         $fn($this->list, 'undefinedFunction');
     }
 }

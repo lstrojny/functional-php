@@ -83,7 +83,7 @@ class ReindexTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError('Argument 2 passed to Functional\reindex() must be callable');
+        $this->expectCallableArgumentError('Functional\reindex', 2);
         reindex($this->list, 'undefinedFunction');
     }
 }

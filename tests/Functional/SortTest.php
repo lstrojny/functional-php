@@ -49,7 +49,7 @@ class SortTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\sort() must be callable");
+        $this->expectCallableArgumentError('Functional\sort', 2);
         F\sort($this->list, 'undefinedFunction');
     }
 

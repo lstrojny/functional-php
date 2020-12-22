@@ -71,12 +71,7 @@ class FirstTest extends AbstractTestCase
      */
     public function testPassNonCallable($functionName)
     {
-        $this->expectArgumentError(
-            sprintf(
-                'Argument 2 passed to %s() must be callable',
-                $functionName
-            )
-        );
+        $this->expectCallableArgumentError($functionName, 2);
         $functionName($this->list, 'undefinedFunction');
     }
 

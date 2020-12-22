@@ -115,7 +115,7 @@ class GroupTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\group() must be callable");
+        $this->expectCallableArgumentError('Functional\group', 2);
         group($this->list, 'undefinedFunction');
     }
 }

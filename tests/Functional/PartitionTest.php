@@ -92,7 +92,7 @@ class PartitionTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\partition() must be callable");
+        $this->expectCallableArgumentError('Functional\partition', 2);
         partition($this->list, 'undefinedFunction');
     }
 }

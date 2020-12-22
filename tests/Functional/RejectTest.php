@@ -40,7 +40,7 @@ class RejectTest extends AbstractTestCase
 
     public function testPassNonCallable()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\reject() must be callable");
+        $this->expectCallableArgumentError('Functional\reject', 2);
         reject($this->list, 'undefinedFunction');
     }
 

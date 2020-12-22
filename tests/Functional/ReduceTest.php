@@ -113,7 +113,7 @@ class ReduceTest extends AbstractTestCase
 
     public function testPassNonCallableToReduceLeft()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\reduce_left() must be callable");
+        $this->expectCallableArgumentError('Functional\reduce_left', 2);
         reduce_left($this->list, 'undefinedFunction');
     }
 
@@ -125,7 +125,7 @@ class ReduceTest extends AbstractTestCase
 
     public function testPassNonCallableToReduceRight()
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\reduce_right() must be callable");
+        $this->expectCallableArgumentError('Functional\reduce_right', 2);
         reduce_right($this->list, 'undefinedFunction');
     }
 }

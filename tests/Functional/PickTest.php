@@ -54,7 +54,7 @@ class PickTest extends AbstractTestCase
 
     public function testInvalidCallbackShouldThrowException()
     {
-        $this->expectArgumentError('Argument 4 passed to Functional\pick() must be callable');
+        $this->expectCallableArgumentError('Functional\pick', 4);
         pick($this->array_1, '', null, 'not-a-callback');
     }
 

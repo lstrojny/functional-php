@@ -42,6 +42,7 @@ class SelectTest extends AbstractTestCase
     {
         $callback = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
+
             return $v == 'value' && strlen($k) > 0;
         };
         $this->assertSame(['value', 2 => 'value'], $functionName($this->list, $callback));
@@ -55,12 +56,7 @@ class SelectTest extends AbstractTestCase
      */
     public function testPassNonCallable($functionName)
     {
-        $this->expectArgumentError(
-            sprintf(
-                "Argument 2 passed to %s() must be callable",
-                $functionName
-            )
-        );
+        $this->expectCallableArgumentError($functionName, 2);
         $functionName($this->list, 'undefinedFunction');
     }
 
