@@ -61,9 +61,6 @@ class AbstractTestCase extends TestCase
     {
         if (strpos($message, 'callable') !== false) {
             $this->expectException(TypeError::class);
-
-            # Functional\pick(): Argument #4 ($callback) must be of type ?callable, string given, called in /home/runner/work/functional-php/functional-php/tests/Functional/PickTest.php on line 58
-            # Argument 4 passed to Functional\pick() must be callable
             $this->expectExceptionMessage($message);
         } else {
             $this->expectException(InvalidArgumentException::class);
