@@ -46,7 +46,7 @@ if (PHP_VERSION_ID < 80000 && !\function_exists('Functional\match')) {
 namespace Functional;
 
 function match(array $conditions) {
-    trigger_error('Functional\match() is will be unavailable with PHP 8. Use Functional\matching() instead', E_USER_DEPRECATED);
+    trigger_error('Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead', E_USER_DEPRECATED);
     return matching($conditions);
 }
 ALIAS
