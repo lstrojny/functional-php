@@ -21,6 +21,7 @@ jobs:
                     - php-version: 8.0
                       experimental: true
 
+        continue-on-error: ${{ matrix.experimental }}
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -36,11 +37,13 @@ jobs:
               uses: ramsey/composer-install@v1
               with:
                   composer-options: --prefer-dist
+              continue-on-error: ${{ matrix.experimental }}
 
             - name: Setup PCOV
               run: |
                 composer require pcov/clobber
                 vendor/bin/pcov clobber
+              continue-on-error: ${{ matrix.experimental }}
 
             - name: Run Tests
               run: composer tests
@@ -48,3 +51,4 @@ jobs:
 
             - name: Check coding style
               run: composer coding-style
+              continue-on-error: ${{ matrix.experimental }}
