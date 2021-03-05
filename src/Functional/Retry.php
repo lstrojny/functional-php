@@ -36,7 +36,7 @@ function retry(callable $callback, $retries, Traversable $delaySequence = null)
         $delays = new AppendIterator();
         $delays->append(new InfiniteIterator($delaySequence));
         $delays->append(new InfiniteIterator(new ArrayIterator([0])));
-        $delays = new LimitIterator($delays, $retries);
+        $delays = new LimitIterator($delays, 0, $retries);
     } else {
         $delays = \array_fill_keys(\range(0, $retries), 0);
     }

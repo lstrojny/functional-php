@@ -139,17 +139,17 @@ class RetryTest extends AbstractTestCase
         $this->retryer
             ->expects($this->at(2))
             ->method('retry')
-            ->with(2, 10)
+            ->with(2, 30)
             ->willThrowException(new Exception('third'));
         $this->retryer
             ->expects($this->at(3))
             ->method('retry')
-            ->with(3, 20)
+            ->with(3, 10)
             ->willThrowException(new Exception('four'));
 
         $this->expectException('Exception');
 
         $this->expectExceptionMessage('four');
-        retry([$this->retryer, 'retry'], 4, new ArrayIterator([1 => 10, 2 => 20]));
+        retry([$this->retryer, 'retry'], 4, new ArrayIterator([10, 20, 30]));
     }
 }
