@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
     test:
-        name: PHP ${{ matrix.php-version }} (${{ matrix.experimental && 'experimental' || 'fully supported' }})
+        name: PHP ${{ matrix.php-version }} (${{ matrix.experimental && 'experimental' || 'full support' }})
 
         runs-on: ubuntu-18.04
 
