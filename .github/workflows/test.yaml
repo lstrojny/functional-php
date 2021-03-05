@@ -16,6 +16,10 @@ jobs:
                     - 7.3
                     - 7.4
                     - 8.0
+            include:
+                php-version: 8.0
+                continue-on-error: true
+        continue-on-error: ${{ matrix.continue-on-error }}
 
         steps:
             - name: Checkout
