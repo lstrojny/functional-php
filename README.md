@@ -47,4 +47,5 @@ Run the following command in your project root:
 - [David Soria Parra](https://github.com/dsp) for various ideas and the userland version of `Functional\flatten()`
 - [Max Beutel](https://github.com/maxbeutel) for `Functional\unique()`, `Functional\invoke_first()`,
    `Functional\invoke_last()` and all the discussions
-- The people behind [Travis CI](http://travis-ci.com/) for continuous integration
+- [An Phan](https://github.com/phanan) for [many](https://github.com/lstrojny/functional-php/pulls?q=author%3Aphanan)
+  great contributions
