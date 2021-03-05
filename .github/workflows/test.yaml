@@ -33,8 +33,10 @@ jobs:
               with:
                   composer-options: --prefer-dist
 
-            - name: info
-              run: php --info
+            - name: Setup PCOV
+              run: |
+                composer require pcov/clobber
+                vendor/bin/pcov clobber
 
             - name: Run Tests
               run: composer tests
