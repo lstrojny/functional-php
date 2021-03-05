@@ -87,6 +87,7 @@
             "src/Functional/PartialRight.php",
             "src/Functional/Partition.php",
             "src/Functional/Pick.php",
+            "src/Functional/Pipe.php",
             "src/Functional/Pluck.php",
             "src/Functional/Poll.php",
             "src/Functional/Product.php",
