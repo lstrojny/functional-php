@@ -21,8 +21,6 @@ jobs:
                     - php-version: 8.0
                       experimental: true
 
-        continue-on-error: ${{ matrix.experimental }}
-
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -46,6 +44,7 @@ jobs:
 
             - name: Run Tests
               run: composer tests
+              continue-on-error: ${{ matrix.experimental }}
 
             - name: Check coding style
               run: composer coding-style
