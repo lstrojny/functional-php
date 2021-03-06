@@ -14,13 +14,19 @@ use RuntimeException;
 
 use function Functional\suppress_error;
 
+use const E_USER_ERROR;
+
 class SuppressErrorTest extends AbstractTestCase
 {
     public function testErrorIsSuppressed()
     {
-        $fn = suppress_error('strpos');
+        $origFn = function () {
+            \trigger_error('Some error', E_USER_ERROR);
+        };
 
-        $this->assertNull($fn([], 0));
+        $fn = suppress_error($origFn);
+
+        $this->assertNull($fn());
     }
 
     public function testFunctionIsWrapped()
@@ -47,17 +53,22 @@ class SuppressErrorTest extends AbstractTestCase
     public function testErrorHandlerNestingWorks()
     {
         $errorMessage = null;
-        set_error_handler(
+        \set_error_handler(
             static function ($level, $message) use (&$errorMessage) {
                 $errorMessage = $message;
             }
         );
 
-        $fn = suppress_error('strpos');
+        $origFn = function () {
+            \trigger_error('Some error', E_USER_ERROR);
+        };
+
+        $fn = suppress_error($origFn);
         $this->assertNull($fn([], 0));
 
-        strpos([], 0);
-        $this->assertSame('strpos() expects parameter 1 to be string, array given', $errorMessage);
-        restore_error_handler();
+        self::assertNull($errorMessage);
+        $origFn();
+        $this->assertSame('Some error', $errorMessage);
+        \restore_error_handler();
     }
 }

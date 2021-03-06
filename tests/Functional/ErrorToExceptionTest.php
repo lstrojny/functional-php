@@ -14,17 +14,24 @@ use ErrorException;
 use RuntimeException;
 
 use function Functional\error_to_exception;
+use function trigger_error;
+
+use const E_USER_ERROR;
 
 class ErrorToExceptionTest extends AbstractTestCase
 {
     public function testErrorIsThrownAsException()
     {
-        $fn = error_to_exception('strpos');
+        $origFn = function () {
+            trigger_error('Some error', E_USER_ERROR);
+        };
+
+        $fn = error_to_exception($origFn);
 
         $this->expectException(ErrorException::class);
-        $this->expectExceptionMessage('strpos() expects parameter 1 to be string, array given');
+        $this->expectExceptionMessage('Some error');
 
-        $fn([], 0);
+        $fn();
     }
 
     public function testFunctionIsWrapped()
@@ -57,16 +64,20 @@ class ErrorToExceptionTest extends AbstractTestCase
             }
         );
 
-        $fn = error_to_exception('strpos');
+        $origFn = function () {
+            trigger_error('Some error', E_USER_ERROR);
+        };
+
+        $fn = error_to_exception($origFn);
         try {
-            $fn([], 0);
+            $fn();
             $this->fail('ErrorException expected');
         } catch (ErrorException $e) {
             $this->assertNull($errorMessage);
         }
 
-        strpos([], 0);
-        $this->assertSame('strpos() expects parameter 1 to be string, array given', $errorMessage);
+        $origFn();
+        $this->assertSame('Some error', $errorMessage);
         restore_error_handler();
     }
 }

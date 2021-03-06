@@ -17,12 +17,22 @@ use function Functional\tail;
 
 class TailTest extends AbstractTestCase
 {
+    /**
+     * @var string[]
+     */
+    private $badArray;
+
+    /**
+     * @var ArrayIterator
+     */
+    private $badIterator;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->list = [1, 2, 3, 4];
         $this->listIterator = new ArrayIterator($this->list);
-        $this->badArray = ['foo', 'bar', 'baz'];
+        $this->badArray = [-1, 0, 1];
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
@@ -45,10 +55,10 @@ class TailTest extends AbstractTestCase
         $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->list, null));
         $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->listIterator));
         $this->assertSame([1 => 2, 2 => 3, 3 => 4], tail($this->listIterator, null));
-        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badArray));
-        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badArray, null));
-        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badIterator));
-        $this->assertSame([1 => 'bar', 2 => 'baz'], tail($this->badIterator, null));
+        $this->assertSame([1 => 0, 2 => 1], tail($this->badArray));
+        $this->assertSame([1 => 0, 2 => 1], tail($this->badArray, null));
+        $this->assertSame([1 => 0, 2 => 1], tail($this->badIterator));
+        $this->assertSame([1 => 0, 2 => 1], tail($this->badIterator, null));
     }
 
     public function testPassNonCallable()
