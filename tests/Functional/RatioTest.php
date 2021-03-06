@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -11,11 +11,24 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
+use Traversable;
 
 use function Functional\ratio;
 
 class RatioTest extends AbstractTestCase
 {
+    /** @var int[] */
+    private $intArray;
+
+    /** @var Traversable|int[] */
+    private $intIterator;
+
+    /** @var float[] */
+    private $floatArray;
+
+    /** @var Traversable|float[] */
+    private $floatIterator;
+
     public function setUp(): void
     {
         parent::setUp();

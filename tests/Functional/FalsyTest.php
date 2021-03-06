@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -11,11 +11,36 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
+use Traversable;
 
 use function Functional\falsy;
 
 class FalsyTest extends AbstractTestCase
 {
+    /** @var array */
+    private $trueArray;
+
+    /** @var Traversable */
+    private $trueIterator;
+
+    /** @var array */
+    private $trueHash;
+
+    /** @var Traversable */
+    private $trueHashIterator;
+
+    /** @var array */
+    private $falseArray;
+
+    /** @var Traversable */
+    private $falseIterator;
+
+    /** @var array */
+    private $falseHash;
+
+    /** @var Traversable */
+    private $falseHashIterator;
+
     public function setUp(): void
     {
         parent::setUp();

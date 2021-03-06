@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -79,11 +79,7 @@ class PickTest extends AbstractTestCase
         //false - index does not exist or value is 0
         //true - any other values other than 0, including false, 'false', null, and so on
         $customCallback = function ($collection, $key) {
-            if (!isset($collection[$key]) || 0 === $collection[$key]) {
-                return false;
-            } else {
-                return true;
-            }
+            return isset($collection[$key]) && 0 !== $collection[$key];
         };
 
         self::assertSame(':)', pick($this->array_1, 'non-existing-index', ':)'));
