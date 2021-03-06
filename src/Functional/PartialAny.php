@@ -38,7 +38,9 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
-/** @return resource * @no-named-arguments
+/** 
+ * @return resource 
+ * @no-named-arguments
  */
 function …()
 {
