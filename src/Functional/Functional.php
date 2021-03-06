@@ -257,7 +257,7 @@ final class Functional
      * @see \Functional\matching
      * @deprecated
      */
-    const match = '\Functional\matching';
+    const match = '\Functional\match';
 
     /**
      * @see \Functional\matching

@@ -24,6 +24,11 @@ class FunctionalTest extends TestCase
         $functions = $functionalClass->getConstants();
 
         foreach ($functions as $function) {
+
+            if ($function === '\\Functional\\match') {
+                continue;
+            }
+
             $this->assertIsCallable($function);
         }
     }
@@ -40,11 +45,6 @@ class FunctionalTest extends TestCase
         $constants = $functionalClass->getConstants();
 
         foreach ($expectedFunctions as $function) {
-
-            if ($function === '\\Functional\\match') {
-                continue;
-            }
-
             $this->assertContains($function, $constants);
         }
     }
