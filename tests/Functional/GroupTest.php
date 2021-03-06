@@ -30,7 +30,7 @@ class GroupTest extends AbstractTestCase
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return (is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
+            return (\is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
         };
         $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->list, $fn));
         $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->listIterator, $fn));
@@ -57,7 +57,7 @@ class GroupTest extends AbstractTestCase
 
 
         $invalidTypes = [
-                          'resource' => stream_context_create(),
+                          'resource' => \stream_context_create(),
                           'object'   => new \stdClass(),
                           'array'    => []
         ];
@@ -66,10 +66,10 @@ class GroupTest extends AbstractTestCase
             $keyMap = [$value];
             try {
                 group(['v1'], $fn);
-                $this->fail(sprintf('Error expected for array key type "%s"', $type));
+                $this->fail(\sprintf('Error expected for array key type "%s"', $type));
             } catch (\Exception $e) {
                 $this->assertSame(
-                    sprintf(
+                    \sprintf(
                         'Functional\group(): callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
                         $type
                     ),

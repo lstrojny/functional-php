@@ -106,6 +106,6 @@ class MatchingTest extends AbstractTestCase
             'Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead'
         );
 
-        call_user_func('Functional\match', []);
+        \call_user_func('Functional\match', []);
     }
 }

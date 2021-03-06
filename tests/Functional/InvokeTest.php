@@ -62,6 +62,6 @@ class InvokeTest extends AbstractTestCase
 
     public function returnArguments()
     {
-        return func_get_args();
+        return \func_get_args();
     }
 }

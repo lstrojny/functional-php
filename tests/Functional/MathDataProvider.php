@@ -18,7 +18,7 @@ class MathDataProvider
     public static function injectErrorCollection()
     {
         $args = [];
-        foreach ([new stdClass(), stream_context_create(), [], "str"] as $v) {
+        foreach ([new stdClass(), \stream_context_create(), [], "str"] as $v) {
             $arg = [2, $v, "1.5", true, null];
             $args[] = [$arg];
             $args[] = [new ArrayIterator($arg)];

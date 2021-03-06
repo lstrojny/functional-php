@@ -124,7 +124,7 @@ class PluckTest extends AbstractTestCase
 
     public function variateList($hash, $asObject = true)
     {
-        return $this->variate(array_values($hash), $asObject);
+        return $this->variate(\array_values($hash), $asObject);
     }
 
     public function variateHash($hash, $asObject = true)
@@ -187,8 +187,8 @@ class PluckTest extends AbstractTestCase
         $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
         $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
         $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck(new ArrayIterator($this->numericArrayCollection), 0));
-        $this->assertSame([1, null, null, 2, 3], pluck(array_values($this->numericArrayCollection), 0));
-        $this->assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(array_values($this->numericArrayCollection)), 0));
+        $this->assertSame([1, null, null, 2, 3], pluck(\array_values($this->numericArrayCollection), 0));
+        $this->assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(\array_values($this->numericArrayCollection)), 0));
         $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, '0'));
     }
 

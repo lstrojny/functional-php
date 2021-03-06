@@ -43,7 +43,7 @@ class AnnotationsTest extends AbstractTestCase
         self::assertStringContainsString(
             '@no-named-arguments',
             $refl->getDocComment(),
-            sprintf(
+            \sprintf(
                 'Expected function "%s()" to have annotation @no-named-arguments',
                 $function
             )

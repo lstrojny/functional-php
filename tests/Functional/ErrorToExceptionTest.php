@@ -23,7 +23,7 @@ class ErrorToExceptionTest extends AbstractTestCase
     public function testErrorIsThrownAsException()
     {
         $origFn = function () {
-            trigger_error('Some error', E_USER_ERROR);
+            \trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = error_to_exception($origFn);
@@ -58,14 +58,14 @@ class ErrorToExceptionTest extends AbstractTestCase
     public function testErrorHandlerNestingWorks()
     {
         $errorMessage = null;
-        set_error_handler(
+        \set_error_handler(
             static function ($level, $message) use (&$errorMessage) {
                 $errorMessage = $message;
             }
         );
 
         $origFn = function () {
-            trigger_error('Some error', E_USER_ERROR);
+            \trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = error_to_exception($origFn);
@@ -78,6 +78,6 @@ class ErrorToExceptionTest extends AbstractTestCase
 
         $origFn();
         $this->assertSame('Some error', $errorMessage);
-        restore_error_handler();
+        \restore_error_handler();
     }
 }

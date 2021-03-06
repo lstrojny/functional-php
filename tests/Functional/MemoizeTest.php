@@ -31,7 +31,7 @@ class MemoizeTest extends AbstractTestCase
     public static function invoke($name)
     {
         if (self::$invocation > 0) {
-            throw new BadMethodCallException(sprintf('%s called more than once', $name));
+            throw new BadMethodCallException(\sprintf('%s called more than once', $name));
         }
         self::$invocation++;
         return self::$invocation;
@@ -187,7 +187,7 @@ class MemoizeTest extends AbstractTestCase
                 $this->actualInvocations++;
                 if ($this->actualInvocations > $this->expectedInvocations) {
                     throw new RuntimeException(
-                        sprintf(
+                        \sprintf(
                             'ID %d: Expected %d invocations, got %d',
                             $this->id,
                             $this->expectedInvocations,
@@ -203,7 +203,7 @@ class MemoizeTest extends AbstractTestCase
             {
                 if ($this->actualInvocations !== $this->expectedInvocations) {
                     throw new RuntimeException(
-                        sprintf(
+                        \sprintf(
                             'ID %d: Expected %d invocations, got %d',
                             $this->id,
                             $this->expectedInvocations,

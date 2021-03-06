@@ -29,10 +29,10 @@ class PartialAnyTest extends AbstractPartialTestCase
 
     public function testBindWithPlaceholderConstant()
     {
-        $context = hash_init('md2');
+        $context = \hash_init('md2');
         $hash = partial_any('hash_update', $context, …());
         $hash('oh hi');
-        $this->assertSame('6f24cbf6005b9bfc0176abbbe309f0d0', hash_final($context));
+        $this->assertSame('6f24cbf6005b9bfc0176abbbe309f0d0', \hash_final($context));
     }
 
     public function testBindWithMultiplePlaceholders()
@@ -61,7 +61,7 @@ class PartialAnyTest extends AbstractPartialTestCase
         $this->assertSame(…(), placeholder());
 
         /* @see https://github.com/facebook/hhvm/issues/5548 */
-        if (!defined('HHVM_VERSION')) {
+        if (!\defined('HHVM_VERSION')) {
             $this->assertSame(…, placeholder());
         }
     }

@@ -30,7 +30,7 @@ class PartitionTest extends AbstractTestCase
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
+            return \is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0);
         };
         $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->list, $fn));
         $this->assertSame([[0 => 'value1', 2 => 'value3'], [1 => 'value2']], partition($this->listIterator, $fn));
@@ -42,12 +42,12 @@ class PartitionTest extends AbstractTestCase
     {
         $fn1 = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return is_int($k) ? ($k === 1) : ($v[3] === '2');
+            return \is_int($k) ? ($k === 1) : ($v[3] === '2');
         };
 
         $fn2 = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return is_int($k) ? ($k === 2) : ($v[3] === '3');
+            return \is_int($k) ? ($k === 2) : ($v[3] === '3');
         };
 
         $this->assertSame([[1 => 'value2'], [2 => 'value3'], [0 => 'value1']], partition($this->list, $fn1, $fn2));

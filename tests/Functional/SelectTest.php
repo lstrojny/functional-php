@@ -43,7 +43,7 @@ class SelectTest extends AbstractTestCase
         $callback = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 
-            return $v == 'value' && strlen($k) > 0;
+            return $v == 'value' && \strlen($k) > 0;
         };
         $this->assertSame(['value', 2 => 'value'], $functionName($this->list, $callback));
         $this->assertSame(['value', 2 => 'value'], $functionName($this->listIterator, $callback));
@@ -75,7 +75,7 @@ class SelectTest extends AbstractTestCase
     public function testPassNoCollection($functionName)
     {
         $this->expectArgumentError(
-            sprintf(
+            \sprintf(
                 '%s() expects parameter 1 to be array or instance of Traversable',
                 $functionName
             )

@@ -24,7 +24,6 @@ class FunctionalTest extends TestCase
         $functions = $functionalClass->getConstants();
 
         foreach ($functions as $function) {
-
             if ($function === '\\Functional\\match') {
                 continue;
             }
@@ -35,10 +34,10 @@ class FunctionalTest extends TestCase
 
     public function testShouldHaveDefinedConstantsForAllFunctions()
     {
-        $functions = get_defined_functions(true);
-        $functionalFunctions = preg_grep('/functional\\\(?!tests)/', $functions['user']);
-        $expectedFunctions = array_map(function ($function) {
-            return str_replace('functional\\', '\\Functional\\', $function);
+        $functions = \get_defined_functions(true);
+        $functionalFunctions = \preg_grep('/functional\\\(?!tests)/', $functions['user']);
+        $expectedFunctions = \array_map(function ($function) {
+            return \str_replace('functional\\', '\\Functional\\', $function);
         }, $functionalFunctions);
 
         $functionalClass = new \ReflectionClass(Functional::class);

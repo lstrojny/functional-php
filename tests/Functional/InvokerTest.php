@@ -35,7 +35,7 @@ class InvokerTest extends AbstractTestCase
 
     public function testInvalidMethod()
     {
-        if (!class_exists('Error')) {
+        if (!\class_exists('Error')) {
             $this->markTestSkipped('Requires PHP 7');
         }
 

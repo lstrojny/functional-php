@@ -42,7 +42,7 @@ class CurryNTest extends AbstractPartialTestCase
 {
     protected function getCurryiedCallable($callback, $params, $required)
     {
-        return curry_n(count($params), $callback);
+        return curry_n(\count($params), $callback);
     }
 
     /**
@@ -50,23 +50,23 @@ class CurryNTest extends AbstractPartialTestCase
      */
     public function testCallbackTypes($callback, $params, $expected, $required, $transformer = null)
     {
-        if (is_null($transformer)) {
+        if (\is_null($transformer)) {
             $transformer = 'Functional\id';
         }
 
         $curryied = $this->getCurryiedCallable($callback, $params, $required);
 
-        $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
+        $this->assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
 
-        $length = count($params);
+        $length = \count($params);
         for ($i = 0; $i < $length; ++$i) {
-            $p = array_shift($params);
+            $p = \array_shift($params);
 
             $curryied = $curryied($p);
 
-            if (count($params) > 0) {
-                $this->assertTrue(is_callable($curryied));
-                $this->assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
+            if (\count($params) > 0) {
+                $this->assertTrue(\is_callable($curryied));
+                $this->assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
             } else {
                 $this->assertEquals($transformer($expected), $transformer($curryied));
             }

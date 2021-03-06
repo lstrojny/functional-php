@@ -12,10 +12,13 @@ namespace Functional\Tests;
 
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
+use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use Functional as F;
 use Traversable;
 use TypeError;
+
+use function method_exists;
 
 class AbstractTestCase extends TestCase
 {
@@ -37,19 +40,19 @@ class AbstractTestCase extends TestCase
     {
         $this->functions = F\flatten(
             (array) (
-            func_num_args() > 0
-                ? func_get_arg(0)
+            \func_num_args() > 0
+                ? \func_get_arg(0)
                 : $this->getFunctionName()
             )
         );
 
         foreach ($this->functions as $function) {
-            if (!function_exists($function)) {
+            if (!\function_exists($function)) {
                 $this->markTestSkipped(
-                    sprintf(
+                    \sprintf(
                         'Function "%s()" not implemented in %s version',
                         $function,
-                        extension_loaded('functional') ? 'native C' : 'PHP userland'
+                        \extension_loaded('functional') ? 'native C' : 'PHP userland'
                     )
                 );
                 break;
@@ -68,12 +71,12 @@ class AbstractTestCase extends TestCase
         $this->expectException(TypeError::class);
 
         if (PHP_VERSION_ID < 80000) {
-            $this->expectExceptionMessage(sprintf('Argument %d passed to %s() must be callable', $position, $fn));
+            $this->expectExceptionMessage(\sprintf('Argument %d passed to %s() must be callable', $position, $fn));
         } else {
             $this->expectExceptionMessageMatches(
-                sprintf(
+                \sprintf(
                     '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
-                    preg_quote($fn),
+                    \preg_quote($fn),
                     $position,
                     $actualType
                 )
@@ -83,13 +86,13 @@ class AbstractTestCase extends TestCase
 
     public function exception()
     {
-        if (func_num_args() < 3) {
+        if (\func_num_args() < 3) {
             throw new DomainException('Callback exception');
         }
 
-        $args = func_get_args();
-        $this->assertGreaterThanOrEqual(3, count($args));
-        throw new DomainException(sprintf('Callback exception: %s', $args[1]));
+        $args = \func_get_args();
+        $this->assertGreaterThanOrEqual(3, \count($args));
+        throw new DomainException(\sprintf('Callback exception: %s', $args[1]));
     }
 
     protected function sequenceToArray(Traversable $sequence, $limit)
@@ -106,14 +109,14 @@ class AbstractTestCase extends TestCase
 
     private function getFunctionName()
     {
-        $testName = get_class($this);
-        $namespaceSeperatorPosition = strrpos($testName, '\\') + 1;
-        $testName = substr($testName, $namespaceSeperatorPosition);
-        $function = strtolower(
-            implode(
+        $testName = \get_class($this);
+        $namespaceSeperatorPosition = \strrpos($testName, '\\') + 1;
+        $testName = \substr($testName, $namespaceSeperatorPosition);
+        $function = \strtolower(
+            \implode(
                 '_',
-                array_slice(
-                    preg_split('/([A-Z][a-z]+)/', $testName, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY),
+                \array_slice(
+                    \preg_split('/([A-Z][a-z]+)/', $testName, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY),
                     0,
                     -1
                 )
@@ -121,5 +124,25 @@ class AbstractTestCase extends TestCase
         );
 
         return 'Functional\\' . $function;
+    }
+
+    public function expectDeprecation(): void
+    {
+        if (\method_exists(parent::class, __FUNCTION__)) {
+            parent::expectDeprecation();
+            return;
+        }
+
+        $this->expectException(Deprecated::class);
+    }
+
+    public function expectDeprecationMessage(string $message): void
+    {
+        if (\method_exists(parent::class, __FUNCTION__)) {
+            parent::expectDeprecationMessage($message);
+            return;
+        }
+
+        $this->expectExceptionMessage($message);
     }
 }

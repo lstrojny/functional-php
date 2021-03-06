@@ -27,7 +27,7 @@ class SortTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
         $this->sortCallback = function ($left, $right, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return strcmp($left, $right);
+            return \strcmp($left, $right);
         };
     }
 

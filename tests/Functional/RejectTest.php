@@ -30,7 +30,7 @@ class RejectTest extends AbstractTestCase
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return $v == 'wrong' && strlen($k) > 0;
+            return $v == 'wrong' && \strlen($k) > 0;
         };
         $this->assertSame([0 => 'value', 2 => 'value'], reject($this->list, $fn));
         $this->assertSame([0 => 'value', 2 => 'value'], reject($this->listIterator, $fn));

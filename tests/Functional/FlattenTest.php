@@ -29,8 +29,8 @@ class FlattenTest extends AbstractTestCase
 
     public function test()
     {
-        $this->assertSame(range(1, 15), flatten($this->goodArray));
-        $this->assertSame(range(1, 15), flatten($this->goodIterator));
+        $this->assertSame(\range(1, 15), flatten($this->goodArray));
+        $this->assertSame(\range(1, 15), flatten($this->goodIterator));
         $this->assertSame([1, "2", "3", 5], flatten($this->goodArray2));
         $this->assertEquals([new stdClass()], flatten([[new stdClass()]]));
         $this->assertSame([null, null], flatten([[null], null]));
