@@ -11,6 +11,7 @@
 namespace Functional\Tests;
 
 use ReflectionFunction;
+
 use function Functional\group;
 use function get_defined_functions;
 
