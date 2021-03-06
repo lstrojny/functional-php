@@ -19,6 +19,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return mixed
+ * @no-named-arguments
  */
 function head($collection, callable $callback = null)
 {

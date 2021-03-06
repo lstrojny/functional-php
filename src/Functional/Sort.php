@@ -20,6 +20,7 @@ use Traversable;
  * @param callable $callback
  * @param bool $preserveKeys
  * @return array
+ * @no-named-arguments
  */
 function sort($collection, callable $callback, $preserveKeys = false)
 {

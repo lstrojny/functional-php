@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param mixed $value
  * @return callable
+ * @no-named-arguments
  */
 function const_function($value)
 {

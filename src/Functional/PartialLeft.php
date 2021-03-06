@@ -18,6 +18,7 @@ namespace Functional;
  * @param callable $callback
  * @param array ...$arguments
  * @return callable
+ * @no-named-arguments
  */
 function partial_left(callable $callback, ...$arguments)
 {

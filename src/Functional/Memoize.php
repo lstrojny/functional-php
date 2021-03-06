@@ -19,6 +19,7 @@ use const E_USER_DEPRECATED;
  * @param array $arguments Arguments
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
+ * @no-named-arguments
  */
 function memoize(callable $callback = null, $arguments = [], $key = null)
 {

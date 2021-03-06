@@ -18,6 +18,7 @@ use Traversable;
  *
  * @param Traversable|array $collection
  * @return null|float|int
+ * @no-named-arguments
  */
 function average($collection)
 {

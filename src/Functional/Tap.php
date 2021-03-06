@@ -16,6 +16,7 @@ namespace Functional;
  * @param  mixed  $value
  * @param  callable $callback
  * @return mixed
+ * @no-named-arguments
  */
 function tap($value, callable $callback)
 {

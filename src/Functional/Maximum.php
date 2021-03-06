@@ -18,6 +18,7 @@ use Traversable;
  *
  * @param Traversable|array $collection
  * @return integer|float
+ * @no-named-arguments
  */
 function maximum($collection)
 {

@@ -20,6 +20,7 @@ use Functional\Sequences\ExponentialSequence;
  * @param integer $percentage Integer between 1 and 100
  * @return ExponentialSequence
  * @throws InvalidArgumentException
+ * @no-named-arguments
  */
 function sequence_exponential($start, $percentage)
 {

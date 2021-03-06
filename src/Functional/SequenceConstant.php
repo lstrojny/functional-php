@@ -20,6 +20,7 @@ use Traversable;
  *
  * @param integer $value
  * @return Traversable
+ * @no-named-arguments
  */
 function sequence_constant($value)
 {

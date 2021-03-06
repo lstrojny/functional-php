@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param mixed $value
  * @return mixed
+ * @no-named-arguments
  */
 function id($value)
 {

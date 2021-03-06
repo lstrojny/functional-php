@@ -18,6 +18,7 @@ use ErrorException;
  * @param callable $callback
  * @throws ErrorException Throws exception if PHP error happened
  * @return mixed
+ * @no-named-arguments
  */
 function error_to_exception(callable $callback)
 {

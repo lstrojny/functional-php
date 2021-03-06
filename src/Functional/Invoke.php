@@ -21,6 +21,7 @@ use Traversable;
  * @param string $methodName
  * @param array $arguments
  * @return array
+ * @no-named-arguments
  */
 function invoke($collection, $methodName, array $arguments = [])
 {

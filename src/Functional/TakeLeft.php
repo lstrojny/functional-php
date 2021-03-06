@@ -21,6 +21,7 @@ use Traversable;
  * @param int $count
  *
  * @return array
+ * @no-named-arguments
  */
 function take_left($collection, $count)
 {

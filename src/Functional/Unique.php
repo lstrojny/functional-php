@@ -20,6 +20,7 @@ use Traversable;
  * @param callable $callback
  * @param bool $strict
  * @return array
+ * @no-named-arguments
  */
 function unique($collection, callable $callback = null, $strict = true)
 {

@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param mixed|callable $value
  * @return array
+ * @no-named-arguments
  */
 function indexes_of($collection, $value)
 {

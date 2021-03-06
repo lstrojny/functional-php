@@ -16,6 +16,7 @@ namespace Functional;
  * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
  * @param callable $reducer A function that takes an argument and returns the value that should be compared
  * @return callable
+ * @no-named-arguments
  */
 function compare_on(callable $comparison, callable $reducer = null)
 {

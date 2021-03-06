@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param mixed $b
  * @return \Closure(mixed)
+ * @no-named-arguments
  */
 function less_than_or_equal($b)
 {

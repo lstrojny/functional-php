@@ -10,6 +10,7 @@
 
 namespace Functional\Exceptions;
 
+/** @internal */
 class MatchException extends InvalidArgumentException
 {
     public static function assert(array $conditions, $callee)

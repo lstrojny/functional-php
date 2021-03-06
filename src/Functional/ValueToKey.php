@@ -18,6 +18,9 @@ use function serialize;
 
 use const PHP_VERSION_ID;
 
+/**
+ * @no-named-arguments
+ */
 function value_to_key(...$any)
 {
     /** @var object[]|WeakReference[] $objectReferences */

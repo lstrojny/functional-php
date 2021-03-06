@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param mixed $glue
  * @return array
+ * @no-named-arguments
  */
 function intersperse($collection, $glue)
 {

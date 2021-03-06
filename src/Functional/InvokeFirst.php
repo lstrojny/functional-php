@@ -22,6 +22,7 @@ use Traversable;
  * @param array $arguments
  *
  * @return mixed
+ * @no-named-arguments
  */
 function invoke_first($collection, $methodName, array $arguments = [])
 {

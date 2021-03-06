@@ -24,6 +24,7 @@ use const PHP_VERSION_ID;
  * @param array $conditions the conditions to check against
  *
  * @return callable|null the function that calls the callable of the first truthy condition
+ * @no-named-arguments
  */
 function matching(array $conditions)
 {
@@ -45,6 +46,7 @@ if (PHP_VERSION_ID < 80000 && !\function_exists('Functional\match')) {
     eval(<<<'ALIAS'
 namespace Functional;
 
+/** @no-named-arguments */
 function match(array $conditions) {
     trigger_error('Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead', E_USER_DEPRECATED);
     return matching($conditions);

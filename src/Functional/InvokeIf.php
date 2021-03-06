@@ -19,6 +19,7 @@ namespace Functional;
  * @param array $methodArguments
  * @param mixed $defaultValue
  * @return mixed
+ * @no-named-arguments
  */
 function invoke_if($object, $methodName, array $methodArguments = [], $defaultValue = null)
 {

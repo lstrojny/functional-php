@@ -18,6 +18,7 @@ namespace Functional;
  * @param callable $else function to call if condition is false
  *
  * @return mixed the return value of the given $then or $else functions
+ * @no-named-arguments
  */
 function if_else(callable $if, callable $then, callable $else)
 {

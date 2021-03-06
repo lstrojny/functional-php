@@ -18,6 +18,7 @@ use Traversable;
  * @param callable $callback
  * @param mixed $initial
  * @return mixed
+ * @no-named-arguments
  */
 function reduce_left($collection, callable $callback, $initial = null)
 {

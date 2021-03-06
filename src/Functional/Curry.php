@@ -21,6 +21,7 @@ use Closure;
  * @param callable $function the function to curry
  * @param bool $required curry optional parameters ?
  * @return callable a curryied version of the given function
+ * @no-named-arguments
  */
 function curry(callable $function, $required = true)
 {

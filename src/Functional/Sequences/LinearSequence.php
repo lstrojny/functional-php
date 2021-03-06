@@ -13,6 +13,7 @@ namespace Functional\Sequences;
 use Functional\Exceptions\InvalidArgumentException;
 use Iterator;
 
+/** @internal */
 class LinearSequence implements Iterator
 {
     /** @var integer */

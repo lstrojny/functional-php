@@ -16,6 +16,7 @@ namespace Functional;
  * @param callable $callback
  * @param mixed $result
  * @return callable
+ * @no-named-arguments
  */
 function capture(callable $callback, &$result)
 {

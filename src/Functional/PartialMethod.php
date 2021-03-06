@@ -19,6 +19,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param array $arguments
  * @param mixed $defaultValue
  * @return callable
+ * @no-named-arguments
  */
 function partial_method($methodName, array $arguments = [], $defaultValue = null)
 {

@@ -17,6 +17,7 @@ namespace Functional;
  * @return callable
  * @todo Add callable typehint when HHVM supports use of typehints with variadic arguments
  * @see https://github.com/facebook/hhvm/issues/6954
+ * @no-named-arguments
  */
 function compose(...$functions)
 {

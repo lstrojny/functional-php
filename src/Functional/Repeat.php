@@ -19,6 +19,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param callable $callback
  *
  * @return Closure
+ * @no-named-arguments
  */
 function repeat(callable $callback)
 {

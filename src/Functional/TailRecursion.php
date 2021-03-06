@@ -18,6 +18,7 @@ namespace Functional;
  *
  * @param callable $fn
  * @return callable
+ * @no-named-arguments
  */
 function tail_recursion(callable $fn): callable
 {

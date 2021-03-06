@@ -13,6 +13,7 @@ namespace Functional\Sequences;
 use Functional\Exceptions\InvalidArgumentException;
 use Iterator;
 
+/** @internal */
 class ExponentialSequence implements Iterator
 {
     /** @var integer */

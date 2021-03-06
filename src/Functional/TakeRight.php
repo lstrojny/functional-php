@@ -24,6 +24,7 @@ use Traversable;
  * @param bool $preserveKeys
  *
  * @return array
+ * @no-named-arguments
  */
 function take_right($collection, $count, $preserveKeys = false)
 {

@@ -22,6 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param mixed $default
  * @param callable $callback Custom function to check if index exists, default function is "isset"
  * @return mixed
+ * @no-named-arguments
  */
 function pick($collection, $index, $default = null, callable $callback = null)
 {

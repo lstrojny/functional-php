@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return array
+ * @no-named-arguments
  */
 function reindex($collection, callable $callback)
 {

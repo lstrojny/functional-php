@@ -19,6 +19,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return array
+ * @no-named-arguments
  */
 function filter($collection, callable $callback)
 {

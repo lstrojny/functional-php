@@ -21,6 +21,7 @@ use Traversable;
  * @param mixed $value
  * @param bool $strict
  * @return bool
+ * @no-named-arguments
  */
 function contains($collection, $value, $strict = true)
 {

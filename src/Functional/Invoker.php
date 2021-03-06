@@ -19,6 +19,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param string $methodName
  * @param array $arguments
  * @return callable
+ * @no-named-arguments
  */
 function invoker($methodName, array $arguments = [])
 {

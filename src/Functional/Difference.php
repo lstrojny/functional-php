@@ -19,6 +19,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param integer|float $initial
  * @return integer|float
+ * @no-named-arguments
  */
 function difference($collection, $initial = 0)
 {

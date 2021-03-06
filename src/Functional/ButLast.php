@@ -18,6 +18,7 @@ use Traversable;
  *
  * @param Traversable|array $collection
  * @return array
+ * @no-named-arguments
  */
 function but_last($collection)
 {

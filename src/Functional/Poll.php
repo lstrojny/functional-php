@@ -24,6 +24,7 @@ use Traversable;
  * @param Traversable|null $delaySequence Default: no delay between calls
  * @throws InvalidArgumentException
  * @return boolean
+ * @no-named-arguments
  */
 function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 {

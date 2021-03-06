@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable $convergingFunction Will be invoked with the return values of all branching functions as its arguments
  * @param callable[] $branchingFunctions A list of functions
  * @return callable A flipped version of the given function
+ * @no-named-arguments
  */
 function converge($convergingFunction, array $branchingFunctions)
 {

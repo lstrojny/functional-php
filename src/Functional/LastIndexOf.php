@@ -19,6 +19,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param mixed $value
  * @return mixed
+ * @no-named-arguments
  */
 function last_index_of($collection, $value)
 {

@@ -17,6 +17,7 @@ namespace Functional;
  *
  * @param callable $callback the function you want to flip
  * @return callable a flipped version of the given function
+ * @no-named-arguments
  */
 function flip(callable $callback)
 {

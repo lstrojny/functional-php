@@ -16,6 +16,7 @@ namespace Functional;
  * @param callable $callback
  * @param array ...$arguments
  * @return callable
+ * @no-named-arguments
  */
 function partial_right(callable $callback, ...$arguments)
 {

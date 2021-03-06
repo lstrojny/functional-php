@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param callable $function The function to run value against
  * @return callable A negation version on the given $function
+ * @no-named-arguments
  */
 function not(callable $function)
 {

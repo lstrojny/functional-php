@@ -20,6 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param bool $invokeValue Set to false to not invoke $value if it is a callable. Will be removed in 2.0
  * @param mixed $default The default value to return if $value is null
  * @return mixed
+ * @no-named-arguments
  */
 function with($value, callable $callback, $invokeValue = true, $default = null)
 {

@@ -25,6 +25,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable ...$callbacks
  * @return array
+ * @no-named-arguments
  */
 function partition($collection, callable ...$callbacks)
 {

@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable|null $callback
  * @return bool
+ * @no-named-arguments
  */
 function none($collection, callable $callback = null)
 {

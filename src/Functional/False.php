@@ -18,6 +18,7 @@ use Traversable;
  *
  * @param Traversable|array $collection
  * @return bool
+ * @no-named-arguments
  */
 function false($collection)
 {

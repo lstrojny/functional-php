@@ -20,6 +20,7 @@ use Traversable;
  * @param integer $start
  * @param integer $amount
  * @return Traversable
+ * @no-named-arguments
  */
 function sequence_linear($start, $amount)
 {

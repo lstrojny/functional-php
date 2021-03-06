@@ -10,6 +10,7 @@
 
 namespace Functional\Exceptions;
 
+/** @internal */
 class InvalidArgumentException extends \InvalidArgumentException
 {
     /**

@@ -19,6 +19,7 @@ use Traversable;
  *
  * @param Traversable|array $collection
  * @return array
+ * @no-named-arguments
  */
 function flatten($collection)
 {

@@ -20,6 +20,7 @@ use function Functional\const_function;
  * @param callable $callback
  * @throws ErrorException Throws exception if PHP error happened
  * @return mixed
+ * @no-named-arguments
  */
 function suppress_error(callable $callback)
 {

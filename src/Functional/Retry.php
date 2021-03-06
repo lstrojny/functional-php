@@ -27,6 +27,7 @@ use Traversable;
  * @throws Exception Any exception thrown by the callback
  * @throws InvalidArgumentException
  * @return mixed Return value of the function
+ * @no-named-arguments
  */
 function retry(callable $callback, $retries, Traversable $delaySequence = null)
 {

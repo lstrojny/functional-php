@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param string $propertyName
  * @return array
+ * @no-named-arguments
  */
 function pluck($collection, $propertyName)
 {

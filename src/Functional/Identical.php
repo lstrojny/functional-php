@@ -15,6 +15,7 @@ namespace Functional;
  *
  * @param mixed $b
  * @return callable
+ * @no-named-arguments
  */
 function identical($b)
 {

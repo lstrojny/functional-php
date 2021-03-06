@@ -19,6 +19,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param array $keys
  * @return array
+ * @no-named-arguments
  */
 function select_keys($collection, array $keys)
 {

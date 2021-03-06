@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return null
+ * @no-named-arguments
  */
 function each($collection, callable $callback)
 {

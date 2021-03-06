@@ -21,6 +21,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable $callback
  * @return mixed
+ * @no-named-arguments
  */
 function first($collection, callable $callback = null)
 {

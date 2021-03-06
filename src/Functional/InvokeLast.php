@@ -21,6 +21,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param string $methodName
  * @param array $arguments
  * @return mixed
+ * @no-named-arguments
  */
 function invoke_last($collection, $methodName, array $arguments = [])
 {

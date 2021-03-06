@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable|null $callback
  * @return bool
+ * @no-named-arguments
  */
 function every($collection, callable $callback = null)
 {

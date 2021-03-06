@@ -20,6 +20,7 @@ use Traversable;
  * @param Traversable|array $collection
  * @param callable|null $callback
  * @return array
+ * @no-named-arguments
  */
 function reject($collection, callable $callback = null)
 {
