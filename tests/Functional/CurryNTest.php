@@ -40,7 +40,7 @@ class Adder
 
 class CurryNTest extends AbstractPartialTestCase
 {
-    protected function getCurryiedCallable($callback, $params, $required)
+    protected function getCurryiedCallable(callable $callback, array $params, bool $required): callable
     {
         return curry_n(\count($params), $callback);
     }

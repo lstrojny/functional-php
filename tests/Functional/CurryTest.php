@@ -14,7 +14,7 @@ use function Functional\curry;
 
 class CurryTest extends CurryNTest
 {
-    protected function getCurryiedCallable($callback, $params, $required)
+    protected function getCurryiedCallable(callable $callback, array $params, bool $required): callable
     {
         return curry($callback, $required);
     }

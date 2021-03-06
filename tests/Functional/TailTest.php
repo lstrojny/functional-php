@@ -12,19 +12,16 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 use function Functional\tail;
 
 class TailTest extends AbstractTestCase
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $badArray;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $badIterator;
 
     public function setUp(): void

@@ -12,11 +12,18 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 use function Functional\last;
 
 class LastTest extends AbstractTestCase
 {
+    /** @var string[] */
+    private $badArray;
+
+    /** @var Traversable|string[] */
+    private $badIterator;
+
     public function setUp(): void
     {
         parent::setUp();

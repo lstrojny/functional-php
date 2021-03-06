@@ -12,18 +12,14 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 class FirstTest extends AbstractTestCase
 {
-
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private $badArray;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $badIterator;
 
     public function getAliases(): array

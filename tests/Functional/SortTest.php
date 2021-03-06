@@ -16,6 +16,9 @@ use Functional\Exceptions\InvalidArgumentException;
 
 class SortTest extends AbstractTestCase
 {
+    /** @var callable */
+    private $sortCallback;
+
     public function setUp(): void
     {
         parent::setUp();

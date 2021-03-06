@@ -17,6 +17,18 @@ use function Functional\none;
 
 class NoneTest extends AbstractTestCase
 {
+    /** @var string[] */
+    private $goodArray;
+
+    /** @var Traversable|string[] */
+    private $goodIterator;
+
+    /** @var string[] */
+    private $badArray;
+
+    /** @var Traversable|string[] */
+    private $badIterator;
+
     public function setUp(): void
     {
         parent::setUp();

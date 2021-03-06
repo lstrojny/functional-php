@@ -12,47 +12,32 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional as F;
+use Traversable;
 
 class TrueTest extends AbstractTestCase
 {
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $falseHashIterator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $falseHash;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $falseIterator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $falseArray;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $trueHashIterator;
 
-    /**
-     * @var bool[]
-     */
+    /** @var bool[] */
     private $trueHash;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $trueIterator;
 
-    /**
-     * @var bool[]
-     */
+    /** @var bool[] */
     private $trueArray;
 
     public function setUp(): void

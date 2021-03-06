@@ -11,11 +11,18 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
+use Traversable;
 
 use function Functional\unique;
 
 class UniqueTest extends AbstractTestCase
 {
+    /** @var array */
+    private $mixedTypesArray;
+
+    /** @var Traversable */
+    private $mixedTypesIterator;
+
     public function setUp(): void
     {
         parent::setUp();

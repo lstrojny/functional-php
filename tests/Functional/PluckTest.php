@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use ArrayIterator;
 use ArrayObject;
 use SplFixedArray;
+use Traversable;
 
 use function Functional\pluck;
 
@@ -89,15 +90,38 @@ class PluckCaller
 
 class PluckTest extends AbstractTestCase
 {
-    /**
-     * @var object[]
-     */
+    /** @var object[] */
     private $propertyExistsEverywhereArray;
 
-    /**
-     * @var ArrayIterator
-     */
+    /** @var Traversable */
     private $propertyExistsEverywhereIterator;
+
+    /** @var object[] */
+    private $propertyExistsSomewhere;
+
+    /** @var array */
+    private $propertyMagicGet;
+
+    /** @var array */
+    private $mixedCollection;
+
+    /** @var object[] */
+    private $keyedCollection;
+
+    /** @var array */
+    private $numericArrayCollection;
+
+    /** @var array */
+    private $issetExceptionArray;
+
+    /** @var Traversable */
+    private $issetExceptionIterator;
+
+    /** @var array */
+    private $getExceptionArray;
+
+    /** @var Traversable */
+    private $getExceptionIterator;
 
     public function setUp(): void
     {

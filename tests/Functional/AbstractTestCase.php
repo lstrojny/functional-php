@@ -12,6 +12,7 @@ namespace Functional\Tests;
 
 use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
+use Iterator;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use Traversable;
@@ -66,7 +67,7 @@ class AbstractTestCase extends TestCase
         throw new DomainException(\sprintf('Callback exception: %s', $args[1]));
     }
 
-    protected function sequenceToArray(Traversable $sequence, $limit): array
+    protected function sequenceToArray(Iterator $sequence, int $limit): array
     {
         $values = [];
         $sequence->rewind();

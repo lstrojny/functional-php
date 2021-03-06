@@ -11,11 +11,36 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
+use Traversable;
 
 use function Functional\truthy;
 
 class TruthyTest extends AbstractTestCase
 {
+    /** @var array */
+    private $trueArray;
+
+    /** @var Traversable */
+    private $trueIterator;
+
+    /** @var array */
+    private $trueHash;
+
+    /** @var Traversable */
+    private $trueHashIterator;
+
+    /** @var array */
+    private $falseArray;
+
+    /** @var Traversable */
+    private $falseIterator;
+
+    /** @var array */
+    private $falseHash;
+
+    /** @var Traversable */
+    private $falseHashIterator;
+
     public function setUp(): void
     {
         parent::setUp();

@@ -17,6 +17,9 @@ use function Functional\reduce_right;
 
 class ReduceTest extends AbstractTestCase
 {
+    /** @var iterable */
+    private $currentCollection;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -38,30 +41,102 @@ class ReduceTest extends AbstractTestCase
         self::assertSame('2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback']));
         self::assertSame('default,2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback'], 'default'));
 
-        self::assertSame('initial', reduce_left([], static function () {
-        }, 'initial'));
-        self::assertNull(reduce_left([], static function () {
-        }));
-        self::assertNull(reduce_left([], static function () {
-        }, null));
-        self::assertSame('initial', reduce_left(new ArrayIterator([]), static function () {
-        }, 'initial'));
-        self::assertNull(reduce_left(new ArrayIterator([]), static function () {
-        }));
-        self::assertNull(reduce_left(new ArrayIterator([]), static function () {
-        }, null));
-        self::assertSame('initial', reduce_right([], static function () {
-        }, 'initial'));
-        self::assertNull(reduce_right([], static function () {
-        }));
-        self::assertNull(reduce_right([], static function () {
-        }, null));
-        self::assertSame('initial', reduce_right(new ArrayIterator([]), static function () {
-        }, 'initial'));
-        self::assertNull(reduce_right(new ArrayIterator([]), static function () {
-        }));
-        self::assertNull(reduce_right(new ArrayIterator([]), static function () {
-        }, null));
+        self::assertSame(
+            'initial',
+            reduce_left(
+                [],
+                static function () {
+                },
+                'initial'
+            )
+        );
+        self::assertNull(
+            reduce_left(
+                [],
+                static function () {
+                }
+            )
+        );
+        self::assertNull(
+            reduce_left(
+                [],
+                static function () {
+                },
+                null
+            )
+        );
+        self::assertSame(
+            'initial',
+            reduce_left(
+                new ArrayIterator([]),
+                static function () {
+                },
+                'initial'
+            )
+        );
+        self::assertNull(
+            reduce_left(
+                new ArrayIterator([]),
+                static function () {
+                }
+            )
+        );
+        self::assertNull(
+            reduce_left(
+                new ArrayIterator([]),
+                static function () {
+                },
+                null
+            )
+        );
+        self::assertSame(
+            'initial',
+            reduce_right(
+                [],
+                static function () {
+                },
+                'initial'
+            )
+        );
+        self::assertNull(
+            reduce_right(
+                [],
+                static function () {
+                }
+            )
+        );
+        self::assertNull(
+            reduce_right(
+                [],
+                static function () {
+                },
+                null
+            )
+        );
+        self::assertSame(
+            'initial',
+            reduce_right(
+                new ArrayIterator([]),
+                static function () {
+                },
+                'initial'
+            )
+        );
+        self::assertNull(
+            reduce_right(
+                new ArrayIterator([]),
+                static function () {
+                }
+            )
+        );
+        self::assertNull(
+            reduce_right(
+                new ArrayIterator([]),
+                static function () {
+                },
+                null
+            )
+        );
     }
 
     public function testExceptionThrownInIteratorCallbackWhileReduceLeft(): void

@@ -12,6 +12,7 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
+use Traversable;
 
 use function Functional\every;
 
@@ -20,13 +21,13 @@ class EveryTest extends AbstractTestCase
     /** @var string[] */
     private $goodArray;
 
-    /** @var ArrayIterator|string[] */
+    /** @var Traversable|string[] */
     private $goodIterator;
 
     /** @var string[] */
     private $badArray;
 
-    /** @var string[]|ArrayIterator */
+    /** @var Traversable|string[] */
     private $badIterator;
 
     public function setUp(): void
