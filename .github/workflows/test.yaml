@@ -43,7 +43,7 @@ jobs:
               run: |
                 composer require pcov/clobber
                 vendor/bin/pcov clobber
-              continue-on-error: ${{ matrix.experimental }}
+              continue-on-error: true
 
             - name: Run Tests
               run: composer tests
