@@ -19,7 +19,7 @@ class ReduceTest extends AbstractTestCase
 {
     public function setUp(): void
     {
-        parent::setUp('Functional\reduce_right', 'Functional\reduce_left');
+        parent::setUp();
         $this->list = ['one', 'two', 'three'];
         $this->listIterator = new ArrayIterator($this->list);
     }

@@ -20,7 +20,7 @@ class DropTest extends AbstractTestCase
 {
     public function setUp(): void
     {
-        parent::setUp('Functional\drop_first', 'Functional\drop_last');
+        parent::setUp();
         $this->list = ['value1', 'value2', 'value3', 'value4'];
         $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val3', 'k4' => 'val4'];

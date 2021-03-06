@@ -34,32 +34,6 @@ class AbstractTestCase extends TestCase
     /** @var Traversable */
     protected $hashIterator;
 
-    private $functions = [];
-
-    public function setUp(): void
-    {
-        $this->functions = F\flatten(
-            (array) (
-            \func_num_args() > 0
-                ? \func_get_arg(0)
-                : $this->getFunctionName()
-            )
-        );
-
-        foreach ($this->functions as $function) {
-            if (!\function_exists($function)) {
-                $this->markTestSkipped(
-                    \sprintf(
-                        'Function "%s()" not implemented in %s version',
-                        $function,
-                        \extension_loaded('functional') ? 'native C' : 'PHP userland'
-                    )
-                );
-                break;
-            }
-        }
-    }
-
     protected function expectArgumentError($message)
     {
         $this->expectException(InvalidArgumentException::class);

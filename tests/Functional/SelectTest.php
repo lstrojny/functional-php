@@ -28,7 +28,7 @@ class SelectTest extends AbstractTestCase
 
     public function setUp(): void
     {
-        parent::setUp($this->getAliases());
+        parent::setUp();
         $this->list = ['value', 'wrong', 'value'];
         $this->listIterator = new ArrayIterator($this->list);
         $this->hash = ['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'];
