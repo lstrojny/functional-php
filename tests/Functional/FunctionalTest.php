@@ -40,6 +40,11 @@ class FunctionalTest extends TestCase
         $constants = $functionalClass->getConstants();
 
         foreach ($expectedFunctions as $function) {
+
+            if ($function === '\\Functional\\match') {
+                continue;
+            }
+
             $this->assertContains($function, $constants);
         }
     }
