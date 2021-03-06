@@ -54,7 +54,9 @@ function …()
 }
 
 
-/** @return resource * @no-named-arguments
+/** 
+ * @return resource 
+ * @no-named-arguments
  */
 function placeholder()
 {
