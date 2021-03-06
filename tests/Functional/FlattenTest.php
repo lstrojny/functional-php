@@ -27,16 +27,16 @@ class FlattenTest extends AbstractTestCase
         $this->goodIterator[5][1] = new ArrayIterator($this->goodIterator[5][1]);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame(\range(1, 15), flatten($this->goodArray));
-        $this->assertSame(\range(1, 15), flatten($this->goodIterator));
-        $this->assertSame([1, "2", "3", 5], flatten($this->goodArray2));
-        $this->assertEquals([new stdClass()], flatten([[new stdClass()]]));
-        $this->assertSame([null, null], flatten([[null], null]));
+        self::assertSame(\range(1, 15), flatten($this->goodArray));
+        self::assertSame(\range(1, 15), flatten($this->goodIterator));
+        self::assertSame([1, "2", "3", 5], flatten($this->goodArray2));
+        self::assertEquals([new stdClass()], flatten([[new stdClass()]]));
+        self::assertSame([null, null], flatten([[null], null]));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\flatten() expects parameter 1 to be array or instance of Traversable');
         flatten('invalidCollection');

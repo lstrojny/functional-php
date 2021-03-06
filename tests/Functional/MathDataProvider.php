@@ -15,7 +15,7 @@ use ArrayIterator;
 
 class MathDataProvider
 {
-    public static function injectErrorCollection()
+    public static function injectErrorCollection(): array
     {
         $args = [];
         foreach ([new stdClass(), \stream_context_create(), [], "str"] as $v) {
@@ -26,7 +26,7 @@ class MathDataProvider
         return $args;
     }
 
-    public static function injectBooleanValues()
+    public static function injectBooleanValues(): array
     {
         return [
             [false, true, 1]

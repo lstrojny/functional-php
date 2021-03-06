@@ -25,23 +25,23 @@ class RatioTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame(1, ratio([1]));
-        $this->assertSame(1, ratio(new ArrayIterator([1])));
-        $this->assertSame(1, ratio($this->intArray, 24));
-        $this->assertSame(1, ratio($this->intIterator, 24));
-        $this->assertEqualsWithDelta(-1, ratio($this->floatArray, -1.65), 0.01);
-        $this->assertEqualsWithDelta(-1, ratio($this->floatIterator, -1.65), 0.01);
+        self::assertSame(1, ratio([1]));
+        self::assertSame(1, ratio(new ArrayIterator([1])));
+        self::assertSame(1, ratio($this->intArray, 24));
+        self::assertSame(1, ratio($this->intIterator, 24));
+        self::assertEqualsWithDelta(-1, ratio($this->floatArray, -1.65), 0.01);
+        self::assertEqualsWithDelta(-1, ratio($this->floatIterator, -1.65), 0.01);
     }
 
     /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
-    public function testElementsOfWrongTypeAreIgnored($collection)
+    public function testElementsOfWrongTypeAreIgnored($collection): void
     {
-        $this->assertEqualsWithDelta(0.333, ratio($collection), 0.001);
+        self::assertEqualsWithDelta(0.333, ratio($collection), 0.001);
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\ratio() expects parameter 1 to be array or instance of Traversable');
         ratio('invalidCollection', 'strlen');

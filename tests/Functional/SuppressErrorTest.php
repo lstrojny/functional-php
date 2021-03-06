@@ -18,7 +18,7 @@ use const E_USER_ERROR;
 
 class SuppressErrorTest extends AbstractTestCase
 {
-    public function testErrorIsSuppressed()
+    public function testErrorIsSuppressed(): void
     {
         $origFn = function () {
             \trigger_error('Some error', E_USER_ERROR);
@@ -26,17 +26,17 @@ class SuppressErrorTest extends AbstractTestCase
 
         $fn = suppress_error($origFn);
 
-        $this->assertNull($fn());
+        self::assertNull($fn());
     }
 
-    public function testFunctionIsWrapped()
+    public function testFunctionIsWrapped(): void
     {
         $fn = suppress_error('substr');
 
-        $this->assertSame('f', $fn('foo', 0, 1));
+        self::assertSame('f', $fn('foo', 0, 1));
     }
 
-    public function testExceptionsAreHandledTransparently()
+    public function testExceptionsAreHandledTransparently(): void
     {
         $expectedException = new RuntimeException();
         $fn = suppress_error(
@@ -50,7 +50,7 @@ class SuppressErrorTest extends AbstractTestCase
         $fn();
     }
 
-    public function testErrorHandlerNestingWorks()
+    public function testErrorHandlerNestingWorks(): void
     {
         $errorMessage = null;
         \set_error_handler(
@@ -59,16 +59,16 @@ class SuppressErrorTest extends AbstractTestCase
             }
         );
 
-        $origFn = function () {
+        $origFn = static function () {
             \trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = suppress_error($origFn);
-        $this->assertNull($fn([], 0));
+        self::assertNull($fn([], 0));
 
         self::assertNull($errorMessage);
         $origFn();
-        $this->assertSame('Some error', $errorMessage);
+        self::assertSame('Some error', $errorMessage);
         \restore_error_handler();
     }
 }

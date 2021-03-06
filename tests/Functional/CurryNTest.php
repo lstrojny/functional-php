@@ -48,7 +48,7 @@ class CurryNTest extends AbstractPartialTestCase
     /**
      * @dataProvider callbacks
      */
-    public function testCallbackTypes($callback, $params, $expected, $required, $transformer = null)
+    public function testCallbackTypes($callback, $params, $expected, $required, $transformer = null): void
     {
         if (\is_null($transformer)) {
             $transformer = 'Functional\id';
@@ -56,7 +56,7 @@ class CurryNTest extends AbstractPartialTestCase
 
         $curryied = $this->getCurryiedCallable($callback, $params, $required);
 
-        $this->assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
+        self::assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
 
         $length = \count($params);
         for ($i = 0; $i < $length; ++$i) {
@@ -65,15 +65,15 @@ class CurryNTest extends AbstractPartialTestCase
             $curryied = $curryied($p);
 
             if (\count($params) > 0) {
-                $this->assertTrue(\is_callable($curryied));
-                $this->assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
+                self::assertIsCallable($curryied);
+                self::assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
             } else {
-                $this->assertEquals($transformer($expected), $transformer($curryied));
+                self::assertEquals($transformer($expected), $transformer($curryied));
             }
         }
     }
 
-    public function callbacks()
+    public function callbacks(): array
     {
         $dt = new DateTime();
         $dt2 = clone $dt;
@@ -82,7 +82,7 @@ class CurryNTest extends AbstractPartialTestCase
 
         return [
             ['Functional\Tests\add', [2, 4, 6, 8], 20, true],
-            [['Functional\Tests\Adder', 'staticAdd'], [2, 4, 6, 8], 20, true],
+            [[Adder::class, 'staticAdd'], [2, 4, 6, 8], 20, true],
             ['Functional\Tests\Adder::staticAdd', [2, 4, 6, 8], 20, true],
             [new Adder(), [2, 4, 6, 8], 20, true],
             [[new Adder(), 'add'], [2, 4, 6, 8], 20, true],

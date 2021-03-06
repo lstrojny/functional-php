@@ -16,20 +16,20 @@ use function Functional\id;
 
 class FlipTest extends AbstractTestCase
 {
-    public function testFlippedMergeStrings()
+    public function testFlippedMergeStrings(): void
     {
         $flippedMergeStrings = flip('Functional\Tests\merge_strings');
-        $this->assertSame(merge_strings('one', 'two'), $flippedMergeStrings('two', 'one'));
-        $this->assertSame(merge_strings('rick', 'and', 'morty'), $flippedMergeStrings('morty', 'and', 'rick'));
+        self::assertSame(merge_strings('one', 'two'), $flippedMergeStrings('two', 'one'));
+        self::assertSame(merge_strings('rick', 'and', 'morty'), $flippedMergeStrings('morty', 'and', 'rick'));
     }
 
-    public function testFlippedSubtract()
+    public function testFlippedSubtract(): void
     {
         $flippedSubtract = flip('Functional\Tests\subtract');
-        $this->assertSame(subtract(5, 3, 2), $flippedSubtract(2, 3, 5));
+        self::assertSame(subtract(5, 3, 2), $flippedSubtract(2, 3, 5));
     }
 
-    public function testFlippedFilter()
+    public function testFlippedFilter(): void
     {
         $data = [1, 2, 3, 4];
         $getEven = function ($number) {
@@ -37,22 +37,22 @@ class FlipTest extends AbstractTestCase
         };
         $flippedFilter = flip('Functional\filter');
 
-        $this->assertSame(filter($data, $getEven), $flippedFilter($getEven, $data));
+        self::assertSame(filter($data, $getEven), $flippedFilter($getEven, $data));
     }
 
-    public function testFlippedId()
+    public function testFlippedId(): void
     {
         $flippedId = flip('Functional\id');
-        $this->assertSame(id(1), $flippedId(1));
+        self::assertSame(id(1), $flippedId(1));
     }
 }
 
-function merge_strings(string $head, string $tail, ...$other)
+function merge_strings(string $head, string $tail, ...$other): string
 {
     return $head . $tail . \implode('', $other);
 }
 
-function subtract(int $first, int $second, int $third)
+function subtract(int $first, int $second, int $third): int
 {
     return $first - $second - $third;
 }

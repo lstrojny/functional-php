@@ -14,11 +14,11 @@ use function Functional\identical;
 
 class IdenticalTest extends AbstractTestCase
 {
-    public function testIdenticalComparison()
+    public function testIdenticalComparison(): void
     {
         $fn = identical(2);
 
-        $this->assertTrue($fn(2));
-        $this->assertFalse($fn('2'));
+        self::assertTrue($fn(2));
+        self::assertFalse($fn('2'));
     }
 }

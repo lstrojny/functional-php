@@ -16,7 +16,7 @@ use RuntimeException;
 
 use function Functional\memoize;
 
-function testfunc()
+function testfunc(): string
 {
     return 'TESTFUNC' . MemoizeTest::invoke(__FUNCTION__);
 }
@@ -28,7 +28,7 @@ class MemoizeTest extends AbstractTestCase
     /** @var MockObject */
     private $callback;
 
-    public static function invoke($name)
+    public static function invoke($name): int
     {
         if (self::$invocation > 0) {
             throw new BadMethodCallException(\sprintf('%s called more than once', $name));
@@ -37,7 +37,7 @@ class MemoizeTest extends AbstractTestCase
         return self::$invocation;
     }
 
-    public static function call()
+    public static function call(): string
     {
         return 'STATIC METHOD VALUE' . self::invoke(__METHOD__);
     }
@@ -52,112 +52,112 @@ class MemoizeTest extends AbstractTestCase
         self::$invocation = 0;
     }
 
-    public function testMemoizeSimpleObjectCall()
+    public function testMemoizeSimpleObjectCall(): void
     {
         $this->callback
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('execute')
-            ->will($this->returnValue('VALUE1'));
+            ->willReturn('VALUE1');
 
-        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
-        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
-        $this->assertSame('VALUE1', memoize([$this->callback, 'execute']));
+        self::assertSame('VALUE1', memoize([$this->callback, 'execute']));
+        self::assertSame('VALUE1', memoize([$this->callback, 'execute']));
+        self::assertSame('VALUE1', memoize([$this->callback, 'execute']));
     }
 
-    public function testMemoizeFunctionCall()
+    public function testMemoizeFunctionCall(): void
     {
-        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
-        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
-        $this->assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
+        self::assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
+        self::assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
+        self::assertSame('TESTFUNC1', memoize('Functional\Tests\testfunc'));
     }
 
-    public function testMemoizeStaticMethodCall()
+    public function testMemoizeStaticMethodCall(): void
     {
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
-        $this->assertSame('STATIC METHOD VALUE1', memoize(['Functional\Tests\MemoizeTest', 'call']));
+        self::assertSame('STATIC METHOD VALUE1', memoize([MemoizeTest::class, 'call']));
+        self::assertSame('STATIC METHOD VALUE1', memoize([MemoizeTest::class, 'call']));
+        self::assertSame('STATIC METHOD VALUE1', memoize([MemoizeTest::class, 'call']));
     }
 
-    public function testMemoizeClosureCall()
+    public function testMemoizeClosureCall(): void
     {
         $closure = function () {
             return 'CLOSURE VALUE' . MemoizeTest::invoke('Closure');
         };
-        $this->assertSame('CLOSURE VALUE1', memoize($closure));
-        $this->assertSame('CLOSURE VALUE1', memoize($closure));
-        $this->assertSame('CLOSURE VALUE1', memoize($closure));
+        self::assertSame('CLOSURE VALUE1', memoize($closure));
+        self::assertSame('CLOSURE VALUE1', memoize($closure));
+        self::assertSame('CLOSURE VALUE1', memoize($closure));
     }
 
-    public function testMemoizeWithArguments()
+    public function testMemoizeWithArguments(): void
     {
         $this->callback
             ->method('execute')
             ->withConsecutive(['FOO', 'BAR'], ['BAR', 'BAZ'])
             ->willReturnOnConsecutiveCalls('FOO BAR', 'BAR BAZ');
 
-        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
-        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
-        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
-        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
+        self::assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
+        self::assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR']));
+        self::assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
+        self::assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ']));
     }
 
-    public function testMemoizeWithCustomKey()
+    public function testMemoizeWithCustomKey(): void
     {
         $this->callback
             ->method('execute')
             ->withConsecutive(['FOO', 'BAR'], ['BAR', 'BAZ'])
             ->willReturnOnConsecutiveCalls('FOO BAR', 'BAR BAZ');
 
-        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:CUSTOM:KEY'));
-        $this->assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:CUSTOM:KEY'), 'Result already memoized');
+        self::assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:CUSTOM:KEY'));
+        self::assertSame('FOO BAR', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:CUSTOM:KEY'), 'Result already memoized');
 
-        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'));
-        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
-        $this->assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
+        self::assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'));
+        self::assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['BAR', 'BAZ'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
+        self::assertSame('BAR BAZ', memoize([$this->callback, 'execute'], ['FOO', 'BAR'], 'MY:DIFFERENT:KEY'), 'Result already memoized');
     }
 
-    public function testResultIsNotStoredIfExceptionIsThrown()
+    public function testResultIsNotStoredIfExceptionIsThrown(): void
     {
         $this->callback
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('execute')
-            ->will($this->throwException(new BadMethodCallException('EXCEPTION')));
+            ->will(self::throwException(new BadMethodCallException('EXCEPTION')));
 
         try {
             memoize([$this->callback, 'execute']);
-            $this->fail('Expected failure');
+            self::fail('Expected failure');
         } catch (BadMethodCallException $e) {
         }
 
         try {
             memoize([$this->callback, 'execute']);
-            $this->fail('Expected failure');
+            self::fail('Expected failure');
         } catch (BadMethodCallException $e) {
         }
     }
 
-    public function testResetByPassingNullAsCallable()
+    public function testResetByPassingNullAsCallable(): void
     {
         $this->callback
-            ->expects($this->exactly(2))
+            ->expects(self::exactly(2))
             ->method('execute');
 
         memoize([$this->callback, 'execute']);
         memoize([$this->callback, 'execute']);
 
-        $this->assertNull(memoize(null));
+        self::assertNull(memoize(null));
 
         memoize([$this->callback, 'execute']);
         memoize([$this->callback, 'execute']);
     }
 
-    public function testPassNoCallable()
+    public function testPassNoCallable(): void
     {
         $this->expectCallableArgumentError('Functional\memoize', 1);
         memoize('invalidFunction');
     }
 
-    public function testSplObjectHashCollisions()
+    public function testSplObjectHashCollisions(): void
     {
         self::assertSame(0, memoize(self::createFn(0, 1)));
         self::assertSame(1, memoize(self::createFn(1, 1)));

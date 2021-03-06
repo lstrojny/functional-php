@@ -14,12 +14,12 @@ use function Functional\less_than_or_equal;
 
 class LessThanOrEqualTest extends AbstractTestCase
 {
-    public function testLessThanOrEqualComparison()
+    public function testLessThanOrEqualComparison(): void
     {
         $fn = less_than_or_equal(2);
 
-        $this->assertFalse($fn(3));
-        $this->assertTrue($fn(2));
-        $this->assertTrue($fn(1));
+        self::assertFalse($fn(3));
+        self::assertTrue($fn(2));
+        self::assertTrue($fn(1));
     }
 }

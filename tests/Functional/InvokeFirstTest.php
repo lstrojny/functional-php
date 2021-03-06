@@ -28,51 +28,54 @@ class InvokeFirstTest extends AbstractTestCase
         $this->iteratorVeryFirstNotCallable = new ArrayIterator($this->arrayVeryFirstNotCallable);
     }
 
-    public function testSimple()
+    public function testSimple(): void
     {
-        $this->assertSame('methodValue', invoke_first($this->list, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_first($this->listIterator, 'method'));
-        $this->assertSame(null, invoke_first($this->list, 'undefinedMethod'));
-        $this->assertSame(null, invoke_first($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame([1, 2], invoke_first($this->list, 'returnArguments', [1, 2]));
-        $this->assertSame('methodValue', invoke_first($this->keyArray, 'method'));
-        $this->assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
+        self::assertSame('methodValue', invoke_first($this->list, 'method', [1, 2]));
+        self::assertSame('methodValue', invoke_first($this->listIterator, 'method'));
+        self::assertNull(invoke_first($this->list, 'undefinedMethod'));
+        self::assertNull(invoke_first($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        self::assertSame([1, 2], invoke_first($this->list, 'returnArguments', [1, 2]));
+        self::assertSame('methodValue', invoke_first($this->keyArray, 'method'));
+        self::assertSame('methodValue', invoke_first($this->keyIterator, 'method'));
     }
 
-    public function testSkipNonCallables()
+    public function testSkipNonCallables(): void
     {
-        $this->assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
-        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
-        $this->assertSame(null, invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame([1, 2], invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', [1, 2]));
+        self::assertSame('methodValue', invoke_first($this->arrayVeryFirstNotCallable, 'method', [1, 2]));
+        self::assertSame('methodValue', invoke_first($this->iteratorVeryFirstNotCallable, 'method'));
+        self::assertNull(invoke_first($this->arrayVeryFirstNotCallable, 'undefinedMethod'));
+        self::assertNull(
+            invoke_first($this->arrayVeryFirstNotCallable, 'setExpectedExceptionFromAnnotation'),
+            'Protected method'
+        );
+        self::assertSame([1, 2], invoke_first($this->arrayVeryFirstNotCallable, 'returnArguments', [1, 2]));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 1 to be array or instance of Traversable');
         invoke_first('invalidCollection', 'method');
     }
 
-    public function testPassNoPropertyName()
+    public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 2 to be string');
         invoke_first($this->list, new \stdClass());
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         invoke_first($this->list, 'exception');
     }
 
-    public function method()
+    public function method(): string
     {
         return 'methodValue';
     }
 
-    public function returnArguments()
+    public function returnArguments(): array
     {
         return \func_get_args();
     }

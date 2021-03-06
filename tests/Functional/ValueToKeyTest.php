@@ -28,7 +28,7 @@ use const PHP_VERSION_ID;
 
 class ValueToKeyTest extends AbstractTestCase
 {
-    const OBJECT_REF_REGEX = '@^\[i:0;~%s:(?<hash>[^\[:]+)(:\d+)?(\[.*])?\]$@';
+    public const OBJECT_REF_REGEX = '@^\[i:0;~%s:(?<hash>[^\[:]+)(:\d+)?(\[.*])?\]$@';
 
     public static function getSimpleTypeExpectations(): array
     {
@@ -67,7 +67,7 @@ class ValueToKeyTest extends AbstractTestCase
     }
 
     /** @dataProvider getSimpleTypeExpectations */
-    public function testValueToRefOnSimpleTypes(array $input, $constraint)
+    public function testValueToRefOnSimpleTypes(array $input, $constraint): void
     {
         $ref = value_to_key(...$input);
         self::assertThat($ref, $constraint instanceof Constraint ? $constraint : self::identicalTo($constraint));
@@ -76,7 +76,7 @@ class ValueToKeyTest extends AbstractTestCase
         self::assertSame('value', $hash[$ref], 'Ref can be used as an array key');
     }
 
-    public function testExpectationsAreNonIdentical()
+    public function testExpectationsAreNonIdentical(): void
     {
         $strings = filter(pluck(self::getSimpleTypeExpectations(), 1), ary('is_string', 1));
         while ($string = \array_pop($strings)) {
@@ -89,7 +89,7 @@ class ValueToKeyTest extends AbstractTestCase
         self::assertTrue(true, 'All expectations are different');
     }
 
-    public static function getErrorCases()
+    public static function getErrorCases(): array
     {
         return [
             [\stream_context_create()],
@@ -100,13 +100,13 @@ class ValueToKeyTest extends AbstractTestCase
     }
 
     /** @dataProvider getErrorCases */
-    public function testResourcesAreForbidden($value)
+    public function testResourcesAreForbidden($value): void
     {
         $this->expectException(InvalidArgumentException::class);
         value_to_key($value);
     }
 
-    public function testObjectReferencesWithStdClass()
+    public function testObjectReferencesWithStdClass(): void
     {
         $key1 = value_to_key(new stdClass());
         $key2 = value_to_key(new stdClass());
@@ -132,7 +132,7 @@ class ValueToKeyTest extends AbstractTestCase
         }
     }
 
-    public function testObjectReferencesWithArrayObject()
+    public function testObjectReferencesWithArrayObject(): void
     {
         $key1 = value_to_key(new ArrayObject());
         $key2 = value_to_key(new ArrayObject(['foo' => 'bar']));

@@ -16,7 +16,7 @@ use function Functional\tail_recursion;
 
 class TailRecursionTest extends TestCase
 {
-    public function testTailRecursion1()
+    public function testTailRecursion1(): void
     {
         $fact = tail_recursion(function ($n, $acc = 1) use (&$fact) {
             if ($n == 0) {
@@ -24,10 +24,10 @@ class TailRecursionTest extends TestCase
             }
             return $fact($n - 1, $acc * $n);
         });
-        $this->assertEquals(3628800, $fact(10));
+        self::assertEquals(3628800, $fact(10));
     }
 
-    public function testTailRecursion2()
+    public function testTailRecursion2(): void
     {
         $sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
             if ($from > $to) {
@@ -36,6 +36,6 @@ class TailRecursionTest extends TestCase
             return $sum_of_range($from + 1, $to, $acc + $from);
         });
 
-        $this->assertEquals(50005000, $sum_of_range(1, 10000));
+        self::assertEquals(50005000, $sum_of_range(1, 10000));
     }
 }

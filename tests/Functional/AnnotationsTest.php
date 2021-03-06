@@ -17,10 +17,6 @@ use function get_defined_functions;
 
 class AnnotationsTest extends AbstractTestCase
 {
-    public function setUp(): void
-    {
-    }
-
     public static function getFunctions(): array
     {
         return group(
@@ -37,7 +33,7 @@ class AnnotationsTest extends AbstractTestCase
     }
 
     /** @dataProvider getFunctions */
-    public function testNamedArgumentsNotSupportedInFunctions(string $function)
+    public function testNamedArgumentsNotSupportedInFunctions(string $function): void
     {
         $refl = new ReflectionFunction($function);
         self::assertStringContainsString(

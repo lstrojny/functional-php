@@ -23,99 +23,99 @@ class UniqueTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
         $this->mixedTypesArray = [1, '1', '2', 2, '3', 4];
         $this->mixedTypesIterator = new ArrayIterator($this->mixedTypesArray);
-        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val2', 'k1' => 'val1'];
+        $this->hash = ['k1' => 'val1', 'k2' => 'val2', 'k3' => 'val2'];
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function testDefaultBehavior()
+    public function testDefaultBehavior(): void
     {
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list));
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator));
-        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash));
-        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator));
+        self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash));
+        self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator));
         $fn = function ($value, $key, $collection) {
             return $value;
         };
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, $fn));
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator, $fn));
-        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash, $fn));
-        $this->assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator, $fn));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, $fn));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator, $fn));
+        self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash, $fn));
+        self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator, $fn));
     }
 
-    public function testUnifyingByClosure()
+    public function testUnifyingByClosure(): void
     {
-        $fn = function ($value, $key, $collection) {
+        $fn = static function ($value, $key, $collection) {
             return $key === 0 ? 'zero' : 'else';
         };
-        $this->assertSame([0 => 'value1', 1 => 'value2'], unique($this->list, $fn));
-        $this->assertSame([0 => 'value1', 1 => 'value2'], unique($this->listIterator, $fn));
-        $fn = function ($value, $key, $collection) {
+        self::assertSame([0 => 'value1', 1 => 'value2'], unique($this->list, $fn));
+        self::assertSame([0 => 'value1', 1 => 'value2'], unique($this->listIterator, $fn));
+        $fn = static function ($value, $key, $collection) {
             return 0;
         };
-        $this->assertSame(['k1' => 'val1'], unique($this->hash, $fn));
-        $this->assertSame(['k1' => 'val1'], unique($this->hashIterator, $fn));
+        self::assertSame(['k1' => 'val1'], unique($this->hash, $fn));
+        self::assertSame(['k1' => 'val1'], unique($this->hashIterator, $fn));
     }
 
-    public function testUnifyingStrict()
+    public function testUnifyingStrict(): void
     {
-        $this->assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesArray, null, false));
-        $this->assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesArray));
-        $this->assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
-        $this->assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator));
+        self::assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesArray, null, false));
+        self::assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesArray));
+        self::assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
+        self::assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator));
 
         $fn = function ($value, $key, $collection) {
             return $value;
         };
 
-        $this->assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesArray, $fn, false));
-        $this->assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesArray, $fn));
-        $this->assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
-        $this->assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator, $fn));
+        self::assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesArray, $fn, false));
+        self::assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesArray, $fn));
+        self::assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
+        self::assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator, $fn));
     }
 
-    public function testPassingNullAsCallback()
+    public function testPassingNullAsCallback(): void
     {
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list));
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null));
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null, false));
-        $this->assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null, true));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null, false));
+        self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, null, true));
     }
 
-    public function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         unique($this->list, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         unique($this->hash, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         unique($this->listIterator, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         unique($this->hashIterator, [$this, 'exception']);
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\unique() expects parameter 1 to be array or instance of Traversable');
         unique('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallableUndefinedFunction()
+    public function testPassNonCallableUndefinedFunction(): void
     {
         $this->expectCallableArgumentError('Functional\unique', 2);
         unique($this->list, 'undefinedFunction');

@@ -14,8 +14,8 @@ use function Functional\id;
 
 class IdTest extends AbstractTestCase
 {
-    public function testWithValue()
+    public function testWithValue(): void
     {
-        $this->assertSame('value', id('value'));
+        self::assertSame('value', id('value'));
     }
 }

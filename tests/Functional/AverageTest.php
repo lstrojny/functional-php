@@ -43,7 +43,7 @@ class AverageTest extends AbstractTestCase
     private $hashIterator3;
 
     /** @before */
-    public function createTestData()
+    public function createTestData(): void
     {
         $this->hash = ['f0' => 12, 'f1' => 2, 'f3' => true, 'f4' => false, 'f5' => 'str', 'f6' => [], 'f7' => new stdClass(), 'f8' => 1];
         $this->hashIterator = new ArrayIterator($this->hash);
@@ -61,25 +61,25 @@ class AverageTest extends AbstractTestCase
         $this->listIterator3 = new ArrayIterator($this->list3);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame(5, average($this->hash));
-        $this->assertSame(5, average($this->hashIterator));
-        $this->assertSame(5, average($this->list));
-        $this->assertSame(5, average($this->listIterator));
+        self::assertSame(5, average($this->hash));
+        self::assertSame(5, average($this->hashIterator));
+        self::assertSame(5, average($this->list));
+        self::assertSame(5, average($this->listIterator));
 
-        $this->assertEqualsWithDelta(0.833333333, average($this->hash2), 0.001);
-        $this->assertEqualsWithDelta(0.833333333, average($this->hashIterator2), 0.001);
-        $this->assertEqualsWithDelta(0.833333333, average($this->list2), 0.001);
-        $this->assertEqualsWithDelta(0.833333333, average($this->listIterator2), 0.001);
+        self::assertEqualsWithDelta(0.833333333, average($this->hash2), 0.001);
+        self::assertEqualsWithDelta(0.833333333, average($this->hashIterator2), 0.001);
+        self::assertEqualsWithDelta(0.833333333, average($this->list2), 0.001);
+        self::assertEqualsWithDelta(0.833333333, average($this->listIterator2), 0.001);
 
-        $this->assertNull(average($this->hash3));
-        $this->assertNull(average($this->hashIterator3));
-        $this->assertNull(average($this->list3));
-        $this->assertNull(average($this->listIterator3));
+        self::assertNull(average($this->hash3));
+        self::assertNull(average($this->hashIterator3));
+        self::assertNull(average($this->list3));
+        self::assertNull(average($this->listIterator3));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\average() expects parameter 1 to be array or instance of Traversable');
         average('invalidCollection');

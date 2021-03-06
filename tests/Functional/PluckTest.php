@@ -33,7 +33,7 @@ class MagicGet
         $this->properties = $properties;
     }
 
-    public function __isset($propertyName)
+    public function __isset($propertyName): bool
     {
         return isset($this->properties[$propertyName]);
     }
@@ -55,7 +55,7 @@ class MagicGetException
         $this->throwExceptionInGet = $throwExceptionInGet;
     }
 
-    public function __isset($propertyName)
+    public function __isset($propertyName): bool
     {
         if ($this->throwExceptionInIsset) {
             throw new \DomainException('__isset exception: ' . $propertyName);
@@ -63,7 +63,7 @@ class MagicGetException
         return true;
     }
 
-    public function __get($propertyName)
+    public function __get($propertyName): string
     {
         if ($this->throwExceptionInGet) {
             throw new \DomainException('__get exception: ' . $propertyName);
@@ -76,7 +76,7 @@ class PluckCaller
 {
     protected $property;
 
-    public function call($collection, $property)
+    public function call($collection, $property): array
     {
         $this->property = 'value';
         $plucked = pluck($collection, $property);
@@ -89,6 +89,16 @@ class PluckCaller
 
 class PluckTest extends AbstractTestCase
 {
+    /**
+     * @var object[]
+     */
+    private $propertyExistsEverywhereArray;
+
+    /**
+     * @var ArrayIterator
+     */
+    private $propertyExistsEverywhereIterator;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -112,27 +122,27 @@ class PluckTest extends AbstractTestCase
         'two' => [null => '2'],
     ];
 
-    public function getNullHash()
+    public function getNullHash(): array
     {
         return $this->variateHash($this->nullHash, false);
     }
 
-    public function getNullList()
+    public function getNullList(): array
     {
         return $this->variateList($this->nullHash, false);
     }
 
-    public function variateList($hash, $asObject = true)
+    public function variateList($hash, $asObject = true): array
     {
         return $this->variate(\array_values($hash), $asObject);
     }
 
-    public function variateHash($hash, $asObject = true)
+    public function variateHash($hash, $asObject = true): array
     {
         return $this->variate($hash, $asObject);
     }
 
-    public function variate($array, $asObject)
+    public function variate($array, $asObject): array
     {
         if (!$asObject) {
             return [
@@ -154,99 +164,99 @@ class PluckTest extends AbstractTestCase
         ];
     }
 
-    public function testPluckPropertyThatExistsEverywhere()
+    public function testPluckPropertyThatExistsEverywhere(): void
     {
-        $this->assertSame([1, 2, '3', 4], pluck($this->propertyMagicGet, 'property'));
-        $this->assertSame([1, 2], pluck($this->propertyExistsEverywhereArray, 'property'));
-        $this->assertSame([1, 2], pluck($this->propertyExistsEverywhereIterator, 'property'));
+        self::assertSame([1, 2, '3', 4], pluck($this->propertyMagicGet, 'property'));
+        self::assertSame([1, 2], pluck($this->propertyExistsEverywhereArray, 'property'));
+        self::assertSame([1, 2], pluck($this->propertyExistsEverywhereIterator, 'property'));
     }
 
-    public function testPluckPropertyThatExistsSomewhere()
+    public function testPluckPropertyThatExistsSomewhere(): void
     {
-        $this->assertSame([1, null], pluck($this->propertyExistsSomewhere, 'property'));
-        $this->assertSame([null, 2], pluck($this->propertyExistsSomewhere, 'otherProperty'));
+        self::assertSame([1, null], pluck($this->propertyExistsSomewhere, 'property'));
+        self::assertSame([null, 2], pluck($this->propertyExistsSomewhere, 'otherProperty'));
     }
 
-    public function testPluckPropertyFromMixedCollection()
+    public function testPluckPropertyFromMixedCollection(): void
     {
-        $this->assertSame([1, null, 2], pluck($this->mixedCollection, 'property'));
+        self::assertSame([1, null, 2], pluck($this->mixedCollection, 'property'));
     }
 
-    public function testPluckProtectedProperty()
+    public function testPluckProtectedProperty(): void
     {
-        $this->assertSame([null, null], pluck([$this, 'foo'], 'preserveGlobalState'));
+        self::assertSame([null, null], pluck([$this, 'foo'], 'preserveGlobalState'));
     }
 
-    public function testPluckPropertyInKeyedCollection()
+    public function testPluckPropertyInKeyedCollection(): void
     {
-        $this->assertSame(['test' => 1, 'test2' => 2], pluck($this->keyedCollection, 'property'));
+        self::assertSame(['test' => 1, 'test2' => 2], pluck($this->keyedCollection, 'property'));
     }
 
-    public function testPluckNumericArrayIndex()
+    public function testPluckNumericArrayIndex(): void
     {
-        $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
-        $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
-        $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck(new ArrayIterator($this->numericArrayCollection), 0));
-        $this->assertSame([1, null, null, 2, 3], pluck(\array_values($this->numericArrayCollection), 0));
-        $this->assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(\array_values($this->numericArrayCollection)), 0));
-        $this->assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, '0'));
+        self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
+        self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
+        self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck(new ArrayIterator($this->numericArrayCollection), 0));
+        self::assertSame([1, null, null, 2, 3], pluck(\array_values($this->numericArrayCollection), 0));
+        self::assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(\array_values($this->numericArrayCollection)), 0));
+        self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, '0'));
     }
 
     /** @dataProvider getNullList */
-    public function testNullLists($it)
+    public function testNullLists($it): void
     {
-        $this->assertSame(['1', '2'], pluck($it, null));
+        self::assertSame(['1', '2'], pluck($it, null));
     }
 
     /** @dataProvider getNullHash */
-    public function testNullHash($it)
+    public function testNullHash($it): void
     {
-        $this->assertSame(['one' => '1', 'two' => '2'], pluck($it, null));
+        self::assertSame(['one' => '1', 'two' => '2'], pluck($it, null));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\pluck() expects parameter 1 to be array or instance of Traversable');
         pluck('invalidCollection', 'property');
     }
 
-    public function testPassNoPropertyName()
+    public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\pluck() expects parameter 2 to be a valid property name or array index, stdClass given');
         pluck($this->propertyExistsSomewhere, new \stdClass());
     }
 
-    public function testExceptionThrownInMagicIssetWhileIteratingArray()
+    public function testExceptionThrownInMagicIssetWhileIteratingArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('__isset exception: foobar');
         pluck($this->issetExceptionArray, 'foobar');
     }
 
-    public function testExceptionThrownInMagicIssetWhileIteratingIterator()
+    public function testExceptionThrownInMagicIssetWhileIteratingIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('__isset exception: foobar');
         pluck($this->issetExceptionIterator, 'foobar');
     }
 
-    public function testExceptionThrownInMagicGetWhileIteratingArray()
+    public function testExceptionThrownInMagicGetWhileIteratingArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('__get exception: foobar');
         pluck($this->getExceptionArray, 'foobar');
     }
 
-    public function testExceptionThrownInMagicGetWhileIteratingIterator()
+    public function testExceptionThrownInMagicGetWhileIteratingIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('__get exception: foobar');
         pluck($this->getExceptionIterator, 'foobar');
     }
 
-    public function testClassCallsPluck()
+    public function testClassCallsPluck(): void
     {
         $caller = new PluckCaller();
-        $this->assertSame(['test' => 1, 'test2' => 2], $caller->call($this->keyedCollection, 'property'));
+        self::assertSame(['test' => 1, 'test2' => 2], $caller->call($this->keyedCollection, 'property'));
     }
 }

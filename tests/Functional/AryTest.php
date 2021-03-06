@@ -16,21 +16,20 @@ use function Functional\ary;
 
 class AryTest extends AbstractTestCase
 {
-
-    public function test()
+    public function test(): void
     {
-        $f = function ($a = 0, $b = 0, $c = 0) {
+        $f = static function ($a = 0, $b = 0, $c = 0) {
             return $a + $b + $c;
         };
 
-        $this->assertSame(5, $f(5));
-        $this->assertSame(5, ary($f, 1)(5));
-        $this->assertSame(5, ary($f, 1)(5));
-        $this->assertSame(6, ary($f, -1)(6));
-        $this->assertSame(7, ary($f, 2)(5, 2));
+        self::assertSame(5, $f(5));
+        self::assertSame(5, ary($f, 1)(5));
+        self::assertSame(5, ary($f, 1)(5));
+        self::assertSame(6, ary($f, -1)(6));
+        self::assertSame(7, ary($f, 2)(5, 2));
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = function ($a = 0, $b = 0, $c = 0) {

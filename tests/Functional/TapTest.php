@@ -19,13 +19,13 @@ class TapTest extends AbstractTestCase
         parent::setUp();
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
         $this->expectCallableArgumentError('Functional\tap', 2);
         tap('foo', 'undefinedFunction');
     }
 
-    public function testTap()
+    public function testTap(): void
     {
         $input = new \stdClass();
         $input->property = 'foo';

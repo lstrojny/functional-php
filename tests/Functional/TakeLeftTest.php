@@ -25,7 +25,7 @@ class TakeLeftTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
     }
 
-    public function test()
+    public function test(): void
     {
         each([$this->list, $this->listIterator], function ($list) {
             $this->assertSame(['foo'], take_left($list, 1));

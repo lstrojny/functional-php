@@ -26,61 +26,61 @@ class RejectTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function test()
+    public function test(): void
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'wrong' && \strlen($k) > 0;
         };
-        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->list, $fn));
-        $this->assertSame([0 => 'value', 2 => 'value'], reject($this->listIterator, $fn));
-        $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hash, $fn));
-        $this->assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hashIterator, $fn));
+        self::assertSame([0 => 'value', 2 => 'value'], reject($this->list, $fn));
+        self::assertSame([0 => 'value', 2 => 'value'], reject($this->listIterator, $fn));
+        self::assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hash, $fn));
+        self::assertSame(['k1' => 'value', 'k3' => 'value'], reject($this->hashIterator, $fn));
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
         $this->expectCallableArgumentError('Functional\reject', 2);
         reject($this->list, 'undefinedFunction');
     }
 
-    public function testPassNoCallable()
+    public function testPassNoCallable(): void
     {
-        $this->assertSame([], reject($this->list));
-        $this->assertSame([], reject($this->listIterator));
-        $this->assertSame([], reject($this->hash));
-        $this->assertSame([], reject($this->hashIterator));
-        $this->assertSame([1 => false], reject([true, false, true]));
+        self::assertSame([], reject($this->list));
+        self::assertSame([], reject($this->listIterator));
+        self::assertSame([], reject($this->hash));
+        self::assertSame([], reject($this->hashIterator));
+        self::assertSame([1 => false], reject([true, false, true]));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\reject() expects parameter 1 to be array or instance of Traversable');
         reject('invalidCollection', 'strlen');
     }
 
-    public function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         reject($this->list, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         reject($this->hash, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         reject($this->listIterator, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');

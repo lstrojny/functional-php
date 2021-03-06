@@ -25,7 +25,7 @@ class TakeRightTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
     }
 
-    public function test()
+    public function test(): void
     {
         each([$this->list, $this->listIterator], function ($list) {
             $this->assertSame(['qux'], take_right($list, 1));
@@ -40,7 +40,7 @@ class TakeRightTest extends AbstractTestCase
         });
     }
 
-    public function testPreserveKeys()
+    public function testPreserveKeys(): void
     {
         each([$this->list, $this->listIterator], function ($list) {
             $this->assertSame([3 => 'qux'], take_right($list, 1, true));

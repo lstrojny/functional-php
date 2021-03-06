@@ -28,21 +28,21 @@ class FalseTest extends AbstractTestCase
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertTrue(F\false([]));
-        $this->assertTrue(F\false(new ArrayIterator([])));
-        $this->assertTrue(F\false($this->trueArray));
-        $this->assertTrue(F\false($this->trueIterator));
-        $this->assertTrue(F\false($this->trueHash));
-        $this->assertTrue(F\false($this->trueHashIterator));
-        $this->assertFalse(F\false($this->falseArray));
-        $this->assertFalse(F\false($this->falseIterator));
-        $this->assertFalse(F\false($this->falseHash));
-        $this->assertFalse(F\false($this->falseHashIterator));
+        self::assertTrue(F\false([]));
+        self::assertTrue(F\false(new ArrayIterator([])));
+        self::assertTrue(F\false($this->trueArray));
+        self::assertTrue(F\false($this->trueIterator));
+        self::assertTrue(F\false($this->trueHash));
+        self::assertTrue(F\false($this->trueHashIterator));
+        self::assertFalse(F\false($this->falseArray));
+        self::assertFalse(F\false($this->falseIterator));
+        self::assertFalse(F\false($this->falseHash));
+        self::assertFalse(F\false($this->falseHashIterator));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\false() expects parameter 1 to be array or instance of Traversable');
         F\false('invalidCollection');

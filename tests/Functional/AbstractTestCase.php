@@ -14,11 +14,8 @@ use DomainException;
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
-use Functional as F;
 use Traversable;
 use TypeError;
-
-use function method_exists;
 
 class AbstractTestCase extends TestCase
 {
@@ -34,13 +31,13 @@ class AbstractTestCase extends TestCase
     /** @var Traversable */
     protected $hashIterator;
 
-    protected function expectArgumentError($message)
+    protected function expectArgumentError(string $message): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
     }
 
-    protected function expectCallableArgumentError($fn, $position, $actualType = 'string')
+    protected function expectCallableArgumentError(string $fn, int $position, string $actualType = 'string'): void
     {
         $this->expectException(TypeError::class);
 
@@ -50,7 +47,7 @@ class AbstractTestCase extends TestCase
             $this->expectExceptionMessageMatches(
                 \sprintf(
                     '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
-                    \preg_quote($fn),
+                    \preg_quote($fn, '/'),
                     $position,
                     $actualType
                 )
@@ -58,18 +55,18 @@ class AbstractTestCase extends TestCase
         }
     }
 
-    public function exception()
+    public function exception(): void
     {
         if (\func_num_args() < 3) {
             throw new DomainException('Callback exception');
         }
 
         $args = \func_get_args();
-        $this->assertGreaterThanOrEqual(3, \count($args));
+        self::assertGreaterThanOrEqual(3, \count($args));
         throw new DomainException(\sprintf('Callback exception: %s', $args[1]));
     }
 
-    protected function sequenceToArray(Traversable $sequence, $limit)
+    protected function sequenceToArray(Traversable $sequence, $limit): array
     {
         $values = [];
         $sequence->rewind();
@@ -79,25 +76,6 @@ class AbstractTestCase extends TestCase
         }
 
         return $values;
-    }
-
-    private function getFunctionName()
-    {
-        $testName = \get_class($this);
-        $namespaceSeperatorPosition = \strrpos($testName, '\\') + 1;
-        $testName = \substr($testName, $namespaceSeperatorPosition);
-        $function = \strtolower(
-            \implode(
-                '_',
-                \array_slice(
-                    \preg_split('/([A-Z][a-z]+)/', $testName, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY),
-                    0,
-                    -1
-                )
-            )
-        );
-
-        return 'Functional\\' . $function;
     }
 
     public function expectDeprecation(): void

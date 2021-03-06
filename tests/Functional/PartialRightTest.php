@@ -14,21 +14,21 @@ use function Functional\partial_right;
 
 class PartialRightTest extends AbstractPartialTestCase
 {
-    public function testWithNoArgs()
+    public function testWithNoArgs(): void
     {
         $ratio = partial_right($this->ratio());
-        $this->assertSame(2, $ratio(4, 2));
+        self::assertSame(2, $ratio(4, 2));
     }
 
-    public function testWithOneArg()
+    public function testWithOneArg(): void
     {
         $ratio = partial_right($this->ratio(), 4);
-        $this->assertSame(0.5, $ratio(2));
+        self::assertSame(0.5, $ratio(2));
     }
 
-    public function testWithTwoArgs()
+    public function testWithTwoArgs(): void
     {
         $ratio = partial_right($this->ratio(), 2, 4);
-        $this->assertSame(0.5, $ratio());
+        self::assertSame(0.5, $ratio());
     }
 }

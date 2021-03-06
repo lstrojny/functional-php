@@ -16,11 +16,11 @@ use function Functional\const_function;
 
 class IfElseTest extends AbstractTestCase
 {
-    public function testIfElse()
+    public function testIfElse(): void
     {
         $if_foo = if_else(equal('foo'), const_function('bar'), const_function('baz'));
 
-        $this->assertEquals('bar', $if_foo('foo'));
-        $this->assertEquals('baz', $if_foo('qux'));
+        self::assertEquals('bar', $if_foo('foo'));
+        self::assertEquals('baz', $if_foo('qux'));
     }
 }

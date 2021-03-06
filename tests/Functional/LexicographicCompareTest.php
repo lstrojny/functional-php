@@ -14,12 +14,12 @@ use function Functional\lexicographic_compare;
 
 class LexicographicCompareTest extends AbstractTestCase
 {
-    public function testLexicographicCompareComparison()
+    public function testLexicographicCompareComparison(): void
     {
         $fn = lexicographic_compare(2);
 
-        $this->assertEquals(-1, $fn(1));
-        $this->assertEquals(0, $fn(2));
-        $this->assertEquals(1, $fn(3));
+        self::assertEquals(-1, $fn(1));
+        self::assertEquals(0, $fn(2));
+        self::assertEquals(1, $fn(3));
     }
 }

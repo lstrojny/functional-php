@@ -17,7 +17,7 @@ use function Functional\repeat;
 
 class Repeated
 {
-    public function foo()
+    public function foo(): void
     {
     }
 }
@@ -33,16 +33,16 @@ class RepeatTest extends AbstractTestCase
         $this->repeated = $this->createMock(Repeated::class);
     }
 
-    public function test()
+    public function test(): void
     {
         $this->repeated
-            ->expects($this->exactly(10))
+            ->expects(self::exactly(10))
             ->method('foo');
 
         repeat([$this->repeated, 'foo'])(10);
     }
 
-    public function testNegativeRepeatedTimes()
+    public function testNegativeRepeatedTimes(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(

@@ -14,10 +14,10 @@ use function Functional\const_function;
 
 class ConstFunctionTest extends AbstractTestCase
 {
-    public function testWithValue()
+    public function test(): void
     {
         $const = const_function('value');
 
-        $this->assertSame('value', $const());
+        self::assertSame('value', $const());
     }
 }

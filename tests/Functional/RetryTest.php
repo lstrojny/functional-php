@@ -29,38 +29,38 @@ class RetryTest extends AbstractTestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->retryer = $this->createMock('Functional\Tests\Retryer');
+        $this->retryer = $this->createMock(Retryer::class);
     }
 
-    public function testTriedOnceIfItSucceeds()
+    public function testTriedOnceIfItSucceeds(): void
     {
         $this->retryer
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('retry')
             ->with(0, 0)
             ->willReturn('value');
 
-        $this->assertSame('value', retry([$this->retryer, 'retry'], 10));
+        self::assertSame('value', retry([$this->retryer, 'retry'], 10));
     }
 
-    public function testRetriedIfItFails()
+    public function testRetriedIfItFails(): void
     {
         $this->retryer
             ->method('retry')
             ->withConsecutive([0, 0], [1, 0])
-            ->willReturnOnConsecutiveCalls($this->throwException(new Exception()), 'value');
+            ->willReturnOnConsecutiveCalls(self::throwException(new Exception()), 'value');
 
-        $this->assertSame('value', retry([$this->retryer, 'retry'], 10));
+        self::assertSame('value', retry([$this->retryer, 'retry'], 10));
     }
 
-    public function testThrowsExceptionIfRetryCountIsReached()
+    public function testThrowsExceptionIfRetryCountIsReached(): void
     {
         $this->retryer
             ->method('retry')
             ->withConsecutive([0, 0], [1, 0])
             ->willReturnOnConsecutiveCalls(
-                $this->throwException(new Exception('first')),
-                $this->throwException(new Exception('second'))
+                self::throwException(new Exception('first')),
+                self::throwException(new Exception('second'))
             );
 
         $this->expectException('Exception');
@@ -69,14 +69,14 @@ class RetryTest extends AbstractTestCase
         retry([$this->retryer, 'retry'], 2);
     }
 
-    public function testRetryWithEmptyDelaySequence()
+    public function testRetryWithEmptyDelaySequence(): void
     {
         $this->retryer
             ->method('retry')
             ->withConsecutive([0, 0], [1, 0])
             ->willReturnOnConsecutiveCalls(
-                $this->throwException(new Exception('first')),
-                $this->throwException(new Exception('second'))
+                self::throwException(new Exception('first')),
+                self::throwException(new Exception('second'))
             );
 
         $this->expectException('Exception');
@@ -85,7 +85,7 @@ class RetryTest extends AbstractTestCase
         retry([$this->retryer, 'retry'], 2, new ArrayIterator([]));
     }
 
-    public function testThrowsExceptionIfRetryCountNotAtLeast1()
+    public function testThrowsExceptionIfRetryCountNotAtLeast1(): void
     {
         $this->expectArgumentError(
             'Functional\retry() expects parameter 2 to be an integer greater than or equal to 1'
@@ -93,14 +93,14 @@ class RetryTest extends AbstractTestCase
         retry([$this->retryer, 'retry'], 0);
     }
 
-    public function testUsesDelayTraversableForSleeping()
+    public function testUsesDelayTraversableForSleeping(): void
     {
         $this->retryer
             ->method('retry')
             ->withConsecutive([0, 0], [1, 0])
             ->willReturnOnConsecutiveCalls(
-                $this->throwException(new Exception('first')),
-                $this->throwException(new Exception('second'))
+                self::throwException(new Exception('first')),
+                self::throwException(new Exception('second'))
             );
 
         $this->expectException('Exception');
@@ -109,16 +109,16 @@ class RetryTest extends AbstractTestCase
         retry([$this->retryer, 'retry'], 2);
     }
 
-    public function testDelayerSmallerThanRetries()
+    public function testDelayerSmallerThanRetries(): void
     {
         $this->retryer
             ->method('retry')
             ->withConsecutive([0, 10], [1, 20], [2, 30], [3, 10])
             ->willReturnOnConsecutiveCalls(
-                $this->throwException(new Exception('first')),
-                $this->throwException(new Exception('second')),
-                $this->throwException(new Exception('third')),
-                $this->throwException(new Exception('fourth'))
+                self::throwException(new Exception('first')),
+                self::throwException(new Exception('second')),
+                self::throwException(new Exception('third')),
+                self::throwException(new Exception('fourth'))
             );
 
         $this->expectException('Exception');

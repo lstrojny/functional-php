@@ -36,45 +36,45 @@ class EachTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function testArray()
+    public function testArray(): void
     {
         $this->prepareCallback($this->list);
-        $this->assertNull(each($this->list, [$this->cb, 'call']));
+        self::assertNull(each($this->list, [$this->cb, 'call']));
     }
 
-    public function testIterator()
+    public function testIterator(): void
     {
         $this->prepareCallback($this->listIterator);
-        $this->assertNull(each($this->listIterator, [$this->cb, 'call']));
+        self::assertNull(each($this->listIterator, [$this->cb, 'call']));
     }
 
-    public function testHash()
+    public function testHash(): void
     {
         $this->prepareCallback($this->hash);
-        $this->assertNull(each($this->hash, [$this->cb, 'call']));
+        self::assertNull(each($this->hash, [$this->cb, 'call']));
     }
 
-    public function testHashIterator()
+    public function testHashIterator(): void
     {
         $this->prepareCallback($this->hashIterator);
-        $this->assertNull(each($this->hashIterator, [$this->cb, 'call']));
+        self::assertNull(each($this->hashIterator, [$this->cb, 'call']));
     }
 
-    public function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         each($this->list, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInCollection()
+    public function testExceptionIsThrownInCollection(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         each($this->listIterator, [$this, 'exception']);
     }
 
-    private function prepareCallback($collection)
+    private function prepareCallback($collection): void
     {
         $args = [];
 
@@ -86,13 +86,13 @@ class EachTest extends AbstractTestCase
             ->withConsecutive(...$args);
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
         $this->expectCallableArgumentError('Functional\each', 2);
         each($this->list, 'undefinedFunction');
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\each() expects parameter 1 to be array or instance of Traversable');
         each('invalidCollection', 'strlen');

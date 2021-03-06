@@ -26,19 +26,19 @@ class GroupTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function test()
+    public function test(): void
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return (\is_int($k) ? ($k % 2 == 0) : ($v[3] % 2 == 0)) ? 'foo' : '';
         };
-        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->list, $fn));
-        $this->assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->listIterator, $fn));
-        $this->assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hash, $fn));
-        $this->assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hashIterator, $fn));
+        self::assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->list, $fn));
+        self::assertSame(['foo' => [0 => 'value1', 2 => 'value3'], '' => [1 => 'value2', 3 => 'value4']], group($this->listIterator, $fn));
+        self::assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hash, $fn));
+        self::assertSame(['' => ['k1' => 'val1', 'k3' => 'val3'], 'foo' => ['k2' => 'val2']], group($this->hashIterator, $fn));
     }
 
-    public function testExceptionIsThrownWhenCallbacksReturnsInvalidKey()
+    public function testExceptionIsThrownWhenCallbacksReturnsInvalidKey(): void
     {
         $array = ['v1', 'v2', 'v3', 'v4', 'v5', 'v6'];
         $keyMap = [true, 1, -1, 2.1, 'str', null];
@@ -52,8 +52,8 @@ class GroupTest extends AbstractTestCase
             'str' => [4 => 'v5'],
             null  => [5 => 'v6']
         ];
-        $this->assertSame($result, group($array, $fn));
-        $this->assertSame($result, group(new ArrayIterator($array), $fn));
+        self::assertSame($result, group($array, $fn));
+        self::assertSame($result, group(new ArrayIterator($array), $fn));
 
 
         $invalidTypes = [
@@ -66,9 +66,9 @@ class GroupTest extends AbstractTestCase
             $keyMap = [$value];
             try {
                 group(['v1'], $fn);
-                $this->fail(\sprintf('Error expected for array key type "%s"', $type));
+                self::fail(\sprintf('Error expected for array key type "%s"', $type));
             } catch (\Exception $e) {
-                $this->assertSame(
+                self::assertSame(
                     \sprintf(
                         'Functional\group(): callback returned invalid array key of type "%s". Expected NULL, string, integer, double or boolean',
                         $type
@@ -79,41 +79,41 @@ class GroupTest extends AbstractTestCase
         }
     }
 
-    public function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         group($this->list, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHash()
+    public function testExceptionIsThrownInHash(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         group($this->hash, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         group($this->listIterator, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInHashIterator()
+    public function testExceptionIsThrownInHashIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         group($this->hashIterator, [$this, 'exception']);
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\group() expects parameter 1 to be array or instance of Traversable');
         group('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
         $this->expectCallableArgumentError('Functional\group', 2);
         group($this->list, 'undefinedFunction');

@@ -18,7 +18,7 @@ use function Functional\filter;
 
 class SelectTest extends AbstractTestCase
 {
-    public function getAliases()
+    public function getAliases(): array
     {
         return [
             ['Functional\select'],
@@ -38,41 +38,41 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    public function test($functionName)
+    public function test($functionName): void
     {
         $callback = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 
             return $v == 'value' && \strlen($k) > 0;
         };
-        $this->assertSame(['value', 2 => 'value'], $functionName($this->list, $callback));
-        $this->assertSame(['value', 2 => 'value'], $functionName($this->listIterator, $callback));
-        $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hash, $callback));
-        $this->assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hashIterator, $callback));
+        self::assertSame(['value', 2 => 'value'], $functionName($this->list, $callback));
+        self::assertSame(['value', 2 => 'value'], $functionName($this->listIterator, $callback));
+        self::assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hash, $callback));
+        self::assertSame(['k1' => 'value', 'k3' => 'value'], $functionName($this->hashIterator, $callback));
     }
 
     /**
      * @dataProvider getAliases
      */
-    public function testPassNonCallable($functionName)
+    public function testPassNonCallable($functionName): void
     {
         $this->expectCallableArgumentError($functionName, 2);
         $functionName($this->list, 'undefinedFunction');
     }
 
-    public function testPassNoCallable()
+    public function testPassNoCallable(): void
     {
-        $this->assertSame(['value', 'wrong', 'value'], select($this->list));
-        $this->assertSame(['value', 'wrong', 'value'], select($this->listIterator));
-        $this->assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hash));
-        $this->assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hashIterator));
-        $this->assertSame([0 => true, 2 => true], select([true, false, true]));
+        self::assertSame(['value', 'wrong', 'value'], select($this->list));
+        self::assertSame(['value', 'wrong', 'value'], select($this->listIterator));
+        self::assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hash));
+        self::assertSame(['k1' => 'value', 'k2' => 'wrong', 'k3' => 'value'], select($this->hashIterator));
+        self::assertSame([0 => true, 2 => true], select([true, false, true]));
     }
 
     /**
      * @dataProvider getAliases
      */
-    public function testPassNoCollection($functionName)
+    public function testPassNoCollection($functionName): void
     {
         $this->expectArgumentError(
             \sprintf(
@@ -86,7 +86,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    public function testExceptionIsThrownInArray($functionName)
+    public function testExceptionIsThrownInArray($functionName): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
@@ -96,7 +96,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    public function testExceptionIsThrownInHash($functionName)
+    public function testExceptionIsThrownInHash($functionName): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
@@ -106,7 +106,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    public function testExceptionIsThrownInIterator($functionName)
+    public function testExceptionIsThrownInIterator($functionName): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
@@ -116,7 +116,7 @@ class SelectTest extends AbstractTestCase
     /**
      * @dataProvider getAliases
      */
-    public function testExceptionIsThrownInHashIterator($functionName)
+    public function testExceptionIsThrownInHashIterator($functionName): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');

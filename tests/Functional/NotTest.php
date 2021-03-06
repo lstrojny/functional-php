@@ -16,11 +16,11 @@ use function Functional\not;
 
 class NotTest extends AbstractTestCase
 {
-    public function testNot()
+    public function testNot(): void
     {
-        $this->assertTrue(not(gt(2))(2));
-        $this->assertFalse(not(gt(2))(3));
-        $this->assertTrue(not(identical(2))('2'));
-        $this->assertFalse(not(identical(2))(2));
+        self::assertTrue(not(gt(2))(2));
+        self::assertFalse(not(gt(2))(3));
+        self::assertTrue(not(identical(2))('2'));
+        self::assertFalse(not(identical(2))(2));
     }
 }

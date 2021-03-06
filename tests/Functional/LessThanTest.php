@@ -14,11 +14,11 @@ use function Functional\less_than;
 
 class LessThanTest extends AbstractTestCase
 {
-    public function testLessThanComparison()
+    public function testLessThanComparison(): void
     {
         $fn = less_than(2);
 
-        $this->assertFalse($fn(2));
-        $this->assertTrue($fn(1));
+        self::assertFalse($fn(2));
+        self::assertTrue($fn(1));
     }
 }

@@ -24,79 +24,79 @@ class ReduceTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
     }
 
-    public function testReducing()
+    public function testReducing(): void
     {
         $this->currentCollection = $this->list;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback']));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback'], 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback']));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback'], 'default'));
+        self::assertSame('0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback']));
+        self::assertSame('default,0:one,1:two,2:three', reduce_left($this->list, [$this, 'functionalCallback'], 'default'));
+        self::assertSame('2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback']));
+        self::assertSame('default,2:three,1:two,0:one', reduce_right($this->list, [$this, 'functionalCallback'], 'default'));
 
         $this->currentCollection = $this->listIterator;
-        $this->assertSame('0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback']));
-        $this->assertSame('default,0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback'], 'default'));
-        $this->assertSame('2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback']));
-        $this->assertSame('default,2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback'], 'default'));
+        self::assertSame('0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback']));
+        self::assertSame('default,0:one,1:two,2:three', reduce_left($this->listIterator, [$this, 'functionalCallback'], 'default'));
+        self::assertSame('2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback']));
+        self::assertSame('default,2:three,1:two,0:one', reduce_right($this->listIterator, [$this, 'functionalCallback'], 'default'));
 
-        $this->assertSame('initial', reduce_left([], function () {
+        self::assertSame('initial', reduce_left([], static function () {
         }, 'initial'));
-        $this->assertNull(reduce_left([], function () {
+        self::assertNull(reduce_left([], static function () {
         }));
-        $this->assertNull(reduce_left([], function () {
+        self::assertNull(reduce_left([], static function () {
         }, null));
-        $this->assertSame('initial', reduce_left(new ArrayIterator([]), function () {
+        self::assertSame('initial', reduce_left(new ArrayIterator([]), static function () {
         }, 'initial'));
-        $this->assertNull(reduce_left(new ArrayIterator([]), function () {
+        self::assertNull(reduce_left(new ArrayIterator([]), static function () {
         }));
-        $this->assertNull(reduce_left(new ArrayIterator([]), function () {
+        self::assertNull(reduce_left(new ArrayIterator([]), static function () {
         }, null));
-        $this->assertSame('initial', reduce_right([], function () {
+        self::assertSame('initial', reduce_right([], static function () {
         }, 'initial'));
-        $this->assertNull(reduce_right([], function () {
+        self::assertNull(reduce_right([], static function () {
         }));
-        $this->assertNull(reduce_right([], function () {
+        self::assertNull(reduce_right([], static function () {
         }, null));
-        $this->assertSame('initial', reduce_right(new ArrayIterator([]), function () {
+        self::assertSame('initial', reduce_right(new ArrayIterator([]), static function () {
         }, 'initial'));
-        $this->assertNull(reduce_right(new ArrayIterator([]), function () {
+        self::assertNull(reduce_right(new ArrayIterator([]), static function () {
         }));
-        $this->assertNull(reduce_right(new ArrayIterator([]), function () {
+        self::assertNull(reduce_right(new ArrayIterator([]), static function () {
         }, null));
     }
 
-    public function testExceptionThrownInIteratorCallbackWhileReduceLeft()
+    public function testExceptionThrownInIteratorCallbackWhileReduceLeft(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception: 0');
         reduce_left($this->listIterator, [$this, 'exception']);
     }
 
-    public function testExceptionThrownInIteratorCallbackWhileReduceRight()
+    public function testExceptionThrownInIteratorCallbackWhileReduceRight(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception: 2');
         reduce_right($this->listIterator, [$this, 'exception']);
     }
 
-    public function testExceptionThrownInArrayCallbackWhileReduceLeft()
+    public function testExceptionThrownInArrayCallbackWhileReduceLeft(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception: 0');
         reduce_left($this->list, [$this, 'exception']);
     }
 
-    public function testExceptionThrownInArrayCallbackWhileReduceRight()
+    public function testExceptionThrownInArrayCallbackWhileReduceRight(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception: 2');
         reduce_right($this->list, [$this, 'exception']);
     }
 
-    public function functionalCallback($value, $key, $collection, $returnValue)
+    public function functionalCallback($value, $key, $collection, $returnValue): string
     {
-        $this->assertContains($value, $this->currentCollection);
-        $this->assertTrue(isset($this->currentCollection[$key]));
-        $this->assertSame($collection, $this->currentCollection);
+        self::assertContains($value, $this->currentCollection);
+        self::assertTrue(isset($this->currentCollection[$key]));
+        self::assertSame($collection, $this->currentCollection);
 
         $ret = $key . ':' . $value;
         if ($returnValue) {
@@ -105,25 +105,25 @@ class ReduceTest extends AbstractTestCase
         return $ret;
     }
 
-    public function testPassNoCollectionToReduceLeft()
+    public function testPassNoCollectionToReduceLeft(): void
     {
         $this->expectArgumentError('Functional\reduce_left() expects parameter 1 to be array or instance of Traversable');
         reduce_left('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallableToReduceLeft()
+    public function testPassNonCallableToReduceLeft(): void
     {
         $this->expectCallableArgumentError('Functional\reduce_left', 2);
         reduce_left($this->list, 'undefinedFunction');
     }
 
-    public function testPassNoCollectionToReduceRight()
+    public function testPassNoCollectionToReduceRight(): void
     {
         $this->expectArgumentError('Functional\reduce_right() expects parameter 1 to be array or instance of Traversable');
         reduce_right('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallableToReduceRight()
+    public function testPassNonCallableToReduceRight(): void
     {
         $this->expectCallableArgumentError('Functional\reduce_right', 2);
         reduce_right($this->list, 'undefinedFunction');

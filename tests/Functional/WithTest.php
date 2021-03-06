@@ -16,18 +16,18 @@ use function Functional\with;
 
 class WithTest extends AbstractTestCase
 {
-    public function testWithNull()
+    public function testWithNull(): void
     {
-        $this->assertNull(
+        self::assertNull(
             with(null, function () {
                 throw new \Exception('Should not be called');
             })
         );
     }
 
-    public function testWithValue()
+    public function testWithValue(): void
     {
-        $this->assertSame(
+        self::assertSame(
             2,
             with(
                 1,
@@ -38,19 +38,19 @@ class WithTest extends AbstractTestCase
         );
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
         $this->expectCallableArgumentError('Functional\with', 2);
         with(null, 'undefinedFunction');
     }
 
-    public function testDefaultValue()
+    public function testDefaultValue(): void
     {
-        $this->assertSame(
+        self::assertSame(
             'foo',
             with(
                 null,
-                function () {
+                static function () {
                 },
                 false,
                 'foo'

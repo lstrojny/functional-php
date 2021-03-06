@@ -16,7 +16,7 @@ use function Functional\select_keys;
 
 class SelectKeysTest extends AbstractTestCase
 {
-    public static function getData()
+    public static function getData(): array
     {
         return [
             [[], ['foo' => 1], []],
@@ -30,13 +30,13 @@ class SelectKeysTest extends AbstractTestCase
     /**
      * @dataProvider getData
      */
-    public function test(array $expected, array $input, array $keys)
+    public function test(array $expected, array $input, array $keys): void
     {
-        $this->assertSame($expected, select_keys($input, $keys));
-        $this->assertSame($expected, select_keys(new ArrayIterator($input), $keys));
+        self::assertSame($expected, select_keys($input, $keys));
+        self::assertSame($expected, select_keys(new ArrayIterator($input), $keys));
     }
 
-    public function testPassNonArrayOrTraversable()
+    public function testPassNonArrayOrTraversable(): void
     {
         $this->expectArgumentError("Functional\select_keys() expects parameter 1 to be array or instance of Traversable");
         select_keys(new \stdclass(), []);

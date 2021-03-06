@@ -20,7 +20,7 @@ use const PHP_VERSION_ID;
 
 class MatchingTest extends AbstractTestCase
 {
-    public function testMatching()
+    public function testMatching(): void
     {
         $test = matching(
             [
@@ -42,7 +42,7 @@ class MatchingTest extends AbstractTestCase
         self::assertEquals('default is qux', $test('qux'));
     }
 
-    public function testNothingMatching()
+    public function testNothingMatching(): void
     {
         $test = matching(
             [
@@ -54,7 +54,7 @@ class MatchingTest extends AbstractTestCase
         self::assertNull($test('baz'));
     }
 
-    public function testMatchingConditionIsArray()
+    public function testMatchingConditionIsArray(): void
     {
         $this->expectArgumentError('Functional\matching() expects condition at key 1 to be array, string given');
 
@@ -66,7 +66,7 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testMatchingConditionLength()
+    public function testMatchingConditionLength(): void
     {
         $this->expectArgumentError(
             'Functional\matching() expects size of condition at key 1 to be greater than or equals to 2, 1 given'
@@ -80,7 +80,7 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testMatchingConditionCallables()
+    public function testMatchingConditionCallables(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -95,7 +95,7 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testDeprecatedAlias()
+    public function testDeprecatedAlias(): void
     {
         if (PHP_VERSION_ID >= 80000) {
             self::markTestSkipped('Only works with PHP <8.0');

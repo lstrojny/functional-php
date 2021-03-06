@@ -20,7 +20,7 @@ use const E_USER_ERROR;
 
 class ErrorToExceptionTest extends AbstractTestCase
 {
-    public function testErrorIsThrownAsException()
+    public function testErrorIsThrownAsException(): void
     {
         $origFn = function () {
             \trigger_error('Some error', E_USER_ERROR);
@@ -34,14 +34,14 @@ class ErrorToExceptionTest extends AbstractTestCase
         $fn();
     }
 
-    public function testFunctionIsWrapped()
+    public function testFunctionIsWrapped(): void
     {
         $fn = error_to_exception('substr');
 
-        $this->assertSame('f', $fn('foo', 0, 1));
+        self::assertSame('f', $fn('foo', 0, 1));
     }
 
-    public function testExceptionsAreHandledTransparently()
+    public function testExceptionsAreHandledTransparently(): void
     {
         $expectedException = new RuntimeException();
         $fn = error_to_exception(
@@ -55,7 +55,7 @@ class ErrorToExceptionTest extends AbstractTestCase
         $fn();
     }
 
-    public function testErrorHandlerNestingWorks()
+    public function testErrorHandlerNestingWorks(): void
     {
         $errorMessage = null;
         \set_error_handler(
@@ -64,20 +64,20 @@ class ErrorToExceptionTest extends AbstractTestCase
             }
         );
 
-        $origFn = function () {
+        $origFn = static function () {
             \trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = error_to_exception($origFn);
         try {
             $fn();
-            $this->fail('ErrorException expected');
+            self::fail('ErrorException expected');
         } catch (ErrorException $e) {
-            $this->assertNull($errorMessage);
+            self::assertNull($errorMessage);
         }
 
         $origFn();
-        $this->assertSame('Some error', $errorMessage);
+        self::assertSame('Some error', $errorMessage);
         \restore_error_handler();
     }
 }

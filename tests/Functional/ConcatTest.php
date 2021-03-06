@@ -19,10 +19,10 @@ class ConcatTest extends AbstractTestCase
         parent::setUp();
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame('foobar', concat('foo', 'bar'));
-        $this->assertSame('foobarbaz', concat('foo', 'bar', 'baz'));
-        $this->assertSame('', concat());
+        self::assertSame('foobar', concat('foo', 'bar'));
+        self::assertSame('foobarbaz', concat('foo', 'bar', 'baz'));
+        self::assertSame('', concat());
     }
 }

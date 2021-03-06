@@ -36,25 +36,25 @@ class MinimumTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function testExtractingMinimumValue()
+    public function testExtractingMinimumValue(): void
     {
-        $this->assertEquals(1, minimum($this->list));
-        $this->assertEquals(1, minimum($this->listIterator));
-        $this->assertEquals(-10, minimum($this->hash));
-        $this->assertEquals(-10, minimum($this->hashIterator));
+        self::assertEquals(1, minimum($this->list));
+        self::assertEquals(1, minimum($this->listIterator));
+        self::assertEquals(-10, minimum($this->hash));
+        self::assertEquals(-10, minimum($this->hashIterator));
     }
 
-    public function testSpecialCaseNull()
+    public function testSpecialCaseNull(): void
     {
-        $this->assertSame(-1, minimum([-1]));
+        self::assertSame(-1, minimum([-1]));
     }
 
-    public function testSpecialCaseSameValueDifferentTypes()
+    public function testSpecialCaseSameValueDifferentTypes(): void
     {
-        $this->assertSame(0, minimum([0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0"]));
+        self::assertSame(0, minimum([0, 1, 0.0, 1.0, "0", "1", "0.0", "1.0"]));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\minimum() expects parameter 1 to be array or instance of Traversable');
         minimum('invalidCollection');

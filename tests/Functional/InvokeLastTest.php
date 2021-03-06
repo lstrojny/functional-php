@@ -16,6 +16,14 @@ use function Functional\invoke_last;
 
 class InvokeLastTest extends AbstractTestCase
 {
+    private $iteratorVeryLastNotCallable;
+
+    private $arrayVeryLastNotCallable;
+
+    private $keyIterator;
+
+    private $keyArray;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -28,48 +36,48 @@ class InvokeLastTest extends AbstractTestCase
         $this->iteratorVeryLastNotCallable = new ArrayIterator($this->arrayVeryLastNotCallable);
     }
 
-    public function testSimple()
+    public function testSimple(): void
     {
-        $this->assertSame('methodValue', invoke_last($this->list, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_last($this->listIterator, 'method'));
-        $this->assertSame(null, invoke_last($this->list, 'undefinedMethod'));
-        $this->assertSame(null, invoke_last($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
-        $this->assertSame([1, 2], invoke_last($this->list, 'returnArguments', [1, 2]));
-        $this->assertSame('methodValue', invoke_last($this->keyArray, 'method'));
-        $this->assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
+        self::assertSame('methodValue', invoke_last($this->list, 'method', [1, 2]));
+        self::assertSame('methodValue', invoke_last($this->listIterator, 'method'));
+        self::assertNull(invoke_last($this->list, 'undefinedMethod'));
+        self::assertNull(invoke_last($this->list, 'setExpectedExceptionFromAnnotation'), 'Protected method');
+        self::assertSame([1, 2], invoke_last($this->list, 'returnArguments', [1, 2]));
+        self::assertSame('methodValue', invoke_last($this->keyArray, 'method'));
+        self::assertSame('methodValue', invoke_last($this->keyIterator, 'method'));
     }
 
-    public function testSkipNonCallables()
+    public function testSkipNonCallables(): void
     {
-        $this->assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', [1, 2]));
-        $this->assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
+        self::assertSame('methodValue', invoke_last($this->arrayVeryLastNotCallable, 'method', [1, 2]));
+        self::assertSame('methodValue', invoke_last($this->iteratorVeryLastNotCallable, 'method'));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 1 to be array or instance of Traversable');
         invoke_last('invalidCollection', 'method');
     }
 
-    public function testPassNoPropertyName()
+    public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 2 to be string');
         invoke_last($this->list, new \stdClass());
     }
 
-    public function testException()
+    public function testException(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         invoke_last($this->list, 'exception');
     }
 
-    public function method()
+    public function method(): string
     {
         return 'methodValue';
     }
 
-    public function returnArguments()
+    public function returnArguments(): array
     {
         return \func_get_args();
     }

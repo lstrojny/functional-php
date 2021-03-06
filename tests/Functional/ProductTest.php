@@ -25,23 +25,23 @@ class ProductTest extends AbstractTestCase
         $this->floatIterator = new ArrayIterator($this->floatArray);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame(240, product($this->intArray, 10));
-        $this->assertSame(240, product($this->intArray, 10));
-        $this->assertSame(24, product($this->intArray));
-        $this->assertSame(24, product($this->intIterator));
-        $this->assertEquals(1.65, product($this->floatArray), '', 0.01);
-        $this->assertEquals(1.65, product($this->floatIterator), '', 0.01);
+        self::assertSame(240, product($this->intArray, 10));
+        self::assertSame(240, product($this->intArray, 10));
+        self::assertSame(24, product($this->intArray));
+        self::assertSame(24, product($this->intIterator));
+        self::assertEqualsWithDelta(1.65, product($this->floatArray), 0.01, '');
+        self::assertEqualsWithDelta(1.65, product($this->floatIterator), 0.01, '');
     }
 
     /** @dataProvider Functional\Tests\MathDataProvider::injectErrorCollection */
-    public function testElementsOfWrongTypeAreIgnored($collection)
+    public function testElementsOfWrongTypeAreIgnored($collection): void
     {
-        $this->assertEquals(3, product($collection), '', 0.01);
+        self::assertEqualsWithDelta(3, product($collection), 0.01, '');
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\product() expects parameter 1 to be array or instance of Traversable');
         product('invalidCollection', 'strlen');

@@ -15,19 +15,19 @@ use function Functional\const_function;
 
 class CompareOnTest extends AbstractTestCase
 {
-    public function testCompareValues()
+    public function testCompareValues(): void
     {
         $comparator = compare_on('strcmp');
 
-        $this->assertSame(-1, $comparator('a', 'b'));
-        $this->assertSame(0, $comparator('a', 'a'));
-        $this->assertSame(1, $comparator('b', 'a'));
+        self::assertSame(-1, $comparator('a', 'b'));
+        self::assertSame(0, $comparator('a', 'a'));
+        self::assertSame(1, $comparator('b', 'a'));
     }
 
-    public function testCompareWithReducer()
+    public function testCompareWithReducer(): void
     {
         $comparator = compare_on('strcmp', const_function(1));
 
-        $this->assertSame(0, $comparator(0, 1));
+        self::assertSame(0, $comparator(0, 1));
     }
 }

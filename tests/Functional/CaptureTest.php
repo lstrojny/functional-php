@@ -14,7 +14,7 @@ use function Functional\capture;
 
 class CaptureTest extends AbstractTestCase
 {
-    public function testCaptureReturnValue()
+    public function testCaptureReturnValue(): void
     {
         $fn = capture(
             function (...$args) {
@@ -23,7 +23,7 @@ class CaptureTest extends AbstractTestCase
             $result
         );
 
-        $this->assertSame([1, 2], $fn(1, 2));
-        $this->assertSame([1, 2], $result);
+        self::assertSame([1, 2], $fn(1, 2));
+        self::assertSame([1, 2], $result);
     }
 }

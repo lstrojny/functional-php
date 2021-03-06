@@ -18,7 +18,7 @@ class FunctionalTest extends TestCase
     /**
      * @throws \ReflectionException
      */
-    public function testAllDefinedConstantsAreValidCallables()
+    public function testAllDefinedConstantsAreValidCallables(): void
     {
         $functionalClass = new \ReflectionClass(Functional::class);
         $functions = $functionalClass->getConstants();
@@ -28,23 +28,26 @@ class FunctionalTest extends TestCase
                 continue;
             }
 
-            $this->assertIsCallable($function);
+            self::assertIsCallable($function);
         }
     }
 
-    public function testShouldHaveDefinedConstantsForAllFunctions()
+    public function testShouldHaveDefinedConstantsForAllFunctions(): void
     {
         $functions = \get_defined_functions(true);
         $functionalFunctions = \preg_grep('/functional\\\(?!tests)/', $functions['user']);
-        $expectedFunctions = \array_map(function ($function) {
-            return \str_replace('functional\\', '\\Functional\\', $function);
-        }, $functionalFunctions);
+        $expectedFunctions = \array_map(
+            static function ($function) {
+                return \str_replace('functional\\', '\\Functional\\', $function);
+            },
+            $functionalFunctions
+        );
 
         $functionalClass = new \ReflectionClass(Functional::class);
         $constants = $functionalClass->getConstants();
 
         foreach ($expectedFunctions as $function) {
-            $this->assertContains($function, $constants);
+            self::assertContains($function, $constants);
         }
     }
 }

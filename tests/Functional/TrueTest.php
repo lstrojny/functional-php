@@ -17,6 +17,46 @@ use function Functional\true;
 
 class TrueTest extends AbstractTestCase
 {
+    /**
+     * @var ArrayIterator
+     */
+    private $falseHashIterator;
+
+    /**
+     * @var array
+     */
+    private $falseHash;
+
+    /**
+     * @var ArrayIterator
+     */
+    private $falseIterator;
+
+    /**
+     * @var array
+     */
+    private $falseArray;
+
+    /**
+     * @var ArrayIterator
+     */
+    private $trueHashIterator;
+
+    /**
+     * @var bool[]
+     */
+    private $trueHash;
+
+    /**
+     * @var ArrayIterator
+     */
+    private $trueIterator;
+
+    /**
+     * @var bool[]
+     */
+    private $trueArray;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -30,21 +70,21 @@ class TrueTest extends AbstractTestCase
         $this->falseHashIterator = new ArrayIterator($this->falseHash);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertTrue(F\true([]));
-        $this->assertTrue(F\true(new ArrayIterator([])));
-        $this->assertTrue(F\true($this->trueArray));
-        $this->assertTrue(F\true($this->trueIterator));
-        $this->assertTrue(F\true($this->trueHash));
-        $this->assertTrue(F\true($this->trueHashIterator));
-        $this->assertFalse(F\true($this->falseArray));
-        $this->assertFalse(F\true($this->falseIterator));
-        $this->assertFalse(F\true($this->falseHash));
-        $this->assertFalse(F\true($this->falseHashIterator));
+        self::assertTrue(F\true([]));
+        self::assertTrue(F\true(new ArrayIterator([])));
+        self::assertTrue(F\true($this->trueArray));
+        self::assertTrue(F\true($this->trueIterator));
+        self::assertTrue(F\true($this->trueHash));
+        self::assertTrue(F\true($this->trueHashIterator));
+        self::assertFalse(F\true($this->falseArray));
+        self::assertFalse(F\true($this->falseIterator));
+        self::assertFalse(F\true($this->falseHash));
+        self::assertFalse(F\true($this->falseHashIterator));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\true() expects parameter 1 to be array or instance of Traversable');
         F\true('invalidCollection');

@@ -14,12 +14,12 @@ use function Functional\greater_than;
 
 class GreaterThanTest extends AbstractTestCase
 {
-    public function testGreaterThanComparison()
+    public function testGreaterThanComparison(): void
     {
         $fn = greater_than(2);
 
-        $this->assertTrue($fn(3));
-        $this->assertFalse($fn(2));
-        $this->assertFalse($fn(1));
+        self::assertTrue($fn(3));
+        self::assertFalse($fn(2));
+        self::assertFalse($fn(1));
     }
 }

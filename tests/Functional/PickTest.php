@@ -11,6 +11,7 @@
 namespace Functional\Tests;
 
 use ArrayObject;
+use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\pick;
 
@@ -32,48 +33,47 @@ class PickTest extends AbstractTestCase
         ];
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame('2', pick($this->array_1, 'two'));
-        $this->assertSame(
-            null,
+        self::assertSame('2', pick($this->array_1, 'two'));
+        self::assertNull(
             pick($this->array_1, 'non-existing-index'),
             'Non-existing index, should return null'
         );
-        $this->assertSame('3', pick($this->array_1, 3));
-        $this->assertSame(0, pick($this->array_1, 'zero-index', ':)'));
-        $this->assertSame('default', pick($this->array_1, 'non-existing-index', 'default'));
+        self::assertSame('3', pick($this->array_1, 3));
+        self::assertSame(0, pick($this->array_1, 'zero-index', ':)'));
+        self::assertSame('default', pick($this->array_1, 'non-existing-index', 'default'));
     }
 
-    public function testInvalidCollectionShouldThrowException()
+    public function testInvalidCollectionShouldThrowException(): void
     {
-        $this->expectException('Functional\Exceptions\InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
 
         pick(null, '');
     }
 
-    public function testInvalidCallbackShouldThrowException()
+    public function testInvalidCallbackShouldThrowException(): void
     {
         $this->expectCallableArgumentError('Functional\pick', 4);
         pick($this->array_1, '', null, 'not-a-callback');
     }
 
-    public function testDefaultValue()
+    public function testDefaultValue(): void
     {
-        $this->assertSame(
+        self::assertSame(
             5,
             pick($this->array_1, 'dummy', 5),
             'Index does not exist, should return default value'
         );
 
-        $this->assertSame(
+        self::assertSame(
             '1',
             pick($this->array_1, 'one', 5),
             'Index does exists, should return the corresponding value'
         );
     }
 
-    public function testCustomCallback()
+    public function testCustomCallback(): void
     {
         //custom callback to check for false condition
         //false - index does not exist or value is 0
@@ -86,19 +86,19 @@ class PickTest extends AbstractTestCase
             }
         };
 
-        $this->assertSame(':)', pick($this->array_1, 'non-existing-index', ':)'));
-        $this->assertSame(':)', pick($this->array_1, 'zero-index', ':)', $customCallback));
-        $this->assertSame('0', pick($this->array_1, 'zero-string-index', ':)', $customCallback));
-        $this->assertSame(false, pick($this->array_1, 'false-index', ':)', $customCallback));
+        self::assertSame(':)', pick($this->array_1, 'non-existing-index', ':)'));
+        self::assertSame(':)', pick($this->array_1, 'zero-index', ':)', $customCallback));
+        self::assertSame('0', pick($this->array_1, 'zero-string-index', ':)', $customCallback));
+        self::assertFalse(pick($this->array_1, 'false-index', ':)', $customCallback));
     }
 
-    public function testArrayAccess()
+    public function testArrayAccess(): void
     {
         $object = new ArrayObject();
 
         $object['test'] = 5;
 
-        $this->assertSame(5, pick($object, 'test'), 'Key exists');
-        $this->assertSame(10, pick($object, 'dummy', 10), 'Key does not exists');
+        self::assertSame(5, pick($object, 'test'), 'Key exists');
+        self::assertSame(10, pick($object, 'dummy', 10), 'Key does not exists');
     }
 }

@@ -14,9 +14,9 @@ use function Functional\ratio;
 
 abstract class AbstractPartialTestCase extends AbstractTestCase
 {
-    protected function ratio()
+    protected function ratio(): callable
     {
-        return function ($initial, ...$args) {
+        return static function ($initial, ...$args) {
             return ratio($args, $initial);
         };
     }

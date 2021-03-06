@@ -16,33 +16,33 @@ class LastIndexOfTest extends AbstractTestCase
 {
     use IndexesTrait;
 
-    public function test()
+    public function test(): void
     {
-        $this->assertSame(0, last_index_of($this->list, 'value1'));
-        $this->assertSame(0, last_index_of($this->listIterator, 'value1'));
-        $this->assertSame(2, last_index_of($this->list, 'value'));
-        $this->assertSame(2, last_index_of($this->listIterator, 'value'));
-        $this->assertSame(3, last_index_of($this->list, 'value2'));
-        $this->assertSame(3, last_index_of($this->listIterator, 'value2'));
-        $this->assertSame('k3', last_index_of($this->hash, 'val1'));
-        $this->assertSame('k3', last_index_of($this->hashIterator, 'val1'));
-        $this->assertSame('k2', last_index_of($this->hash, 'val2'));
-        $this->assertSame('k2', last_index_of($this->hashIterator, 'val2'));
-        $this->assertSame('k4', last_index_of($this->hash, 'val3'));
-        $this->assertSame('k4', last_index_of($this->hashIterator, 'val3'));
+        self::assertSame(0, last_index_of($this->list, 'value1'));
+        self::assertSame(0, last_index_of($this->listIterator, 'value1'));
+        self::assertSame(2, last_index_of($this->list, 'value'));
+        self::assertSame(2, last_index_of($this->listIterator, 'value'));
+        self::assertSame(3, last_index_of($this->list, 'value2'));
+        self::assertSame(3, last_index_of($this->listIterator, 'value2'));
+        self::assertSame('k3', last_index_of($this->hash, 'val1'));
+        self::assertSame('k3', last_index_of($this->hashIterator, 'val1'));
+        self::assertSame('k2', last_index_of($this->hash, 'val2'));
+        self::assertSame('k2', last_index_of($this->hashIterator, 'val2'));
+        self::assertSame('k4', last_index_of($this->hash, 'val3'));
+        self::assertSame('k4', last_index_of($this->hashIterator, 'val3'));
     }
 
-    public function testIfValueCouldNotBeFoundFalseIsReturned()
+    public function testIfValueCouldNotBeFoundFalseIsReturned(): void
     {
-        $this->assertFalse(last_index_of($this->list, 'invalidValue'));
-        $this->assertFalse(last_index_of($this->listIterator, 'invalidValue'));
-        $this->assertFalse(last_index_of($this->hash, 'invalidValue'));
-        $this->assertFalse(last_index_of($this->hashIterator, 'invalidValue'));
+        self::assertFalse(last_index_of($this->list, 'invalidValue'));
+        self::assertFalse(last_index_of($this->listIterator, 'invalidValue'));
+        self::assertFalse(last_index_of($this->hash, 'invalidValue'));
+        self::assertFalse(last_index_of($this->hashIterator, 'invalidValue'));
     }
 
-    public function testPassCallback()
+    public function testPassCallback(): void
     {
-        $this->assertSame(
+        self::assertSame(
             3,
             last_index_of($this->list, function ($element) {
                 return $element;
@@ -50,7 +50,7 @@ class LastIndexOfTest extends AbstractTestCase
         );
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\last_index_of() expects parameter 1 to be array or instance of Traversable');
         last_index_of('invalidCollection', 'idx');

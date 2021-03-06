@@ -17,18 +17,18 @@ use function Functional\const_function;
 
 class CompareObjectHashOnTest extends AbstractTestCase
 {
-    public function testCompareValues()
+    public function testCompareValues(): void
     {
         $compare = compare_object_hash_on('strcmp');
 
-        $this->assertSame(0, $compare($this, $this));
-        $this->assertNotSame(0, $compare($this, new stdClass()));
+        self::assertSame(0, $compare($this, $this));
+        self::assertNotSame(0, $compare($this, new stdClass()));
     }
 
-    public function testCompareWithReducer()
+    public function testCompareWithReducer(): void
     {
         $compare = compare_object_hash_on('strcmp', const_function(new stdClass()));
 
-        $this->assertSame(0, $compare($this, new stdClass()));
+        self::assertSame(0, $compare($this, new stdClass()));
     }
 }

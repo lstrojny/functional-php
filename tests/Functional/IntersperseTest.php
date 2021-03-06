@@ -16,29 +16,29 @@ use function Functional\intersperse;
 
 class IntersperseTest extends AbstractTestCase
 {
-    public function test()
+    public function test(): void
     {
         $array = ['a', 'b', 'c'];
         $traversable = new ArrayIterator($array);
 
         $expected = ['a', '-', 'b', '-', 'c'];
 
-        $this->assertSame($expected, intersperse($array, '-'));
-        $this->assertSame($expected, intersperse($traversable, '-'));
+        self::assertSame($expected, intersperse($array, '-'));
+        self::assertSame($expected, intersperse($traversable, '-'));
     }
 
-    public function testEmptyCollection()
+    public function testEmptyCollection(): void
     {
-        $this->assertSame([], intersperse([], '-'));
-        $this->assertSame([], intersperse(new ArrayIterator([]), '-'));
+        self::assertSame([], intersperse([], '-'));
+        self::assertSame([], intersperse(new ArrayIterator([]), '-'));
     }
 
-    public function testIntersperseWithArray()
+    public function testIntersperseWithArray(): void
     {
-        $this->assertSame(['a', ['-'], 'b'], intersperse(['a', 'b'], ['-']));
+        self::assertSame(['a', ['-'], 'b'], intersperse(['a', 'b'], ['-']));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError(
             'Functional\intersperse() expects parameter 1 to be array or ' .
