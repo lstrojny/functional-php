@@ -20,7 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param ArrayAccess|array $collection
  * @param mixed $index
  * @param mixed $default
- * @param callable $callback Custom function to check if index exists, default function is "isset"
+ * @param callable|null $callback Custom function to check if index exists
  * @return mixed
  * @no-named-arguments
  */
@@ -29,7 +29,7 @@ function pick($collection, $index, $default = null, callable $callback = null)
     InvalidArgumentException::assertArrayAccess($collection, __FUNCTION__, 1);
 
     if ($callback === null) {
-        if (!isset($collection[$index])) {
+        if (!isset($collection[$index]) && (!\is_array($collection) || !\array_key_exists($index, $collection))) {
             return $default;
         }
     } else {
