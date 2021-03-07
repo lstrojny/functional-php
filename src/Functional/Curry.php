@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -21,6 +21,7 @@ use Closure;
  * @param callable $function the function to curry
  * @param bool $required curry optional parameters ?
  * @return callable a curryied version of the given function
+ * @no-named-arguments
  */
 function curry(callable $function, $required = true)
 {

@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -14,43 +14,44 @@ use function Functional\partial_method;
 
 class PartialMethodTest extends AbstractPartialTestCase
 {
-    public function testWithNoArgs()
+
+    public function testWithNoArgs(): void
     {
         $method = partial_method('execute');
-        $this->assertSame('default', $method($this));
+        self::assertSame('default', $method($this));
     }
 
-    public function testWithTwoArgs()
+    public function testWithTwoArgs(): void
     {
         $method = partial_method('execute', ['hello', 'world']);
-        $this->assertSame('hello world', $method($this));
+        self::assertSame('hello world', $method($this));
     }
 
-    public function testWithInvalidMethod()
+    public function testWithInvalidMethod(): void
     {
         $method = partial_method('undefinedMethod');
-        $this->assertNull($method($this));
+        self::assertNull($method($this));
     }
 
-    public function testWithInvalidMethodAndDefaultValue()
+    public function testWithInvalidMethodAndDefaultValue(): void
     {
         $method = partial_method('undefinedMethod', [], 'defaultValue');
-        $this->assertSame('defaultValue', $method($this));
+        self::assertSame('defaultValue', $method($this));
     }
 
-    public function testWithNonObjectAndDefaultValue()
+    public function testWithNonObjectAndDefaultValue(): void
     {
         $method = partial_method('undefinedMethod', [], 'defaultValue');
-        $this->assertSame('defaultValue', $method('non-object'));
+        self::assertSame('defaultValue', $method('non-object'));
     }
 
-    public function testWithInvalidMethodName()
+    public function testWithInvalidMethodName(): void
     {
         $this->expectArgumentError('Functional\partial_method() expects parameter 1 to be string, integer given');
         partial_method(1);
     }
 
-    public function execute($arg1 = null, $arg2 = null)
+    public function execute($arg1 = null, $arg2 = null): string
     {
         return $arg1 ? $arg1 . ' ' . $arg2 : 'default';
     }

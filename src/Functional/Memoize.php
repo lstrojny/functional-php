@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -19,6 +19,7 @@ use const E_USER_DEPRECATED;
  * @param array $arguments Arguments
  * @param array|string $key Optional memoize key to override the auto calculated hash
  * @return mixed
+ * @no-named-arguments
  */
 function memoize(callable $callback = null, $arguments = [], $key = null)
 {

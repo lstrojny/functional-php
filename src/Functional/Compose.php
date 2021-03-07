@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -17,6 +17,7 @@ namespace Functional;
  * @return callable
  * @todo Add callable typehint when HHVM supports use of typehints with variadic arguments
  * @see https://github.com/facebook/hhvm/issues/6954
+ * @no-named-arguments
  */
 function compose(...$functions)
 {

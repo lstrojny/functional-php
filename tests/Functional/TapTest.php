@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -14,18 +14,18 @@ use function Functional\tap;
 
 class TapTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
-        $this->expectArgumentError('Argument 2 passed to Functional\tap() must be callable');
+        $this->expectCallableArgumentError('Functional\tap', 2);
         tap('foo', 'undefinedFunction');
     }
 
-    public function testTap()
+    public function testTap(): void
     {
         $input = new \stdClass();
         $input->property = 'foo';

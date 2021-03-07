@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -15,10 +15,10 @@ use ArrayIterator;
 
 class MathDataProvider
 {
-    public static function injectErrorCollection()
+    public static function injectErrorCollection(): array
     {
         $args = [];
-        foreach ([new stdClass(), stream_context_create(), [], "str"] as $v) {
+        foreach ([new stdClass(), \stream_context_create(), [], "str"] as $v) {
             $arg = [2, $v, "1.5", true, null];
             $args[] = [$arg];
             $args[] = [new ArrayIterator($arg)];
@@ -26,7 +26,7 @@ class MathDataProvider
         return $args;
     }
 
-    public static function injectBooleanValues()
+    public static function injectBooleanValues(): array
     {
         return [
             [false, true, 1]

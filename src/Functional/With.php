@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -20,6 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param bool $invokeValue Set to false to not invoke $value if it is a callable. Will be removed in 2.0
  * @param mixed $default The default value to return if $value is null
  * @return mixed
+ * @no-named-arguments
  */
 function with($value, callable $callback, $invokeValue = true, $default = null)
 {

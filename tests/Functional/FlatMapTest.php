@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -17,7 +17,7 @@ use function Functional\flat_map;
 
 class FlatMapTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->list = ['a', ['b'], ['C' => 'c'], [['d']], null];
@@ -26,7 +26,7 @@ class FlatMapTest extends AbstractTestCase
         $this->hashIterator = new ArrayIterator($this->hash);
     }
 
-    public function testList()
+    public function testList(): void
     {
         $flat = flat_map(
             ['a', ['b'], ['C' => 'c'], [['d']], null],
@@ -36,10 +36,10 @@ class FlatMapTest extends AbstractTestCase
             }
         );
 
-        $this->assertSame(['a','b','c',['d']], $flat);
+        self::assertSame(['a', 'b', 'c', ['d']], $flat);
     }
 
-    public function testListIterator()
+    public function testListIterator(): void
     {
         $flat = flat_map(
             new ArrayIterator(['a', ['b'], ['C' => 'c'], [['d']], null]),
@@ -49,10 +49,10 @@ class FlatMapTest extends AbstractTestCase
             }
         );
 
-        $this->assertSame(['a','b','c',['d']], $flat);
+        self::assertSame(['a', 'b', 'c', ['d']], $flat);
     }
 
-    public function testHash()
+    public function testHash(): void
     {
         $flat = flat_map(
             ['ka' => 'a', 'kb' => ['b'], 'kc' => ['C' => 'c'], 'kd' => [['d']], 'ke' => null, null],
@@ -62,10 +62,10 @@ class FlatMapTest extends AbstractTestCase
             }
         );
 
-        $this->assertSame(['a','b','c',['d']], $flat);
+        self::assertSame(['a', 'b', 'c', ['d']], $flat);
     }
 
-    public function testHashIterator()
+    public function testHashIterator(): void
     {
         $flat = flat_map(
             new ArrayIterator(['ka' => 'a', 'kb' => ['b'], 'kc' => ['C' => 'c'], 'kd' => [['d']], 'ke' => null, null]),
@@ -75,18 +75,18 @@ class FlatMapTest extends AbstractTestCase
             }
         );
 
-        $this->assertSame(['a','b','c',['d']], $flat);
+        self::assertSame(['a', 'b', 'c', ['d']], $flat);
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\flat_map() expects parameter 1 to be array or instance of Traversable');
         flat_map('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\flat_map() must be callable");
+        $this->expectCallableArgumentError('Functional\flat_map', 2);
         flat_map($this->list, 'undefinedFunction');
     }
 }

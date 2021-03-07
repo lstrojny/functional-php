@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -18,29 +18,36 @@ class FunctionalTest extends TestCase
     /**
      * @throws \ReflectionException
      */
-    public function testAllDefinedConstantsAreValidCallables()
+    public function testAllDefinedConstantsAreValidCallables(): void
     {
         $functionalClass = new \ReflectionClass(Functional::class);
         $functions = $functionalClass->getConstants();
 
         foreach ($functions as $function) {
-            $this->assertInternalType('callable', $function);
+            if ($function === '\\Functional\\match') {
+                continue;
+            }
+
+            self::assertIsCallable($function);
         }
     }
 
-    public function testShouldHaveDefinedConstantsForAllFunctions()
+    public function testShouldHaveDefinedConstantsForAllFunctions(): void
     {
-        $functions = get_defined_functions(true);
-        $functionalFunctions = preg_grep('/functional\\\(?!tests)/', $functions['user']);
-        $expectedFunctions = array_map(function ($function) {
-            return str_replace('functional\\', '\\Functional\\', $function);
-        }, $functionalFunctions);
+        $functions = \get_defined_functions(true);
+        $functionalFunctions = \preg_grep('/functional\\\(?!tests)/', $functions['user']);
+        $expectedFunctions = \array_map(
+            static function ($function) {
+                return \str_replace('functional\\', '\\Functional\\', $function);
+            },
+            $functionalFunctions
+        );
 
         $functionalClass = new \ReflectionClass(Functional::class);
         $constants = $functionalClass->getConstants();
 
         foreach ($expectedFunctions as $function) {
-            $this->assertContains($function, $constants);
+            self::assertContains($function, $constants);
         }
     }
 }

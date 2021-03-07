@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -14,11 +14,11 @@ use function Functional\less_than;
 
 class LessThanTest extends AbstractTestCase
 {
-    public function testLessThanComparison()
+    public function testLessThanComparison(): void
     {
         $fn = less_than(2);
 
-        $this->assertFalse($fn(2));
-        $this->assertTrue($fn(1));
+        self::assertFalse($fn(2));
+        self::assertTrue($fn(1));
     }
 }

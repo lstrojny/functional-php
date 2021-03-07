@@ -16,6 +16,7 @@ use Traversable;
 /**
  * Call $func with only abs($count) arguments, taken either from the
  * left or right depending on the sign
+ * @no-named-arguments
  */
 function ary(callable $func, int $count): callable
 {

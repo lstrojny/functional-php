@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -24,6 +24,7 @@ use Traversable;
  * @param Traversable|null $delaySequence Default: no delay between calls
  * @throws InvalidArgumentException
  * @return boolean
+ * @no-named-arguments
  */
 function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 {

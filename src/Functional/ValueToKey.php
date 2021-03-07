@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -18,6 +18,9 @@ use function serialize;
 
 use const PHP_VERSION_ID;
 
+/**
+ * @no-named-arguments
+ */
 function value_to_key(...$any)
 {
     /** @var object[]|WeakReference[] $objectReferences */

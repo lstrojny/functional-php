@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -17,7 +17,7 @@ use function Functional\take_left;
 
 class TakeLeftTest extends AbstractTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -25,7 +25,7 @@ class TakeLeftTest extends AbstractTestCase
         $this->listIterator = new ArrayIterator($this->list);
     }
 
-    public function test()
+    public function test(): void
     {
         each([$this->list, $this->listIterator], function ($list) {
             $this->assertSame(['foo'], take_left($list, 1));

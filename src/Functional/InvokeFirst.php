@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -22,6 +22,7 @@ use Traversable;
  * @param array $arguments
  *
  * @return mixed
+ * @no-named-arguments
  */
 function invoke_first($collection, $methodName, array $arguments = [])
 {

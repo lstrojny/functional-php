@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -19,20 +19,17 @@ use function Functional\ary;
 use function Functional\filter;
 use function Functional\pluck;
 use function Functional\value_to_key;
-use function preg_match;
-use function random_bytes;
-use function stream_context_create;
 
 use const NAN;
 use const PHP_VERSION_ID;
 
 class ValueToKeyTest extends AbstractTestCase
 {
-    const OBJECT_REF_REGEX = '@^\[i:0;~%s:(?<hash>[^\[:]+)(:\d+)?(\[.*])?\]$@';
+    public const OBJECT_REF_REGEX = '@^\[i:0;~%s:(?<hash>[^\[:]+)(:\d+)?(\[.*])?\]$@';
 
     public static function getSimpleTypeExpectations(): array
     {
-        $binary = random_bytes(10);
+        $binary = \random_bytes(10);
 
         return [
             'Nothing' => [[], '[]'],
@@ -67,7 +64,7 @@ class ValueToKeyTest extends AbstractTestCase
     }
 
     /** @dataProvider getSimpleTypeExpectations */
-    public function testValueToRefOnSimpleTypes(array $input, $constraint)
+    public function testValueToRefOnSimpleTypes(array $input, $constraint): void
     {
         $ref = value_to_key(...$input);
         self::assertThat($ref, $constraint instanceof Constraint ? $constraint : self::identicalTo($constraint));
@@ -76,10 +73,10 @@ class ValueToKeyTest extends AbstractTestCase
         self::assertSame('value', $hash[$ref], 'Ref can be used as an array key');
     }
 
-    public function testExpectationsAreNonIdentical()
+    public function testExpectationsAreNonIdentical(): void
     {
         $strings = filter(pluck(self::getSimpleTypeExpectations(), 1), ary('is_string', 1));
-        while ($string = array_pop($strings)) {
+        while ($string = \array_pop($strings)) {
             foreach ($strings as $otherString) {
                 if ($string === $otherString) {
                     self::fail($string);
@@ -89,24 +86,24 @@ class ValueToKeyTest extends AbstractTestCase
         self::assertTrue(true, 'All expectations are different');
     }
 
-    public static function getErrorCases()
+    public static function getErrorCases(): array
     {
         return [
-            [stream_context_create()],
-            [[stream_context_create()]],
-            [['key' => stream_context_create()]],
-            [new ArrayObject(['key' => stream_context_create()])],
+            [\stream_context_create()],
+            [[\stream_context_create()]],
+            [['key' => \stream_context_create()]],
+            [new ArrayObject(['key' => \stream_context_create()])],
         ];
     }
 
     /** @dataProvider getErrorCases */
-    public function testResourcesAreForbidden($value)
+    public function testResourcesAreForbidden($value): void
     {
         $this->expectException(InvalidArgumentException::class);
         value_to_key($value);
     }
 
-    public function testObjectReferencesWithStdClass()
+    public function testObjectReferencesWithStdClass(): void
     {
         $key1 = value_to_key(new stdClass());
         $key2 = value_to_key(new stdClass());
@@ -114,12 +111,12 @@ class ValueToKeyTest extends AbstractTestCase
 
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('stdClass'), $key1, $key1Matches),
+            \preg_match(self::createObjectRefRegex('stdClass'), $key1, $key1Matches),
             'Can extract object hash from key1'
         );
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('stdClass'), $key2, $key2Matches),
+            \preg_match(self::createObjectRefRegex('stdClass'), $key2, $key2Matches),
             'Can extract object hash from key2'
         );
 
@@ -132,7 +129,7 @@ class ValueToKeyTest extends AbstractTestCase
         }
     }
 
-    public function testObjectReferencesWithArrayObject()
+    public function testObjectReferencesWithArrayObject(): void
     {
         $key1 = value_to_key(new ArrayObject());
         $key2 = value_to_key(new ArrayObject(['foo' => 'bar']));
@@ -140,12 +137,12 @@ class ValueToKeyTest extends AbstractTestCase
 
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('ArrayObject'), $key1, $key1Matches),
+            \preg_match(self::createObjectRefRegex('ArrayObject'), $key1, $key1Matches),
             'Can extract object hash from key1'
         );
         self::assertSame(
             1,
-            preg_match(self::createObjectRefRegex('ArrayObject'), $key2, $key2Matches),
+            \preg_match(self::createObjectRefRegex('ArrayObject'), $key2, $key2Matches),
             'Can extract object hash from key2'
         );
 
@@ -160,6 +157,6 @@ class ValueToKeyTest extends AbstractTestCase
 
     private static function createObjectRefRegex(string $class = '.*'): string
     {
-        return sprintf(self::OBJECT_REF_REGEX, $class);
+        return \sprintf(self::OBJECT_REF_REGEX, $class);
     }
 }

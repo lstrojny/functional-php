@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -20,6 +20,7 @@ use Functional\Sequences\ExponentialSequence;
  * @param integer $percentage Integer between 1 and 100
  * @return ExponentialSequence
  * @throws InvalidArgumentException
+ * @no-named-arguments
  */
 function sequence_exponential($start, $percentage)
 {

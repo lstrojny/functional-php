@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <!--
- * Copyright (C) 2011-2017 by Lars Strojny <lstrojny@php.net>
+ * Copyright (C) 2011-2021 by Lars Strojny <lstrojny@php.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,39 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  -->
-<phpunit
-    backupGlobals="false"
-    backupStaticAttributes="false"
-    bootstrap="vendor/autoload.php"
-    convertWarningsToExceptions="true"
-    convertNoticesToExceptions="true"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutOutputDuringTests="true"
-    verbose="true"
-    colors="true">
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/Functional</directory>
-        </whitelist>
-    </filter>
-
-    <testsuites>
-        <testsuite name="unit-tests">
-            <directory>tests/Functional/</directory>
-        </testsuite>
-    </testsuites>
-
-    <logging>
-        <log type="coverage-html" target="build/coverage"
-             lowUpperBound="35" highLowerBound="70"/>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="junit" target="build/logs/junit.xml"/>
-    </logging>
-
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <ini name="date.timezone" value="UTC"/>
-        <ini name="display_errors" value="on"/>
-    </php>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         beStrictAboutOutputDuringTests="true"
+         verbose="true"
+         colors="true">
+  <coverage>
+    <include>
+      <directory suffix=".php">src/Functional</directory>
+    </include>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+      <html outputDirectory="build/coverage" lowUpperBound="35" highLowerBound="70"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="unit-tests">
+      <directory>tests/Functional/</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <junit outputFile="build/logs/junit.xml"/>
+  </logging>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="date.timezone" value="UTC"/>
+    <ini name="display_errors" value="on"/>
+  </php>
 </phpunit>

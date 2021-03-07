@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -14,13 +14,15 @@ use function Functional\converge;
 
 class ConvergeTest extends AbstractTestCase
 {
-    public function testCallablesAsStrings()
+    public function testCallablesAsStrings(): void
     {
-        $average = converge('Functional\Tests\div', ['array_sum', 'count']);
-        $this->assertEquals(2.5, $average([1, 2, 3, 4]));
+        $average = converge(function ($dividend, $divisor) {
+            return $dividend / $divisor;
+        }, ['array_sum', 'count']);
+        self::assertEquals(2.5, $average([1, 2, 3, 4]));
     }
 
-    public function testCallablesAsAnonymous()
+    public function testCallablesAsAnonymous(): void
     {
         $strangeFunction = converge(
             function ($u, $l) {
@@ -32,14 +34,9 @@ class ConvergeTest extends AbstractTestCase
             ]
         );
 
-        $this->assertSame(
+        self::assertSame(
             'FUNCTIONAL PROGRAMMINGfunctional programming',
             $strangeFunction('Functional Programming')
         );
     }
-}
-
-function div($dividend, $divisor)
-{
-    return $dividend / $divisor;
 }

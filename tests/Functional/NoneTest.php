@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -17,7 +17,19 @@ use function Functional\none;
 
 class NoneTest extends AbstractTestCase
 {
-    public function setUp()
+    /** @var string[] */
+    private $goodArray;
+
+    /** @var Traversable|string[] */
+    private $goodIterator;
+
+    /** @var string[] */
+    private $badArray;
+
+    /** @var Traversable|string[] */
+    private $badIterator;
+
+    public function setUp(): void
     {
         parent::setUp();
         $this->goodArray = ['value', 'value', 'value'];
@@ -26,51 +38,51 @@ class NoneTest extends AbstractTestCase
         $this->badIterator = new ArrayIterator($this->badArray);
     }
 
-    public function test()
+    public function test(): void
     {
-        $this->assertTrue(none($this->goodArray, [$this, 'functionalCallback']));
-        $this->assertTrue(none($this->goodIterator, [$this, 'functionalCallback']));
-        $this->assertFalse(none($this->badArray, [$this, 'functionalCallback']));
-        $this->assertFalse(none($this->badIterator, [$this, 'functionalCallback']));
+        self::assertTrue(none($this->goodArray, [$this, 'functionalCallback']));
+        self::assertTrue(none($this->goodIterator, [$this, 'functionalCallback']));
+        self::assertFalse(none($this->badArray, [$this, 'functionalCallback']));
+        self::assertFalse(none($this->badIterator, [$this, 'functionalCallback']));
     }
 
-    public function testPassNoCollection()
+    public function testPassNoCollection(): void
     {
         $this->expectArgumentError('Functional\none() expects parameter 1 to be array or instance of Traversable');
         none('invalidCollection', 'strlen');
     }
 
-    public function testPassNonCallable()
+    public function testPassNonCallable(): void
     {
-        $this->expectArgumentError("Argument 2 passed to Functional\\none() must be callable");
+        $this->expectCallableArgumentError('Functional\none', 2);
         none($this->goodArray, 'undefinedFunction');
     }
 
-    public function testPassNoCallable()
+    public function testPassNoCallable(): void
     {
-        $this->assertFalse(none($this->goodArray));
-        $this->assertFalse(none($this->goodIterator));
-        $this->assertFalse(none($this->badArray));
-        $this->assertFalse(none($this->badIterator));
+        self::assertFalse(none($this->goodArray));
+        self::assertFalse(none($this->goodIterator));
+        self::assertFalse(none($this->badArray));
+        self::assertFalse(none($this->badIterator));
     }
 
-    public function testExceptionIsThrownInArray()
+    public function testExceptionIsThrownInArray(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         none($this->goodArray, [$this, 'exception']);
     }
 
-    public function testExceptionIsThrownInIterator()
+    public function testExceptionIsThrownInIterator(): void
     {
         $this->expectException('DomainException');
         $this->expectExceptionMessage('Callback exception');
         none($this->goodIterator, [$this, 'exception']);
     }
 
-    public function functionalCallback($value, $key, $collection)
+    public function functionalCallback($value, $key, $collection): bool
     {
         InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-        return $value != 'value' && strlen($key) > 0;
+        return $value != 'value' && \strlen($key) > 0;
     }
 }

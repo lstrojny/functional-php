@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -15,26 +15,32 @@ use RuntimeException;
 
 use function Functional\error_to_exception;
 
+use const E_USER_ERROR;
+
 class ErrorToExceptionTest extends AbstractTestCase
 {
-    public function testErrorIsThrownAsException()
+    public function testErrorIsThrownAsException(): void
     {
-        $fn = error_to_exception('strpos');
+        $origFn = function () {
+            \trigger_error('Some error', E_USER_ERROR);
+        };
+
+        $fn = error_to_exception($origFn);
 
         $this->expectException(ErrorException::class);
-        $this->expectExceptionMessage('strpos() expects parameter 1 to be string, array given');
+        $this->expectExceptionMessage('Some error');
 
-        $fn([], 0);
+        $fn();
     }
 
-    public function testFunctionIsWrapped()
+    public function testFunctionIsWrapped(): void
     {
         $fn = error_to_exception('substr');
 
-        $this->assertSame('f', $fn('foo', 0, 1));
+        self::assertSame('f', $fn('foo', 0, 1));
     }
 
-    public function testExceptionsAreHandledTransparently()
+    public function testExceptionsAreHandledTransparently(): void
     {
         $expectedException = new RuntimeException();
         $fn = error_to_exception(
@@ -48,25 +54,29 @@ class ErrorToExceptionTest extends AbstractTestCase
         $fn();
     }
 
-    public function testErrorHandlerNestingWorks()
+    public function testErrorHandlerNestingWorks(): void
     {
         $errorMessage = null;
-        set_error_handler(
+        \set_error_handler(
             static function ($level, $message) use (&$errorMessage) {
                 $errorMessage = $message;
             }
         );
 
-        $fn = error_to_exception('strpos');
+        $origFn = static function () {
+            \trigger_error('Some error', E_USER_ERROR);
+        };
+
+        $fn = error_to_exception($origFn);
         try {
-            $fn([], 0);
-            $this->fail('ErrorException expected');
+            $fn();
+            self::fail('ErrorException expected');
         } catch (ErrorException $e) {
-            $this->assertNull($errorMessage);
+            self::assertNull($errorMessage);
         }
 
-        strpos([], 0);
-        $this->assertSame('strpos() expects parameter 1 to be string, array given', $errorMessage);
-        restore_error_handler();
+        $origFn();
+        self::assertSame('Some error', $errorMessage);
+        \restore_error_handler();
     }
 }

@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -20,6 +20,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param callable $callback
  * @param mixed ...$arguments
  * @return callable
+ * @no-named-arguments
  */
 function partial_any(callable $callback, ...$arguments)
 {
@@ -37,7 +38,10 @@ function partial_any(callable $callback, ...$arguments)
     };
 }
 
-/** @return resource */
+/**
+ * @return resource
+ * @no-named-arguments
+ */
 function …()
 {
     static $placeholder;
@@ -50,7 +54,10 @@ function …()
 }
 
 
-/** @return resource */
+/**
+ * @return resource
+ * @no-named-arguments
+ */
 function placeholder()
 {
     return …();

@@ -3,17 +3,16 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
 
 namespace Functional\Tests;
 
-use PHPUnit\Framework\Error\Deprecated;
+use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\matching;
-use function Functional\match;
 use function Functional\equal;
 use function Functional\const_function;
 
@@ -21,7 +20,7 @@ use const PHP_VERSION_ID;
 
 class MatchingTest extends AbstractTestCase
 {
-    public function testMatching()
+    public function testMatching(): void
     {
         $test = matching(
             [
@@ -43,7 +42,7 @@ class MatchingTest extends AbstractTestCase
         self::assertEquals('default is qux', $test('qux'));
     }
 
-    public function testNothingMatching()
+    public function testNothingMatching(): void
     {
         $test = matching(
             [
@@ -55,7 +54,7 @@ class MatchingTest extends AbstractTestCase
         self::assertNull($test('baz'));
     }
 
-    public function testMatchingConditionIsArray()
+    public function testMatchingConditionIsArray(): void
     {
         $this->expectArgumentError('Functional\matching() expects condition at key 1 to be array, string given');
 
@@ -67,7 +66,7 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testMatchingConditionLength()
+    public function testMatchingConditionLength(): void
     {
         $this->expectArgumentError(
             'Functional\matching() expects size of condition at key 1 to be greater than or equals to 2, 1 given'
@@ -81,9 +80,9 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testMatchingConditionCallables()
+    public function testMatchingConditionCallables(): void
     {
-        $this->expectException(\Functional\Exceptions\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             'Functional\matching() expects first two items of condition at key 1 to be callables'
         );
@@ -96,16 +95,17 @@ class MatchingTest extends AbstractTestCase
         );
     }
 
-    public function testDeprecatedAlias()
+    public function testDeprecatedAlias(): void
     {
         if (PHP_VERSION_ID >= 80000) {
             self::markTestSkipped('Only works with PHP <8.0');
         }
 
-        $this->expectException(
-            Deprecated::class,
-            'Functional\match() is deprecated as it is incompatible with PHP 8. Use Functional\matching() instead'
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage(
+            'Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead'
         );
-        match([]);
+
+        \call_user_func('Functional\match', []);
     }
 }

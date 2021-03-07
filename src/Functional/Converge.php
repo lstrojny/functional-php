@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -19,6 +19,7 @@ namespace Functional;
  * @param callable $convergingFunction Will be invoked with the return values of all branching functions as its arguments
  * @param callable[] $branchingFunctions A list of functions
  * @return callable A flipped version of the given function
+ * @no-named-arguments
  */
 function converge($convergingFunction, array $branchingFunctions)
 {

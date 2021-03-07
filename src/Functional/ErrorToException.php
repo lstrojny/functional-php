@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -18,6 +18,7 @@ use ErrorException;
  * @param callable $callback
  * @throws ErrorException Throws exception if PHP error happened
  * @return mixed
+ * @no-named-arguments
  */
 function error_to_exception(callable $callback)
 {

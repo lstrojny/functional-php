@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -20,6 +20,7 @@ namespace Functional;
  * @param int $count number of arguments you want to curry
  * @param callable $function the function you want to curry
  * @return callable a curryied version of the given function
+ * @no-named-arguments
  */
 function curry_n($count, callable $function)
 {

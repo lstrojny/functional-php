@@ -5,4 +5,4 @@ return PhpCsFixer\Config::create()
     ->setRules([
         'native_function_invocation' => true,
     ])
-    ->setFinder(PhpCsFixer\Finder::create()->exclude('tests')->in(__DIR__));
+    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__));

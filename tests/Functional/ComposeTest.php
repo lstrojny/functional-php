@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -14,48 +14,52 @@ use function Functional\compose;
 
 class ComposeTest extends AbstractTestCase
 {
-    public function setUp()
+    public function test(): void
     {
-        parent::setUp();
-    }
+        $input = \range(0, 10);
 
-    public function test()
-    {
-        $input = range(0, 10);
-
-        $plus2 = function ($x) {
+        $plus2 = static function ($x) {
             return $x + 2;
         };
-        $times4 = function ($x) {
+        $times4 = static function ($x) {
             return $x * 4;
         };
-        $square = function ($x) {
+        $square = static function ($x) {
             return $x * $x;
         };
 
         $composed = compose($plus2, $times4, $square);
 
-        $composed_values = array_map(function ($x) use ($composed) {
-            return $composed($x);
-        }, $input);
+        $composed_values = \array_map(
+            static function ($x) use ($composed) {
+                return $composed($x);
+            },
+            $input
+        );
 
-        $manual_values = array_map(function ($x) use ($plus2, $times4, $square) {
-            return $square($times4($plus2($x)));
-        }, $input);
+        $manual_values = \array_map(
+            static function ($x) use ($plus2, $times4, $square) {
+                return $square($times4($plus2($x)));
+            },
+            $input
+        );
 
-        $this->assertEquals($composed_values, $manual_values);
+        self::assertEquals($composed_values, $manual_values);
     }
 
-    public function testPassNoFunctions()
+    public function testPassNoFunctions(): void
     {
-        $input = range(0, 10);
+        $input = \range(0, 10);
 
         $composed = compose();
 
-        $composed_values = array_map(function ($x) use ($composed) {
-            return $composed($x);
-        }, $input);
+        $composed_values = \array_map(
+            static function ($x) use ($composed) {
+                return $composed($x);
+            },
+            $input
+        );
 
-        $this->assertEquals($composed_values, $input);
+        self::assertEquals($composed_values, $input);
     }
 }

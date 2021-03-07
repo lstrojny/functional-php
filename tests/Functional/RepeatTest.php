@@ -3,7 +3,7 @@
 /**
  * @package   Functional-php
  * @author    Lars Strojny <lstrojny@php.net>
- * @copyright 2011-2017 Lars Strojny
+ * @copyright 2011-2021 Lars Strojny
  * @license   https://opensource.org/licenses/MIT MIT
  * @link      https://github.com/lstrojny/functional-php
  */
@@ -17,7 +17,7 @@ use function Functional\repeat;
 
 class Repeated
 {
-    public function foo()
+    public function foo(): void
     {
     }
 }
@@ -27,22 +27,22 @@ class RepeatTest extends AbstractTestCase
     /** @var Repeated|MockObject */
     private $repeated;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->repeated = $this->createMock(Repeated::class);
     }
 
-    public function test()
+    public function test(): void
     {
         $this->repeated
-            ->expects($this->exactly(10))
+            ->expects(self::exactly(10))
             ->method('foo');
 
         repeat([$this->repeated, 'foo'])(10);
     }
 
-    public function testNegativeRepeatedTimes()
+    public function testNegativeRepeatedTimes(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
