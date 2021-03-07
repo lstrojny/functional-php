@@ -42,7 +42,7 @@ class MemoizeTest extends AbstractTestCase
         return 'STATIC METHOD VALUE' . self::invoke(__METHOD__);
     }
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->callback = $this->getMockBuilder('stdClass')

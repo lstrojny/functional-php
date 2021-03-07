@@ -18,7 +18,7 @@ use function Functional\drop_first;
 
 class DropTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['value1', 'value2', 'value3', 'value4'];

@@ -24,7 +24,7 @@ class TailTest extends AbstractTestCase
     /** @var Traversable */
     private $badIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [1, 2, 3, 4];

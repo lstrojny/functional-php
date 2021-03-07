@@ -123,7 +123,7 @@ class PluckTest extends AbstractTestCase
     /** @var Traversable */
     private $getExceptionIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->propertyExistsEverywhereArray = [(object)['property' => 1], (object)['property' => 2]];

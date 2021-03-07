@@ -29,7 +29,7 @@ class InvokeFirstTest extends AbstractTestCase
     /** @var Traversable */
     private $iteratorVeryFirstNotCallable;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [$this, null, null];

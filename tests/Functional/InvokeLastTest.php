@@ -24,7 +24,7 @@ class InvokeLastTest extends AbstractTestCase
 
     private $keyArray;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [null, null, $this];
