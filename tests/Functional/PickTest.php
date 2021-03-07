@@ -71,6 +71,8 @@ class PickTest extends AbstractTestCase
             pick($this->array_1, 'one', 5),
             'Index does exists, should return the corresponding value'
         );
+
+        self::assertNull(pick($this->array_1, 'null-index', 'default'), 'Will handle null correctly');
     }
 
     public function testCustomCallback(): void
@@ -93,8 +95,10 @@ class PickTest extends AbstractTestCase
         $object = new ArrayObject();
 
         $object['test'] = 5;
+        $object['null'] = null;
 
         self::assertSame(5, pick($object, 'test'), 'Key exists');
+        self::assertNull(pick($object, 'null'), 'Key exists');
         self::assertSame(10, pick($object, 'dummy', 10), 'Key does not exists');
     }
 }
