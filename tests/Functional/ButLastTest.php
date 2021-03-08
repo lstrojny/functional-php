@@ -16,7 +16,7 @@ use function Functional\but_last;
 
 class ButLastTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [1, 2, 3, 4];

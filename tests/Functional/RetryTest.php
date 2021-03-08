@@ -26,7 +26,7 @@ class RetryTest extends AbstractTestCase
     /** @var MockObject */
     private $retryer;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->retryer = $this->createMock(Retryer::class);

@@ -19,7 +19,7 @@ class SortTest extends AbstractTestCase
     /** @var callable */
     private $sortCallback;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['cat', 'bear', 'aardvark'];

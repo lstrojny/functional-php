@@ -8,8 +8,9 @@
  * @link      https://github.com/lstrojny/functional-php
  */
 
-namespace Functional\Exceptions;
+namespace Functional\Tests\Exceptions;
 
+use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class InvalidArgumentExceptionTest extends TestCase

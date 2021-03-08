@@ -20,7 +20,7 @@ class ReduceTest extends AbstractTestCase
     /** @var iterable */
     private $currentCollection;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['one', 'two', 'three'];

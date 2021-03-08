@@ -17,7 +17,7 @@ use function Functional\flat_map;
 
 class FlatMapTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['a', ['b'], ['C' => 'c'], [['d']], null];

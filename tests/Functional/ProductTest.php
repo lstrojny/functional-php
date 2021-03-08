@@ -29,7 +29,7 @@ class ProductTest extends AbstractTestCase
     /** @var Traversable|float[] */
     private $floatIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->intArray = [1 => 1, 2, "foo" => 3, 4];

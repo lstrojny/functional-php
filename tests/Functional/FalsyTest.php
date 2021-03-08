@@ -41,7 +41,7 @@ class FalsyTest extends AbstractTestCase
     /** @var Traversable */
     private $falseHashIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->trueArray = [false, null, false, false, 0];

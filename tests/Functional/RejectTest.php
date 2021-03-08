@@ -17,7 +17,7 @@ use function Functional\reject;
 
 class RejectTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['value', 'wrong', 'value'];

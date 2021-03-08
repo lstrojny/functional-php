@@ -30,7 +30,7 @@ class SomeTest extends AbstractTestCase
     /** @var Traversable|string[] */
     private $badIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->goodArray = ['value', 'wrong'];

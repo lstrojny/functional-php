@@ -40,7 +40,7 @@ class TrueTest extends AbstractTestCase
     /** @var bool[] */
     private $trueArray;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->trueArray = [true, true, true, true];

@@ -17,7 +17,7 @@ use function Functional\take_left;
 
 class TakeLeftTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

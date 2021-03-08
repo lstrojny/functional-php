@@ -19,7 +19,7 @@ class PickTest extends AbstractTestCase
 {
     private $array_1;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->array_1 = [

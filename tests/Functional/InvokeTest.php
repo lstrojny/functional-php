@@ -23,7 +23,7 @@ class InvokeTest extends AbstractTestCase
     /** @var Traversable */
     private $keyIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [$this, $this, $this];

@@ -23,7 +23,7 @@ class UniqueTest extends AbstractTestCase
     /** @var Traversable */
     private $mixedTypesIterator;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = ['value1', 'value2', 'value1', 'value'];

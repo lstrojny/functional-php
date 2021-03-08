@@ -17,7 +17,7 @@ use function Functional\minimum;
 
 class MinimumTest extends AbstractTestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->list = [1, "foo", 5.1, 5, "5.2", true, false, [], new stdClass()];
