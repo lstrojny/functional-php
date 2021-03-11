@@ -224,6 +224,11 @@ final class Functional
     const invoker = '\Functional\invoker';
 
     /**
+     * @see \Functional\key_sort
+     */
+    const key_sort = '\Functional\key_sort';
+
+    /**
      * @see \Functional\last
      */
     const last = '\Functional\last';
