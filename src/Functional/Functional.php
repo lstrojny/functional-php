@@ -34,6 +34,11 @@ final class Functional
     const capture = '\Functional\capture';
 
     /**
+     * @see \Functional\classnames
+     */
+    const classnames = '\Functional\classnames';
+
+    /**
      * @see \Functional\compare_object_hash_on
      */
     const compare_object_hash_on = '\Functional\compare_object_hash_on';
