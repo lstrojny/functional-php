@@ -23,7 +23,7 @@ function classnames(array $arr = array(), string $permanent_classes = '')
     if(!is_array($arr)) return '';
     $classes = ' ' . $permanent_classes;
     foreach ($arr as $key => $value) {
-        if((isset($value) && !empty($value)) || $value == true)
+        if((isset($value) && strlen($value)) || $value == true)
             $classes .= ' ' . $key;
     }
     return trim($classes);

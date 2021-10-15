@@ -18,7 +18,7 @@ class ClassnamesTest extends AbstractTestCase
     {
 
         $is_first = '';
-        $child_num = 5;
+        $child_num = 0;
 
         $permanent_class = 'permanent';
 
@@ -30,8 +30,8 @@ class ClassnamesTest extends AbstractTestCase
         );
 
 
-        self::assertSame('permanent is-hide child-5', classnames($conditional_classes, $permanent_class));
-        self::assertSame('is-hide child-5', classnames($conditional_classes));
+        self::assertSame('permanent is-hide child-0', classnames($conditional_classes, $permanent_class));
+        self::assertSame('is-hide child-0', classnames($conditional_classes));
         self::assertSame('', classnames());
     }
 }
