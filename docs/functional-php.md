@@ -951,6 +951,20 @@ use Functional\intersperse;
 intersperse(['a', 'b', 'c'], '-'); // ['a', '-', 'b', '-', 'c'];
 ```
 
+## entries() & from_entries()
+
+Inspired by JavaScript’s `Object.entries()` and `Object.from_entries()` and Python’s `enumerate()`, convert a key-value
+map into an array of key-value pairs, respectively.
+
+```php
+use function Functional\entries;
+use function Functional\from_entries;
+
+$map   = ['one' => 1, 'two' => 2, 'three' => 3];
+$pairs = entries($map); // [['one', 1], ['two', 2], ['three', 3]]
+$map2  = from_entries($pairs); // $map === $map2
+```
+
 ## Other
 
 `array Functional\unique(array|Traversable $collection[, callback $indexer[, bool $strict = true]])`
