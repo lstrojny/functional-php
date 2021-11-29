@@ -99,6 +99,11 @@ final class Functional
     const each = '\Functional\each';
 
     /**
+     * @see \Functional\entries
+     */
+    const entries = '\Functional\entries';
+
+    /**
      * @see \Functional\equal
      */
     const equal = '\Functional\equal';
@@ -152,6 +157,11 @@ final class Functional
      * @see \Functional\flip
      */
     const flip = '\Functional\flip';
+
+    /**
+     * @see \Functional\from_entries
+     */
+    const from_entries = '\Functional\from_entries';
 
     /**
      * @see \Functional\greater_than
