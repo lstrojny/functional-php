@@ -16,7 +16,7 @@ class ConvergeTest extends AbstractTestCase
 {
     public function testCallablesAsStrings(): void
     {
-        $average = converge(function ($dividend, $divisor) {
+        $average = converge(static function ($dividend, $divisor) {
             return $dividend / $divisor;
         }, ['array_sum', 'count']);
         self::assertEquals(2.5, $average([1, 2, 3, 4]));
@@ -25,7 +25,7 @@ class ConvergeTest extends AbstractTestCase
     public function testCallablesAsAnonymous(): void
     {
         $strangeFunction = converge(
-            function ($u, $l) {
+            static function ($u, $l) {
                 return $u . $l;
             },
             [

@@ -28,7 +28,7 @@ class MapTest extends AbstractTestCase
 
     public function test(): void
     {
-        $fn = function ($v, $k, $collection) {
+        $fn = static function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $k . $v;
         };

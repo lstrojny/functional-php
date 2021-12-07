@@ -22,7 +22,7 @@ namespace Functional;
  */
 function partial_left(callable $callback, ...$arguments)
 {
-    return function (...$innerArguments) use ($callback, $arguments) {
+    return static function (...$innerArguments) use ($callback, $arguments) {
         return $callback(...\array_merge($arguments, $innerArguments));
     };
 }

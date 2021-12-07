@@ -19,7 +19,7 @@ namespace Functional;
  */
 function not(callable $function)
 {
-    return function ($value) use ($function) {
+    return static function ($value) use ($function) {
         return !$function($value);
     };
 }

@@ -24,7 +24,7 @@ function tail_recursion(callable $fn): callable
 {
     $underCall = false;
     $queue = [];
-    return function (...$args) use (&$fn, &$underCall, &$queue) {
+    return static function (...$args) use (&$fn, &$underCall, &$queue) {
         $result = null;
         $queue[] = $args;
         if (!$underCall) {

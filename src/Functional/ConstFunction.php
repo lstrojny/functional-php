@@ -19,7 +19,7 @@ namespace Functional;
  */
 function const_function($value)
 {
-    return function () use ($value) {
+    return static function () use ($value) {
         return $value;
     };
 }

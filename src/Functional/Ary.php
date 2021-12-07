@@ -22,10 +22,12 @@ function ary(callable $func, int $count): callable
 {
     InvalidArgumentException::assertNonZeroInteger($count, __FUNCTION__);
 
-    return function (...$args) use ($func, $count) {
+    return static function (...$args) use ($func, $count) {
         if ($count > 0) {
             return $func(...take_left($args, $count));
-        } else if ($count < 0) {
+        }
+
+        if ($count < 0) {
             return $func(...take_right($args, -$count));
         }
     };

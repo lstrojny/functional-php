@@ -80,8 +80,8 @@ class PickTest extends AbstractTestCase
         //custom callback to check for false condition
         //false - index does not exist or value is 0
         //true - any other values other than 0, including false, 'false', null, and so on
-        $customCallback = function ($collection, $key) {
-            return isset($collection[$key]) && 0 !== $collection[$key];
+        $customCallback = static function ($collection, $key) {
+            return isset($collection[$key]) && $collection[$key] !== 0;
         };
 
         self::assertSame(':)', pick($this->array_1, 'non-existing-index', ':)'));

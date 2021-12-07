@@ -32,7 +32,7 @@ class AryTest extends AbstractTestCase
     public function testException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $f = function ($a = 0, $b = 0, $c = 0) {
+        $f = static function ($a = 0, $b = 0, $c = 0) {
             return $a + $b + $c;
         };
 

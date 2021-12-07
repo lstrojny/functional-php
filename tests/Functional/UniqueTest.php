@@ -40,7 +40,7 @@ class UniqueTest extends AbstractTestCase
         self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->listIterator));
         self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hash));
         self::assertSame(['k1' => 'val1', 'k2' => 'val2'], unique($this->hashIterator));
-        $fn = function ($value, $key, $collection) {
+        $fn = static function ($value, $key, $collection) {
             return $value;
         };
         self::assertSame([0 => 'value1', 1 => 'value2', 3 => 'value'], unique($this->list, $fn));
@@ -70,7 +70,7 @@ class UniqueTest extends AbstractTestCase
         self::assertSame([0 => 1, 2 => '2', 4 => '3', 5 => 4], unique($this->mixedTypesIterator, null, false));
         self::assertSame([1, '1', '2', 2, '3', 4], unique($this->mixedTypesIterator));
 
-        $fn = function ($value, $key, $collection) {
+        $fn = static function ($value, $key, $collection) {
             return $value;
         };
 

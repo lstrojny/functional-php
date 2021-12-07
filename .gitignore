@@ -6,3 +6,4 @@ phpcs.xml
 phpunit.xml
 .idea/
 .phpunit.result.cache
+.php-cs-fixer.cache

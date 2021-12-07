@@ -28,7 +28,7 @@ class RejectTest extends AbstractTestCase
 
     public function test(): void
     {
-        $fn = function ($v, $k, $collection) {
+        $fn = static function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             return $v == 'wrong' && \strlen($k) > 0;
         };

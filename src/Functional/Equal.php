@@ -20,7 +20,7 @@ namespace Functional;
  */
 function equal($b)
 {
-    return function ($a) use ($b) {
+    return static function ($a) use ($b) {
         return $a == $b;
     };
 }

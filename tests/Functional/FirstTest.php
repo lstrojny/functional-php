@@ -44,7 +44,7 @@ class FirstTest extends AbstractTestCase
      */
     public function test(string $functionName): void
     {
-        $callback = function ($v, $k, $collection) {
+        $callback = static function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
             return $v == 'second' && $k == 1;
         };

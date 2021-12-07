@@ -44,7 +44,7 @@ class FirstIndexOfTest extends AbstractTestCase
     {
         self::assertSame(
             0,
-            first_index_of($this->list, function ($element) {
+            first_index_of($this->list, static function ($element) {
                 return $element;
             })
         );

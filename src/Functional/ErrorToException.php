@@ -22,7 +22,7 @@ use ErrorException;
  */
 function error_to_exception(callable $callback)
 {
-    return function (...$arguments) use ($callback) {
+    return static function (...$arguments) use ($callback) {
         try {
             \set_error_handler(
                 static function ($level, $message, $file, $line) {

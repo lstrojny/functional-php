@@ -30,7 +30,7 @@ class FlatMapTest extends AbstractTestCase
     {
         $flat = flat_map(
             ['a', ['b'], ['C' => 'c'], [['d']], null],
-            function ($v, $k, $collection) {
+            static function ($v, $k, $collection) {
                 InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
                 return $v;
             }
@@ -43,7 +43,7 @@ class FlatMapTest extends AbstractTestCase
     {
         $flat = flat_map(
             new ArrayIterator(['a', ['b'], ['C' => 'c'], [['d']], null]),
-            function ($v, $k, $collection) {
+            static function ($v, $k, $collection) {
                 InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
                 return $v;
             }
@@ -56,7 +56,7 @@ class FlatMapTest extends AbstractTestCase
     {
         $flat = flat_map(
             ['ka' => 'a', 'kb' => ['b'], 'kc' => ['C' => 'c'], 'kd' => [['d']], 'ke' => null, null],
-            function ($v, $k, $collection) {
+            static function ($v, $k, $collection) {
                 InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
                 return $v;
             }
@@ -69,7 +69,7 @@ class FlatMapTest extends AbstractTestCase
     {
         $flat = flat_map(
             new ArrayIterator(['ka' => 'a', 'kb' => ['b'], 'kc' => ['C' => 'c'], 'kd' => [['d']], 'ke' => null, null]),
-            function ($v, $k, $collection) {
+            static function ($v, $k, $collection) {
                 InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
                 return $v;
             }

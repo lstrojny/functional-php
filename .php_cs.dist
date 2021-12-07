@@ -1,8 +1,0 @@
-<?php
-
-return PhpCsFixer\Config::create()
-    ->setRiskyAllowed(true)
-    ->setRules([
-        'native_function_invocation' => true,
-    ])
-    ->setFinder(PhpCsFixer\Finder::create()->in(__DIR__));

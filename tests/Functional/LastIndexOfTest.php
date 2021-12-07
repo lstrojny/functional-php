@@ -44,7 +44,7 @@ class LastIndexOfTest extends AbstractTestCase
     {
         self::assertSame(
             3,
-            last_index_of($this->list, function ($element) {
+            last_index_of($this->list, static function ($element) {
                 return $element;
             })
         );

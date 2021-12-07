@@ -32,7 +32,7 @@ class FlipTest extends AbstractTestCase
     public function testFlippedFilter(): void
     {
         $data = [1, 2, 3, 4];
-        $getEven = function ($number) {
+        $getEven = static function ($number) {
             return $number % 2 == 0;
         };
         $flippedFilter = flip('Functional\filter');

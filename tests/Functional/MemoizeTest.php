@@ -80,7 +80,7 @@ class MemoizeTest extends AbstractTestCase
 
     public function testMemoizeClosureCall(): void
     {
-        $closure = function () {
+        $closure = static function () {
             return 'CLOSURE VALUE' . MemoizeTest::invoke('Closure');
         };
         self::assertSame('CLOSURE VALUE1', memoize($closure));

@@ -29,7 +29,7 @@ class DropTest extends AbstractTestCase
 
     public function test(): void
     {
-        $fn = function ($v, $k, $collection) {
+        $fn = static function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
             $return = \is_int($k) ? ($k != 2) : ($v[3] != 3);
             return $return;

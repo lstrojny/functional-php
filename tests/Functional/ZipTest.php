@@ -79,7 +79,7 @@ class ZipTest extends AbstractTestCase
                 [1, 2, 3],
                 [-1, -2, -3],
                 [true, false],
-                function ($one, $two, $three, $four) {
+                static function ($one, $two, $three, $four) {
                     return $one . $two . $three . $four;
                 }
             )
@@ -91,7 +91,7 @@ class ZipTest extends AbstractTestCase
                 new ArrayIterator([1, 2, 3]),
                 new ArrayIterator([-1, -2, -3]),
                 new ArrayIterator([true, false]),
-                function ($one, $two, $three, $four) {
+                static function ($one, $two, $three, $four) {
                     return $one . $two . $three . $four;
                 }
             )
@@ -122,7 +122,7 @@ class ZipTest extends AbstractTestCase
     {
         self::assertSame([], zip([]));
         self::assertSame([], zip([], []));
-        self::assertSame([], zip([], [], function () {
+        self::assertSame([], zip([], [], static function () {
             throw new BadFunctionCallException('Should not be called');
         }));
     }

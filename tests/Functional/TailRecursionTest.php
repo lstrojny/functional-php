@@ -18,7 +18,7 @@ class TailRecursionTest extends TestCase
 {
     public function testTailRecursion1(): void
     {
-        $fact = tail_recursion(function ($n, $acc = 1) use (&$fact) {
+        $fact = tail_recursion(static function ($n, $acc = 1) use (&$fact) {
             if ($n == 0) {
                 return $acc;
             }
@@ -29,7 +29,7 @@ class TailRecursionTest extends TestCase
 
     public function testTailRecursion2(): void
     {
-        $sum_of_range = tail_recursion(function ($from, $to, $acc = 0) use (&$sum_of_range) {
+        $sum_of_range = tail_recursion(static function ($from, $to, $acc = 0) use (&$sum_of_range) {
             if ($from > $to) {
                 return $acc;
             }
