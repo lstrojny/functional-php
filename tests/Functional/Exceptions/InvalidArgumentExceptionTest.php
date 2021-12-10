@@ -195,4 +195,34 @@ class InvalidArgumentExceptionTest extends TestCase
         $this->expectExceptionMessage('func() expects paramter 1 to be a pair (array with two elements)');
         InvalidArgumentException::assertPair('abc', "func", 1);
     }
+
+    public function testAssertStringableValid(): void
+    {
+        $this->expectNotToPerformAssertions();
+        InvalidArgumentException::assertStringable('abc', "func", 1);
+        InvalidArgumentException::assertStringable(1, "func", 1);
+        InvalidArgumentException::assertStringable(1.2, "func", 1);
+        InvalidArgumentException::assertStringable(1.2, "func", 1);
+        InvalidArgumentException::assertStringable(
+            new class
+            {
+                public function __toString()
+                {
+                }
+            },
+            "func",
+            1
+        );
+    }
+
+    public function testAssertStringableInvalid(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('func() expects paramter 1 to be a string or an object with a __toString method (got type boolean)');
+        InvalidArgumentException::assertStringable(false, "func", 1);
+        $this->expectExceptionMessage('func() expects paramter 1 to be a string or an object with a __toString method (got type array)');
+        InvalidArgumentException::assertStringable([], "func", 1);
+        $this->expectExceptionMessage('func() expects paramter 1 to be a string or an object with a __toString method (got type stdClass)');
+        InvalidArgumentException::assertStringable(new stdClass(), "func", 1);
+    }
 }

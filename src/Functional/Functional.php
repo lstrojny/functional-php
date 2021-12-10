@@ -34,6 +34,11 @@ final class Functional
     const capture = '\Functional\capture';
 
     /**
+     * @see \Functional\cartesian_product
+     */
+    const cartesian_product = '\Functional\cartesian_product';
+
+    /**
      * @see \Functional\compare_object_hash_on
      */
     const compare_object_hash_on = '\Functional\compare_object_hash_on';
