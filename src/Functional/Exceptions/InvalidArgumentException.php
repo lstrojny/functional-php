@@ -295,6 +295,17 @@ class InvalidArgumentException extends \InvalidArgumentException
         }
     }
 
+    public static function assertStringable($value, $callee, $position, $positionInCollection = null): void
+    {
+        if (!(\is_string($value) || \is_numeric($value) || (\is_object($value) && \method_exists($value, '__toString')))) {
+            if (!\is_null($positionInCollection)) {
+                throw new static(\sprintf('%s() expects paramter %d to be an array with strings or objects with a __toString method (offending index: %d is of type %s)', $callee, $position, $positionInCollection, self::getType($value)));
+            } else {
+                throw new static(\sprintf('%s() expects paramter %d to be a string or an object with a __toString method (got type %s)', $callee, $position, self::getType($value)));
+            }
+        }
+    }
+
     private static function getType($value)
     {
         return \is_object($value) ? \get_class($value) : \gettype($value);
