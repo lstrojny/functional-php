@@ -1,3 +1,5 @@
+Fork of https://github.com/lstrojny/functional-php, this is an attempt to reduce preloading all files
+
 # Functional PHP: Functional primitives for PHP
 
 [![Test](https://github.com/lstrojny/functional-php/actions/workflows/test.yaml/badge.svg)](https://github.com/lstrojny/functional-php/actions/workflows/test.yaml)
