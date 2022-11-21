@@ -15,13 +15,8 @@ use Traversable;
 
 /**
  * Takes a collection and returns the quotient of all elements
- *
- * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
- * @no-named-arguments
  */
-function ratio($collection, $initial = 1)
+function ratio(iterable $collection, int|float $initial = 1) : int|float
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

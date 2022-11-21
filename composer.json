@@ -14,10 +14,14 @@
         {
             "name": "Max Beutel",
             "email": "nash12@gmail.com"
+        },
+        {
+          "name": "Rik Meijer",
+          "email": "hello@rikmeijer.nl"
         }
     ],
     "require": {
-        "php": "^7.1|~8"
+        "php": "~8.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~3.0",
