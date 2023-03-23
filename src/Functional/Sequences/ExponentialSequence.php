@@ -38,28 +38,30 @@ class ExponentialSequence implements Iterator
         $this->percentage = $percentage;
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->value;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->value = (int) \round(\pow($this->start * (1 + $this->percentage / 100), $this->times));
         $this->times++;
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return null;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return true;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->times = 1;
         $this->value = $this->start;

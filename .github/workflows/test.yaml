@@ -4,25 +4,16 @@ on: [push, pull_request]
 
 jobs:
     test:
-        name: PHP ${{ matrix.php-version }} (${{ matrix.experimental && 'experimental' || 'full support' }})
-
+        name: PHP ${{ matrix.php-version }}
         runs-on: ubuntu-18.04
-
         strategy:
             fail-fast: false
             matrix:
                 php-version:
-                    - 7.1
-                    - 7.2
-                    - 7.3
                     - 7.4
                     - 8.0
-                experimental: [false]
-                include:
-                    - php-version: 8.1
-                      experimental: true
-
-        continue-on-error: ${{ matrix.experimental }}
+                    - 8.1
+                    - 8.2
         steps:
             - name: Checkout
               uses: actions/checkout@v2
@@ -38,18 +29,14 @@ jobs:
               uses: ramsey/composer-install@v1
               with:
                   composer-options: --prefer-dist
-              continue-on-error: ${{ matrix.experimental }}
 
             - name: Setup PCOV
               run: |
                 composer require pcov/clobber
                 vendor/bin/pcov clobber
-              continue-on-error: true
 
             - name: Run Tests
               run: composer tests
-              continue-on-error: ${{ matrix.experimental }}
 
             - name: Check coding style
               run: composer coding-style
-              continue-on-error: ${{ matrix.experimental }}
