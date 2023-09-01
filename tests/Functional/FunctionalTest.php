@@ -10,7 +10,7 @@
 
 namespace Functional\Tests;
 
-use Functional\Functional;
+use Functional\f;
 use PHPUnit\Framework\TestCase;
 
 class FunctionalTest extends TestCase
@@ -20,7 +20,7 @@ class FunctionalTest extends TestCase
      */
     public function testAllDefinedConstantsAreValidCallables(): void
     {
-        $functionalClass = new \ReflectionClass(Functional::class);
+        $functionalClass = new \ReflectionClass(f::class);
         $functions = $functionalClass->getConstants();
 
         foreach ($functions as $function) {
@@ -43,7 +43,7 @@ class FunctionalTest extends TestCase
             $functionalFunctions
         );
 
-        $functionalClass = new \ReflectionClass(Functional::class);
+        $functionalClass = new \ReflectionClass(f::class);
         $constants = $functionalClass->getConstants();
 
         foreach ($expectedFunctions as $function) {
