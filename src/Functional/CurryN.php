@@ -11,15 +11,20 @@
 namespace Functional;
 
 /**
- * Return a version of the given function where the $count first arguments are curryied.
+ * Return a version of the given function where the $count first arguments are curried.
  *
  * No check is made to verify that the given argument count is either too low or too high.
  * If you give a smaller number you will have an error when calling the given function. If
  * you give a higher number, arguments will simply be ignored.
  *
+ * @template R
+ * @template V
+ *
  * @param int $count number of arguments you want to curry
- * @param callable $function the function you want to curry
- * @return callable a curryied version of the given function
+ * @param callable(V...):R $function the function you want to curry
+ *
+ * @return callable(V...):R a curried version of the given function
+ *
  * @no-named-arguments
  */
 function curry_n($count, callable $function)

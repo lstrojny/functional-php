@@ -16,10 +16,13 @@ use Functional\Sequences\ExponentialSequence;
 /**
  * Returns an infinite, traversable sequence that exponentially grows by given percentage
  *
- * @param integer $start
- * @param integer $percentage Integer between 1 and 100
+ * @param int<1,max> $start
+ * @param int<1,100> $percentage Integer between 1 and 100
+ *
  * @return ExponentialSequence
+ *
  * @throws InvalidArgumentException
+ *
  * @no-named-arguments
  */
 function sequence_exponential($start, $percentage)

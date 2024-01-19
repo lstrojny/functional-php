@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Creates a slice of $collection with $count elements taken from the end. If the collection has less than $count
@@ -19,11 +18,16 @@ use Traversable;
  * This function will reorder and reset the integer array indices by default. This behaviour can be changed by setting
  * preserveKeys to TRUE. String keys are always preserved, regardless of this parameter.
  *
- * @param Traversable|array $collection
+ *
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
  * @param int $count
  * @param bool $preserveKeys
  *
- * @return array
+ * @return ($preserveKeys is true ? array<K,V> : list<V>)
+ *
  * @no-named-arguments
  */
 function take_right($collection, $count, $preserveKeys = false)

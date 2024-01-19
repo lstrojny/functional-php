@@ -11,14 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Groups a collection by index returned by callback.
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template G of array-key
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):G $callback
+ *
+ * @return (G is numeric-string ? array<int,array<K,V>> : array<G,array<K,V>>)
+ *
  * @no-named-arguments
  */
 function group($collection, callable $callback)

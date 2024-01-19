@@ -15,10 +15,14 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Returns a function that expects an object as the first param and tries to invoke the given method on it
  *
- * @param string $methodName
- * @param array $arguments
+ * @template V
+ *
+ * @param non-empty-string $methodName
+ * @param array<V> $arguments
  * @param mixed $defaultValue
- * @return callable
+ *
+ * @return callable(object):mixed
+ *
  * @no-named-arguments
  */
 function partial_method($methodName, array $arguments = [], $defaultValue = null)

@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Recombines arrays by index (column) and applies a callback optionally
@@ -19,17 +18,16 @@ use Traversable;
  * When the input collections are different lengths the resulting collections
  * will all have the length which is required to fit all the keys
  *
- * @param array|Traversable ...$args One or more callbacks
- * @return array
+ * @param iterable<mixed> ...$args One or more callbacks
+ *
+ * @return array<mixed>
+ *
  * @no-named-arguments
  */
 function zip_all(...$args)
 {
     /** @var callable|null $callback */
-    $callback = null;
-    if (\is_callable(\end($args))) {
-        $callback = \array_pop($args);
-    }
+    $callback = \is_callable(\end($args)) ? \array_pop($args) : null;
 
     foreach ($args as $position => $arg) {
         InvalidArgumentException::assertCollection($arg, __FUNCTION__, $position + 1);

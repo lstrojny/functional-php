@@ -24,9 +24,15 @@ use Traversable;
  * then flat_map(collection, callback) will return [1,2,3,[4]]
  * while flatten(map(collection, callback)) will return [1,2,3,4]
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template V2
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):(V2|iterable<V2>) $callback
+ *
+ * @return list<V2>
+ *
  * @no-named-arguments
  */
 function flat_map($collection, callable $callback)

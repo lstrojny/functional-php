@@ -14,7 +14,9 @@ namespace Functional;
  * Returns true if $a is equal to $b, and they are of the same type.
  *
  * @param mixed $b
- * @return callable
+ *
+ * @return callable(mixed):bool
+ *
  * @no-named-arguments
  */
 function identical($b)

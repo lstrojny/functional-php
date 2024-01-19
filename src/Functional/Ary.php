@@ -11,11 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Call $func with only abs($count) arguments, taken either from the
  * left or right depending on the sign
+ *
+ * @template V
+ * @template T
+ *
+ * @param callable(T...):V $func
+ * @param non-zero-int $count
+ *
+ * @return callable(T...):V
+ *
  * @no-named-arguments
  */
 function ary(callable $func, int $count): callable
@@ -25,7 +33,7 @@ function ary(callable $func, int $count): callable
     return function (...$args) use ($func, $count) {
         if ($count > 0) {
             return $func(...take_left($args, $count));
-        } else if ($count < 0) {
+        } else {
             return $func(...take_right($args, -$count));
         }
     };

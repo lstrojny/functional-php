@@ -11,15 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns an array of unique elements
  *
- * @param Traversable|array $collection
- * @param callable $callback
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param null|callable(V,K,iterable<K,V>):mixed $callback
  * @param bool $strict
- * @return array
+ *
+ * @return (K is numeric-string ? array<int,V> : array<K,V>)
+ *
  * @no-named-arguments
  */
 function unique($collection, callable $callback = null, $strict = true)

@@ -16,10 +16,15 @@ use Traversable;
 /**
  * Sorts a collection with a user-defined function, optionally preserving array keys
  *
- * @param Traversable|array $collection
- * @param callable $callback
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,V,iterable<K,V>):int $callback
  * @param bool $preserveKeys
- * @return array
+ *
+ * @return ($preserveKeys is true ? array<K,V> : list<V>)
+ *
  * @no-named-arguments
  */
 function sort($collection, callable $callback, $preserveKeys = false)

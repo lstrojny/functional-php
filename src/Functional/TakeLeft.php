@@ -11,16 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Creates a slice of $collection with $count elements taken from the beginning. If the collection has less than $count
  * elements, the whole collection will be returned as an array.
  *
- * @param Traversable|array $collection
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
  * @param int $count
  *
- * @return array
+ * @return ($collection is list<V> ? list<V> : array<K,V>)
+ *
  * @no-named-arguments
  */
 function take_left($collection, $count)

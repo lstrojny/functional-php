@@ -15,10 +15,15 @@ use const E_USER_DEPRECATED;
 /**
  * Memoizes callbacks and returns their value instead of calling them
  *
- * @param callable|null $callback Callable closure or function. Pass null to reset memory
- * @param array $arguments Arguments
- * @param array|string $key Optional memoize key to override the auto calculated hash
- * @return mixed
+ * @template V
+ * @template R
+ *
+ * @param null|callable(V):R $callback Callable closure or function. Pass null to reset memory
+ * @param array<mixed> $arguments Arguments
+ * @param mixed $key Optional memoize key to override the auto calculated hash
+ *
+ * @return ($callback is null ? null : R)
+ *
  * @no-named-arguments
  */
 function memoize(callable $callback = null, $arguments = [], $key = null)
@@ -34,7 +39,7 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
         \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         $key = $key();
     } elseif (\is_callable($arguments)) {
-        \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+        \trigger_error('Passing a callable as arguments is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         $key = $arguments();
     }
 

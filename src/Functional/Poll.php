@@ -14,19 +14,23 @@ use AppendIterator;
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 use InfiniteIterator;
-use Traversable;
 
 /**
  * Retry a callback until it returns a truthy value or the timeout (in microseconds) is reached
  *
- * @param callable $callback
- * @param integer $timeout Timeout in microseconds
- * @param Traversable|null $delaySequence Default: no delay between calls
- * @throws InvalidArgumentException
- * @return boolean
+ * @template R
+ *
+ * @param callable(int,int):R $callback
+ * @param non-negative-int $timeout Timeout in microseconds
+ * @param null|\Iterator $delaySequence Default: no delay between calls
+ *
+ * @return false|R
+ *
  * @no-named-arguments
+ *@throws InvalidArgumentException
+ *
  */
-function poll(callable $callback, $timeout, Traversable $delaySequence = null)
+function poll(callable $callback, $timeout, \Iterator $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 
@@ -57,4 +61,6 @@ function poll(callable $callback, $timeout, Traversable $delaySequence = null)
 
         ++$retry;
     }
+
+    return false;
 }

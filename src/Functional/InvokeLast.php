@@ -10,17 +10,18 @@
 
 namespace Functional;
 
-use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**
  * Calls the method named by $methodName on last object in the collection containing a callable method named
  * $methodName. Any extra arguments passed to invoke will be forwarded on to the method invocation.
  *
- * @param Traversable|array $collection
- * @param string $methodName
- * @param array $arguments
+ * @param iterable<object> $collection
+ * @param non-empty-string $methodName
+ * @param array<mixed> $arguments
+ *
  * @return mixed
+ *
  * @no-named-arguments
  */
 function invoke_last($collection, $methodName, array $arguments = [])

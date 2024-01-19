@@ -14,11 +14,13 @@ use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 use WeakReference;
 
-use function serialize;
-
 use const PHP_VERSION_ID;
 
 /**
+ * @param mixed ...$any
+ *
+ * @return string
+ *
  * @no-named-arguments
  */
 function value_to_key(...$any)
@@ -65,13 +67,21 @@ function value_to_key(...$any)
         };
     }
 
+    /** @var null|callable(mixed,null|string=):string $valueToRef */
     static $valueToRef = null;
     if (!$valueToRef) {
+        /**
+         * @param mixed $value
+         * @param null|string $key
+         *
+         * @return string
+         */
         $valueToRef = static function ($value, $key = null) use (&$valueToRef, $objectToRef) {
             $type = \gettype($value);
             if ($type === 'array') {
                 $ref = '[' . \implode(':', map($value, $valueToRef)) . ']';
             } elseif ($value instanceof Traversable) {
+                /** @var iterable<mixed> $value */
                 $ref = $objectToRef($value) . '[' . \implode(':', map($value, $valueToRef)) . ']';
             } elseif ($type === 'object') {
                 $ref = $objectToRef($value);

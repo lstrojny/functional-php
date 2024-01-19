@@ -11,11 +11,15 @@
 namespace Functional;
 
 /**
- * Return a new function that captures the return value of $callback in $result and returns the callbacks return value
+ * Return a new function that captures the return value of $callback in $result and returns the callback's return value
  *
- * @param callable $callback
- * @param mixed $result
- * @return callable
+ * @template T
+ *
+ * @param callable():T $callback
+ * @param T $result
+ *
+ * @return callable():T
+ *
  * @no-named-arguments
  */
 function capture(callable $callback, &$result)

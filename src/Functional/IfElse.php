@@ -13,11 +13,16 @@ namespace Functional;
 /**
  * Performs an if/else condition over a value using functions as statements
  *
- * @param callable $if   the condition function
- * @param callable $then function to call if condition is true
- * @param callable $else function to call if condition is false
+ * @template V
+ * @template R1
+ * @template R2
  *
- * @return mixed the return value of the given $then or $else functions
+ * @param callable(V):mixed $if the condition function
+ * @param callable(V):R1 $then function to call if condition is true
+ * @param callable(V):R2 $else function to call if condition is false
+ *
+ * @return callable(V):(R1|R2) a callback that returns the value of the given $then or $else functions
+ *
  * @no-named-arguments
  */
 function if_else(callable $if, callable $then, callable $else)

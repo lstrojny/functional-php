@@ -13,8 +13,12 @@ namespace Functional;
 /**
  * Logical negation of the given $function
  *
- * @param callable $function The function to run value against
- * @return callable A negation version on the given $function
+ * @template V
+ *
+ * @param callable(V):mixed $function The function to run value against
+ *
+ * @return callable(V):bool A negation version on the given $function
+ *
  * @no-named-arguments
  */
 function not(callable $function)

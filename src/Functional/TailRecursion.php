@@ -16,8 +16,13 @@ namespace Functional;
  * I took the solution from here https://gist.github.com/beberlei/4145442
  * but reworked it and made without classes.
  *
- * @param callable $fn
- * @return callable
+ * @template V
+ * @template R
+ *
+ * @param callable(V...):R $fn
+ *
+ * @return callable(V...):(null|R)
+ *
  * @no-named-arguments
  */
 function tail_recursion(callable $fn): callable
@@ -27,6 +32,7 @@ function tail_recursion(callable $fn): callable
     return function (...$args) use (&$fn, &$underCall, &$queue) {
         $result = null;
         $queue[] = $args;
+        /** @var bool $underCall */
         if (!$underCall) {
             $underCall = true;
             while ($head = \array_shift($queue)) {

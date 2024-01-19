@@ -17,11 +17,17 @@ use Functional\Exceptions\InvalidArgumentException;
  * Pick a single element from a collection of objects or arrays by index.
  * If no such index exists, return the default value.
  *
- * @param ArrayAccess|array $collection
- * @param mixed $index
- * @param mixed $default
- * @param callable|null $callback Custom function to check if index exists
- * @return mixed
+ * @template K of array-key
+ * @template V
+ * @template D
+ *
+ * @param array<K,V> $collection
+ * @param K $index
+ * @param D $default
+ * @param null|callable(iterable<K,V>, K):mixed $callback Custom function to check if index exists
+ *
+ * @return D|V
+ *
  * @no-named-arguments
  */
 function pick($collection, $index, $default = null, callable $callback = null)

@@ -11,16 +11,20 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if the collection contains the given value. If the third parameter is
  * true values will be compared in strict mode
  *
- * @param Traversable|array $collection
- * @param mixed $value
+ * @template V
+ * @template V2 of V
+ *
+ * @param iterable<V> $collection
+ * @param V2 $value
  * @param bool $strict
+ *
  * @return bool
+ *
  * @no-named-arguments
  */
 function contains($collection, $value, $strict = true)

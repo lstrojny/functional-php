@@ -11,14 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Drop all elements from a collection after callback returns true
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K, V> $collection
+ * @param callable(V, K, iterable<K, V>):bool $callback
+ *
+ * @return ($collection is list<V> ? list<V> : array<K,V>)
+ *
  * @no-named-arguments
  */
 function drop_last($collection, callable $callback)

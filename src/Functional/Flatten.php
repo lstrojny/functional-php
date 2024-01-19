@@ -17,8 +17,10 @@ use Traversable;
  * Takes a nested combination of collections and returns their contents as a single, flat array.
  * Does not preserve indexes.
  *
- * @param Traversable|array $collection
- * @return array
+ * @param iterable<mixed> $collection
+ *
+ * @return list<mixed>
+ *
  * @no-named-arguments
  */
 function flatten($collection)

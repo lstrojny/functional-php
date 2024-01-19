@@ -11,16 +11,21 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Inspired by JavaScript’s `Object.entries`, and Python’s `enumerate`,
  * convert a key-value map into an array of key-value pairs
  *
- * @see Functional\from_entries
- * @param Traversable|array $collection
+ * @see \Functional\from_entries
+ *
+ * @template K
+ * @template V
+ *
+ * @param iterable<K,V> $collection
  * @param int $start
- * @return array
+ *
+ * @return array<int, array{K,V}>
+ *
  * @no-named-arguments
  */
 function entries($collection, int $start = 0)
