@@ -22,7 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param null|callable(V,K,iterable<K,V>):mixed $callback
  * @param bool $strict
  *
- * @return (K is numeric-string ? array<int,V> : array<K,V>)
+ * @return array<K,V>
  *
  * @no-named-arguments
  */

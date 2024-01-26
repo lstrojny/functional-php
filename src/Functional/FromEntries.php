@@ -24,7 +24,7 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * @param iterable<P> $collection
  *
- * @return (K is numeric-string ? array<int,V> : array<K,V>)
+ * @return array<K,V>
  *
  * @no-named-arguments
  */

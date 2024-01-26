@@ -20,8 +20,8 @@ use Functional\Exceptions\InvalidArgumentException;
  * @template T
  * @template I
  *
- * @param iterable<T> $collection
- * @param null|callable(T,I,iterable<T>):bool $callback
+ * @param iterable<I,T> $collection
+ * @param null|callable(T,I,iterable<I,T>):bool $callback
  *
  * @return  ($collection is non-empty-array ? ($callback is null ? T : T|null) : T|null)
  *

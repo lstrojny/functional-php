@@ -18,13 +18,12 @@ use Closure;
  * Return a curried version of the given function. You can decide if you also
  * want to curry optional parameters or not.
  *
- * @template V
  * @template R
  *
- * @param callable(V...):R $function the function to curry
+ * @param callable(mixed...):R $function the function to curry
  * @param bool $required curry optional parameters?
  *
- * @return callable(V...):R a curried version of the given function
+ * @return callable(mixed...):R a curried version of the given function
  *
  * @no-named-arguments
  */

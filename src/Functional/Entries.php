@@ -24,7 +24,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K,V> $collection
  * @param int $start
  *
- * @return array<int, array{K,V}>
+ * @return ($start is 0 ? list<array{K,V}> : array<int, array{K,V}>)
  *
  * @no-named-arguments
  */

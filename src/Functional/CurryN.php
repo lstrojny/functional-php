@@ -18,12 +18,11 @@ namespace Functional;
  * you give a higher number, arguments will simply be ignored.
  *
  * @template R
- * @template V
  *
  * @param int $count number of arguments you want to curry
- * @param callable(V...):R $function the function you want to curry
+ * @param callable(mixed...):R $function the function you want to curry
  *
- * @return callable(V...):R a curried version of the given function
+ * @return callable(mixed...):R a curried version of the given function
  *
  * @no-named-arguments
  */

@@ -22,7 +22,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @param iterable<K,V> $collection
  * @param callable(V,K,iterable<K,V>):G $callback
  *
- * @return (G is numeric-string ? array<int,array<K,V>> : array<G,array<K,V>>)
+ * @return array<G,array<K,V>>
  *
  * @no-named-arguments
  */

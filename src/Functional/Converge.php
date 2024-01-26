@@ -16,14 +16,13 @@ namespace Functional;
  * The results of each branching function are passed as arguments
  * to the converging function to produce the return value.
  *
- * @template V
  * @template R
  * @template R2
  *
- * @param callable(R...):R2 $convergingFunction Will be invoked with the return values of all branching functions as its arguments
- * @param array<callable(V):R> $branchingFunctions A list of functions
+ * @param callable(mixed...):R2 $convergingFunction Will be invoked with the return values of all branching functions as its arguments
+ * @param array<callable(mixed...):R> $branchingFunctions A list of functions
  *
- * @return callable(V...):R2 A flipped version of the given function
+ * @return callable(mixed...):R2
  *
  * @no-named-arguments
  */

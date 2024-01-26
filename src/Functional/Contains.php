@@ -17,13 +17,13 @@ use Functional\Exceptions\InvalidArgumentException;
  * true values will be compared in strict mode
  *
  * @template V
- * @template V2 of V
+ * @template V2
  *
  * @param iterable<V> $collection
  * @param V2 $value
  * @param bool $strict
  *
- * @return bool
+ * @return ($strict is true ? (V2 is V ? bool : false) : bool)
  *
  * @no-named-arguments
  */
