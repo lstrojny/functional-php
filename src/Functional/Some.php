@@ -11,27 +11,27 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if some of the elements in the collection pass the callback truthy test. Short-circuits and stops
  * traversing the collection if a truthy element is found. Callback arguments will be value, index, collection
  *
- * @param Traversable|array $collection
- * @param callable|null $callback
+ * @template K
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):mixed $callback
+ *
  * @return bool
+ *
  * @no-named-arguments
  */
 function some($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    if ($callback === null) {
-        $callback = '\Functional\id';
-    }
-
     foreach ($collection as $index => $element) {
-        if ($callback($element, $index, $collection)) {
+        if (null === $callback ? id($element) : $callback($element, $index, $collection)) {
             return true;
         }
     }

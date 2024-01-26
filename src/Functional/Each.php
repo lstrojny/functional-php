@@ -11,15 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Iterates over a collection of elements, yielding each in turn to a callback function. Each invocation of $callback
  * is called with three arguments: (element, index, collection)
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return null
+ * @template K
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):void $callback
+ *
+ * @return void
+ *
  * @no-named-arguments
  */
 function each($collection, callable $callback)

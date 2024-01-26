@@ -11,13 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Recombines arrays by index and applies a callback optionally
  *
- * @param array|Traversable ...$args One or more callbacks
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template Z
+ *
+ * @param iterable<K,V>|callable(V...):Z ...$args One or more callbacks
+ *
+ * @return array<K,Z>
+ *
  * @no-named-arguments
  */
 function zip(...$args)

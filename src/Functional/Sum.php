@@ -11,14 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Takes a collection and returns the sum of the elements
  *
- * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
+ * @template K
+ * @template V of int|float
+ *
+ * @param iterable<K,V> $collection
+ * @param V $initial
+ *
+ * @return V
+ *
  * @no-named-arguments
  */
 function sum($collection, $initial = 0)

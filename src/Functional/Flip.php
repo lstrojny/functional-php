@@ -15,8 +15,13 @@ namespace Functional;
  *
  * If one argument is provided, it is passed to the function without change.
  *
- * @param callable $callback the function you want to flip
- * @return callable a flipped version of the given function
+ * @template V
+ * @template R
+ *
+ * @param callable(V...):R $callback the function you want to flip
+ *
+ * @return callable(V...):R a flipped version of the given function
+ *
  * @no-named-arguments
  */
 function flip(callable $callback)

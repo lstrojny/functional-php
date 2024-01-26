@@ -11,13 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
- * @param Traversable|array $collection
- * @param callable $callback
- * @param mixed $initial
- * @return mixed
+ * @template K
+ * @template V
+ * @template V2
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>,V2):V2 $callback
+ * @param V2 $initial
+ *
+ * @return V2
+ *
  * @no-named-arguments
  */
 function reduce_right($collection, callable $callback, $initial = null)
@@ -27,6 +32,10 @@ function reduce_right($collection, callable $callback, $initial = null)
     $data = [];
     foreach ($collection as $index => $value) {
         $data[] = [$index, $value];
+    }
+
+    if (0 === count($data)) {
+        return $initial;
     }
 
     while ((list($index, $value) = \array_pop($data))) {

@@ -15,12 +15,16 @@ use ReflectionFunction;
 use Closure;
 
 /**
- * Return a curryied version of the given function. You can decide if you also
+ * Return a curried version of the given function. You can decide if you also
  * want to curry optional parameters or not.
  *
- * @param callable $function the function to curry
- * @param bool $required curry optional parameters ?
- * @return callable a curryied version of the given function
+ * @template R
+ *
+ * @param callable(mixed...):R $function the function to curry
+ * @param bool $required curry optional parameters?
+ *
+ * @return callable(mixed...):R a curried version of the given function
+ *
  * @no-named-arguments
  */
 function curry(callable $function, $required = true)

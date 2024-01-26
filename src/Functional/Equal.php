@@ -15,7 +15,8 @@ namespace Functional;
  *
  * @param mixed $b the value to compare to
  *
- * @return callable the function to perform the comparison
+ * @return callable(mixed):bool the function to perform the comparison
+ *
  * @no-named-arguments
  */
 function equal($b)

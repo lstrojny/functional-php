@@ -11,14 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Takes a collection and returns the difference of all elements
  *
- * @param Traversable|array $collection
- * @param integer|float $initial
- * @return integer|float
+ * @template V
+ * @template I of int|float
+ *
+ * @param iterable<V> $collection
+ * @param I $initial
+ *
+ * @return (V is int ? ($initial is int ? int : float) : (V is float ? float : int|float))
+ *
  * @no-named-arguments
  */
 function difference($collection, $initial = 0)

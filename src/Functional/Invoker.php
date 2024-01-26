@@ -10,15 +10,16 @@
 
 namespace Functional;
 
-use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**
  * Returns a function that invokes method `$method` with arguments `$methodArguments` on the object
  *
- * @param string $methodName
- * @param array $arguments
- * @return callable
+ * @param non-empty-string $methodName
+ * @param array<mixed> $arguments
+ *
+ * @return callable(object):mixed
+ *
  * @no-named-arguments
  */
 function invoker($methodName, array $arguments = [])

@@ -11,7 +11,6 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Partitions a collection by callback predicate results. Returns an
@@ -22,9 +21,14 @@ use Traversable;
  * Elements are not re-ordered and have the same index they had in the
  * original array.
  *
- * @param Traversable|array $collection
- * @param callable ...$callbacks
- * @return array
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):mixed ...$callbacks
+ *
+ * @return list<array<K,V>>
+ *
  * @no-named-arguments
  */
 function partition($collection, callable ...$callbacks)

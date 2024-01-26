@@ -13,13 +13,14 @@ namespace Functional;
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 use InfiniteIterator;
-use Traversable;
 
 /**
  * Returns an infinite, traversable sequence of constant values
  *
- * @param integer $value
- * @return Traversable
+ * @param int<0,max> $value
+ *
+ * @return \Iterator
+ *
  * @no-named-arguments
  */
 function sequence_constant($value)

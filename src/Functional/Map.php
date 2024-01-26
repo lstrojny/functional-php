@@ -11,15 +11,20 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Produces a new array of elements by mapping each element in collection through a transformation function (callback).
  * Callback arguments will be element, index, collection
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ * @template V2
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):V2 $callback
+ *
+ * @return ($collection is list<V> ? list<V2> : array<K,V2>)
+ *
  * @no-named-arguments
  */
 function map($collection, callable $callback)

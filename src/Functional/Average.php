@@ -11,13 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the average of all numeric values in the array or null if no numeric value was found
  *
- * @param Traversable|array $collection
- * @return null|float|int
+ * @param iterable<mixed> $collection
+ *
+ * @return ($collection is iterable<int> ? float|int : (
+ *     $collection is iterable<float> ? float : (
+ *         $collection is iterable<int|float|numeric-string> ? float|int : null
+ *     )
+ * ))
+ *
  * @no-named-arguments
  */
 function average($collection)

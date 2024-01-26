@@ -15,11 +15,17 @@ use Functional\Exceptions\InvalidArgumentException;
 /**
  * Invoke a callback on a value if the value is not null
  *
- * @param mixed $value
- * @param callable $callback
- * @param bool $invokeValue Set to false to not invoke $value if it is a callable. Will be removed in 2.0
- * @param mixed $default The default value to return if $value is null
- * @return mixed
+ * @template V
+ * @template V2
+ * @template V3
+ *
+ * @param V|callable():V|null $value
+ * @param callable(V):V2 $callback
+ * @param bool $invokeValue
+ * @param V3 $default The default value to return if $value is null
+ *
+ * @return ($value is null ? V3 : V2)
+ *
  * @no-named-arguments
  */
 function with($value, callable $callback, $invokeValue = true, $default = null)

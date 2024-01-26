@@ -11,13 +11,16 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns the minimum value of a collection
  *
- * @param Traversable|array $collection
- * @return integer|float
+ * @template V
+ *
+ * @param iterable<V> $collection
+ *
+ * @return null|V
+ *
  * @no-named-arguments
  */
 function minimum($collection)
@@ -26,7 +29,7 @@ function minimum($collection)
 
     $min = null;
 
-    foreach ($collection as $index => $element) {
+    foreach ($collection as $element) {
         if (!\is_numeric($element)) {
             continue;
         }

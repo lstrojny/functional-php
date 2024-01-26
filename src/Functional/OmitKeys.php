@@ -16,9 +16,13 @@ use Traversable;
 /**
  * Returns an array with the specified keys omitted from the array
  *
- * @param Traversable|array $collection
- * @param array $keys
- * @return array
+ * @template V
+ *
+ * @param iterable<V> $collection
+ * @param array<array-key> $keys
+ *
+ * @return array<V>
+ *
  * @no-named-arguments
  */
 function omit_keys($collection, array $keys)

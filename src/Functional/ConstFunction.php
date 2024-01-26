@@ -13,8 +13,12 @@ namespace Functional;
 /**
  * Wrap value within a function, which will return it, without any modifications.
  *
- * @param mixed $value
- * @return callable
+ * @template V
+ *
+ * @param V $value
+ *
+ * @return callable():V
+ *
  * @no-named-arguments
  */
 function const_function($value)

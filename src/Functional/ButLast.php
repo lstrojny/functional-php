@@ -11,13 +11,16 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns an array containing the elements of the list without its last element.
  *
- * @param Traversable|array $collection
- * @return array
+ * @template T
+ *
+ * @param iterable<T> $collection
+ *
+ * @return iterable<T>
+ *
  * @no-named-arguments
  */
 function but_last($collection)

@@ -16,9 +16,14 @@ namespace Functional;
  * The results of each branching function are passed as arguments
  * to the converging function to produce the return value.
  *
- * @param callable $convergingFunction Will be invoked with the return values of all branching functions as its arguments
- * @param callable[] $branchingFunctions A list of functions
- * @return callable A flipped version of the given function
+ * @template R
+ * @template R2
+ *
+ * @param callable(mixed...):R2 $convergingFunction Will be invoked with the return values of all branching functions as its arguments
+ * @param array<callable(mixed...):R> $branchingFunctions A list of functions
+ *
+ * @return callable(mixed...):R2
+ *
  * @no-named-arguments
  */
 function converge($convergingFunction, array $branchingFunctions)

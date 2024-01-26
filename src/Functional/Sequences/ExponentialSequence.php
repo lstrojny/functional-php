@@ -13,21 +13,29 @@ namespace Functional\Sequences;
 use Functional\Exceptions\InvalidArgumentException;
 use Iterator;
 
-/** @internal */
+/**
+ * @internal
+ *
+ * @implements Iterator<null,positive-int>
+ */
 class ExponentialSequence implements Iterator
 {
-    /** @var integer */
+    /** @var positive-int */
     private $start;
 
-    /** @var integer */
+    /** @var int<1,100> */
     private $percentage;
 
-    /** @var integer */
+    /** @var positive-int */
     private $value;
 
-    /** @var integer */
+    /** @var non-negative-int */
     private $times;
 
+    /**
+     * @param positive-int $start
+     * @param int<1,100> $percentage
+     */
     public function __construct($start, $percentage)
     {
         InvalidArgumentException::assertIntegerGreaterThanOrEqual($start, 1, __METHOD__, 1);
@@ -38,27 +46,37 @@ class ExponentialSequence implements Iterator
         $this->percentage = $percentage;
     }
 
+    /** @return positive-int */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->value;
     }
 
+    /** @return void */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->value = (int) \round(\pow($this->start * (1 + $this->percentage / 100), $this->times));
         $this->times++;
     }
 
+    /** @return null */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return null;
     }
 
+    /** @return bool */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return true;
     }
 
+    /** @return void */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->times = 1;

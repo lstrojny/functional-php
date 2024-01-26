@@ -17,9 +17,15 @@ use function Functional\const_function;
 /**
  * Takes a function and returns a new function that wraps the callback and suppresses the PHP error
  *
- * @param callable $callback
+ * @template V
+ * @template R
+ *
+ * @param callable(V...):R $callback
+ *
  * @throws ErrorException Throws exception if PHP error happened
- * @return mixed
+ *
+ * @return callable(V...):R
+ *
  * @no-named-arguments
  */
 function suppress_error(callable $callback)

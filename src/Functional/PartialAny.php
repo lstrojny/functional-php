@@ -17,9 +17,14 @@ use Functional\Exceptions\InvalidArgumentException;
  *
  * Use Functional\…, Functional\…() or Functional\placeholder() as a placeholder
  *
- * @param callable $callback
- * @param mixed ...$arguments
- * @return callable
+ * @template V
+ * @template R
+ *
+ * @param callable(V...):R $callback
+ * @param V ...$arguments
+ *
+ * @return callable(V...):R
+ *
  * @no-named-arguments
  */
 function partial_any(callable $callback, ...$arguments)
@@ -40,6 +45,7 @@ function partial_any(callable $callback, ...$arguments)
 
 /**
  * @return resource
+ *
  * @no-named-arguments
  */
 function …()
@@ -56,6 +62,7 @@ function …()
 
 /**
  * @return resource
+ *
  * @no-named-arguments
  */
 function placeholder()

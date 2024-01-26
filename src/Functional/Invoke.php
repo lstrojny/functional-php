@@ -11,16 +11,19 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
- * Calls the method named by $methodName on each value in the collection. Any extra arguments passed to invoke will be
- * forwarded on to the method invocation.
+ * Calls the method named by $methodName on each value in the collection.
+ * Any extra arguments passed to invoke will be forwarded on to the method invocation.
  *
- * @param Traversable|array $collection
- * @param string $methodName
- * @param array $arguments
- * @return array
+ * @template K of array-key
+ *
+ * @param iterable<K,object> $collection
+ * @param non-empty-string $methodName
+ * @param array<mixed> $arguments
+ *
+ * @return ($collection is list<object> ? list<mixed> : array<K,mixed>)
+ *
  * @no-named-arguments
  */
 function invoke($collection, $methodName, array $arguments = [])

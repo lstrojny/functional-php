@@ -261,7 +261,7 @@ class InvalidArgumentException extends \InvalidArgumentException
 
     /**
      * @param mixed $collection
-     * @param string $className
+     * @param non-empty-string $className
      * @param string $callee
      * @param integer $parameterPosition
      * @throws InvalidArgumentException

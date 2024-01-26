@@ -10,15 +10,15 @@
 
 namespace Functional;
 
-use Closure;
 use Functional\Exceptions\InvalidArgumentException;
 
 /**
  * Creates a function that can be used to repeat the execution of $callback.
  *
- * @param callable $callback
+ * @param callable():mixed $callback
  *
- * @return Closure
+ * @return callable(non-negative-int):void
+ *
  * @no-named-arguments
  */
 function repeat(callable $callback)

@@ -12,14 +12,17 @@ namespace Functional;
 
 use ArrayAccess;
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Extract a property from a collection of objects.
  *
- * @param Traversable|array $collection
- * @param string $propertyName
- * @return array
+ * @template K of array-key
+ *
+ * @param iterable<K,mixed> $collection
+ * @param non-empty-string $propertyName
+ *
+ * @return ($collection is list<mixed> ? list<mixed> : array<K,mixed>)
+ *
  * @no-named-arguments
  */
 function pluck($collection, $propertyName)

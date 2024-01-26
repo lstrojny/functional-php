@@ -16,9 +16,14 @@ use Traversable;
 /**
  * Select the specified keys from the array
  *
- * @param Traversable|array $collection
- * @param array $keys
- * @return array
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param array<K> $keys
+ *
+ * @return array<K,V>
+ *
  * @no-named-arguments
  */
 function select_keys($collection, array $keys)

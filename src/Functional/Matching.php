@@ -21,9 +21,20 @@ use const PHP_VERSION_ID;
 /**
  * Performs an operation checking for the given conditions
  *
- * @param array $conditions the conditions to check against
+ * @template V
+ * @template R
  *
- * @return callable|null the function that calls the callable of the first truthy condition
+ * @param array<array{
+ *     callable(V):mixed,
+ *     callable(V):R,
+ * }> $conditions the conditions to check against
+ *
+ * @return (
+ *     $conditions is non-empty-array
+ *         ? callable(V):(null|R)
+ *         : callable(V):null
+ * ) the function that calls the callable of the first truthy condition
+ *
  * @no-named-arguments
  */
 function matching(array $conditions)

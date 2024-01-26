@@ -26,6 +26,9 @@ namespace Functional;
 
 /**
  * A no-operation function.
+ *
+ * @return void
+ *
  * @no-named-arguments
  */
 function noop()

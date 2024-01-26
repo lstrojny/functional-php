@@ -11,14 +11,18 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Alias of Functional\select()
  *
- * @param Traversable|array $collection
- * @param callable $callback
- * @return array
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param callable(V,K,iterable<K,V>):mixed $callback
+ *
+ * @return array<K,V>
+ *
  * @no-named-arguments
  */
 function filter($collection, callable $callback)

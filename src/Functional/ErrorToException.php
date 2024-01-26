@@ -15,10 +15,16 @@ use ErrorException;
 /**
  * Takes a function and returns a new function that wraps the callback and rethrows PHP errors as exception
  *
- * @param callable $callback
- * @throws ErrorException Throws exception if PHP error happened
- * @return mixed
+ * @template V
+ * @template R
+ *
+ * @param callable(V...):R $callback
+ *
+ * @return callable(V...):R
+ *
  * @no-named-arguments
+ *
+ * @throws ErrorException Throws exception if PHP error happened
  */
 function error_to_exception(callable $callback)
 {

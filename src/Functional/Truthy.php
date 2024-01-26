@@ -11,13 +11,14 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
  * Returns true if all elements of the collection evaluate to true
  *
- * @param Traversable|array $collection
+ * @param iterable<mixed> $collection
+ *
  * @return bool
+ *
  * @no-named-arguments
  */
 function truthy($collection)

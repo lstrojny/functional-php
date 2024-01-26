@@ -13,9 +13,15 @@ namespace Functional;
 /**
  * Returns a comparison function that can be used with e.g. `usort()`
  *
- * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
- * @param callable $reducer A function that takes an argument and returns the value that should be compared
- * @return callable
+ * @template V
+ * @template V2
+ * @template R of int
+ *
+ * @param callable(V,V):R $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
+ * @param null|callable(V2):V $reducer A function that takes an argument and returns the value that should be compared
+ *
+ * @return ($reducer is null ? callable(V,V):R : callable(V2,V2):R)
+ *
  * @no-named-arguments
  */
 function compare_on(callable $comparison, callable $reducer = null)

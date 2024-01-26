@@ -11,27 +11,28 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
-use Traversable;
 
 /**
- * Returns true if all of the elements in the collection pass the callback falsy test. Opposite of Functional\all().
+ * Returns true if all of the elements in the collection pass the callback falsy test.
+ * Opposite of Functional\all().
  * Callback arguments will be element, index, collection.
  *
- * @param Traversable|array $collection
- * @param callable|null $callback
+ * @template K of array-key
+ * @template V
+ *
+ * @param iterable<K,V> $collection
+ * @param null|callable(V,K,iterable<K,V>):mixed $callback
+ *
  * @return bool
+ *
  * @no-named-arguments
  */
 function none($collection, callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    if ($callback === null) {
-        $callback = '\Functional\id';
-    }
-
     foreach ($collection as $index => $element) {
-        if ($callback($element, $index, $collection)) {
+        if (null === $callback ? id($element) : $callback($element, $index, $collection)) {
             return false;
         }
     }
