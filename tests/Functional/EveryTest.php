@@ -85,6 +85,6 @@ class EveryTest extends AbstractTestCase
     {
         InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
 
-        return $value == 'value' && \is_numeric($key);
+        return $value == 'value' && is_numeric($key);
     }
 }

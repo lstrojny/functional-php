@@ -14,6 +14,7 @@ use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\none;
+use function strlen;
 
 class NoneTest extends AbstractTestCase
 {
@@ -83,6 +84,6 @@ class NoneTest extends AbstractTestCase
     public function functionalCallback($value, $key, $collection): bool
     {
         InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-        return $value != 'value' && \strlen($key) > 0;
+        return $value != 'value' && strlen($key) > 0;
     }
 }

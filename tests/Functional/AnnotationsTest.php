@@ -19,11 +19,11 @@ class AnnotationsTest extends AbstractTestCase
     public static function getFunctions(): array
     {
         return group(
-            \array_values(
-                \array_filter(
-                    \get_defined_functions()['user'],
+            array_values(
+                array_filter(
+                    get_defined_functions()['user'],
                     static function (string $function): bool {
-                        return \stripos($function, 'Functional\\') === 0;
+                        return stripos($function, 'Functional\\') === 0;
                     }
                 )
             ),
@@ -38,7 +38,7 @@ class AnnotationsTest extends AbstractTestCase
         self::assertStringContainsString(
             '@no-named-arguments',
             $refl->getDocComment(),
-            \sprintf(
+            sprintf(
                 'Expected function "%s()" to have annotation @no-named-arguments',
                 $function
             )

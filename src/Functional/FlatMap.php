@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_array;
+
 /**
  * flat_map works applying a function (callback) that returns a sequence for each element in a collection,
  * and flattening the results into the resulting array.
@@ -38,7 +40,7 @@ function flat_map($collection, callable $callback)
     foreach ($collection as $index => $element) {
         $result = $callback($element, $index, $collection);
 
-        if (\is_array($result) || $result instanceof Traversable) {
+        if (is_array($result) || $result instanceof Traversable) {
             foreach ($result as $item) {
                 $flattened[] = $item;
             }

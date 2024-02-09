@@ -14,6 +14,9 @@ use DateTime;
 
 use function Functional\curry_n;
 use function Functional\invoker;
+use function call_user_func_array;
+use function count;
+use function is_null;
 
 function add($a, $b, $c, $d)
 {
@@ -42,7 +45,7 @@ class CurryNTest extends AbstractPartialTestCase
 {
     protected function getCurryiedCallable(callable $callback, array $params, bool $required): callable
     {
-        return curry_n(\count($params), $callback);
+        return curry_n(count($params), $callback);
     }
 
     /**
@@ -50,23 +53,23 @@ class CurryNTest extends AbstractPartialTestCase
      */
     public function testCallbackTypes($callback, $params, $expected, $required, $transformer = null): void
     {
-        if (\is_null($transformer)) {
+        if (is_null($transformer)) {
             $transformer = 'Functional\id';
         }
 
         $curryied = $this->getCurryiedCallable($callback, $params, $required);
 
-        self::assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
+        self::assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
 
-        $length = \count($params);
+        $length = count($params);
         for ($i = 0; $i < $length; ++$i) {
-            $p = \array_shift($params);
+            $p = array_shift($params);
 
             $curryied = $curryied($p);
 
-            if (\count($params) > 0) {
+            if (count($params) > 0) {
                 self::assertIsCallable($curryied);
-                self::assertEquals($transformer($expected), $transformer(\call_user_func_array($curryied, $params)));
+                self::assertEquals($transformer($expected), $transformer(call_user_func_array($curryied, $params)));
             } else {
                 self::assertEquals($transformer($expected), $transformer($curryied));
             }

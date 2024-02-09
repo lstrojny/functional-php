@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function count;
+
 /**
  * Partitions a collection by callback predicate results. Returns an
  * array of partition arrays, one for each predicate, and one for
@@ -32,7 +34,7 @@ function partition($collection, callable ...$callbacks)
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
     $partition = 0;
-    $partitions = \array_fill(0, \count($callbacks) + 1, []);
+    $partitions = array_fill(0, count($callbacks) + 1, []);
 
     foreach ($collection as $index => $element) {
         foreach ($callbacks as $partition => $callback) {

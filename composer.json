@@ -17,12 +17,12 @@
         }
     ],
     "require": {
-        "php": "^7.1|~8"
+        "php": "~8.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "~3.0",
-        "phpunit/phpunit": "^7.0 || ^8.0 || ^9.5",
-        "friendsofphp/php-cs-fixer": "^2.17"
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^v3.49"
     },
     "autoload": {
         "psr-4": {
@@ -133,7 +133,7 @@
     },
     "scripts": {
         "tests": "vendor/bin/phpunit",
-        "coding-style": "vendor/bin/phpcs && vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.dist",
+        "coding-style": "vendor/bin/phpcs && vendor/bin/php-cs-fixer fix --dry-run --diff",
         "clear": "rm -rf vendor/"
     }
 }

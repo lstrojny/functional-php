@@ -28,7 +28,7 @@ function sort($collection, callable $callback, $preserveKeys = false)
     InvalidArgumentException::assertBoolean($preserveKeys, __FUNCTION__, 3);
 
     if ($collection instanceof Traversable) {
-        $array = \iterator_to_array($collection);
+        $array = iterator_to_array($collection);
     } else {
         $array = $collection;
     }

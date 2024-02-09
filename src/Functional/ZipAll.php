@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_callable;
+
 /**
  * Recombines arrays by index (column) and applies a callback optionally
  *
@@ -27,8 +29,8 @@ function zip_all(...$args)
 {
     /** @var callable|null $callback */
     $callback = null;
-    if (\is_callable(\end($args))) {
-        $callback = \array_pop($args);
+    if (is_callable(end($args))) {
+        $callback = array_pop($args);
     }
 
     foreach ($args as $position => $arg) {
@@ -42,7 +44,7 @@ function zip_all(...$args)
         }
     }
 
-    $resultKeys = \array_unique($resultKeys);
+    $resultKeys = array_unique($resultKeys);
 
     $result = [];
 

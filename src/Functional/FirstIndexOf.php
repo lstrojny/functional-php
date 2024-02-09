@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_callable;
+
 /**
  * Returns the first index holding specified value in the collection. Returns false if value was not found
  *
@@ -25,7 +27,7 @@ function first_index_of($collection, $value)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
-    if (\is_callable($value)) {
+    if (is_callable($value)) {
         foreach ($collection as $index => $element) {
             if ($element === $value($element, $index, $collection)) {
                 return $index;

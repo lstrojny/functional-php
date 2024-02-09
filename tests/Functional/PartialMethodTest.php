@@ -14,7 +14,6 @@ use function Functional\partial_method;
 
 class PartialMethodTest extends AbstractPartialTestCase
 {
-
     public function testWithNoArgs(): void
     {
         $method = partial_method('execute');

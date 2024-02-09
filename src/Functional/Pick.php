@@ -13,6 +13,9 @@ namespace Functional;
 use ArrayAccess;
 use Functional\Exceptions\InvalidArgumentException;
 
+use function array_key_exists;
+use function is_array;
+
 /**
  * Pick a single element from a collection of objects or arrays by index.
  * If no such index exists, return the default value.
@@ -29,7 +32,7 @@ function pick($collection, $index, $default = null, callable $callback = null)
     InvalidArgumentException::assertArrayAccess($collection, __FUNCTION__, 1);
 
     if ($callback === null) {
-        if (!isset($collection[$index]) && (!\is_array($collection) || !\array_key_exists($index, $collection))) {
+        if (!isset($collection[$index]) && (!is_array($collection) || !array_key_exists($index, $collection))) {
             return $default;
         }
     } else {

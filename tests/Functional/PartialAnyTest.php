@@ -12,11 +12,13 @@ namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
 
+use const Functional\…;
+
+// phpcs:ignore PSR12.Files.FileHeader.IncorrectOrder
+use function defined;
 use function Functional\partial_any;
 use function Functional\placeholder;
 use function Functional\…;
-
-use const Functional\…;
 
 class PartialAnyTest extends AbstractPartialTestCase
 {
@@ -29,10 +31,10 @@ class PartialAnyTest extends AbstractPartialTestCase
 
     public function testBindWithPlaceholderConstant(): void
     {
-        $context = \hash_init('md2');
+        $context = hash_init('md2');
         $hash = partial_any('hash_update', $context, …());
         $hash('oh hi');
-        self::assertSame('6f24cbf6005b9bfc0176abbbe309f0d0', \hash_final($context));
+        self::assertSame('6f24cbf6005b9bfc0176abbbe309f0d0', hash_final($context));
     }
 
     public function testBindWithMultiplePlaceholders(): void
@@ -61,7 +63,7 @@ class PartialAnyTest extends AbstractPartialTestCase
         self::assertSame(…(), placeholder());
 
         /* @see https://github.com/facebook/hhvm/issues/5548 */
-        if (!\defined('HHVM_VERSION')) {
+        if (!defined('HHVM_VERSION')) {
             self::assertSame(…, placeholder());
         }
     }

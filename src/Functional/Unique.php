@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function in_array;
+
 /**
  * Returns an array of unique elements
  *
@@ -35,7 +37,7 @@ function unique($collection, callable $callback = null, $strict = true)
             $index = $element;
         }
 
-        if (!\in_array($index, $indexes, $strict)) {
+        if (!in_array($index, $indexes, $strict)) {
             $aggregation[$key] = $element;
 
             $indexes[] = $index;

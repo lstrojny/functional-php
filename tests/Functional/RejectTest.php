@@ -14,6 +14,7 @@ use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\reject;
+use function strlen;
 
 class RejectTest extends AbstractTestCase
 {
@@ -30,7 +31,7 @@ class RejectTest extends AbstractTestCase
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            return $v == 'wrong' && \strlen($k) > 0;
+            return $v == 'wrong' && strlen($k) > 0;
         };
         self::assertSame([0 => 'value', 2 => 'value'], reject($this->list, $fn));
         self::assertSame([0 => 'value', 2 => 'value'], reject($this->listIterator, $fn));

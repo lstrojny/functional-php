@@ -18,6 +18,10 @@ use PHPUnit\Framework\TestCase;
 use Traversable;
 use TypeError;
 
+use function count;
+use function func_get_args;
+use function func_num_args;
+
 class AbstractTestCase extends TestCase
 {
     /** @var array */
@@ -42,29 +46,25 @@ class AbstractTestCase extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        if (PHP_VERSION_ID < 80000) {
-            $this->expectExceptionMessage(\sprintf('Argument %d passed to %s() must be callable', $position, $fn));
-        } else {
-            $this->expectExceptionMessageMatches(
-                \sprintf(
-                    '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
-                    \preg_quote($fn, '/'),
-                    $position,
-                    $actualType
-                )
-            );
-        }
+        $this->expectExceptionMessageMatches(
+            sprintf(
+                '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
+                preg_quote($fn, '/'),
+                $position,
+                $actualType
+            )
+        );
     }
 
     public function exception(): void
     {
-        if (\func_num_args() < 3) {
+        if (func_num_args() < 3) {
             throw new DomainException('Callback exception');
         }
 
-        $args = \func_get_args();
-        self::assertGreaterThanOrEqual(3, \count($args));
-        throw new DomainException(\sprintf('Callback exception: %s', $args[1]));
+        $args = func_get_args();
+        self::assertGreaterThanOrEqual(3, count($args));
+        throw new DomainException(sprintf('Callback exception: %s', $args[1]));
     }
 
     protected function sequenceToArray(Iterator $sequence, int $limit): array
@@ -81,7 +81,7 @@ class AbstractTestCase extends TestCase
 
     public function expectDeprecation(): void
     {
-        if (\method_exists(parent::class, __FUNCTION__)) {
+        if (method_exists(parent::class, __FUNCTION__)) {
             parent::expectDeprecation();
             return;
         }
@@ -91,7 +91,7 @@ class AbstractTestCase extends TestCase
 
     public function expectDeprecationMessage(string $message): void
     {
-        if (\method_exists(parent::class, __FUNCTION__)) {
+        if (method_exists(parent::class, __FUNCTION__)) {
             parent::expectDeprecationMessage($message);
             return;
         }

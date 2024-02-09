@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_callable;
+
 /**
  * Returns the last index holding specified value in the collection. Returns false if value was not found
  *
@@ -27,7 +29,7 @@ function last_index_of($collection, $value)
 
     $matchingIndex = false;
 
-    if (\is_callable($value)) {
+    if (is_callable($value)) {
         foreach ($collection as $index => $element) {
             if ($element === $value($element, $index, $collection)) {
                 $matchingIndex = $index;

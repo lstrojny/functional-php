@@ -12,8 +12,10 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Traversable;
+use stdClass;
 
 use function Functional\invoke_first;
+use function func_get_args;
 
 class InvokeFirstTest extends AbstractTestCase
 {
@@ -73,7 +75,7 @@ class InvokeFirstTest extends AbstractTestCase
     public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\invoke_first() expects parameter 2 to be string');
-        invoke_first($this->list, new \stdClass());
+        invoke_first($this->list, new stdClass());
     }
 
     public function testException(): void
@@ -90,6 +92,6 @@ class InvokeFirstTest extends AbstractTestCase
 
     public function returnArguments(): array
     {
-        return \func_get_args();
+        return func_get_args();
     }
 }

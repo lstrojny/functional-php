@@ -14,6 +14,9 @@ use ArrayAccess;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_array;
+use function is_object;
+
 /**
  * Extract a property from a collection of objects.
  *
@@ -32,9 +35,9 @@ function pluck($collection, $propertyName)
     foreach ($collection as $index => $element) {
         $value = null;
 
-        if (\is_object($element) && isset($element->{$propertyName})) {
+        if (is_object($element) && isset($element->{$propertyName})) {
             $value = $element->{$propertyName};
-        } elseif ((\is_array($element) || $element instanceof ArrayAccess) && isset($element[$propertyName])) {
+        } elseif ((is_array($element) || $element instanceof ArrayAccess) && isset($element[$propertyName])) {
             $value = $element[$propertyName];
         }
 

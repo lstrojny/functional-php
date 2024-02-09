@@ -10,6 +10,8 @@
 
 namespace Functional;
 
+use function func_get_args;
+
 /**
  * Return a version of the given function where the arguments are provided in reverse order.
  *
@@ -22,6 +24,6 @@ namespace Functional;
 function flip(callable $callback)
 {
     return function () use ($callback) {
-        return $callback(...\array_reverse(\func_get_args()));
+        return $callback(...array_reverse(func_get_args()));
     };
 }

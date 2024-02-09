@@ -16,8 +16,6 @@ use function Functional\matching;
 use function Functional\equal;
 use function Functional\const_function;
 
-use const PHP_VERSION_ID;
-
 class MatchingTest extends AbstractTestCase
 {
     public function testMatching(): void
@@ -93,19 +91,5 @@ class MatchingTest extends AbstractTestCase
                 [const_function(null), ''],
             ]
         );
-    }
-
-    public function testDeprecatedAlias(): void
-    {
-        if (PHP_VERSION_ID >= 80000) {
-            self::markTestSkipped('Only works with PHP <8.0');
-        }
-
-        $this->expectDeprecation();
-        $this->expectDeprecationMessage(
-            'Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead'
-        );
-
-        \call_user_func('Functional\match', []);
     }
 }

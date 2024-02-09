@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_callable;
+
 /**
  * Calls the method named by $methodName on each value in the collection. Any extra arguments passed to invoke will be
  * forwarded on to the method invocation.
@@ -34,7 +36,7 @@ function invoke($collection, $methodName, array $arguments = [])
         $value = null;
 
         $callback = [$element, $methodName];
-        if (\is_callable($callback)) {
+        if (is_callable($callback)) {
             $value = $callback(...$arguments);
         }
 

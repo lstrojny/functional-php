@@ -27,7 +27,7 @@ function minimum($collection)
     $min = null;
 
     foreach ($collection as $index => $element) {
-        if (!\is_numeric($element)) {
+        if (!is_numeric($element)) {
             continue;
         }
 

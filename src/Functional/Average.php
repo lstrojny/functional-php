@@ -28,7 +28,7 @@ function average($collection)
     $divisor = 0;
 
     foreach ($collection as $element) {
-        if (\is_numeric($element)) {
+        if (is_numeric($element)) {
             $sum += $element;
             ++$divisor;
         }

@@ -10,6 +10,9 @@
 
 namespace Functional;
 
+use function array_key_exists;
+use function is_callable;
+
 use const E_USER_DEPRECATED;
 
 /**
@@ -30,21 +33,21 @@ function memoize(callable $callback = null, $arguments = [], $key = null)
         return null;
     }
 
-    if (\is_callable($key)) {
-        \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+    if (is_callable($key)) {
+        trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         $key = $key();
-    } elseif (\is_callable($arguments)) {
-        \trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
+    } elseif (is_callable($arguments)) {
+        trigger_error('Passing a callable as key is deprecated and will be removed in 2.0', E_USER_DEPRECATED);
         $key = $arguments();
     }
 
     if ($key === null) {
-        $key = value_to_key(\array_merge([$callback], $arguments));
+        $key = value_to_key(array_merge([$callback], $arguments));
     } else {
         $key = value_to_key($key);
     }
 
-    if (!isset($storage[$key]) && !\array_key_exists($key, $storage)) {
+    if (!isset($storage[$key]) && !array_key_exists($key, $storage)) {
         $storage[$key] = $callback(...$arguments);
     }
 

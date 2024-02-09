@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 
+use function is_callable;
+
 /**
  * Returns a list of array indexes, either matching the predicate or strictly equal to the the passed value. Returns an
  * empty array if no values were found.
@@ -28,7 +30,7 @@ function indexes_of($collection, $value)
 
     $result = [];
 
-    if (\is_callable($value)) {
+    if (is_callable($value)) {
         foreach ($collection as $index => $element) {
             if ($element === $value($element, $index, $collection)) {
                 $result[] = $index;

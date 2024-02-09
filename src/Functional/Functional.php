@@ -12,7 +12,6 @@ namespace Functional;
 
 final class Functional
 {
-
     /**
      * @see \Function\ary
      */

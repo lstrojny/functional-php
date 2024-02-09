@@ -11,8 +11,10 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
+use stdClass;
 
 use function Functional\invoke_last;
+use function func_get_args;
 
 class InvokeLastTest extends AbstractTestCase
 {
@@ -62,7 +64,7 @@ class InvokeLastTest extends AbstractTestCase
     public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\invoke_last() expects parameter 2 to be string');
-        invoke_last($this->list, new \stdClass());
+        invoke_last($this->list, new stdClass());
     }
 
     public function testException(): void
@@ -79,6 +81,6 @@ class InvokeLastTest extends AbstractTestCase
 
     public function returnArguments(): array
     {
-        return \func_get_args();
+        return func_get_args();
     }
 }

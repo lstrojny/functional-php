@@ -10,12 +10,14 @@
 
 namespace Functional;
 
+use Closure;
+
 /**
  * Returns an integer less than, equal to, or greater than zero when
  * $a is respectively less than, equal to, or greater than $b.
  *
  * @param mixed $b
- * @return \Closure(mixed)
+ * @return Closure(mixed)
  * @no-named-arguments
  */
 function lexicographic_compare($b)
