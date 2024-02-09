@@ -12,6 +12,7 @@ namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
+use function is_float;
 
 /**
  * Groups a collection by index returned by callback.
@@ -32,6 +33,7 @@ function group($collection, callable $callback)
 
         InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
 
+        $groupKey = is_float($groupKey) ? (int) $groupKey : $groupKey;
         if (!isset($groups[$groupKey])) {
             $groups[$groupKey] = [];
         }
