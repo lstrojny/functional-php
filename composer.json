@@ -133,7 +133,7 @@
     },
     "scripts": {
         "tests": "vendor/bin/phpunit",
-        "coding-style": "vendor/bin/phpcs && vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php_cs.dist",
+        "coding-style": "vendor/bin/phpcs && vendor/bin/php-cs-fixer fix --dry-run --diff",
         "clear": "rm -rf vendor/"
     }
 }
