@@ -12,12 +12,6 @@ namespace Functional;
 
 use Functional\Exceptions\MatchException;
 
-use function Functional\head;
-use function Functional\tail;
-use function Functional\if_else;
-
-use const PHP_VERSION_ID;
-
 /**
  * Performs an operation checking for the given conditions
  *
@@ -39,18 +33,4 @@ function matching(array $conditions)
 
         return if_else($if, $then, matching(tail($conditions)))($value);
     };
-}
-
-
-if (PHP_VERSION_ID < 80000 && !\function_exists('Functional\match')) {
-    eval(<<<'ALIAS'
-namespace Functional;
-
-/** @no-named-arguments */
-function match(array $conditions) {
-    trigger_error('Functional\match() will be unavailable with PHP 8. Use Functional\matching() instead', E_USER_DEPRECATED);
-    return matching($conditions);
-}
-ALIAS
-    );
 }

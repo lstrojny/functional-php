@@ -1,6 +1,8 @@
 <?php
 
-return PhpCsFixer\Config::create()
+use PhpCsFixer\Config;
+
+return (new Config())
     ->setRiskyAllowed(true)
     ->setRules([
         'native_function_invocation' => true,
