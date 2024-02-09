@@ -14,12 +14,11 @@ use ArrayIterator;
 use ArrayObject;
 use SplFixedArray;
 use Traversable;
-
-use function Functional\pluck;
-
 use DomainException;
 use Exception;
 use stdClass;
+
+use function Functional\pluck;
 
 class MagicGetThrowException
 {

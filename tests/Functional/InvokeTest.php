@@ -12,11 +12,9 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Traversable;
-
-use function Functional\invoke;
-
 use stdClass;
 
+use function Functional\invoke;
 use function func_get_args;
 
 class InvokeTest extends AbstractTestCase

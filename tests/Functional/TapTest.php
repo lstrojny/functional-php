@@ -10,9 +10,9 @@
 
 namespace Functional\Tests;
 
-use function Functional\tap;
-
 use stdClass;
+
+use function Functional\tap;
 
 class TapTest extends AbstractTestCase
 {

@@ -10,10 +10,10 @@
 
 namespace Functional;
 
-use const E_USER_DEPRECATED;
-
 use function array_key_exists;
 use function is_callable;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Memoizes callbacks and returns their value instead of calling them

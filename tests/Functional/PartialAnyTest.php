@@ -12,13 +12,13 @@ namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
 
+use const Functional\…;
+
+// phpcs:ignore PSR12.Files.FileHeader.IncorrectOrder
+use function defined;
 use function Functional\partial_any;
 use function Functional\placeholder;
 use function Functional\…;
-
-use const Functional\…;
-
-use function defined;
 
 class PartialAnyTest extends AbstractPartialTestCase
 {

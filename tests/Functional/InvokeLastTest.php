@@ -11,11 +11,9 @@
 namespace Functional\Tests;
 
 use ArrayIterator;
-
-use function Functional\invoke_last;
-
 use stdClass;
 
+use function Functional\invoke_last;
 use function func_get_args;
 
 class InvokeLastTest extends AbstractTestCase

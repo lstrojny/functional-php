@@ -12,12 +12,10 @@ namespace Functional\Tests;
 
 use ArrayIterator;
 use Functional\Exceptions\InvalidArgumentException;
-
-use function Functional\group;
-
 use Exception;
 use stdClass;
 
+use function Functional\group;
 use function is_int;
 
 class GroupTest extends AbstractTestCase
