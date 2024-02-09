@@ -9,6 +9,7 @@
  */
 
 namespace Functional\Exceptions;
+
 use function count;
 use function gettype;
 use function is_array;

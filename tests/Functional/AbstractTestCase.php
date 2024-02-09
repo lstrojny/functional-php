@@ -17,6 +17,7 @@ use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 use TypeError;
+
 use function count;
 use function func_get_args;
 use function func_num_args;

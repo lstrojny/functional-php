@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use BadFunctionCallException;
 
 use function Functional\zip_all;
+
 use ArrayIterator;
 
 class ZipAllTest extends AbstractTestCase

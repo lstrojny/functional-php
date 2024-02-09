@@ -13,6 +13,7 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 use WeakReference;
+
 use function get_class;
 use function gettype;
 

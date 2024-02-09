@@ -11,6 +11,7 @@
 namespace Functional;
 
 use const E_USER_DEPRECATED;
+
 use function array_key_exists;
 use function is_callable;
 

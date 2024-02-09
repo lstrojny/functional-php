@@ -11,6 +11,7 @@
 namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
+
 use function define;
 
 /**

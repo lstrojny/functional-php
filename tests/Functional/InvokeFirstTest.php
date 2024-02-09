@@ -14,7 +14,9 @@ use ArrayIterator;
 use Traversable;
 
 use function Functional\invoke_first;
+
 use stdClass;
+
 use function func_get_args;
 
 class InvokeFirstTest extends AbstractTestCase

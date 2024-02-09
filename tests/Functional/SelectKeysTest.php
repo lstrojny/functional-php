@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use ArrayIterator;
 
 use function Functional\select_keys;
+
 use stdclass;
 
 class SelectKeysTest extends AbstractTestCase

@@ -11,6 +11,7 @@
 namespace Functional\Tests;
 
 use function Functional\with;
+
 use Exception;
 
 class WithTest extends AbstractTestCase

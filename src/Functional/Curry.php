@@ -13,6 +13,7 @@ namespace Functional;
 use ReflectionMethod;
 use ReflectionFunction;
 use Closure;
+
 use function count;
 use function is_array;
 use function is_object;

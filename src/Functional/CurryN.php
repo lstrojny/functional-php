@@ -9,6 +9,7 @@
  */
 
 namespace Functional;
+
 use function call_user_func_array;
 use function count;
 

@@ -13,6 +13,7 @@ namespace Functional;
 use ArrayAccess;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
+
 use function is_array;
 use function is_object;
 

@@ -9,6 +9,7 @@
  */
 
 namespace Functional\Exceptions;
+
 use function count;
 use function get_class;
 use function gettype;

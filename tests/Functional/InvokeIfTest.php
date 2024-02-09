@@ -11,7 +11,9 @@
 namespace Functional\Tests;
 
 use function Functional\invoke_if;
+
 use stdClass;
+
 use function func_get_args;
 
 class InvokeIfTest extends AbstractTestCase

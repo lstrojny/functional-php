@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use ArrayIterator;
 
 use function Functional\omit_keys;
+
 use stdclass;
 
 class OmitKeysTest extends AbstractTestCase

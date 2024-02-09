@@ -12,6 +12,7 @@ namespace Functional;
 
 use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
+
 use function is_callable;
 
 /**

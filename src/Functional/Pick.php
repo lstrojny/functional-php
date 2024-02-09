@@ -12,6 +12,7 @@ namespace Functional;
 
 use ArrayAccess;
 use Functional\Exceptions\InvalidArgumentException;
+
 use function array_key_exists;
 use function is_array;
 

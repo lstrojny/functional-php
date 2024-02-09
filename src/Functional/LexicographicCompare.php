@@ -9,6 +9,7 @@
  */
 
 namespace Functional;
+
 use Closure;
 
 /**

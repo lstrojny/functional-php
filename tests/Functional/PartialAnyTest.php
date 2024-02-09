@@ -17,6 +17,7 @@ use function Functional\placeholder;
 use function Functional\…;
 
 use const Functional\…;
+
 use function defined;
 
 class PartialAnyTest extends AbstractPartialTestCase

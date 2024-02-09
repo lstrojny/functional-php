@@ -16,6 +16,7 @@ use SplFixedArray;
 use Traversable;
 
 use function Functional\pluck;
+
 use DomainException;
 use Exception;
 use stdClass;
