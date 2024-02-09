@@ -11,6 +11,8 @@
 namespace Functional\Tests;
 
 use function Functional\invoke_if;
+use stdClass;
+use function func_get_args;
 
 class InvokeIfTest extends AbstractTestCase
 {
@@ -27,7 +29,7 @@ class InvokeIfTest extends AbstractTestCase
 
     public function testReturnDefaultValueUsed(): void
     {
-        $instance = new \stdClass();
+        $instance = new stdClass();
         self::assertSame('defaultValue', invoke_if($instance, 'someMethod', [], 'defaultValue'));
         self::assertSame($instance, invoke_if($this, 'someMethod', [], $instance));
         self::assertNull(invoke_if($this, 'someMethod', [], null));
@@ -40,6 +42,6 @@ class InvokeIfTest extends AbstractTestCase
 
     public function returnArguments(): array
     {
-        return \func_get_args();
+        return func_get_args();
     }
 }

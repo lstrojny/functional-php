@@ -49,7 +49,7 @@ class FlipTest extends AbstractTestCase
 
 function merge_strings(string $head, string $tail, ...$other): string
 {
-    return $head . $tail . \implode('', $other);
+    return $head . $tail . implode('', $other);
 }
 
 function subtract(int $first, int $second, int $third): int

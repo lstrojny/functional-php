@@ -47,17 +47,17 @@ class AverageTest extends AbstractTestCase
     {
         $this->hash = ['f0' => 12, 'f1' => 2, 'f3' => true, 'f4' => false, 'f5' => 'str', 'f6' => [], 'f7' => new stdClass(), 'f8' => 1];
         $this->hashIterator = new ArrayIterator($this->hash);
-        $this->list = \array_values($this->hash);
+        $this->list = array_values($this->hash);
         $this->listIterator = new ArrayIterator($this->list);
 
         $this->hash2 = ['f0' => 1.0, 'f1' => 0.5, 'f3' => true, 'f4' => false, 'f5' => 1];
         $this->hashIterator2 = new ArrayIterator($this->hash2);
-        $this->list2 = \array_values($this->hash2);
+        $this->list2 = array_values($this->hash2);
         $this->listIterator2 = new ArrayIterator($this->list2);
 
         $this->hash3 = ['f0' => [], 'f1' => new stdClass(), 'f2' => null, 'f3' => 'foo'];
         $this->hashIterator3 = new ArrayIterator($this->hash3);
-        $this->list3 = \array_values($this->hash3);
+        $this->list3 = array_values($this->hash3);
         $this->listIterator3 = new ArrayIterator($this->list3);
     }
 

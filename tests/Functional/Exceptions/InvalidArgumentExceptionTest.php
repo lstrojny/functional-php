@@ -12,6 +12,8 @@ namespace Functional\Tests\Exceptions;
 
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ArrayObject;
+use stdClass;
 
 class InvalidArgumentExceptionTest extends TestCase
 {
@@ -36,7 +38,7 @@ class InvalidArgumentExceptionTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("func() expects parameter 2 to be a valid callback, method 'stdClass->method' not found or invalid method name");
 
-        InvalidArgumentException::assertCallback([new \stdClass(), 'method'], 'func', 2);
+        InvalidArgumentException::assertCallback([new stdClass(), 'method'], 'func', 2);
     }
 
     public function testCallbackExceptionWithIncorrectArrayIndex(): void
@@ -44,7 +46,7 @@ class InvalidArgumentExceptionTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("func() expects parameter 1 to be a valid callback, method 'stdClass->method' not found or invalid method name");
 
-        InvalidArgumentException::assertCallback([1 => new \stdClass(), 2 => 'method'], 'func', 1);
+        InvalidArgumentException::assertCallback([1 => new stdClass(), 2 => 'method'], 'func', 1);
     }
 
     public function testCallbackExceptionWithObject(): void
@@ -52,7 +54,7 @@ class InvalidArgumentExceptionTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('func() expected parameter 1 to be a valid callback, no array, string, closure or functor given');
 
-        InvalidArgumentException::assertCallback(new \stdClass(), 'func', 1);
+        InvalidArgumentException::assertCallback(new stdClass(), 'func', 1);
     }
 
     public function testExceptionIfStringIsPassedAsList(): void
@@ -68,12 +70,12 @@ class InvalidArgumentExceptionTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage("func() expects parameter 2 to be array or instance of Traversable, stdClass given");
 
-        InvalidArgumentException::assertCollection(new \stdClass(), 'func', 2);
+        InvalidArgumentException::assertCollection(new stdClass(), 'func', 2);
     }
 
     public function testAssertArrayAccessValidCase(): void
     {
-        $validObject = new \ArrayObject();
+        $validObject = new ArrayObject();
 
         InvalidArgumentException::assertArrayAccess($validObject, "func", 4);
         $this->addToAssertionCount(1);
@@ -90,14 +92,14 @@ class InvalidArgumentExceptionTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('func() expects parameter 2 to be array or instance of ArrayAccess, stdClass given');
-        InvalidArgumentException::assertArrayAccess(new \stdClass(), "func", 2);
+        InvalidArgumentException::assertArrayAccess(new stdClass(), "func", 2);
     }
 
     public function testExceptionIfInvalidMethodName(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('foo() expects parameter 2 to be string, stdClass given');
-        InvalidArgumentException::assertMethodName(new \stdClass(), "foo", 2);
+        InvalidArgumentException::assertMethodName(new stdClass(), "foo", 2);
     }
 
     public function testExceptionIfInvalidPropertyName(): void
@@ -107,7 +109,7 @@ class InvalidArgumentExceptionTest extends TestCase
         InvalidArgumentException::assertPropertyName(0.2, 'func', 2);
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('func() expects parameter 2 to be a valid property name or array index, stdClass given');
-        InvalidArgumentException::assertPropertyName(new \stdClass(), "func", 2);
+        InvalidArgumentException::assertPropertyName(new stdClass(), "func", 2);
     }
 
     public function testNoExceptionThrownWithPositiveInteger(): void
@@ -142,7 +144,7 @@ class InvalidArgumentExceptionTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('func() expects parameter 4 to be integer, stdClass given');
-        InvalidArgumentException::assertInteger(new \stdClass(), "func", 4);
+        InvalidArgumentException::assertInteger(new stdClass(), "func", 4);
     }
 
     public function testAssertBooleanAccessWithString(): void
@@ -156,7 +158,7 @@ class InvalidArgumentExceptionTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('func() expects parameter 4 to be boolean, stdClass given');
-        InvalidArgumentException::assertBoolean(new \stdClass(), "func", 4);
+        InvalidArgumentException::assertBoolean(new stdClass(), "func", 4);
     }
 
     public function testAssertPairWithPair(): void
@@ -165,7 +167,7 @@ class InvalidArgumentExceptionTest extends TestCase
         InvalidArgumentException::assertPair([1, 2], "func", 1);
         InvalidArgumentException::assertPair(['1', 2], "func", 1);
         InvalidArgumentException::assertPair([1, '2'], "func", 1);
-        InvalidArgumentException::assertPair([new \stdClass(), '2'], "func", 1);
+        InvalidArgumentException::assertPair([new stdClass(), '2'], "func", 1);
     }
 
     public function testAssertPairWithEmptyArray(): void

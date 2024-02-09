@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use ArrayIterator;
 
 use function Functional\select_keys;
+use stdclass;
 
 class SelectKeysTest extends AbstractTestCase
 {
@@ -39,6 +40,6 @@ class SelectKeysTest extends AbstractTestCase
     public function testPassNonArrayOrTraversable(): void
     {
         $this->expectArgumentError("Functional\select_keys() expects parameter 1 to be array or instance of Traversable");
-        select_keys(new \stdclass(), []);
+        select_keys(new stdclass(), []);
     }
 }

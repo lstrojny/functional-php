@@ -12,6 +12,7 @@ namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
+use function is_callable;
 
 /**
  * Recombines arrays by index and applies a callback optionally
@@ -23,8 +24,8 @@ use Traversable;
 function zip(...$args)
 {
     $callback = null;
-    if (\is_callable(\end($args))) {
-        $callback = \array_pop($args);
+    if (is_callable(end($args))) {
+        $callback = array_pop($args);
     }
 
     foreach ($args as $position => $arg) {
@@ -32,7 +33,7 @@ function zip(...$args)
     }
 
     $result = [];
-    foreach ((array) \reset($args) as $index => $value) {
+    foreach ((array) reset($args) as $index => $value) {
         $zipped = [];
 
         foreach ($args as $arg) {

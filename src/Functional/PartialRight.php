@@ -21,6 +21,6 @@ namespace Functional;
 function partial_right(callable $callback, ...$arguments)
 {
     return function (...$innerArguments) use ($callback, $arguments) {
-        return $callback(...\array_merge($innerArguments, $arguments));
+        return $callback(...array_merge($innerArguments, $arguments));
     };
 }

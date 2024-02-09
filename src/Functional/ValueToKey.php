@@ -13,6 +13,8 @@ namespace Functional;
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
 use WeakReference;
+use function get_class;
+use function gettype;
 
 /**
  * @no-named-arguments
@@ -25,7 +27,7 @@ function value_to_key(...$any)
     static $objectToRef = null;
     if (!$objectToRef) {
         $objectToRef = static function ($value) use (&$objectReferences) {
-            $hash = \spl_object_hash($value);
+            $hash = spl_object_hash($value);
             /**
              * spl_object_hash() will return the same hash twice in a single request if an object goes out of scope
              * and is destructed.
@@ -42,7 +44,7 @@ function value_to_key(...$any)
                 $objectReferences[$hash] = WeakReference::create($value);
             }
 
-            $key = \get_class($value) . ':' . $hash . ':' . ($collisions[$hash] ?? 0);
+            $key = get_class($value) . ':' . $hash . ':' . ($collisions[$hash] ?? 0);
 
             return $key;
         };
@@ -51,11 +53,11 @@ function value_to_key(...$any)
     static $valueToRef = null;
     if (!$valueToRef) {
         $valueToRef = static function ($value, $key = null) use (&$valueToRef, $objectToRef) {
-            $type = \gettype($value);
+            $type = gettype($value);
             if ($type === 'array') {
-                $ref = '[' . \implode(':', map($value, $valueToRef)) . ']';
+                $ref = '[' . implode(':', map($value, $valueToRef)) . ']';
             } elseif ($value instanceof Traversable) {
-                $ref = $objectToRef($value) . '[' . \implode(':', map($value, $valueToRef)) . ']';
+                $ref = $objectToRef($value) . '[' . implode(':', map($value, $valueToRef)) . ']';
             } elseif ($type === 'object') {
                 $ref = $objectToRef($value);
             } elseif ($type === 'resource') {
@@ -63,7 +65,7 @@ function value_to_key(...$any)
                     'Resource type cannot be used as part of a memoization key. Please pass a custom key instead'
                 );
             } else {
-                $ref = \serialize($value);
+                $ref = serialize($value);
             }
 
             return ($key !== null ? ($valueToRef($key) . '~') : '') . $ref;

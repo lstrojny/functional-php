@@ -45,7 +45,7 @@ class ExponentialSequence implements Iterator
 
     public function next()
     {
-        $this->value = (int) \round(\pow($this->start * (1 + $this->percentage / 100), $this->times));
+        $this->value = (int) round(pow($this->start * (1 + $this->percentage / 100), $this->times));
         $this->times++;
     }
 

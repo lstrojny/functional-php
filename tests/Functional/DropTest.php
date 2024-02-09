@@ -15,6 +15,7 @@ use Functional\Exceptions\InvalidArgumentException;
 
 use function Functional\drop_last;
 use function Functional\drop_first;
+use function is_int;
 
 class DropTest extends AbstractTestCase
 {
@@ -31,7 +32,7 @@ class DropTest extends AbstractTestCase
     {
         $fn = function ($v, $k, $collection) {
             InvalidArgumentException::assertCollection($collection, __FUNCTION__, 3);
-            $return = \is_int($k) ? ($k != 2) : ($v[3] != 3);
+            $return = is_int($k) ? ($k != 2) : ($v[3] != 3);
             return $return;
         };
         self::assertSame([0 => 'value1', 1 => 'value2'], drop_last($this->list, $fn));

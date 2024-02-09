@@ -16,12 +16,15 @@ use SplFixedArray;
 use Traversable;
 
 use function Functional\pluck;
+use DomainException;
+use Exception;
+use stdClass;
 
 class MagicGetThrowException
 {
     public function __get($propertyName)
     {
-        throw new \Exception($propertyName);
+        throw new Exception($propertyName);
     }
 }
 
@@ -59,7 +62,7 @@ class MagicGetException
     public function __isset($propertyName): bool
     {
         if ($this->throwExceptionInIsset) {
-            throw new \DomainException('__isset exception: ' . $propertyName);
+            throw new DomainException('__isset exception: ' . $propertyName);
         }
         return true;
     }
@@ -67,7 +70,7 @@ class MagicGetException
     public function __get($propertyName): string
     {
         if ($this->throwExceptionInGet) {
-            throw new \DomainException('__get exception: ' . $propertyName);
+            throw new DomainException('__get exception: ' . $propertyName);
         }
         return "value";
     }
@@ -82,7 +85,7 @@ class PluckCaller
         $this->property = 'value';
         $plucked = pluck($collection, $property);
         if (!isset($this->property)) {
-            throw new \Exception('Property is no longer accessable');
+            throw new Exception('Property is no longer accessable');
         }
         return $plucked;
     }
@@ -158,7 +161,7 @@ class PluckTest extends AbstractTestCase
 
     public function variateList($hash, $asObject = true): array
     {
-        return $this->variate(\array_values($hash), $asObject);
+        return $this->variate(array_values($hash), $asObject);
     }
 
     public function variateHash($hash, $asObject = true): array
@@ -221,8 +224,8 @@ class PluckTest extends AbstractTestCase
         self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
         self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, 0));
         self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck(new ArrayIterator($this->numericArrayCollection), 0));
-        self::assertSame([1, null, null, 2, 3], pluck(\array_values($this->numericArrayCollection), 0));
-        self::assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(\array_values($this->numericArrayCollection)), 0));
+        self::assertSame([1, null, null, 2, 3], pluck(array_values($this->numericArrayCollection), 0));
+        self::assertSame([1, null, null, 2, 3], pluck(new ArrayIterator(array_values($this->numericArrayCollection)), 0));
         self::assertSame(['one' => 1, 'two' => null, 'three' => null, 'four' => 2, 'five' => 3], pluck($this->numericArrayCollection, '0'));
     }
 
@@ -247,7 +250,7 @@ class PluckTest extends AbstractTestCase
     public function testPassNoPropertyName(): void
     {
         $this->expectArgumentError('Functional\pluck() expects parameter 2 to be a valid property name or array index, stdClass given');
-        pluck($this->propertyExistsSomewhere, new \stdClass());
+        pluck($this->propertyExistsSomewhere, new stdClass());
     }
 
     public function testExceptionThrownInMagicIssetWhileIteratingArray(): void

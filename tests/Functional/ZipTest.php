@@ -101,7 +101,7 @@ class ZipTest extends AbstractTestCase
     public function testZippingArraysWithVariousElements(): void
     {
         $object = new stdClass();
-        $resource = \stream_context_create();
+        $resource = stream_context_create();
         $result = [
             [[1], $object, [2]],
             [null, 'foo', null],

@@ -23,6 +23,6 @@ namespace Functional;
 function partial_left(callable $callback, ...$arguments)
 {
     return function (...$innerArguments) use ($callback, $arguments) {
-        return $callback(...\array_merge($arguments, $innerArguments));
+        return $callback(...array_merge($arguments, $innerArguments));
     };
 }

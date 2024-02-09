@@ -19,5 +19,5 @@ namespace Functional;
  */
 function concat(string ...$strings)
 {
-    return \implode('', $strings);
+    return implode('', $strings);
 }

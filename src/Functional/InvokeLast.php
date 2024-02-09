@@ -12,6 +12,7 @@ namespace Functional;
 
 use Traversable;
 use Functional\Exceptions\InvalidArgumentException;
+use function is_callable;
 
 /**
  * Calls the method named by $methodName on last object in the collection containing a callable method named
@@ -32,7 +33,7 @@ function invoke_last($collection, $methodName, array $arguments = [])
 
     foreach ($collection as $element) {
         $callback = [$element, $methodName];
-        if (\is_callable($callback)) {
+        if (is_callable($callback)) {
             $lastCallback = $callback;
         }
     }

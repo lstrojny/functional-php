@@ -12,6 +12,7 @@ namespace Functional;
 
 use Functional\Exceptions\InvalidArgumentException;
 use Traversable;
+use function is_callable;
 
 /**
  * Calls the method named by $methodName on first object in the collection containing a callable method named
@@ -31,7 +32,7 @@ function invoke_first($collection, $methodName, array $arguments = [])
 
     foreach ($collection as $element) {
         $callback = [$element, $methodName];
-        if (\is_callable($callback)) {
+        if (is_callable($callback)) {
             return $callback(...$arguments);
         }
     }

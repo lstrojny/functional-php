@@ -9,6 +9,7 @@
  */
 
 namespace Functional;
+use function is_callable;
 
 /**
  * Calls the method named by $methodName on $object. Any extra arguments passed to invoke_if will be
@@ -24,7 +25,7 @@ namespace Functional;
 function invoke_if($object, $methodName, array $methodArguments = [], $defaultValue = null)
 {
     $callback = [$object, $methodName];
-    if (\is_callable($callback)) {
+    if (is_callable($callback)) {
         return $callback(...$methodArguments);
     }
 

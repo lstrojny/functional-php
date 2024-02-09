@@ -21,7 +21,7 @@ class SuppressErrorTest extends AbstractTestCase
     public function testErrorIsSuppressed(): void
     {
         $origFn = function () {
-            \trigger_error('Some error', E_USER_ERROR);
+            trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = suppress_error($origFn);
@@ -53,14 +53,14 @@ class SuppressErrorTest extends AbstractTestCase
     public function testErrorHandlerNestingWorks(): void
     {
         $errorMessage = null;
-        \set_error_handler(
+        set_error_handler(
             static function ($level, $message) use (&$errorMessage) {
                 $errorMessage = $message;
             }
         );
 
         $origFn = static function () {
-            \trigger_error('Some error', E_USER_ERROR);
+            trigger_error('Some error', E_USER_ERROR);
         };
 
         $fn = suppress_error($origFn);
@@ -69,6 +69,6 @@ class SuppressErrorTest extends AbstractTestCase
         self::assertNull($errorMessage);
         $origFn();
         self::assertSame('Some error', $errorMessage);
-        \restore_error_handler();
+        restore_error_handler();
     }
 }

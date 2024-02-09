@@ -104,7 +104,7 @@ class FirstTest extends AbstractTestCase
      */
     public function testPassNoCollection($functionName): void
     {
-        $this->expectArgumentError(\sprintf('%s() expects parameter 1 to be array or instance of Traversable', $functionName));
+        $this->expectArgumentError(sprintf('%s() expects parameter 1 to be array or instance of Traversable', $functionName));
         $functionName('invalidCollection', 'strlen');
     }
 }

@@ -9,6 +9,10 @@
  */
 
 namespace Functional\Exceptions;
+use function count;
+use function gettype;
+use function is_array;
+use function is_callable;
 
 /** @internal */
 class MatchException extends InvalidArgumentException
@@ -24,13 +28,13 @@ class MatchException extends InvalidArgumentException
 
     private static function assertArray($key, $condition, $callee)
     {
-        if (!\is_array($condition)) {
+        if (!is_array($condition)) {
             throw new static(
-                \sprintf(
+                sprintf(
                     '%s() expects condition at key %d to be array, %s given',
                     $callee,
                     $key,
-                    \gettype($condition)
+                    gettype($condition)
                 )
             );
         }
@@ -38,13 +42,13 @@ class MatchException extends InvalidArgumentException
 
     private static function assertLength($key, $condition, $callee)
     {
-        if (\count($condition) < 2) {
+        if (count($condition) < 2) {
             throw new static(
-                \sprintf(
+                sprintf(
                     '%s() expects size of condition at key %d to be greater than or equals to 2, %d given',
                     $callee,
                     $key,
-                    \count($condition)
+                    count($condition)
                 )
             );
         }
@@ -52,9 +56,9 @@ class MatchException extends InvalidArgumentException
 
     private static function assertCallables($key, $condition, $callee)
     {
-        if (!\is_callable($condition[0]) || !\is_callable($condition[1])) {
+        if (!is_callable($condition[0]) || !is_callable($condition[1])) {
             throw new static(
-                \sprintf(
+                sprintf(
                     '%s() expects first two items of condition at key %d to be callables',
                     $callee,
                     $key

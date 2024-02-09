@@ -21,7 +21,7 @@ namespace Functional;
  */
 function compose(...$functions)
 {
-    return \array_reduce(
+    return array_reduce(
         $functions,
         function ($carry, $item) {
             return function ($x) use ($carry, $item) {

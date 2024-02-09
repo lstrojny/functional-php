@@ -13,6 +13,7 @@ namespace Functional\Tests;
 use BadFunctionCallException;
 
 use function Functional\zip_all;
+use ArrayIterator;
 
 class ZipAllTest extends AbstractTestCase
 {
@@ -56,8 +57,8 @@ class ZipAllTest extends AbstractTestCase
         self::assertSame(
             ['a' => [2, 4], 'b' => [3, 5]],
             zip_all(
-                new \ArrayIterator(['a' => 2, 'b' => 3]),
-                new \ArrayIterator(['a' => 4, 'b' => 5])
+                new ArrayIterator(['a' => 2, 'b' => 3]),
+                new ArrayIterator(['a' => 4, 'b' => 5])
             )
         );
     }

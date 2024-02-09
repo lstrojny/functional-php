@@ -15,6 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 use function Functional\entries;
 use function Functional\from_entries;
+use function count;
 
 class EntriesFromEntriesTest extends AbstractTestCase
 {
@@ -31,35 +32,35 @@ class EntriesFromEntriesTest extends AbstractTestCase
     public function testArray(): void
     {
         $res = entries($this->list);
-        self::assertSame(\array_keys($res), \range(0, \count($this->list) - 1));
+        self::assertSame(array_keys($res), range(0, count($this->list) - 1));
         self::assertSame(from_entries($res), $this->list);
     }
 
     public function testIterator(): void
     {
         $res = entries($this->listIterator);
-        self::assertSame(\array_keys($res), \range(0, \count($this->listIterator) - 1));
+        self::assertSame(array_keys($res), range(0, count($this->listIterator) - 1));
         self::assertSame(from_entries($res), $this->listIterator->getArrayCopy());
     }
 
     public function testHash(): void
     {
         $res = entries($this->hash);
-        self::assertSame(\array_keys($res), \range(0, \count($this->hash) - 1));
+        self::assertSame(array_keys($res), range(0, count($this->hash) - 1));
         self::assertSame(from_entries($res), $this->hash);
     }
 
     public function testHashIterator(): void
     {
         $res = entries($this->hashIterator);
-        self::assertSame(\array_keys($res), \range(0, \count($this->hashIterator) - 1));
+        self::assertSame(array_keys($res), range(0, count($this->hashIterator) - 1));
         self::assertSame(from_entries($res), $this->hashIterator->getArrayCopy());
     }
 
     public function testHashWithStart(): void
     {
         $res = entries($this->hash, 42);
-        self::assertSame(\array_keys($res), \range(42, 42 + \count($this->hash) - 1));
+        self::assertSame(array_keys($res), range(42, 42 + count($this->hash) - 1));
         self::assertSame(from_entries($res), $this->hash);
     }
 

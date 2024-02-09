@@ -16,7 +16,7 @@ class ComposeTest extends AbstractTestCase
 {
     public function test(): void
     {
-        $input = \range(0, 10);
+        $input = range(0, 10);
 
         $plus2 = static function ($x) {
             return $x + 2;
@@ -30,14 +30,14 @@ class ComposeTest extends AbstractTestCase
 
         $composed = compose($plus2, $times4, $square);
 
-        $composed_values = \array_map(
+        $composed_values = array_map(
             static function ($x) use ($composed) {
                 return $composed($x);
             },
             $input
         );
 
-        $manual_values = \array_map(
+        $manual_values = array_map(
             static function ($x) use ($plus2, $times4, $square) {
                 return $square($times4($plus2($x)));
             },
@@ -49,11 +49,11 @@ class ComposeTest extends AbstractTestCase
 
     public function testPassNoFunctions(): void
     {
-        $input = \range(0, 10);
+        $input = range(0, 10);
 
         $composed = compose();
 
-        $composed_values = \array_map(
+        $composed_values = array_map(
             static function ($x) use ($composed) {
                 return $composed($x);
             },

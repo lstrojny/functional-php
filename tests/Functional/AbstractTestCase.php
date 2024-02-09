@@ -17,6 +17,9 @@ use PHPUnit\Framework\Error\Deprecated;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 use TypeError;
+use function count;
+use function func_get_args;
+use function func_num_args;
 
 class AbstractTestCase extends TestCase
 {
@@ -43,9 +46,9 @@ class AbstractTestCase extends TestCase
         $this->expectException(TypeError::class);
 
         $this->expectExceptionMessageMatches(
-            \sprintf(
+            sprintf(
                 '/^%s\(\): Argument \#%d( \(\$callback\))? must be of type \??callable, %s given.*/',
-                \preg_quote($fn, '/'),
+                preg_quote($fn, '/'),
                 $position,
                 $actualType
             )
@@ -54,13 +57,13 @@ class AbstractTestCase extends TestCase
 
     public function exception(): void
     {
-        if (\func_num_args() < 3) {
+        if (func_num_args() < 3) {
             throw new DomainException('Callback exception');
         }
 
-        $args = \func_get_args();
-        self::assertGreaterThanOrEqual(3, \count($args));
-        throw new DomainException(\sprintf('Callback exception: %s', $args[1]));
+        $args = func_get_args();
+        self::assertGreaterThanOrEqual(3, count($args));
+        throw new DomainException(sprintf('Callback exception: %s', $args[1]));
     }
 
     protected function sequenceToArray(Iterator $sequence, int $limit): array
@@ -77,7 +80,7 @@ class AbstractTestCase extends TestCase
 
     public function expectDeprecation(): void
     {
-        if (\method_exists(parent::class, __FUNCTION__)) {
+        if (method_exists(parent::class, __FUNCTION__)) {
             parent::expectDeprecation();
             return;
         }
@@ -87,7 +90,7 @@ class AbstractTestCase extends TestCase
 
     public function expectDeprecationMessage(string $message): void
     {
-        if (\method_exists(parent::class, __FUNCTION__)) {
+        if (method_exists(parent::class, __FUNCTION__)) {
             parent::expectDeprecationMessage($message);
             return;
         }

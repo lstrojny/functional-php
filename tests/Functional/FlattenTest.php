@@ -39,8 +39,8 @@ class FlattenTest extends AbstractTestCase
 
     public function test(): void
     {
-        self::assertSame(\range(1, 15), flatten($this->goodArray));
-        self::assertSame(\range(1, 15), flatten($this->goodIterator));
+        self::assertSame(range(1, 15), flatten($this->goodArray));
+        self::assertSame(range(1, 15), flatten($this->goodIterator));
         self::assertSame([1, "2", "3", 5], flatten($this->goodArray2));
         self::assertEquals([new stdClass()], flatten([[new stdClass()]]));
         self::assertSame([null, null], flatten([[null], null]));
