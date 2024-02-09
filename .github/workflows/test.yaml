@@ -32,12 +32,6 @@ jobs:
               with:
                   composer-options: --prefer-dist
 
-            - name: Setup PCOV
-              run: |
-                composer require pcov/clobber
-                vendor/bin/pcov clobber
-              continue-on-error: true
-
             - name: Run Tests
               run: composer tests
 
