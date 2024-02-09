@@ -6,7 +6,7 @@ jobs:
     test:
         name: PHP ${{ matrix.php-version }} (${{ matrix.experimental && 'experimental' || 'full support' }})
 
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-22.04
 
         strategy:
             fail-fast: false
