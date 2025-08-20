@@ -24,7 +24,7 @@ use Functional\Exceptions\InvalidArgumentException;
  * @return mixed
  * @no-named-arguments
  */
-function pick($collection, $index, $default = null, callable $callback = null)
+function pick($collection, $index, $default = null, ?callable $callback = null)
 {
     InvalidArgumentException::assertArrayAccess($collection, __FUNCTION__, 1);
 

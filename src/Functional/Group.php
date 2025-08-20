@@ -32,6 +32,10 @@ function group($collection, callable $callback)
 
         InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
 
+        if (is_numeric($groupKey)) {
+            $groupKey = intval($groupKey);
+        }
+
         if (!isset($groups[$groupKey])) {
             $groups[$groupKey] = [];
         }

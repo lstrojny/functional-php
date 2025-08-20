@@ -22,11 +22,11 @@ use Traversable;
  * @param callable $callback
  * @param integer $timeout Timeout in microseconds
  * @param Traversable|null $delaySequence Default: no delay between calls
- * @throws InvalidArgumentException
  * @return boolean
  * @no-named-arguments
+ * @throws InvalidArgumentException
  */
-function poll(callable $callback, $timeout, Traversable $delaySequence = null)
+function poll(callable $callback, int $timeout, ?Traversable $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 

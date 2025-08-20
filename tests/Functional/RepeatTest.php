@@ -45,8 +45,11 @@ class RepeatTest extends AbstractTestCase
     public function testNegativeRepeatedTimes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Functional\{closure}() expects parameter 1 to be positive integer, negative integer given'
+
+        $this->expectExceptionMessageMatches(
+            '/(Functional\\\\{closure}' // PHP < 8.4
+            . '|{closure:Functional\\\\repeat\(\):[0-9]+})' // PHP 8.4+
+            . '\(\) expects parameter 1 to be positive integer, negative integer given/'
         );
 
         repeat([$this->repeated, 'foo'])(-1);

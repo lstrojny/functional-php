@@ -18,11 +18,11 @@ use Traversable;
  * Callback arguments will be element, index, collection
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable|null $callback
  * @return mixed
  * @no-named-arguments
  */
-function last($collection, callable $callback = null)
+function last($collection, ?callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

@@ -24,12 +24,12 @@ use Traversable;
  * @param callable $callback
  * @param integer $retries
  * @param Traversable|null $delaySequence Default: no delay between calls
- * @throws Exception Any exception thrown by the callback
- * @throws InvalidArgumentException
  * @return mixed Return value of the function
  * @no-named-arguments
+ * @throws InvalidArgumentException
+ * @throws Exception Any exception thrown by the callback
  */
-function retry(callable $callback, $retries, Traversable $delaySequence = null)
+function retry(callable $callback, int $retries, ?Traversable $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($retries, 1, __FUNCTION__, 2);
 
