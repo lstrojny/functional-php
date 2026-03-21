@@ -1036,6 +1036,35 @@ use function Functional\tap;
 tap(create_user('John Doe'), fn ($user) => send_welcome_email($user))->login();
 ```
 
+## when()
+
+``mixed when(mixed|Closure $condition, mixed|Closure $value, mixed|Closure $default = null)``
+Return a value if the given condition is true. All three arguments can be closures — `$condition` is evaluated, and `$value` or `$default` is resolved accordingly.
+
+```php
+use function Functional\when;
+
+when(true, 'yes');              // 'yes'
+when(false, 'yes');             // null
+when(false, 'yes', 'no');      // 'no'
+when(fn () => true, 'yes');    // 'yes'
+when(true, fn () => 'computed'); // 'computed'
+```
+
+## unless()
+
+``mixed unless(mixed|Closure $condition, mixed|Closure $value, mixed|Closure $default = null)``
+Return a value if the given condition is false. The inverse of `when()`.
+
+```php
+use function Functional\unless;
+
+unless(false, 'yes');           // 'yes'
+unless(true, 'yes');            // null
+unless(true, 'yes', 'no');     // 'no'
+unless(fn () => false, 'yes'); // 'yes'
+```
+
 ## repeat()
 
 Creates and returns a function that can be used to execute the given closure multiple times.
