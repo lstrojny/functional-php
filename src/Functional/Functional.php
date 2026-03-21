@@ -494,9 +494,19 @@ final class Functional
     const unique = '\Functional\unique';
 
     /**
+     * @see \Functional\unless
+     */
+    const unless = '\Functional\unless';
+
+    /**
      * @see \Functional\value_to_key
      */
     const value_to_key = '\Functional\value_to_key';
+
+    /**
+     * @see \Functional\when
+     */
+    const when = '\Functional\when';
 
     /**
      * @see \Functional\with
