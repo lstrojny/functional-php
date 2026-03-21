@@ -730,6 +730,24 @@ $getEven([1, 2, 3, 4]); // [2, 4]
 
 _Note, that you cannot use `curry` on a flipped function. `curry` uses reflection to get the number of function arguments, but this is not possible on the function returned from `flip`.  Instead use `curry_n` on flipped functions._
 
+## frequencies()
+Returns a new array mapping each distinct value to the number of times it appears in the collection. An optional callback can be provided to determine the key to count by.
+
+``array Functional\frequencies(array|Traversable $collection[, callable $callback])``
+
+```php
+use function Functional\frequencies;
+
+$data = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple'];
+$freq = frequencies($data); // ['apple' => 3, 'banana' => 2, 'cherry' => 1]
+
+// With a callback to count by a derived key
+$words = ['hi', 'hello', 'hey', 'goodbye', 'go'];
+$byLength = frequencies($words, fn ($word) => strlen($word)); // [2 => 2, 5 => 2, 3 => 1, 7 => 1]
+```
+
+Inspired by Clojure's `frequencies` and Ruby's `Enumerable#tally`.
+
 ## not
 Return a new function which takes the same arguments as the original function, but returns the logical negation of its result.
 

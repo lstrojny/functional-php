@@ -158,6 +158,11 @@ final class Functional
     const flip = '\Functional\flip';
 
     /**
+     * @see \Functional\frequencies
+     */
+    const frequencies = '\Functional\frequencies';
+
+    /**
      * @see \Functional\from_entries
      */
     const from_entries = '\Functional\from_entries';
