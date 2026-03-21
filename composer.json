@@ -57,6 +57,7 @@
             "src/Functional/FirstIndexOf.php",
             "src/Functional/FlatMap.php",
             "src/Functional/Flatten.php",
+            "src/Functional/Frequencies.php",
             "src/Functional/Flip.php",
             "src/Functional/FromEntries.php",
             "src/Functional/GreaterThan.php",
