@@ -34,27 +34,27 @@ class LinearSequence implements Iterator
         $this->amount = $amount;
     }
 
-    public function current()
+    public function current(): int
     {
         return $this->value;
     }
 
-    public function next()
+    public function next(): void
     {
         $this->value += $this->amount;
     }
 
-    public function key()
+    public function key(): int
     {
         return 0;
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return true;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->value = $this->start;
     }

@@ -21,7 +21,7 @@ use const E_USER_DEPRECATED;
  * @return mixed
  * @no-named-arguments
  */
-function memoize(callable $callback = null, $arguments = [], $key = null)
+function memoize(?callable $callback = null, $arguments = [], $key = null)
 {
     static $storage = [];
     if ($callback === null) {

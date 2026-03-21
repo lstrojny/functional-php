@@ -18,11 +18,11 @@ use Traversable;
  * Takes an optional callback for filtering the collection.
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable|null $callback
  * @return array
  * @no-named-arguments
  */
-function tail($collection, callable $callback = null)
+function tail($collection, ?callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

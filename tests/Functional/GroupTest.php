@@ -118,4 +118,28 @@ class GroupTest extends AbstractTestCase
         $this->expectCallableArgumentError('Functional\group', 2);
         group($this->list, 'undefinedFunction');
     }
+
+    public function testFloatGroupKeysAreBeingCastToInteger(): void
+    {
+        $values = [5, 10, 11, 15];
+        $fn = function ($v, $k, $collection) {
+            return $v / 5;
+        };
+
+        $actual = group($values, $fn);
+        $expected = [
+            1 => [
+                0 => 5
+            ],
+            2 => [
+                1 => 10,
+                2 => 11
+            ],
+            3 => [
+                3 => 15
+            ]
+        ];
+
+        self::assertEquals($expected, $actual);
+    }
 }

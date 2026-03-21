@@ -17,11 +17,11 @@ use Traversable;
  * Alias for Functional\first
  *
  * @param Traversable|array $collection
- * @param callable $callback
+ * @param callable|null $callback
  * @return mixed
  * @no-named-arguments
  */
-function head($collection, callable $callback = null)
+function head($collection, ?callable $callback = null)
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 

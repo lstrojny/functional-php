@@ -14,11 +14,11 @@ namespace Functional;
  * Returns a comparison function that can be used with e.g. `usort()`
  *
  * @param callable $comparison A function that compares the two values. Pick e.g. strcmp() or strnatcasecmp()
- * @param callable $keyFunction A function that takes an argument and returns the value that should be compared
+ * @param callable|null $keyFunction A function that takes an argument and returns the value that should be compared
  * @return callable
  * @no-named-arguments
  */
-function compare_object_hash_on(callable $comparison, callable $keyFunction = null)
+function compare_object_hash_on(callable $comparison, ?callable $keyFunction = null)
 {
     $keyFunction = $keyFunction ? compose($keyFunction, 'spl_object_hash') : 'spl_object_hash';
 

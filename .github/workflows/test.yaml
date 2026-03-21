@@ -1,12 +1,26 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: ["main", "master"]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "composer.json"
+      - ".github/workflows/test.yaml"
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "composer.json"
+      - ".github/workflows/test.yaml"
 
 jobs:
     test:
         name: PHP ${{ matrix.php-version }} (${{ matrix.experimental && 'experimental' || 'full support' }})
 
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-22.04
 
         strategy:
             fail-fast: false
@@ -17,15 +31,19 @@ jobs:
                     - 7.3
                     - 7.4
                     - 8.0
+                    - 8.1
+                    - 8.2
+                    - 8.3
+                    - 8.4
                 experimental: [false]
                 include:
-                    - php-version: 8.1
+                    - php-version: 8.5
                       experimental: true
 
         continue-on-error: ${{ matrix.experimental }}
         steps:
             - name: Checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v5
 
             - name: Install PHP with extensions
               uses: shivammathur/setup-php@v2
@@ -35,7 +53,7 @@ jobs:
                   tools: composer:v2
 
             - name: Install Composer dependencies
-              uses: ramsey/composer-install@v1
+              uses: ramsey/composer-install@v3
               with:
                   composer-options: --prefer-dist
               continue-on-error: ${{ matrix.experimental }}
@@ -45,6 +63,7 @@ jobs:
                 composer require pcov/clobber
                 vendor/bin/pcov clobber
               continue-on-error: true
+              if: ${{ matrix.php-version == '7.1' }}
 
             - name: Run Tests
               run: composer tests
@@ -53,3 +72,5 @@ jobs:
             - name: Check coding style
               run: composer coding-style
               continue-on-error: ${{ matrix.experimental }}
+              env:
+                PHP_CS_FIXER_IGNORE_ENV: 1

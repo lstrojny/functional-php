@@ -21,7 +21,7 @@ use Traversable;
  * @return array
  * @no-named-arguments
  */
-function group($collection, callable $callback)
+function group($collection, callable $callback): array
 {
     InvalidArgumentException::assertCollection($collection, __FUNCTION__, 1);
 
@@ -31,6 +31,11 @@ function group($collection, callable $callback)
         $groupKey = $callback($element, $index, $collection);
 
         InvalidArgumentException::assertValidArrayKey($groupKey, __FUNCTION__);
+
+        // Avoid implicit precision-loss from doubles (which cannot be keys)
+        if (\is_numeric($groupKey)) {
+            $groupKey = (int) $groupKey;
+        }
 
         if (!isset($groups[$groupKey])) {
             $groups[$groupKey] = [];

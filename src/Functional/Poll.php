@@ -26,7 +26,7 @@ use Traversable;
  * @return boolean
  * @no-named-arguments
  */
-function poll(callable $callback, $timeout, Traversable $delaySequence = null)
+function poll(callable $callback, $timeout, ?Traversable $delaySequence = null)
 {
     InvalidArgumentException::assertIntegerGreaterThanOrEqual($timeout, 0, __FUNCTION__, 2);
 

@@ -12,6 +12,7 @@ namespace Functional\Tests;
 
 use Functional\Exceptions\InvalidArgumentException;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Runner\Version as PHPUnitVersion;
 
 use function Functional\repeat;
 
@@ -45,9 +46,23 @@ class RepeatTest extends AbstractTestCase
     public function testNegativeRepeatedTimes(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Functional\{closure}() expects parameter 1 to be positive integer, negative integer given'
-        );
+
+        // See https://3v4l.org/Ms79G for message formats
+        // See https://regex101.com/r/hTvW3o/1 for regex setup
+        if (\version_compare(PHPUnitVersion::id(), '9.0.0') >= 0) {
+            // PHPUnit 10 changed the wording of the exception message
+            $this->expectExceptionMessageMatches(
+                '/(Functional\\\\{closure}' // PHP < 8.4
+                . '|{closure:Functional\\\\repeat\(\):[0-9]+})' // PHP 8.4+
+                . '\(\) expects parameter 1 to be positive integer, negative integer given/'
+            );
+        } else {
+            $this->expectExceptionMessageRegExp(
+                '/(Functional\\\\{closure}' // PHP < 8.4
+                . '|{closure:Functional\\\\repeat\(\):[0-9]+})' // PHP 8.4+
+                . '\(\) expects parameter 1 to be positive integer, negative integer given/'
+            );
+        }
 
         repeat([$this->repeated, 'foo'])(-1);
     }
