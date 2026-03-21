@@ -329,6 +329,23 @@ use function Functional\partial_method;
 $registeredUsers = select($users, partial_method('isRegistered'));
 ```
 
+## juxt()
+Takes a list of functions and returns a new function that applies each function to the given arguments and returns an array of the results. Inspired by Clojure's `juxt`.
+
+``callable Functional\juxt(callable ...$functions)``
+
+```php
+use function Functional\juxt;
+
+$getStats = juxt('min', 'max');
+$getStats(3, 1, 5, 2); // [1, 5]
+
+$transform = juxt('strtoupper', 'strtolower', 'strrev');
+$transform('Hello'); // ['HELLO', 'hello', 'olleH']
+```
+
+_See also `converge()`, which additionally passes the results through a converging function._
+
 ## converge()
 
 ``callable Functional\converge(callable $convergingFunction, callable[] branchingFunctions)``
