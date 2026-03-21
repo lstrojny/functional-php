@@ -238,6 +238,11 @@ final class Functional
     const invoker = '\Functional\invoker';
 
     /**
+     * @see \Functional\juxt
+     */
+    const juxt = '\Functional\juxt';
+
+    /**
      * @see \Functional\last
      */
     const last = '\Functional\last';
